@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import CodeHeader from '@/components/CodeHeader.vue';
+</script>
 
 <template>
-  index
+  <code-header />
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
