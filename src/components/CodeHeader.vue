@@ -5,7 +5,11 @@
 <template>
   <header class="code_header">
     <div class="code_header_left">
-      {{ 'untitled' }}
+      <p class="font-bold">
+        {{ 'untitled' }}
+        <font-awesome-icon icon="fa-solid fa-pen-fancy" />
+      </p>
+      <p class="text-xs">{{ 'Captain Anonymous'}}</p>
     </div>
 
     <div class="code_header_right">
@@ -24,10 +28,13 @@
   flex
   items-center
   justify-between
+  text-sm
   bg-black/[0.8];
   &_left {
-    @apply
-    text-white;
+    @apply text-white;
+    svg {
+      @apply text-xs;
+    }
   }
   &_right {
 
