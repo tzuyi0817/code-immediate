@@ -1,0 +1,19 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .btn {
+    @apply 
+    rounded-md
+    justify-center
+    items-center
+    p-2
+    flex
+    text-sm;
+  }
+
+  .btn_base {
+    @apply
+    text-white
+    bg-gray-600;
+  }
+}

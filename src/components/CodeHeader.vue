@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import TemplatePopup from '@/components/TemplatePopup.vue';
 
+const isShowTemplatePop = ref(false);
+
+function toggleTemplatePop() {
+  isShowTemplatePop.value = !isShowTemplatePop.value;
+}
 </script>
 
 <template>
@@ -9,15 +16,15 @@
         {{ 'untitled' }}
         <font-awesome-icon icon="fa-solid fa-pen-fancy" />
       </p>
-      <p class="text-xs">{{ 'Captain Anonymous'}}</p>
+      <p class="text-xs">{{ 'Captain Anonymous' }}</p>
     </div>
 
     <div class="code_header_right">
-      <button></button>
-      <button>Sign Up</button>
-      <button>Log In</button>
+      <button class="btn btn_base" @click="toggleTemplatePop">template</button>
     </div>
   </header>
+
+  <TemplatePopup v-if="isShowTemplatePop" />
 </template>
 
 <style lang="postcss" scoped>
