@@ -24,7 +24,10 @@ function toggleTemplatePop() {
     </div>
   </header>
 
-  <TemplatePopup v-if="isShowTemplatePop" />
+  <TemplatePopup 
+    v-if="isShowTemplatePop"
+    v-model:isShowTemplatePop="isShowTemplatePop"
+  />
 </template>
 
 <style lang="postcss" scoped>
@@ -42,9 +45,6 @@ function toggleTemplatePop() {
     svg {
       @apply text-xs;
     }
-  }
-  &_right {
-
   }
 }
 </style>
