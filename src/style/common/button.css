@@ -8,12 +8,21 @@
     items-center
     p-2
     flex
-    text-sm;
+    text-xs;
   }
 
   .btn_base {
     @apply
     text-white
     bg-gray-600;
+  }
+
+  .btn_select {
+    @apply
+    text-white
+    bg-gray-700/80
+    text-xs
+    px-3
+    py-2
   }
 }

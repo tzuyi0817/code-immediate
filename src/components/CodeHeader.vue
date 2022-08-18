@@ -39,7 +39,9 @@ function toggleTemplatePop() {
   items-center
   justify-between
   text-sm
-  bg-black/[0.8];
+  border-b-2
+  border-gray-700/60
+  bg-black/90;
   &_left {
     @apply text-white;
     svg {

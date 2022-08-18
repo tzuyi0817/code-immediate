@@ -25,7 +25,7 @@ function closePopup() {
 <template>
   <div class="template_popup" @click.self="closePopup">
     <div class="template_popup_content">
-      <p class="template_popup_content_title">Common Templates</p>
+      <p class="font-bold text-gray-600">Common Templates</p>
       <ul>
         <li 
           v-for="template in templateList" 
