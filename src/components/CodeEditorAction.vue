@@ -28,6 +28,8 @@
   flex
   items-center
   justify-between
+  border-b-2
+  border-gray-700/60
   bg-black/90;
   &_left {
     @apply
