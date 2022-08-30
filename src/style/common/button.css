@@ -20,7 +20,7 @@
   .btn_select {
     @apply
     text-white
-    bg-gray-700/80
+    bg-gray-700/50
     text-xs
     px-3
     py-2
