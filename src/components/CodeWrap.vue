@@ -13,6 +13,6 @@
   w-full
   bg-gray-900
   px-2
-  pt-1
+  pt-1;
 }
 </style>

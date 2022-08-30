@@ -1,0 +1,16 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .select {
+    @apply
+    text-xs
+    p-[2px]
+    rounded-sm
+  }
+
+  .select_base {
+    @apply
+    text-white
+    bg-gray-600;
+  }
+}
