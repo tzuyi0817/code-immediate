@@ -1,34 +1,20 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import useMonacoEditor from '@/hooks/useMonacoEditor';
 
 const codeEditor = ref();
+const {
+  monacoEditor,
+  createEditor,
+  updateEditorModel,
+} = useMonacoEditor();
 
-function createEditor() {
-  const monacoEditor = editor.create(codeEditor.value, {
-    // model: null,
-    minimap: {
-      enabled: false,
-    },
-    wordWrap: 'on',
-    theme: 'vs-dark',
-    // fontSize: 16,
-    fontFamily: 'MonoLisa, monospace',
-    contextmenu: false,
-    fixedOverflowWidgets: true,
-	  language: 'javascript',
-  });
-
-  monacoEditor.onDidChangeModelContent(() => {
-    console.log('onDidChangeModelContent');
-  });
-
-  monacoEditor.onDidBlurEditorText(() => {
-    console.log('onDidBlurEditorText');
-  });
+function initEditor() {
+  createEditor(codeEditor.value);
+  updateEditorModel('', 'html');
 }
 
-onMounted(createEditor);
+onMounted(initEditor);
 </script>
 
 <template>
@@ -43,7 +29,6 @@ onMounted(createEditor);
   h-[calc(40vh-40px)]
   w-full
   bg-gray-900
-  px-2
   pt-1;
 }
 </style>
