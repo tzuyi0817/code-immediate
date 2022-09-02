@@ -1,6 +1,8 @@
-import { editor } from 'monaco-editor/esm/vs/editor/editor.api';
+import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
+import { editor, MarkerSeverity } from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce } from '@/utils/common';
 import { useCodeContentStore } from '@/store';
+// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
 
 export default function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
@@ -16,10 +18,11 @@ export default function useMonacoEditor() {
       },
       wordWrap: 'on',
       theme: 'vs-dark',
-      // fontSize: 16,
+      fontSize: 14,
       fontFamily: 'MonoLisa, monospace',
       contextmenu: false,
       fixedOverflowWidgets: true,
+      lineNumbers: 'off',
       // readOnly: false
     });
 
@@ -37,10 +40,23 @@ export default function useMonacoEditor() {
   }
 
   function updateEditorModel(code: string, language: string) {
-    // const oldModel = 
     const model = editor.createModel(code, language);
+    const oldModel = monacoEditor.editor?.getModel();
 
     monacoEditor.editor?.setModel(model);
+    oldModel?.dispose();
+    setModelMarkers(model);
+  }
+
+  function setModelMarkers(model: editor.ITextModel) {
+    // editor.setModelMarkers(model, 'json', [{
+    //   startLineNumber: 2,
+    //   endLineNumber: 2,
+    //   startColumn: 1,
+    //   endColumn: 10,
+    //   severity: MarkerSeverity.Error,
+    //   message: `语法错误`,
+    // }]);
   }
 
   return {
