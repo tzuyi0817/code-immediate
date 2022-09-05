@@ -1,14 +1,35 @@
 <script setup lang="ts">
+interface Props {
+  isShowPreview: boolean;
+  currentAction: string;
+}
 
+const props = defineProps<Props>();
+const emit = defineEmits([
+  'update:isShowPreview',
+  'update:currentAction'
+]);
 </script>
 
 <template>
 <div class="code_editor_action">
   <div class="code_editor_action_left">
-    <button class="btn_select">HTML</button>
-    <button class="btn_select">CSS</button>
-    <button class="btn_select">JS</button>
-    <button class="btn_select">Result</button>
+    <button 
+      :class="['btn_select', { 'btn_select-active': currentAction === 'html' }]"
+      @click="emit('update:currentAction', 'html')"
+    >HTML</button>
+    <button
+      :class="['btn_select', { 'btn_select-active': currentAction === 'css' }]"
+      @click="emit('update:currentAction', 'css')"
+    >CSS</button>
+    <button
+      :class="['btn_select', { 'btn_select-active': currentAction === 'javascript' }]"
+      @click="emit('update:currentAction', 'javascript')"
+    >JS</button>
+    <button
+    :class="['btn_select', { 'btn_select-active': isShowPreview }]"
+      @click="emit('update:isShowPreview', !isShowPreview)"
+    >Result</button>
   </div>
 
   <div class="code_editor_action_right">

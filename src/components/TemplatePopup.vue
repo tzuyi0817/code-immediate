@@ -45,10 +45,12 @@ function closePopup() {
   @apply
   fixed
   top-0
+  left-0
   bg-black/30
   flex
   items-center
   justify-center
+  z-10
   w-full
   h-full;
   &_content {

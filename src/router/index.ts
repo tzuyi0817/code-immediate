@@ -3,10 +3,10 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/:catchAll(.*)',
-    redirect: '/index',
+    redirect: '/',
   },
   {
-    path: '/index',
+    path: '/',
     name: 'Index',
     component: () => import('@/pages/Index.vue')
   },

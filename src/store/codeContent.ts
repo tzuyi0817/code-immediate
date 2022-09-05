@@ -24,7 +24,7 @@ const defaultState = {
   }
 };
 
-interface CodeContent {
+interface ContentAction {
   type: keyof typeof defaultState.codeContent;
   code: string;
 }
@@ -32,7 +32,7 @@ interface CodeContent {
 export default defineStore('codeContent', {
   state: () => ({ ...defaultState }),
   actions: {
-    setCodeContent({ type, code }: CodeContent) {
+    setCodeContent({ type, code }: ContentAction) {
       this.codeContent[type].content = code;
     }
   },

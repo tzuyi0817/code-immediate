@@ -2,6 +2,11 @@
 import { ref, onMounted } from 'vue';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
 
+interface Props {
+  language: string;
+}
+
+const props = defineProps<Props>();
 const codeEditor = ref();
 const {
   monacoEditor,
@@ -10,25 +15,27 @@ const {
 } = useMonacoEditor();
 
 function initEditor() {
-  createEditor(codeEditor.value);
-  updateEditorModel('', 'html');
+  createEditor(codeEditor.value, props.language);
+  updateEditorModel('', props.language);
 }
 
 onMounted(initEditor);
 </script>
 
 <template>
-  <div class="code_wrap">
+  <div class="code_editor">
     <div ref="codeEditor" class="w-full h-full"></div>
   </div>
 </template>
 
 <style lang="postcss" scoped>
-.code_wrap {
+.code_editor {
   @apply
-  h-[calc(40vh-40px)]
   w-full
-  bg-gray-900
+  h-full
+  bg-black/90
+  border-b-2
+  border-gray-700/60
   pt-1;
 }
 </style>

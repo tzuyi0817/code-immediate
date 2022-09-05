@@ -1,8 +1,15 @@
 import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
+import 'monaco-editor/esm/vs/basic-languages/css/css.contribution';
+// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
 import { editor, MarkerSeverity } from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce } from '@/utils/common';
 import { useCodeContentStore } from '@/store';
-// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
+
+enum LanguageMap {
+  html = 'HTML',
+  css = 'CSS',
+  javascript = 'JS',
+};
 
 export default function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
@@ -10,7 +17,7 @@ export default function useMonacoEditor() {
     editor: null as editor.IStandaloneCodeEditor | null,
   };
 
-  function createEditor(DOM: HTMLElement) {
+  function createEditor(DOM: HTMLElement, language: string) {
     monacoEditor.editor = editor.create(DOM, {
       model: null,
       minimap: {
@@ -28,8 +35,9 @@ export default function useMonacoEditor() {
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
       const code = monacoEditor.editor?.getValue()!;
+      const type = LanguageMap[language as keyof typeof LanguageMap];
       console.log('onDidChangeModelContent', { code });
-      setCodeContent({ type: 'HTML', code });
+      setCodeContent({ type, code });
     }));
 
     monacoEditor.editor.onDidBlurEditorText(debounce(() => {
