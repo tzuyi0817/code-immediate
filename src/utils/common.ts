@@ -9,3 +9,14 @@ export function debounce(fun: Function, delay = 500) {
     }, delay);
   }
 }
+
+export function throttle(fun: Function, delay = 500): Function {
+  let timeStamp = 0;
+
+  return function (this: Function, ...args: unknown[]) {
+    const now = Date.now();
+    if (now - timeStamp <= delay) return;
+    fun.apply(this, args);
+    timeStamp = now;
+  }
+}

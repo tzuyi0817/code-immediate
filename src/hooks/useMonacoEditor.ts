@@ -30,13 +30,13 @@ export default function useMonacoEditor() {
       contextmenu: false,
       fixedOverflowWidgets: true,
       lineNumbers: 'off',
+      tabSize: 2,
       // readOnly: false
     });
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
       const code = monacoEditor.editor?.getValue()!;
       const type = LanguageMap[language as keyof typeof LanguageMap];
-      console.log('onDidChangeModelContent', { code });
       setCodeContent({ type, code });
     }));
 

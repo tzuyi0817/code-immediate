@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore } from '@/store';
 import { compile } from '@/utils/compile';
+import { createHtml } from '@/utils/createHtml';
 import type { CodeContent } from '@/types/codeContent';
 
 const { codeContent } = storeToRefs(useCodeContentStore());
@@ -10,8 +11,9 @@ const srcdoc = ref('');
 const htmlContent = computed(() => codeContent.value.HTML.content);
 const cssContent = computed(() => codeContent.value.CSS.content);
 
-function runCode(content: CodeContent) {
-  srcdoc.value = compile(content);
+async function runCode(content: CodeContent) {
+  const compileResult = await compile(content);
+  srcdoc.value = createHtml(compileResult);
 }
 
 watch([htmlContent, cssContent], ([html, css]) => {

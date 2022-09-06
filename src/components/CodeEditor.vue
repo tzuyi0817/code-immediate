@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
+import { throttle } from '@/utils/common';
 
 interface Props {
   language: string;
@@ -8,6 +9,14 @@ interface Props {
 
 const props = defineProps<Props>();
 const codeEditor = ref();
+const resizeEditor = throttle(() => monacoEditor.editor?.layout());
+const resizeObserver = new ResizeObserver(entries => {
+  entries.forEach(({ contentRect: { height, width } }) => {
+    if (height === 0 || width === 0) return;
+    resizeEditor();
+  });
+});
+
 const {
   monacoEditor,
   createEditor,
@@ -17,9 +26,13 @@ const {
 function initEditor() {
   createEditor(codeEditor.value, props.language);
   updateEditorModel('', props.language);
+  resizeObserver.observe(codeEditor.value.parentNode);
 }
 
 onMounted(initEditor);
+onBeforeUnmount(() => {
+  resizeObserver.unobserve(codeEditor.value.parentNode);
+});
 </script>
 
 <template>

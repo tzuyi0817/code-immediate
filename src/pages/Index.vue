@@ -21,15 +21,15 @@ const wrapHeight = computed(() => {
   />
   <div :class="['code_wrap', wrapHeight]">
     <code-editor
-      :class="currentAction === 'html' ? 'block' : 'hidden'"
+      :class="{ hidden: currentAction !== 'html' }"
       language="html"
     />
     <code-editor
-      :class="currentAction === 'css' ? 'block' : 'hidden'"
+      :class="{ hidden: currentAction !== 'css' }"
       language="css"
     />
     <code-editor
-      :class="currentAction === 'javascript' ? 'block' : 'hidden'"
+      :class="{ hidden: currentAction !== 'javascript' }"
       language="javascript"
     />
   </div>
