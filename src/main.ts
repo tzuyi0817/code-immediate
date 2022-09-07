@@ -16,5 +16,8 @@ library.add(faPenFancy, faAngleDown);
 app.use(pinia);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);
-await initMonacoEditor();
-app.mount('#app');
+
+(async function init() {
+  await initMonacoEditor();
+  app.mount('#app');
+})();
