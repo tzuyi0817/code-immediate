@@ -1,8 +1,8 @@
 import type { CodeContent } from '@/types/codeContent';
 
-export function createHtml({ html, css }: CodeContent) {
+export function createHtml({ html, css, js }: CodeContent) {
   const head = createHead(css);
-  const body = createBody(html);
+  const body = createBody(html, js);
   return assembleHtml(head, body);
 }
 
@@ -15,9 +15,10 @@ function createHead(css: string) {
   `;
 }
 
-function createBody(html: string) {
+function createBody(html: string, js: string) {
   return `
     ${html}
+    ${js}
   `;
 }
 

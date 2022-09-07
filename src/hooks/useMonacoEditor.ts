@@ -1,30 +1,32 @@
-import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
-import 'monaco-editor/esm/vs/basic-languages/css/css.contribution';
+// import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
+// import 'monaco-editor/esm/vs/basic-languages/css/css.contribution';
 // import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
-import { editor, MarkerSeverity } from 'monaco-editor/esm/vs/editor/editor.api';
+import { wireTmGrammars } from 'monaco-editor-textmate';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce } from '@/utils/common';
+import { registry, GRAMMARS_MAP } from '@/utils/monacoEditor';
 import { useCodeContentStore } from '@/store';
 
-enum LanguageMap {
-  html = 'HTML',
-  css = 'CSS',
-  javascript = 'JS',
-};
+const LANGUAGE_MAP = {
+  html: 'HTML',
+  css: 'CSS',
+  javascript: 'JS',
+} as const;
 
 export default function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
   const monacoEditor = {
-    editor: null as editor.IStandaloneCodeEditor | null,
+    editor: null as monaco.editor.IStandaloneCodeEditor | null,
   };
 
   function createEditor(DOM: HTMLElement, language: string) {
-    monacoEditor.editor = editor.create(DOM, {
+    monacoEditor.editor = monaco.editor.create(DOM, {
       model: null,
       minimap: {
         enabled: false,
       },
       wordWrap: 'on',
-      theme: 'vs-dark',
+      theme: 'vs-code-theme-converted',
       fontSize: 14,
       fontFamily: 'MonoLisa, monospace',
       contextmenu: false,
@@ -36,7 +38,7 @@ export default function useMonacoEditor() {
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
       const code = monacoEditor.editor?.getValue()!;
-      const type = LanguageMap[language as keyof typeof LanguageMap];
+      const type = LANGUAGE_MAP[language as keyof typeof LANGUAGE_MAP];
       setCodeContent({ type, code });
     }));
 
@@ -47,16 +49,18 @@ export default function useMonacoEditor() {
     console.log(monacoEditor);
   }
 
-  function updateEditorModel(code: string, language: string) {
-    const model = editor.createModel(code, language);
+  async function updateEditorModel(code: string, language: string) {
+    const model = monaco.editor.createModel(code, language);
     const oldModel = monacoEditor.editor?.getModel();
+    const grammars = new Map([[language, GRAMMARS_MAP.get(language)!]]);
 
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
     setModelMarkers(model);
+    await wireTmGrammars(monaco, registry(`${language}.tmLanguage`), grammars, monacoEditor.editor!);
   }
 
-  function setModelMarkers(model: editor.ITextModel) {
+  function setModelMarkers(model: monaco.editor.ITextModel) {
     // editor.setModelMarkers(model, 'json', [{
     //   startLineNumber: 2,
     //   endLineNumber: 2,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
-import { throttle } from '@/utils/common';
+import { debounce } from '@/utils/common';
 
 interface Props {
   language: string;
@@ -9,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const codeEditor = ref();
-const resizeEditor = throttle(() => monacoEditor.editor?.layout());
+const resizeEditor = debounce(() => monacoEditor.editor?.layout(), 100);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
     if (height === 0 || width === 0) return;

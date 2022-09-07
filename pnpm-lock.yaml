@@ -9,9 +9,11 @@ specifiers:
   '@types/node': ^18.6.5
   '@vitejs/plugin-vue': ^3.0.0
   autoprefixer: ^10.4.8
+  fs-extra: ^10.1.0
   monaco-editor: ^0.34.0
   monaco-editor-textmate: ^3.0.0
   monaco-textmate: ^3.0.1
+  onigasm: ^2.2.5
   pinia: ^2.0.17
   postcss: ^8.4.16
   postcss-import: ^14.1.0
@@ -19,6 +21,7 @@ specifiers:
   tailwindcss: ^3.1.8
   typescript: ^4.6.4
   vite: ^3.0.0
+  vscode-theme-to-monaco-theme-node: ^1.0.0
   vue: ^3.2.37
   vue-router: ^4.1.3
   vue-tsc: ^0.38.4
@@ -31,7 +34,8 @@ dependencies:
   '@fortawesome/vue-fontawesome': 3.0.1_9411007cf579a03029310c32185eb961
   monaco-editor: 0.34.0
   monaco-editor-textmate: 3.0.0_94bcb8bf9db7fb1526b02cb61915ad16
-  monaco-textmate: 3.0.1
+  monaco-textmate: 3.0.1_onigasm@2.2.5
+  onigasm: 2.2.5
   pinia: 2.0.17_typescript@4.7.4+vue@3.2.37
   vue: 3.2.37
   vue-router: 4.1.3_vue@3.2.37
@@ -40,12 +44,14 @@ devDependencies:
   '@types/node': 18.6.5
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.2+vue@3.2.37
   autoprefixer: 10.4.8_postcss@8.4.16
+  fs-extra: 10.1.0
   postcss: 8.4.16
   postcss-import: 14.1.0_postcss@8.4.16
   postcss-nesting: 10.1.10_postcss@8.4.16
   tailwindcss: 3.1.8
   typescript: 4.7.4
   vite: 3.0.2
+  vscode-theme-to-monaco-theme-node: 1.0.0
   vue-tsc: 0.38.9_typescript@4.7.4
 
 packages:
@@ -358,6 +364,11 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: true
 
+  /commander/8.3.0:
+    resolution: {integrity: sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==}
+    engines: {node: '>= 12'}
+    dev: true
+
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
@@ -642,6 +653,15 @@ packages:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
     dev: true
 
+  /fs-extra/10.1.0:
+    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: true
+
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -666,6 +686,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dependencies:
       is-glob: 4.0.3
+    dev: true
+
+  /graceful-fs/4.2.10:
+    resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
     dev: true
 
   /has/1.0.3:
@@ -705,10 +729,24 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
+  /jsonfile/6.1.0:
+    resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
+    dependencies:
+      universalify: 2.0.0
+    optionalDependencies:
+      graceful-fs: 4.2.10
+    dev: true
+
   /lilconfig/2.0.6:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
     dev: true
+
+  /lru-cache/5.1.1:
+    resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+    dependencies:
+      yallist: 3.1.1
+    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
@@ -739,19 +777,20 @@ packages:
       monaco-textmate: ^3.0.0
     dependencies:
       monaco-editor: 0.34.0
-      monaco-textmate: 3.0.1
+      monaco-textmate: 3.0.1_onigasm@2.2.5
     dev: false
 
   /monaco-editor/0.34.0:
     resolution: {integrity: sha512-VF+S5zG8wxfinLKLrWcl4WUizMx+LeJrG4PM/M78OhcwocpV0jiyhX/pG6Q9jIOhrb/ckYi6nHnaR5OojlOZCQ==}
     dev: false
 
-  /monaco-textmate/3.0.1:
+  /monaco-textmate/3.0.1_onigasm@2.2.5:
     resolution: {integrity: sha512-ZxxY3OsqUczYP1sGqo97tu+CJmMBwuSW+dL0WEBdDhOZ5G1zntw72hvBc68ZQAirosWvbDKgN1dL5k173QtFww==}
     peerDependencies:
       onigasm: ^2.0.0
     dependencies:
       fast-plist: 0.1.2
+      onigasm: 2.2.5
     dev: false
 
   /nanoid/3.3.4:
@@ -777,6 +816,12 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
     dev: true
+
+  /onigasm/2.2.5:
+    resolution: {integrity: sha512-F+th54mPc0l1lp1ZcFMyL/jTs2Tlq4SqIHKIXGZOR/VkHkF9A7Fr5rRr5+ZG/lWeRsyrClLYRq7s/yFQ/XhWCA==}
+    dependencies:
+      lru-cache: 5.1.1
+    dev: false
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
@@ -1003,6 +1048,11 @@ packages:
     hasBin: true
     dev: true
 
+  /universalify/2.0.0:
+    resolution: {integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==}
+    engines: {node: '>= 10.0.0'}
+    dev: true
+
   /update-browserslist-db/1.0.5_browserslist@4.21.3:
     resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
     hasBin: true
@@ -1043,6 +1093,18 @@ packages:
       rollup: 2.77.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /vscode-theme-to-monaco-theme-node/1.0.0:
+    resolution: {integrity: sha512-bJjeKxLVAk/NSbHtgA8/dhDz8EjWAeCYs5ioQ6pB49zeErEt5Bj9z8UCBIjnWAKWINLwxSPSivtNAAcl+++qSA==}
+    hasBin: true
+    dependencies:
+      commander: 8.3.0
+      vscode-theme-to-monaco-theme-web: 1.0.0
+    dev: true
+
+  /vscode-theme-to-monaco-theme-web/1.0.0:
+    resolution: {integrity: sha512-euHQQMAEclMsO9geOH4nuzP/ZUR6B3OIBvDP4AmfFTs8OFLKlRUsP01fqt+BrZEHb31jVqDTDQuc2lM5/7VkUw==}
     dev: true
 
   /vue-demi/0.13.6_vue@3.2.37:
@@ -1093,6 +1155,10 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
     dev: true
+
+  /yallist/3.1.1:
+    resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
+    dev: false
 
   /yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}

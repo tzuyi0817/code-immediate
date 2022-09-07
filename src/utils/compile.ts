@@ -1,28 +1,32 @@
 import type { CodeContent } from '@/types/codeContent';
 
 export function compile(content: CodeContent): Promise<CodeContent> {
-  const { html, css } = content;
+  const { html, css, js } = content;
   const htmlPromise = html;
   const cssPromise = transformCss(css);
+  const jsPromise = transformJs(js);
 
   return new Promise((resolve, reject) => {
-    Promise.all([htmlPromise, cssPromise])
-      .then(([htmlCode, cssCode]) => {
+    Promise.all([htmlPromise, cssPromise, jsPromise])
+      .then(([htmlCode, cssCode, jsCode]) => {
         resolve({
           html: htmlCode,
           css: cssCode,
+          js: jsCode,
         });
       })
       .catch(reject);
   })
 }
 
-const transformCss = (cssContent = '') => {
+function transformCss(cssContent = '') {
   const regexp = /(@import\s+)('|")([^'"]+)('|")/g;
   return cssContent.replace(regexp, (str: string, ...matches: unknown[]) => {
     console.log({ str, matches })
     return str;
-    // const source = isBareImport(matches[2]) ? handleEsModuleCdnUrl(matches[2], false) : matches[2];
-    // return `${matches[0]}${matches[1]}${source}${matches[1]}`;
-  })
+  });
+}
+
+function transformJs(jsContent = '') {
+  return `<script>${jsContent}</script>`;
 }
