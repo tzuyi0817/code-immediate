@@ -1,3 +1,5 @@
+import 'monaco-editor/esm/vs/editor/editor.all.js';
+import 'monaco-editor/esm/vs/editor/standalone/browser/accessibilityHelp/accessibilityHelp.js';
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
 import { editor, languages } from 'monaco-editor/esm/vs/editor/editor.api';

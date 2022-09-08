@@ -1,6 +1,3 @@
-// import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
-// import 'monaco-editor/esm/vs/basic-languages/css/css.contribution';
-// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce } from '@/utils/common';
@@ -33,7 +30,6 @@ export default function useMonacoEditor() {
       fixedOverflowWidgets: true,
       lineNumbers: 'off',
       tabSize: 2,
-      // readOnly: false
     });
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
