@@ -27,6 +27,7 @@ watch([htmlContent, cssContent, jsContent], ([html, css, js]) => {
     <iframe 
       class="h-full w-full"
       :srcdoc="srcdoc"
+      frameborder="0"
     ></iframe>
   </div>
 </template>

@@ -20,3 +20,7 @@ export function throttle(fun: Function, delay = 500) {
     timeStamp = now;
   }
 }
+
+export function sleep(delay = 500) {
+  return new Promise(resolve => setTimeout(resolve, delay));
+}

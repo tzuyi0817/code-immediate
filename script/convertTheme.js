@@ -5,9 +5,9 @@ import { resolve, dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-(async function () {
+(function () {
   try {
-    await convertThemeFromDir(
+    convertThemeFromDir(
       resolve(__dirname, './vscodeThemes'),
       resolve(__dirname, '../public/themes')
     );

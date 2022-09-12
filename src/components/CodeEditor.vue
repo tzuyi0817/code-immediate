@@ -41,7 +41,7 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 .code_editor {
   @apply
   w-full
@@ -50,5 +50,8 @@ onBeforeUnmount(() => {
   border-b-2
   border-gray-700/60
   pt-1;
+  .iPadShowKeyboard {
+    @apply hidden;
+  }
 }
 </style>

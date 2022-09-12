@@ -53,7 +53,7 @@ export default function useMonacoEditor() {
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
     setModelMarkers(model);
-    await wireTmGrammars(monaco, registry(`${language}.tmLanguage`), grammars, monacoEditor.editor!);
+    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
   }
 
   function setModelMarkers(model: monaco.editor.ITextModel) {
