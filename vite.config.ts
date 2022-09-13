@@ -33,11 +33,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          JsonWorker: [`monaco-editor/esm/vs/language/json/json.worker`],
-          CssWorker: [`monaco-editor/esm/vs/language/css/css.worker`],
-          htmlWorker: [`monaco-editor/esm/vs/language/html/html.worker`],
-          HtmlWorker: [`monaco-editor/esm/vs/language/typescript/ts.worker`],
-          EditorWorker: [`monaco-editor/esm/vs/editor/editor.worker`],
+          ['json.worker']: [`monaco-editor/esm/vs/language/json/json.worker`],
+          ['css.worker']: [`monaco-editor/esm/vs/language/css/css.worker`],
+          ['html.worker']: [`monaco-editor/esm/vs/language/html/html.worker`],
+          ['ts.worker']: [`monaco-editor/esm/vs/language/typescript/ts.worker`],
+          ['editor.worker']: [`monaco-editor/esm/vs/editor/editor.worker`],
         },
       },
     },
