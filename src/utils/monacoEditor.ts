@@ -1,6 +1,6 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
-import { editor, languages } from 'monaco-editor';
+import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
@@ -11,14 +11,15 @@ export async function initMonacoEditor() {
   await loadWASM('/onigasm/onigasm.wasm');
   const theme = await (await fetch('themes/themes.json')).json();
 
-  editor.defineTheme('vs-code-theme-converted', theme);
-  languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+  monaco.editor.defineTheme('vs-code-theme-converted', theme);
+  monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
+  monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
     noSemanticValidation: true,
     noSyntaxValidation: false
   });
 
-  languages.typescript.javascriptDefaults.setCompilerOptions({
-    target: languages.typescript.ScriptTarget.ES2016,
+  monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+    target: monaco.languages.typescript.ScriptTarget.ES2016,
     allowNonTsExtensions: true
   });
 
