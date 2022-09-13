@@ -9,7 +9,7 @@ export default defineConfig({
     vue(),
     // @ts-ignore
     // monacoEditorPlugin.default({
-    //   languageWorkers: ['css', 'html', 'json', 'typescript'],
+    //   languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
     // }),
   ],
   optimizeDeps: {
@@ -27,6 +27,19 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),
+    },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          JsonWorker: [`monaco-editor/esm/vs/language/json/json.worker`],
+          CssWorker: [`monaco-editor/esm/vs/language/css/css.worker`],
+          htmlWorker: [`monaco-editor/esm/vs/language/html/html.worker`],
+          HtmlWorker: [`monaco-editor/esm/vs/language/typescript/ts.worker`],
+          EditorWorker: [`monaco-editor/esm/vs/editor/editor.worker`],
+        },
+      },
     },
   },
 })

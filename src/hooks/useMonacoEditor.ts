@@ -1,6 +1,6 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { debounce } from '@/utils/common';
+import { debounce, sleep } from '@/utils/common';
 import { registry, GRAMMARS_MAP } from '@/utils/monacoEditor';
 import { useCodeContentStore } from '@/store';
 
@@ -53,6 +53,7 @@ export default function useMonacoEditor() {
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
     setModelMarkers(model);
+    await sleep();
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
   }
 
