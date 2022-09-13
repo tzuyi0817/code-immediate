@@ -13,15 +13,15 @@ export default defineConfig({
     //   languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
     // }),
   ],
-  optimizeDeps: {
-    include: [
-      `${prefix}/language/json/json.worker`,
-      `${prefix}/language/css/css.worker`,
-      `${prefix}/language/html/html.worker`,
-      `${prefix}/language/typescript/ts.worker`,
-      `${prefix}/editor/editor.worker`
-    ],
-  },
+  // optimizeDeps: {
+  //   include: [
+  //     `${prefix}/language/json/json.worker`,
+  //     `${prefix}/language/css/css.worker`,
+  //     `${prefix}/language/html/html.worker`,
+  //     `${prefix}/language/typescript/ts.worker`,
+  //     `${prefix}/editor/editor.worker`
+  //   ],
+  // },
   server: {
     port: 8080,
   },
