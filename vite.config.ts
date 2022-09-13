@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { resolve } from "path";
 // import monacoEditorPlugin from 'vite-plugin-monaco-editor';
+const prefix = `monaco-editor/esm/vs`;
 
 export default defineConfig({
   base: './',
@@ -14,11 +15,11 @@ export default defineConfig({
   ],
   optimizeDeps: {
     include: [
-      'monaco-editor/esm/vs/language/json/json.worker',
-      'monaco-editor/esm/vs/language/css/css.worker',
-      'monaco-editor/esm/vs/language/html/html.worker',
-      'monaco-editor/esm/vs/language/typescript/ts.worker',
-      'monaco-editor/esm/vs/editor/editor.worker'
+      `${prefix}/language/json/json.worker`,
+      `${prefix}/language/css/css.worker`,
+      `${prefix}/language/html/html.worker`,
+      `${prefix}/language/typescript/ts.worker`,
+      `${prefix}/editor/editor.worker`
     ],
   },
   server: {
@@ -33,11 +34,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          ['json.worker']: [`monaco-editor/esm/vs/language/json/json.worker`],
-          ['css.worker']: [`monaco-editor/esm/vs/language/css/css.worker`],
-          ['html.worker']: [`monaco-editor/esm/vs/language/html/html.worker`],
-          ['ts.worker']: [`monaco-editor/esm/vs/language/typescript/ts.worker`],
-          ['editor.worker']: [`monaco-editor/esm/vs/editor/editor.worker`],
+          jsonWorker: [`${prefix}/language/json/json.worker`],
+          cssWorker: [`${prefix}/language/css/css.worker`],
+          htmlWorker: [`${prefix}/language/html/html.worker`],
+          tsWorker: [`${prefix}/language/typescript/ts.worker`],
+          editorWorker: [`${prefix}/editor/editor.worker`],
         },
       },
     },
