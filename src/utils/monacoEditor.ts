@@ -1,11 +1,11 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
 import * as monaco from 'monaco-editor';
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker';
-import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker?worker';
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker';
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
+import EditorWorker from '@/workers/editor.worker.js?worker';
+import TsWorker from '@/workers/ts.worker.js?worker';
+import JsonWorker from '@/workers/json.worker.js?worker';
+import CssWorker from '@/workers/css.worker.js?worker';
+import HtmlWorker from '@/workers/html.worker.js?worker';
 
 export async function initMonacoEditor() {
   await loadWASM('/onigasm/onigasm.wasm');
