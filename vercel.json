@@ -1,20 +1,24 @@
 {
   "rewrites": [
     {
-      "source": "/css.worker.(\\d+).js",
-      "destination": "/assets/css.worker.(\\d+).js"
+      "source": "/css.worker.b6775041.js",
+      "destination": "/assets/css.worker.b6775041.js"
     },
     {
-      "source": "/html.worker.(\\d+).js",
-      "destination": "/assets/html.worker.(\\d+).js"
+      "source": "/html.worker.c5234aec.js",
+      "destination": "/assets/html.worker.c5234aec.js"
     },
     {
-      "source": "/ts.worker.(\\d+).js",
-      "destination": "/assets/ts.worker.(\\d+).js"
+      "source": "/ts.worker.004cbed0.js",
+      "destination": "/assets/ts.worker.004cbed0.js"
     },
     {
-      "source": "/editor.worker.(\\d+).js",
-      "destination": "/assets/editor.worker.(\\d+).js"
+      "source": "/json.worker.d7a83544.js",
+      "destination": "/assets/json.worker.d7a83544.js"
+    },
+    {
+      "source": "/editor.worker.b9a77fdc.js",
+      "destination": "/assets/editor.worker.b9a77fdc.js"
     }
   ]
 }
