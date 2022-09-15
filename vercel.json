@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/css.worker.*",
-      "destination": "/assets/css.worker.*"
+      "source": "/(css.worker.*)",
+      "destination": "/assets/(css.worker.*)"
     }
   ]
 }
