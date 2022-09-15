@@ -1,20 +1,20 @@
 {
   "rewrites": [
     {
-      "source": "/css.worker.76557095.js",
-      "destination": "/assets/css.worker.76557095.js"
+      "source": "/css.worker.*.js",
+      "destination": "/assets/css.worker.*.js"
     },
     {
-      "source": "/html.worker.a6248fa9.js",
-      "destination": "/assets/html.worker.a6248fa9.js"
+      "source": "/html.worker.*.js",
+      "destination": "/assets/html.worker.*.js"
     },
     {
-      "source": "/ts.worker.e2331d9c.js",
-      "destination": "/assets/ts.worker.e2331d9c.js"
+      "source": "/ts.worker.*.js",
+      "destination": "/assets/ts.worker.*.js"
     },
     {
-      "source": "/editor.worker.b0c2dd55.js",
-      "destination": "/assets/editor.worker.b0c2dd55.js"
+      "source": "/editor.worker.*.js",
+      "destination": "/assets/editor.worker.*.js"
     }
   ]
 }
