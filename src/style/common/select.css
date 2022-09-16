@@ -13,4 +13,12 @@
     text-white
     bg-gray-600;
   }
+
+  .select_border {
+    @apply
+    border-white
+    border-[1px]
+    bg-black/90
+    text-white;
+  }
 }

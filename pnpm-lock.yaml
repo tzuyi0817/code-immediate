@@ -10,6 +10,7 @@ specifiers:
   '@vitejs/plugin-vue': ^3.0.0
   autoprefixer: ^10.4.8
   fs-extra: ^10.1.0
+  loadjs: ^4.2.0
   monaco-editor: ^0.34.0
   monaco-editor-textmate: ^3.0.0
   monaco-textmate: ^3.0.1
@@ -33,6 +34,7 @@ dependencies:
   '@fortawesome/free-regular-svg-icons': 6.1.2
   '@fortawesome/free-solid-svg-icons': 6.1.2
   '@fortawesome/vue-fontawesome': 3.0.1_9411007cf579a03029310c32185eb961
+  loadjs: 4.2.0
   monaco-editor: 0.34.0
   monaco-editor-textmate: 3.0.0_94bcb8bf9db7fb1526b02cb61915ad16
   monaco-textmate: 3.0.1_onigasm@2.2.5
@@ -743,6 +745,10 @@ packages:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
     dev: true
+
+  /loadjs/4.2.0:
+    resolution: {integrity: sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==}
+    dev: false
 
   /lru-cache/5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}

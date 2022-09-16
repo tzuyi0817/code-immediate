@@ -1,8 +1,9 @@
+import { useCodeContentStore } from '@/store';
 import type { CodeContent } from '@/types/codeContent';
 
 export function compile(content: CodeContent): Promise<CodeContent> {
   const { html, css, js } = content;
-  const htmlPromise = html;
+  const htmlPromise = transformHtml(html);
   const cssPromise = transformCss(css);
   const jsPromise = transformJs(js);
 
@@ -19,7 +20,13 @@ export function compile(content: CodeContent): Promise<CodeContent> {
   })
 }
 
+function transformHtml(htmlContent = '') {
+  const { selectedLanguage: { html: language } } = useCodeContentStore();
+  return htmlContent;
+}
+
 function transformCss(cssContent = '') {
+  const { selectedLanguage: { css: language } } = useCodeContentStore();
   const regexp = /(@import\s+)('|")([^'"]+)('|")/g;
   return cssContent.replace(regexp, (str: string, ...matches: unknown[]) => {
     console.log({ str, matches })
@@ -28,5 +35,16 @@ function transformCss(cssContent = '') {
 }
 
 function transformJs(jsContent = '') {
+  const { selectedLanguage: { javascript: language } } = useCodeContentStore();
+  const compile = {
+    Babel() {},
+    TypeScript() {
+      return jsContent;
+    },
+    CoffeeScript() {},
+    LiveScript() {},
+  };
+
+  jsContent = compile[language as keyof typeof compile]?.() ?? jsContent;
   return `<script>${jsContent}</script>`;
 }

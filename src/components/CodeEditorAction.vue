@@ -1,4 +1,12 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useCodeContentStore } from '@/store';
+import {
+  HTML_LANGUAGE_MAP,
+  CSS_LANGUAGE_MAP,
+  JS_LANGUAGE_MAP,
+} from '@/config/language';
+
 interface Props {
   isShowPreview: boolean;
   currentAction: string;
@@ -7,8 +15,34 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits([
   'update:isShowPreview',
-  'update:currentAction'
+  'update:currentAction',
 ]);
+
+const languageMap = computed(() => {
+  const map = {
+    html: HTML_LANGUAGE_MAP,
+    css: CSS_LANGUAGE_MAP,
+    javascript: JS_LANGUAGE_MAP,
+  };
+  return map[props.currentAction as keyof typeof map];
+});
+
+const selected = computed(() => {
+  const { selectedLanguage } = useCodeContentStore();
+  const { currentAction } = props;
+  return selectedLanguage[currentAction as keyof typeof selectedLanguage];
+});
+
+function changeLanguage(event: Event) {
+  const { setSelectedLanguage, selectedLanguage } = useCodeContentStore();
+  const { currentAction } = props;
+  const { value } = event.target as HTMLSelectElement;
+
+  setSelectedLanguage({
+    ...selectedLanguage,
+    [currentAction]: value,
+  });
+}
 </script>
 
 <template>
@@ -33,6 +67,14 @@ const emit = defineEmits([
   </div>
 
   <div class="code_editor_action_right">
+    <select class="select select_border" @change="changeLanguage" :value="selected">
+      <option
+        v-for="(_, language) in languageMap"
+        :value="language"
+        :key="language"
+      >{{ language }}</option>
+    </select>
+
     <button class="btn btn_base h-[26px] w-8 rounded-sm">
       <font-awesome-icon icon="fa-solid fa-angle-down" class="text-base" />
     </button>
@@ -60,7 +102,9 @@ const emit = defineEmits([
     h-full
   }
   &_right {
-
+    @apply
+    flex
+    gap-1
   }
 }
 </style>

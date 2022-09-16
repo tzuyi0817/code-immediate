@@ -30,6 +30,7 @@ export default function useMonacoEditor() {
       fixedOverflowWidgets: true,
       lineNumbers: 'off',
       tabSize: 2,
+      lineDecorationsWidth: 0,
     });
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
