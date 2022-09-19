@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useCodeContentStore } from '@/store';
+import { loadParse } from '@/utils/loadParse';
 import {
   HTML_LANGUAGE_MAP,
   CSS_LANGUAGE_MAP,
   JS_LANGUAGE_MAP,
 } from '@/config/language';
+import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
   isShowPreview: boolean;
-  currentAction: string;
+  currentAction: CodeModel;
 }
 
 const props = defineProps<Props>();
@@ -20,27 +22,28 @@ const emit = defineEmits([
 
 const languageMap = computed(() => {
   const map = {
-    html: HTML_LANGUAGE_MAP,
-    css: CSS_LANGUAGE_MAP,
-    javascript: JS_LANGUAGE_MAP,
+    HTML: HTML_LANGUAGE_MAP,
+    CSS: CSS_LANGUAGE_MAP,
+    JS: JS_LANGUAGE_MAP,
   };
   return map[props.currentAction as keyof typeof map];
 });
 
 const selected = computed(() => {
-  const { selectedLanguage } = useCodeContentStore();
+  const { codeContent } = useCodeContentStore();
   const { currentAction } = props;
-  return selectedLanguage[currentAction as keyof typeof selectedLanguage];
+  return codeContent[currentAction].language;
 });
 
 function changeLanguage(event: Event) {
-  const { setSelectedLanguage, selectedLanguage } = useCodeContentStore();
+  const { setCodeLanguage } = useCodeContentStore();
   const { currentAction } = props;
   const { value } = event.target as HTMLSelectElement;
 
-  setSelectedLanguage({
-    ...selectedLanguage,
-    [currentAction]: value,
+  loadParse(value.toLowerCase()).catch(error => console.log({ error }));
+  setCodeLanguage({
+    type: currentAction,
+    language: value,
   });
 }
 </script>
@@ -49,16 +52,16 @@ function changeLanguage(event: Event) {
 <div class="code_editor_action">
   <div class="code_editor_action_left">
     <button 
-      :class="['btn_select', { 'btn_select-active': currentAction === 'html' }]"
-      @click="emit('update:currentAction', 'html')"
+      :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
+      @click="emit('update:currentAction', 'HTML')"
     >HTML</button>
     <button
-      :class="['btn_select', { 'btn_select-active': currentAction === 'css' }]"
-      @click="emit('update:currentAction', 'css')"
+      :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
+      @click="emit('update:currentAction', 'CSS')"
     >CSS</button>
     <button
-      :class="['btn_select', { 'btn_select-active': currentAction === 'javascript' }]"
-      @click="emit('update:currentAction', 'javascript')"
+      :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
+      @click="emit('update:currentAction', 'JS')"
     >JS</button>
     <button
     :class="['btn_select', { 'btn_select-active': isShowPreview }]"

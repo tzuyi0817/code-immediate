@@ -1,3 +1,4 @@
+import { toRaw } from 'vue';
 import { useCodeContentStore } from '@/store';
 import type { CodeContent } from '@/types/codeContent';
 
@@ -21,12 +22,20 @@ export function compile(content: CodeContent): Promise<CodeContent> {
 }
 
 function transformHtml(htmlContent = '') {
-  const { selectedLanguage: { html: language } } = useCodeContentStore();
-  return htmlContent;
+  const { codeContent: { HTML: { language } } } = useCodeContentStore();
+  const compile = {
+    Haml() {},
+    Markdown() {},
+    Slim() {},
+    Pug() {
+      return self.pug.render(htmlContent);
+    },
+  }
+  return compile[language as keyof typeof compile]?.() ?? htmlContent;
 }
 
 function transformCss(cssContent = '') {
-  const { selectedLanguage: { css: language } } = useCodeContentStore();
+  const { codeContent: { CSS: { language } } } = useCodeContentStore();
   const regexp = /(@import\s+)('|")([^'"]+)('|")/g;
   return cssContent.replace(regexp, (str: string, ...matches: unknown[]) => {
     console.log({ str, matches })
@@ -35,11 +44,20 @@ function transformCss(cssContent = '') {
 }
 
 function transformJs(jsContent = '') {
-  const { selectedLanguage: { javascript: language } } = useCodeContentStore();
+  const { codeContent: { JS: { language } } } = useCodeContentStore();
   const compile = {
-    Babel() {},
+    Babel() {
+      const { code } = self.Babel.transform(jsContent, {
+        presets: ['env'],
+      });
+      return code;
+    },
     TypeScript() {
-      return jsContent;
+      const { outputText } = self.ts.transpileModule(jsContent, {
+        reportDiagnostics: true,
+        compilerOptions: { module: 'es2015' },
+      });
+      return outputText;
     },
     CoffeeScript() {},
     LiveScript() {},

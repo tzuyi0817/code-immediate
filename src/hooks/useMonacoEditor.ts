@@ -3,12 +3,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce, sleep } from '@/utils/common';
 import { registry, GRAMMARS_MAP } from '@/utils/monacoEditor';
 import { useCodeContentStore } from '@/store';
-
-const LANGUAGE_MAP = {
-  html: 'HTML',
-  css: 'CSS',
-  javascript: 'JS',
-} as const;
+import type { CodeModel } from '@/types/codeContent';
 
 export default function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
@@ -16,7 +11,7 @@ export default function useMonacoEditor() {
     editor: null as monaco.editor.IStandaloneCodeEditor | null,
   };
 
-  function createEditor(DOM: HTMLElement, language: string) {
+  function createEditor(DOM: HTMLElement, model: CodeModel) {
     monacoEditor.editor = monaco.editor.create(DOM, {
       model: null,
       minimap: {
@@ -35,9 +30,9 @@ export default function useMonacoEditor() {
 
     monacoEditor.editor.onDidChangeModelContent(debounce(() => {
       const code = monacoEditor.editor?.getValue()!;
-      const type = LANGUAGE_MAP[language as keyof typeof LANGUAGE_MAP];
+      const type = model;
       setCodeContent({ type, code });
-    }));
+    }, 1000));
 
     monacoEditor.editor.onDidBlurEditorText(debounce(() => {
       console.log('onDidBlurEditorText');
@@ -47,6 +42,7 @@ export default function useMonacoEditor() {
   }
 
   async function updateEditorModel(code: string, language: string) {
+    language = language.toLowerCase();
     const model = monaco.editor.createModel(code, language);
     const oldModel = monacoEditor.editor?.getModel();
     const grammars = new Map([[language, GRAMMARS_MAP.get(language)!]]);
@@ -59,13 +55,13 @@ export default function useMonacoEditor() {
   }
 
   function setModelMarkers(model: monaco.editor.ITextModel) {
-    // editor.setModelMarkers(model, 'json', [{
+    // monaco.editor.setModelMarkers(model, 'owner', [{
     //   startLineNumber: 2,
     //   endLineNumber: 2,
     //   startColumn: 1,
     //   endColumn: 10,
-    //   severity: MarkerSeverity.Error,
-    //   message: `语法错误`,
+    //   severity: monaco.MarkerSeverity.Error,
+    //   message: `syntax error`,
     // }]);
   }
 

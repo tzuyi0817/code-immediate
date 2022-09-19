@@ -5,9 +5,10 @@ import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
+import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
-const currentAction = ref('html');
+const currentAction = ref<CodeModel>('HTML');
 const wrapHeight = computed(() => {
   return isShowPreview.value ? 'h-[calc(40vh-40px)]' : 'h-[calc(100vh-128px)]';
 });
@@ -21,16 +22,16 @@ const wrapHeight = computed(() => {
   />
   <div :class="['code_wrap', wrapHeight]">
     <code-editor
-      :class="{ hidden: currentAction !== 'html' }"
-      language="html"
+      :class="{ hidden: currentAction !== 'HTML' }"
+      model="HTML"
     />
     <code-editor
-      :class="{ hidden: currentAction !== 'css' }"
-      language="css"
+      :class="{ hidden: currentAction !== 'CSS' }"
+      model="CSS"
     />
     <code-editor
-      :class="{ hidden: currentAction !== 'javascript' }"
-      language="javascript"
+      :class="{ hidden: currentAction !== 'JS' }"
+      model="JS"
     />
   </div>
   <code-preview v-show="isShowPreview" />

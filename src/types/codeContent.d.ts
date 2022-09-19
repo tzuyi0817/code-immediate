@@ -3,3 +3,5 @@ export interface CodeContent {
   css: string;
   js: string;
 }
+
+export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';

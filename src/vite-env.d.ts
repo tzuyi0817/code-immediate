@@ -7,3 +7,9 @@ declare module '*.vue' {
 };
 
 declare module 'loadjs';
+
+declare interface Window {
+  pug: any;
+  Babel: any;
+  ts: any;
+}

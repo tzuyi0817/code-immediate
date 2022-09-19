@@ -1,18 +1,20 @@
 import { defineStore } from "pinia";
+import { deepClone } from '@/utils/common';
+import type { CodeModel } from '@/types/codeContent';
 
 const defaultState = {
   codeContent: {
     HTML: {
-      language: 'html',
+      language: 'HTML',
       content: ''
     },
     CSS: {
-      language: 'css',
+      language: 'CSS',
       content: '',
       resources: []
     },
     JS: {
-      language: 'javascript',
+      language: 'JavaScript',
       content: '',
       resources: []
     },
@@ -22,32 +24,22 @@ const defaultState = {
       resources: []
     },
   },
-  selectedLanguage: {
-    html: 'HTML',
-    css: 'CSS',
-    javascript: 'JavaScript'
-  },
 };
 
 interface ContentAction {
-  type: keyof typeof defaultState.codeContent;
-  code: string;
-}
-
-interface SelectedLanguage {
-  html: string;
-  css: string;
-  javascript: string;
+  type: CodeModel;
+  code?: string;
+  language?: string;
 }
 
 export default defineStore('codeContent', {
-  state: () => ({ ...defaultState }),
+  state: () => deepClone(defaultState),
   actions: {
     setCodeContent({ type, code }: ContentAction) {
-      this.codeContent[type].content = code;
+      this.codeContent[type].content = code ?? '';
     },
-    setSelectedLanguage(selectedLanguage: SelectedLanguage) {
-      this.selectedLanguage = selectedLanguage;
+    setCodeLanguage({ type, language }: ContentAction) {
+      this.codeContent[type].language = language ?? defaultState.codeContent[type].language;
     },
   },
 });

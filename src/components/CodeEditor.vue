@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { storeToRefs } from 'pinia';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
 import { debounce } from '@/utils/common';
+import { useCodeContentStore } from '@/store';
+import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
-  language: string;
+  model: CodeModel;
 }
 
 const props = defineProps<Props>();
 const codeEditor = ref();
+const { codeContent } = storeToRefs(useCodeContentStore());
+const language = computed(() => codeContent.value[props.model].language);
 const resizeEditor = debounce(() => monacoEditor.editor?.layout(), 100);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
@@ -24,10 +29,15 @@ const {
 } = useMonacoEditor();
 
 function initEditor() {
-  createEditor(codeEditor.value, props.language);
-  updateEditorModel('', props.language);
+  createEditor(codeEditor.value, props.model);
+  updateEditorModel('', language.value);
   resizeObserver.observe(codeEditor.value.parentNode);
 }
+
+watch(language, (language) => {
+  const { content } = codeContent.value[props.model];
+  updateEditorModel(content, language);
+});
 
 onMounted(initEditor);
 onBeforeUnmount(() => {
