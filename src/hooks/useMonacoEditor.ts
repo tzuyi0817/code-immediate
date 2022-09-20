@@ -1,7 +1,7 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce, sleep } from '@/utils/common';
-import { registry, GRAMMARS_MAP } from '@/utils/monacoEditor';
+import { registry, GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/utils/monacoEditor';
 import { useCodeContentStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 
@@ -45,7 +45,8 @@ export default function useMonacoEditor() {
     language = language.toLowerCase();
     const model = monaco.editor.createModel(code, language);
     const oldModel = monacoEditor.editor?.getModel();
-    const grammars = new Map([[language, GRAMMARS_MAP.get(language)!]]);
+    const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
+    const grammars = new Map([[languageType, GRAMMARS_MAP.get(languageType)!]]);
 
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();

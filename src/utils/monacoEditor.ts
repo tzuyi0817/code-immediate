@@ -25,7 +25,6 @@ export async function initMonacoEditor() {
 
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
-      console.log({ label })
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
@@ -66,4 +65,10 @@ export const GRAMMARS_MAP = new Map([
   ['css', 'source.css'],
   ['javascript', 'source.js'],
   ['typescript', 'source.ts'],
+  ['coffeescript', 'source.coffee'],
 ]);
+
+export const COMMON_GRAMMARS_MAP = {
+  babel: 'javascript',
+  livescript: 'javascript',
+};

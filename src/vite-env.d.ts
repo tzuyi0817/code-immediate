@@ -12,4 +12,5 @@ declare interface Window {
   pug: any;
   Babel: any;
   ts: any;
+  CoffeeScript: any;
 }

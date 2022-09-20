@@ -40,7 +40,7 @@ function changeLanguage(event: Event) {
   const { currentAction } = props;
   const { value } = event.target as HTMLSelectElement;
 
-  loadParse(value.toLowerCase()).catch(error => console.log({ error }));
+  loadParse(value.toLowerCase()).catch(error => { throw new Error(error) });
   setCodeLanguage({
     type: currentAction,
     language: value,
@@ -64,7 +64,7 @@ function changeLanguage(event: Event) {
       @click="emit('update:currentAction', 'JS')"
     >JS</button>
     <button
-    :class="['btn_select', { 'btn_select-active': isShowPreview }]"
+      :class="['btn_select', { 'btn_select-active': isShowPreview }]"
       @click="emit('update:isShowPreview', !isShowPreview)"
     >Result</button>
   </div>

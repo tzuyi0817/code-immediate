@@ -59,8 +59,13 @@ function transformJs(jsContent = '') {
       });
       return outputText;
     },
-    CoffeeScript() {},
-    LiveScript() {},
+    CoffeeScript() {
+      return self.CoffeeScript.compile(jsContent);
+    },
+    LiveScript() {
+      const liveScript = window.require('livescript');
+      return liveScript.compile(jsContent);
+    },
   };
 
   jsContent = compile[language as keyof typeof compile]?.() ?? jsContent;
