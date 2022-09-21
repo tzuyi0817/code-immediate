@@ -10,6 +10,7 @@ declare module 'loadjs';
 
 declare interface Window {
   pug: any;
+  Sass: any;
   Babel: any;
   ts: any;
   CoffeeScript: any;

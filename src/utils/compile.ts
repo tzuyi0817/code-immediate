@@ -1,6 +1,7 @@
-import { toRaw } from 'vue';
 import { useCodeContentStore } from '@/store';
 import type { CodeContent } from '@/types/codeContent';
+
+let sass: any = null;
 
 export function compile(content: CodeContent): Promise<CodeContent> {
   const { html, css, js } = content;
@@ -34,13 +35,25 @@ function transformHtml(htmlContent = '') {
   return compile[language as keyof typeof compile]?.() ?? htmlContent;
 }
 
-function transformCss(cssContent = '') {
+async function transformCss(cssContent = '') {
   const { codeContent: { CSS: { language } } } = useCodeContentStore();
-  const regexp = /(@import\s+)('|")([^'"]+)('|")/g;
-  return cssContent.replace(regexp, (str: string, ...matches: unknown[]) => {
-    console.log({ str, matches })
-    return str;
-  });
+  const compile = {
+    Less() {},
+    SCSS(): Promise<string> {
+      return new Promise(resolve => {
+        if (!sass) sass = new self.Sass();
+        sass.compile(
+          cssContent,
+          { indentedSyntax: false },
+          ({ text }: { text: string }) => resolve(text)
+        );
+      })
+    },
+    Sass() {},
+    Stylus() {},
+    PostCSS() {},
+  }
+  return await compile[language as keyof typeof compile]?.() ?? cssContent;
 }
 
 function transformJs(jsContent = '') {
@@ -63,8 +76,7 @@ function transformJs(jsContent = '') {
       return self.CoffeeScript.compile(jsContent);
     },
     LiveScript() {
-      const liveScript = window.require('livescript');
-      return liveScript.compile(jsContent);
+      return self.require('livescript').compile(jsContent);
     },
   };
 
