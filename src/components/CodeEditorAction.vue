@@ -35,16 +35,20 @@ const selected = computed(() => {
   return codeContent[currentAction].language;
 });
 
-function changeLanguage(event: Event) {
+async function changeLanguage(event: Event) {
   const { setCodeLanguage } = useCodeContentStore();
   const { currentAction } = props;
   const { value } = event.target as HTMLSelectElement;
+  type CodeLanguage = keyof typeof languageMap.value;
 
-  loadParse(value.toLowerCase()).catch(error => { throw new Error(error) });
-  setCodeLanguage({
-    type: currentAction,
-    language: value,
-  });
+  loadParse(languageMap.value[value as CodeLanguage])
+    .then(() => {
+      setCodeLanguage({
+        type: currentAction,
+        language: value,
+      });
+    })
+    .catch(error => { throw new Error(error) });
 }
 </script>
 

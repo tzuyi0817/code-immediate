@@ -38,22 +38,32 @@ function transformHtml(htmlContent = '') {
 async function transformCss(cssContent = '') {
   const { codeContent: { CSS: { language } } } = useCodeContentStore();
   const compile = {
-    Less() {},
-    SCSS(): Promise<string> {
-      return new Promise(resolve => {
-        if (!sass) sass = new self.Sass();
-        sass.compile(
-          cssContent,
-          { indentedSyntax: false },
-          ({ text }: { text: string }) => resolve(text)
-        );
-      })
+    async Less() {
+      const { css }: { css: string } = await self.less.render(cssContent)
+        .catch((error: Error) => console.log('syntax error'));
+      return css;
     },
-    Sass() {},
+    SCSS() {
+      return compileScss(cssContent);
+    },
+    Sass() {
+      return compileScss(cssContent, true);
+    },
     Stylus() {},
     PostCSS() {},
   }
   return await compile[language as keyof typeof compile]?.() ?? cssContent;
+}
+
+function compileScss(cssContent: string, indentedSyntax = false): Promise<string> {
+  return new Promise(resolve => {
+    if (!sass) sass = new self.Sass();
+    sass.compile(
+      cssContent,
+      { indentedSyntax },
+      ({ text }: { text: string }) => resolve(text)
+    );
+  });
 }
 
 function transformJs(jsContent = '') {

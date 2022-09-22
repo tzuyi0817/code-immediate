@@ -1,24 +1,24 @@
 export const HTML_LANGUAGE_MAP = {
-  HTML: '',
+  HTML: 'html',
   Haml: '',
   Markdown: '',
   Slim: '',
-  Pug: '',
+  Pug: 'pug',
 };
 
 export const CSS_LANGUAGE_MAP = {
-  CSS: '',
-  Less: '',
-  SCSS: '',
-  Sass: '',
+  CSS: 'css',
+  Less: 'less',
+  SCSS: 'scss',
+  Sass: 'scss',
   Stylus: '',
   PostCSS: '',
 };
 
 export const JS_LANGUAGE_MAP = {
-  JavaScript: '',
-  Babel: '',
-  TypeScript: '',
-  CoffeeScript: '',
-  LiveScript: '',
+  JavaScript: 'javascript',
+  Babel: 'babel',
+  TypeScript: 'typescript',
+  CoffeeScript: 'coffeescript',
+  LiveScript: 'livescript',
 };

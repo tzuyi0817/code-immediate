@@ -44,6 +44,7 @@ export function registry() {
         'source.css.scss': 'scss.tmLanguage.json',
         'source.sass': 'scss.tmLanguage.json',
         'source.sassdoc': 'sassdoc.tmLanguage.json',
+        'source.css.less': 'less.tmLanguage.json',
         'source.less': 'less.tmLanguage.json',
         'source.stylus': 'css.tmLanguage.json',
         'source.js': 'javascript.tmLanguage.json',
@@ -64,6 +65,7 @@ export const GRAMMARS_MAP = new Map([
   ['html', 'text.html.basic'],
   ['pug', 'text.pug'],
   ['css', 'source.css'],
+  ['less', 'source.css.less'],
   ['scss', 'source.css.scss'],
   ['javascript', 'source.js'],
   ['typescript', 'source.ts'],
@@ -71,6 +73,7 @@ export const GRAMMARS_MAP = new Map([
 ]);
 
 export const COMMON_GRAMMARS_MAP = {
+  sass: 'scss',
   babel: 'javascript',
   livescript: 'javascript',
 };
