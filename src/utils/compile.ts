@@ -49,8 +49,20 @@ async function transformCss(cssContent = '') {
     Sass() {
       return compileScss(cssContent, true);
     },
-    Stylus() {},
-    PostCSS() {},
+    Stylus(): Promise<string> {
+      return new Promise((resolve, reject) => {
+        self.stylus.render(cssContent, (error: Error, css: string) => {
+          if (error) reject(error);
+          resolve(css);
+        });
+      });
+    },
+    PostCSS() {
+      // const processor = self.postcss([autoprefixer, postcssNested]);
+      // processor.process(cssContent).then(result => {
+      //   console.log(result.css)
+      // })
+    },
   }
   return await compile[language as keyof typeof compile]?.() ?? cssContent;
 }

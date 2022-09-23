@@ -12,6 +12,8 @@ declare interface Window {
   pug: any;
   less: any;
   Sass: any;
+  stylus: any;
+  postcss: any;
   Babel: any;
   ts: any;
   CoffeeScript: any;

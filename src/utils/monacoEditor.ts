@@ -22,7 +22,7 @@ export async function initMonacoEditor() {
   //   target: monaco.languages.typescript.ScriptTarget.ES2016,
   //   allowNonTsExtensions: true
   // });
-
+  // console.log(monaco.languages.getLanguages())
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
@@ -74,6 +74,8 @@ export const GRAMMARS_MAP = new Map([
 
 export const COMMON_GRAMMARS_MAP = {
   sass: 'scss',
+  stylus: 'css',
+  postcss: 'css',
   babel: 'javascript',
   livescript: 'javascript',
 };

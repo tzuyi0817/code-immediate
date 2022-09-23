@@ -11,8 +11,8 @@ export const CSS_LANGUAGE_MAP = {
   Less: 'less',
   SCSS: 'scss',
   Sass: 'scss',
-  Stylus: '',
-  PostCSS: '',
+  Stylus: 'stylus',
+  PostCSS: 'postcss',
 };
 
 export const JS_LANGUAGE_MAP = {
