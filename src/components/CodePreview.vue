@@ -10,7 +10,8 @@ const { codeContent } = storeToRefs(useCodeContentStore());
 const srcdoc = ref('');
 
 async function runCode(content: CodeContent) {
-  const compileResult = await compile(content);
+  const compileResult = await compile(content)
+    .catch(error => { throw Error(error) });
   srcdoc.value = createHtml(compileResult);
 }
 

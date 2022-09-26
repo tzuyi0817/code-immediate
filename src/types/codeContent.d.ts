@@ -5,3 +5,9 @@ export interface CodeContent {
 }
 
 export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';
+
+export interface CodeCompile {
+  language: string;
+  compile: Record<string, Function>
+  content: string;
+}

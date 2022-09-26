@@ -1,6 +1,6 @@
 export const HTML_LANGUAGE_MAP = {
   HTML: 'html',
-  Haml: '',
+  Haml: 'haml',
   Markdown: '',
   Slim: '',
   Pug: 'pug',
@@ -12,7 +12,7 @@ export const CSS_LANGUAGE_MAP = {
   SCSS: 'scss',
   Sass: 'scss',
   Stylus: 'stylus',
-  PostCSS: 'postcss',
+  PostCSS: '',
 };
 
 export const JS_LANGUAGE_MAP = {

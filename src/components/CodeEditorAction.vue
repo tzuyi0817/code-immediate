@@ -40,15 +40,13 @@ async function changeLanguage(event: Event) {
   const { currentAction } = props;
   const { value } = event.target as HTMLSelectElement;
   type CodeLanguage = keyof typeof languageMap.value;
+  const source = languageMap.value[value as CodeLanguage];
 
-  loadParse(languageMap.value[value as CodeLanguage])
-    .then(() => {
-      setCodeLanguage({
-        type: currentAction,
-        language: value,
-      });
-    })
-    .catch(error => { throw new Error(error) });
+  source && await loadParse(source).catch(error => { throw new Error(error) });
+  setCodeLanguage({
+    type: currentAction,
+    language: value,
+  });
 }
 </script>
 

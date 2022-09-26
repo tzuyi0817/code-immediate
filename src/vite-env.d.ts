@@ -9,11 +9,11 @@ declare module '*.vue' {
 declare module 'loadjs';
 
 declare interface Window {
+  Haml: any;
   pug: any;
   less: any;
   Sass: any;
   stylus: any;
-  postcss: any;
   Babel: any;
   ts: any;
   CoffeeScript: any;

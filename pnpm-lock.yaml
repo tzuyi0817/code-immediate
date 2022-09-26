@@ -18,11 +18,13 @@ specifiers:
   pinia: ^2.0.17
   postcss: ^8.4.16
   postcss-import: ^14.1.0
+  postcss-nested: ^5.0.6
   postcss-nesting: ^10.1.10
   tailwindcss: ^3.1.8
   typescript: ^4.6.4
   vite: ^3.0.0
   vite-plugin-monaco-editor: ^1.1.0
+  vite-plugin-node-polyfills: ^0.1.8
   vscode-theme-to-monaco-theme-node: ^1.0.0
   vue: ^3.2.37
   vue-router: ^4.1.3
@@ -50,11 +52,13 @@ devDependencies:
   fs-extra: 10.1.0
   postcss: 8.4.16
   postcss-import: 14.1.0_postcss@8.4.16
+  postcss-nested: 5.0.6_postcss@8.4.16
   postcss-nesting: 10.1.10_postcss@8.4.16
   tailwindcss: 3.1.8
   typescript: 4.7.4
   vite: 3.0.2
   vite-plugin-monaco-editor: 1.1.0_monaco-editor@0.34.0
+  vite-plugin-node-polyfills: 0.1.8
   vscode-theme-to-monaco-theme-node: 1.0.0
   vue-tsc: 0.38.9_typescript@4.7.4
 
@@ -74,6 +78,21 @@ packages:
     dependencies:
       postcss: 8.4.16
       postcss-selector-parser: 6.0.10
+    dev: true
+
+  /@esbuild-plugins/node-globals-polyfill/0.1.1:
+    resolution: {integrity: sha512-MR0oAA+mlnJWrt1RQVQ+4VYuRJW/P2YmRTv1AsplObyvuBMnPHiizUF95HHYiSsMGLhyGtWufaq2XQg6+iurBg==}
+    peerDependencies:
+      esbuild: '*'
+    dev: true
+
+  /@esbuild-plugins/node-modules-polyfill/0.1.4:
+    resolution: {integrity: sha512-uZbcXi0zbmKC/050p3gJnne5Qdzw8vkXIv+c2BW0Lsc1ji1SkrxbKPUy5Efr0blbTu1SL8w4eyfpnSdPg3G0Qg==}
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      escape-string-regexp: 4.0.0
+      rollup-plugin-node-polyfills: 0.2.1
     dev: true
 
   /@fortawesome/fontawesome-common-types/6.1.2:
@@ -622,6 +641,15 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /escape-string-regexp/4.0.0:
+    resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
+    engines: {node: '>=10'}
+    dev: true
+
+  /estree-walker/0.6.1:
+    resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
+    dev: true
+
   /estree-walker/2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
 
@@ -982,6 +1010,27 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
+  /rollup-plugin-inject/3.0.2:
+    resolution: {integrity: sha512-ptg9PQwzs3orn4jkgXJ74bfs5vYz1NCZlSQMBUA0wKcGp5i5pA1AO3fOUEte8enhGUC+iapTCzEWw2jEFFUO/w==}
+    deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-inject.
+    dependencies:
+      estree-walker: 0.6.1
+      magic-string: 0.25.9
+      rollup-pluginutils: 2.8.2
+    dev: true
+
+  /rollup-plugin-node-polyfills/0.2.1:
+    resolution: {integrity: sha512-4kCrKPTJ6sK4/gLL/U5QzVT8cxJcofO0OU74tnB19F40cmuAKSzH5/siithxlofFEjwvw1YAhPmbvGNA6jEroA==}
+    dependencies:
+      rollup-plugin-inject: 3.0.2
+    dev: true
+
+  /rollup-pluginutils/2.8.2:
+    resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
+    dependencies:
+      estree-walker: 0.6.1
+    dev: true
+
   /rollup/2.77.0:
     resolution: {integrity: sha512-vL8xjY4yOQEw79DvyXLijhnhh+R/O9zpF/LEgkCebZFtb6ELeN9H3/2T0r8+mp+fFTBHZ5qGpOpW2ela2zRt3g==}
     engines: {node: '>=10.0.0'}
@@ -1082,6 +1131,16 @@ packages:
       monaco-editor: '>=0.33.0'
     dependencies:
       monaco-editor: 0.34.0
+    dev: true
+
+  /vite-plugin-node-polyfills/0.1.8:
+    resolution: {integrity: sha512-xntRL3ILWQj9JZv0cUObGydNuJ7hGWxLwwbZHlR2iq88PkJcLw9q6whs4WpgMr+ildvkfEbcQbo5rIFMr+Y+dQ==}
+    dependencies:
+      '@esbuild-plugins/node-globals-polyfill': 0.1.1
+      '@esbuild-plugins/node-modules-polyfill': 0.1.4
+      rollup-plugin-node-polyfills: 0.2.1
+    transitivePeerDependencies:
+      - esbuild
     dev: true
 
   /vite/3.0.2:
