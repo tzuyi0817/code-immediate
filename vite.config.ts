@@ -64,11 +64,11 @@ export default defineConfig({
       ]
     },
   },
-  // build: {
-  //   rollupOptions: {
-  //     plugins: [
-  //       rollupNodePolyFill(),
-  //     ],
-  //   },
-  // },
+  build: {
+    rollupOptions: {
+      plugins: [
+        rollupNodePolyFill(),
+      ],
+    },
+  },
 })
