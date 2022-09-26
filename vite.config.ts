@@ -47,6 +47,7 @@ export default defineConfig({
       vm: 'rollup-plugin-node-polyfills/polyfills/vm',
       zlib: 'rollup-plugin-node-polyfills/polyfills/zlib',
       buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6',
+      process: 'rollup-plugin-node-polyfills/polyfills/process-es6',
     },
   },
   optimizeDeps: {
