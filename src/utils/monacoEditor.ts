@@ -22,7 +22,7 @@ export async function initMonacoEditor() {
   //   target: monaco.languages.typescript.ScriptTarget.ES2016,
   //   allowNonTsExtensions: true
   // });
-  console.log(monaco.languages.getLanguages())
+
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
