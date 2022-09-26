@@ -1,24 +1,24 @@
 {
   "rewrites": [
     {
-      "source": "/css.worker.b6775041.js",
-      "destination": "/assets/css.worker.b6775041.js"
+      "source": "/css.worker.a66442f2.js",
+      "destination": "/assets/css.worker.a66442f2.js"
     },
     {
-      "source": "/html.worker.c5234aec.js",
-      "destination": "/assets/html.worker.c5234aec.js"
+      "source": "/html.worker.db20dbe1.js",
+      "destination": "/assets/html.worker.db20dbe1.js"
     },
     {
-      "source": "/ts.worker.004cbed0.js",
-      "destination": "/assets/ts.worker.004cbed0.js"
+      "source": "/ts.worker.08ec356f.js",
+      "destination": "/assets/ts.worker.08ec356f.js"
     },
     {
-      "source": "/json.worker.d7a83544.js",
-      "destination": "/assets/json.worker.d7a83544.js"
+      "source": "/json.worker.4fe6ce9c.js",
+      "destination": "/assets/json.worker.4fe6ce9c.js"
     },
     {
-      "source": "/editor.worker.b9a77fdc.js",
-      "destination": "/assets/editor.worker.b9a77fdc.js"
+      "source": "/editor.worker.29be4084.js",
+      "destination": "/assets/editor.worker.29be4084.js"
     }
   ]
 }
