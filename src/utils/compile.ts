@@ -5,6 +5,7 @@ import { useCodeContentStore } from '@/store';
 import type { CodeContent, CodeCompile } from '@/types/codeContent';
 
 let sass: any = null;
+let showdown: any = null;
 
 export function compile(content: CodeContent): Promise<CodeContent> {
   const { html, css, js } = content;
@@ -31,7 +32,10 @@ function transformHtml(htmlContent = '') {
     Haml() {
       return self.Haml.render(htmlContent);
     },
-    Markdown() {},
+    Markdown() {
+      if (!showdown) showdown = new self.showdown.Converter();
+      return showdown.makeHtml(htmlContent);
+    },
     Slim() {},
     Pug() {
       return self.pug.render(htmlContent);

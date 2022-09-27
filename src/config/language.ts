@@ -1,7 +1,7 @@
 export const HTML_LANGUAGE_MAP = {
   HTML: 'html',
   Haml: 'haml',
-  Markdown: '',
+  Markdown: 'markdown',
   Slim: '',
   Pug: 'pug',
 };

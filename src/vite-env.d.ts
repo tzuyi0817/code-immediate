@@ -10,6 +10,7 @@ declare module 'loadjs';
 
 declare interface Window {
   Haml: any;
+  showdown: any;
   pug: any;
   less: any;
   Sass: any;
