@@ -98,7 +98,7 @@ async function changeLanguage(event: Event) {
   justify-between
   border-b-2
   border-gray-700/60
-  bg-black/90;
+  bg-black;
   &_left {
     @apply
     flex

@@ -1,14 +1,22 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import CodeConsole from '@/components/CodeConsole.vue';
 
+const isShowConsole = ref(false);
+
+function toggleConsole() {
+  isShowConsole.value = !isShowConsole.value;
+}
 </script>
 
 <template>
   <div class="code_footer">
-    <button class="btn btn_base rounded-sm w-12 h-5 mx-2">
-      <font-awesome-icon 
+    <button class="btn btn_base rounded-sm h-5 mx-2" @click="toggleConsole">
+      <!-- <font-awesome-icon 
         icon="fa-solid fa-angle-down" 
         :class="['text-base', 'rotate-180']"
-      />
+      /> -->
+      Console
     </button>
 
     <select class="select select_base">
@@ -16,6 +24,8 @@
       <option value="0.5">0.5x</option>
       <option value="0.25">0.25x</option>
     </select>
+
+    <CodeConsole v-model:isShowConsole="isShowConsole" />
   </div>
 </template>
 

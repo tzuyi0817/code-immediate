@@ -2,7 +2,7 @@ export const HTML_LANGUAGE_MAP = {
   HTML: 'html',
   Haml: 'haml',
   Markdown: 'markdown',
-  Slim: '',
+  // Slim: 'slim',
   Pug: 'pug',
 };
 

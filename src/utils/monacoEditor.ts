@@ -16,17 +16,7 @@ export async function initMonacoEditor() {
   monaco.languages.register({ id: 'sass' });
   monaco.languages.register({ id: 'stylus' });
   monaco.languages.register({ id: 'postcss' });
-  // monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
-  // monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
-  //   noSemanticValidation: true,
-  //   noSyntaxValidation: false
-  // });
-
-  // monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-  //   target: monaco.languages.typescript.ScriptTarget.ES2016,
-  //   allowNonTsExtensions: true
-  // });
-
+  monaco.languages.register({ id: 'livescript' });
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
@@ -59,6 +49,7 @@ export function registry() {
         'text.elixir': 'Elixir.tmLanguage',
         'source.css': 'css.tmLanguage.json',
         'source.css.scss': 'scss.tmLanguage.json',
+        'source.scss': 'scss.tmLanguage.json',
         'source.sass': 'Sass.tmLanguage',
         'source.sassdoc': 'sassdoc.tmLanguage.json',
         'source.css.less': 'less.tmLanguage.json',
@@ -68,6 +59,7 @@ export function registry() {
         'source.js': 'javascript.tmLanguage.json',
         'source.ts': 'typescript.tmLanguage.json',
         'source.coffee': 'coffeescript.tmLanguage.json',
+        'source.livescript': 'LiveScript.tmLanguage',
         'source.js.regexp': 'Regular Expressions (JavaScript).tmLanguage',
         'source.ini': 'ini.tmLanguage.json',
         'source.java': 'java.tmLanguage.json',
@@ -117,12 +109,12 @@ export function registry() {
         'source.glsl': 'GLSL.tmLanguage',
         'source.applescript': 'applescript.tmLanguage.json',
       };
-      console.log({ scopeName })
-      const json = scopeNameMap[scopeName as keyof typeof scopeNameMap];
+      const source = scopeNameMap[scopeName as keyof typeof scopeNameMap];
       const plist = [
         'source.sass',
         'source.postcss',
         'source.js.regexp',
+        'source.livescript',
         'source.dart',
         'source.erlang',
         'source.elixir',
@@ -141,7 +133,7 @@ export function registry() {
       ];
       return {
         format: plist.includes(scopeName) ? 'plist' : 'json',
-        content: await (await fetch(`/grammars/${json}`)).text(),
+        content: await (await fetch(`/grammars/${source}`)).text(),
       }
     }
   });
@@ -161,9 +153,9 @@ export const GRAMMARS_MAP = new Map([
   ['javascript', 'source.js'],
   ['typescript', 'source.ts'],
   ['coffeescript', 'source.coffee'],
+  ['livescript', 'source.livescript'],
 ]);
 
 export const COMMON_GRAMMARS_MAP = {
   babel: 'javascript',
-  livescript: 'javascript',
 };
