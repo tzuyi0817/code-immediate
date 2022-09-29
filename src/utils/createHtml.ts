@@ -9,9 +9,8 @@ export function createHtml({ html, css, js }: CodeContent) {
 function createHead(css: string) {
   return `
     <title>code Demo<\/title>
-    <style type="text/css">
-      ${css}
-    <\/style>
+    <style type="text/css">${css}<\/style>
+    <script type="text/javascript" src="message/index.js"><\/script>
   `;
 }
 

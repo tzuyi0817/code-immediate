@@ -12,7 +12,10 @@ const iframe: Ref = inject('iframe')!;
 function implementJs(event: Event) {
   const { value } = event.target as HTMLTextAreaElement;
 
-  iframe.value.contentWindow.postMessage('command', value.trim());
+  iframe.value.contentWindow.postMessage({
+    type: 'command',
+    value: value.trim(),
+  });
 }
 
 function receiveMessage(event: MessageEvent) {

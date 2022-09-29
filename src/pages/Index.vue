@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, provide } from 'vue';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
@@ -9,9 +9,12 @@ import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
 const currentAction = ref<CodeModel>('HTML');
+const iframe = ref();
 const wrapHeight = computed(() => {
   return isShowPreview.value ? 'h-[calc(40vh-40px)]' : 'h-[calc(100vh-128px)]';
 });
+
+provide('iframe', iframe);
 </script>
 
 <template>

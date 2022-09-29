@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, inject } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore } from '@/store';
 import { compile } from '@/utils/compile';
@@ -8,6 +8,7 @@ import type { CodeContent } from '@/types/codeContent';
 
 const { codeContent } = storeToRefs(useCodeContentStore());
 const srcdoc = ref('');
+const iframe = inject('iframe');
 
 async function runCode(content: CodeContent) {
   const compileResult = await compile(content)
@@ -21,12 +22,13 @@ watch(codeContent, ({ HTML, CSS, JS, VUE }) => {
     css: CSS.content,
     js: JS.content,
   });
-}, { deep: true });
+}, { deep: true , immediate: true });
 </script>
 
 <template>
   <div class="code_preview">
     <iframe 
+      ref="iframe"
       class="h-full w-full"
       :srcdoc="srcdoc"
       frameborder="0"
