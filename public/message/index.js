@@ -1,23 +1,20 @@
 (function () {
-  // self.onerror = function (event, source, lineno, colno, error) {
-  //   window.parent.postMessage('error');
-  // }
-
   const consoleProxy = new Proxy(console, {
     get(target, prop, receiver) {
       const value = Reflect.get(...arguments);
 
       return function (...args) {
-        self.parent.postMessage({
-          type: prop,
-          data: formatMessage(args[0]),
-        });
+        postMessageToParent({ type: prop, data: formatMessage(args[0]) });
         return value.apply(target, args);
       }
     },
   });
 
   self.console = consoleProxy;
+  self.onerror = function (event) {
+    console.error(`${event} at ${self.parent.origin}`);
+  };
+
   self.addEventListener('message', ({ data: { value, type } }) => {
     const typeMap = {
       command() {
@@ -39,15 +36,23 @@
   function formatMessage(message) {
     const messageType = Object.prototype.toString.call(message).slice(8, -1).toLowerCase();
     const messageTypeMap = {
-      null: 'null',
-      undefined: 'undefined',
-      // array: message.reduce((result, value) => {
-      //   return `<pre class=""></pre>`
-      // }, ''),
+      string: () => `<span class="${messageType}">"${message}"</span>`,
+      null: () => '<span class="atom">null<span>',
+      undefined: () => '<span class="atom">undefined</span>',
+      array: () => {
+        const assemble = message.reduce((result, value, index) => {
+          const comma = index === message.length - 1 ? '' : ',';
+          return result + formatMessage(value) + comma;
+        }, '');
+        return `[${assemble}]`;
+      },
+      object: () => {
+        const assemble = Reflect.ownKeys(message).reduce((result, key) => {
+          return result + `  <span class="key">${key}:</span> ${formatMessage(message[key])}` + '\n';
+        }, '');
+        return `{\n${assemble}}`;
+      }
     };
-    return {
-      messageType,
-      message: messageTypeMap[messageType] ?? message.toString(),
-    };
+    return messageTypeMap[messageType]?.() ?? `<span class="${messageType}">${message}</span>`;
   }
 })();
