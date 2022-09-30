@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CodeConsole from '@/components/CodeConsole.vue';
+import CodeLoading from '@/components/CodeLoading.vue';
 
 const isShowConsole = ref(false);
 
@@ -25,6 +26,7 @@ function toggleConsole() {
       <option value="0.25">0.25x</option>
     </select>
 
+    <CodeLoading />
     <CodeConsole v-model:isShowConsole="isShowConsole" />
   </div>
 </template>

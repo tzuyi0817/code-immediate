@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { ref, watch, inject } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
 import { createHtml } from '@/utils/createHtml';
 import type { CodeContent } from '@/types/codeContent';
 
-const { codeContent } = storeToRefs(useCodeContentStore());
 const srcdoc = ref('');
 const iframe = inject('iframe');
+const { codeContent } = storeToRefs(useCodeContentStore());
+const { setLoading } = useFlagStore();
 
 async function runCode(content: CodeContent) {
+  setLoading(true);
   const compileResult = await compile(content)
     .catch(error => { throw Error(error) });
   srcdoc.value = createHtml(compileResult);
+  setLoading(false);
 }
 
 watch(codeContent, ({ HTML, CSS, JS, VUE }) => {

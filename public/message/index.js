@@ -39,6 +39,8 @@
       string: () => `<span class="${messageType}">"${message}"</span>`,
       null: () => '<span class="atom">null<span>',
       undefined: () => '<span class="atom">undefined</span>',
+      boolean: () => `<span class="atom">${message}</span>`,
+      symbol: () => `<span class="atom">Symbol(${formatMessage(message.description)})</span>`,
       array: () => {
         const assemble = message.reduce((result, value, index) => {
           const comma = index === message.length - 1 ? '' : ',';

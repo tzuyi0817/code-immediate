@@ -34,7 +34,7 @@ function receiveMessage(event: MessageEvent) {
   const { data } = event
   if (data.type === void 0) return;
   consoleCode.push(data);
-  console.log(data)
+  // console.log(data)
   wrapScrollToBottom();
 }
 
