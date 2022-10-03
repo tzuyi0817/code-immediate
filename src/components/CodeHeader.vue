@@ -22,12 +22,12 @@ function toggleTemplatePop() {
     <div class="code_header_right">
       <button class="btn btn_base" @click="toggleTemplatePop">template</button>
     </div>
-  </header>
 
-  <TemplatePopup 
-    v-if="isShowTemplatePop"
-    v-model:isShowTemplatePop="isShowTemplatePop"
-  />
+    <TemplatePopup 
+      v-if="isShowTemplatePop"
+      v-model:isShowTemplatePop="isShowTemplatePop"
+    />
+  </header>
 </template>
 
 <style lang="postcss" scoped>

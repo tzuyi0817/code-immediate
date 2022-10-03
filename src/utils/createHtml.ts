@@ -1,3 +1,4 @@
+import { useCodeContentStore } from '@/store';
 import type { CodeContent } from '@/types/codeContent';
 
 export function createHtml({ html, css, js }: CodeContent) {
@@ -15,7 +16,13 @@ function createHead(css: string) {
 }
 
 function createBody(html: string, js: string) {
+  const { codeContent: { JS } } = useCodeContentStore();
+  const jsResources = JS.resources.reduce((html: string, resource: string) => {
+    return html + `<script src="${resource}"><\/script>\n`;
+  }, '');
+
   return `
+    ${jsResources}
     ${html}
     ${js}
   `;

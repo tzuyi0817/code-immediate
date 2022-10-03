@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { deepClone } from '@/utils/common';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel, CodeTemplate } from '@/types/codeContent';
 
 const defaultState = {
   codeContent: {
@@ -18,14 +18,11 @@ const defaultState = {
       content: '',
       resources: []
     },
-    VUE: {
-      language: 'vue2',
-      content: '',
-      resources: []
-    },
   },
+  codeTemplate: 'ES6',
 };
 
+type CodeMap = Partial<typeof defaultState.codeContent>;
 interface ContentAction {
   type: CodeModel;
   code?: string;
@@ -35,11 +32,17 @@ interface ContentAction {
 export default defineStore('codeContent', {
   state: () => deepClone(defaultState),
   actions: {
+    setCodeMap(map: CodeMap) {
+      this.codeContent = { ...this.codeContent, ...map };
+    },
     setCodeContent({ type, code }: ContentAction) {
       this.codeContent[type].content = code ?? '';
     },
     setCodeLanguage({ type, language }: ContentAction) {
       this.codeContent[type].language = language ?? defaultState.codeContent[type].language;
     },
+    setCodeTemplate(template: CodeTemplate) {
+      this.codeTemplate = template;
+    }
   },
 });

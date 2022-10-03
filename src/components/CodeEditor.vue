@@ -12,7 +12,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const codeEditor = ref();
-const { codeContent } = storeToRefs(useCodeContentStore());
+const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());
 const language = computed(() => codeContent.value[props.model].language);
 const resizeEditor = debounce(() => monacoEditor.editor?.layout(), 100);
 const resizeObserver = new ResizeObserver(entries => {
@@ -34,8 +34,8 @@ function initEditor() {
   resizeObserver.observe(codeEditor.value.parentNode);
 }
 
-watch(language, (language) => {
-  const { content } = codeContent.value[props.model];
+watch([language, codeTemplate], () => {
+  const { content, language } = codeContent.value[props.model];
   updateEditorModel(content, language);
 });
 

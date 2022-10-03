@@ -19,7 +19,7 @@ async function runCode(content: CodeContent) {
   setLoading(false);
 }
 
-watch(codeContent, ({ HTML, CSS, JS, VUE }) => {
+watch(codeContent, ({ HTML, CSS, JS }) => {
   runCode({
     html: HTML.content,
     css: CSS.content,

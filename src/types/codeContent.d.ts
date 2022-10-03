@@ -4,7 +4,8 @@ export interface CodeContent {
   js: string;
 }
 
-export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';
+export type CodeModel = 'HTML' | 'CSS' | 'JS';
+export type CodeTemplate = 'ES6' | 'Vue' | 'React' | 'Angular';
 
 export interface CodeCompile {
   language: string;

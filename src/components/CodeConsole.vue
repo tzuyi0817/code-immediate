@@ -4,6 +4,7 @@ import {
   reactive,
   inject,
   Ref,
+  watch,
   onMounted,
   onBeforeUnmount,
   nextTick,
@@ -49,6 +50,7 @@ async function wrapScrollToBottom() {
   scroller.scrollTop = scroller.scrollHeight;
 }
 
+watch(() => props.isShowConsole, (isShow) => isShow && wrapScrollToBottom());
 onMounted(() => self.addEventListener('message', receiveMessage));
 onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 </script>

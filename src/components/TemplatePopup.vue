@@ -1,16 +1,23 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useCodeContentStore } from '@/store'; 
+import { TEMPLATE_MAP } from '@/config/template';
+import type { CodeTemplate } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowTemplatePop']);
-
-const templateList = [
-  { name: 'ES6', src: getImageSrc('../assets/templateIcon/es6.png') },
-  { name: 'React', src: getImageSrc('../assets/templateIcon/react.svg') },
-  { name: 'Vue2', src: getImageSrc('../assets/templateIcon/vue.svg') },
-  { name: 'Vue3', src: getImageSrc('../assets/templateIcon/vue.svg') },
+const { codeTemplate } = storeToRefs(useCodeContentStore())
+const templateList: { name: CodeTemplate; src: string; }[] = [
+  { name: 'ES6', src: getImageSrc('/templateIcon/es6.png') },
+  { name: 'React', src: getImageSrc('/templateIcon/react.svg') },
+  { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg') },
+  { name: 'Angular', src: getImageSrc('/templateIcon/angular.png') },
 ];
 
-function selectTemplate(name: string) {
-  console.log({ name });
+function selectTemplate(name: CodeTemplate) {
+  const { setCodeTemplate, setCodeMap } = useCodeContentStore();
+  setCodeTemplate(name);
+  setCodeMap(TEMPLATE_MAP[name]);
+  closePopup();
 }
 
 function getImageSrc(path: string) {
@@ -25,11 +32,15 @@ function closePopup() {
 <template>
   <div class="template_popup" @click.self="closePopup">
     <div class="template_popup_content">
-      <p class="font-bold text-gray-600">Common Templates</p>
+      <div class="flex justify-between items-center">
+        <p class="text-base font-bold text-gray-600">Common Templates</p>
+        <font-awesome-icon icon="fa-solid fa-xmark" @click="closePopup" />
+      </div>
       <ul>
         <li 
           v-for="template in templateList" 
-          :key="template.name" 
+          :key="template.name"
+          :class="{ active: codeTemplate === template.name }"
           @click="selectTemplate(template.name)"
         >
           <img :src="template.src" alt="" class="template_popup_content_icon">
@@ -58,7 +69,8 @@ function closePopup() {
     px-4
     pt-4
     pb-12
-    max-w-[80%]
+    w-[90%]
+    max-w-md
     rounded-md
     bg-white;
     &_icon {
@@ -71,17 +83,24 @@ function closePopup() {
       @apply
       flex
       flex-wrap
+      justify-center
       gap-2;
       li {
         @apply
         flex
         items-center
         justify-start
-        w-[145px]
+        w-[calc(50%-16px)]
         border-b-2
         border-gray-400
+        rounded-sm
         p-2
-        mt-5
+        mt-5;
+        &.active {
+          @apply 
+          bg-yellow-400/80
+          border-yellow-400/80;
+        }
       }
     }
   }
