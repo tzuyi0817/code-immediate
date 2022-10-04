@@ -1,7 +1,10 @@
 import {
+  VUE_HTML,
   VUE_CSS,
   VUE_JS,
   REACT_JS,
+  ANGULAR_HTML,
+  ANGULAR_JS,
 } from "@/config/defaultContent";
 import { useCodeContentStore } from '@/store'; 
 import type { CodeTemplate } from '@/types/codeContent';
@@ -26,7 +29,7 @@ export const TEMPLATE_MAP = {
   Vue: {
     HTML: {
       language: 'HTML',
-      content: '<div id="app">{{ message }}</div>',
+      content: VUE_HTML,
     },
     CSS: {
       language: 'CSS',
@@ -61,7 +64,24 @@ export const TEMPLATE_MAP = {
       ],
     },
   },
-  Angular: {},
+  Angular: {
+    HTML: {
+      language: 'HTML',
+      content: ANGULAR_HTML,
+    },
+    CSS: {
+      language: 'CSS',
+      content: '',
+      resources: []
+    },
+    JS: {
+      language: 'JavaScript',
+      content: ANGULAR_JS,
+      resources: [
+        'lib/angular@1.8.3.js',
+      ]
+    },
+  },
 };
 
 export function initTemplate() {

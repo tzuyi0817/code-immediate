@@ -6,17 +6,17 @@ import type { CodeTemplate } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowTemplatePop']);
 const { codeTemplate } = storeToRefs(useCodeContentStore())
-const templateList: { name: CodeTemplate; src: string; }[] = [
-  { name: 'ES6', src: getImageSrc('/templateIcon/es6.png') },
-  { name: 'React', src: getImageSrc('/templateIcon/react.svg') },
-  { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg') },
-  { name: 'Angular', src: getImageSrc('/templateIcon/angular.png') },
+const templateList: Record<string, string>[] = [
+  { name: 'ES6', src: getImageSrc('/templateIcon/es6.png'), version: '' },
+  { name: 'React', src: getImageSrc('/templateIcon/react.svg'), version: 'v18.2.0' },
+  { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.2.4' },
+  { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
 ];
 
-function selectTemplate(name: CodeTemplate) {
+function selectTemplate(name: string) {
   const { setCodeTemplate, setCodeMap } = useCodeContentStore();
   setCodeTemplate(name);
-  setCodeMap(TEMPLATE_MAP[name]);
+  setCodeMap(TEMPLATE_MAP[name as CodeTemplate]);
   closePopup();
 }
 
@@ -34,7 +34,11 @@ function closePopup() {
     <div class="template_popup_content">
       <div class="flex justify-between items-center">
         <p class="text-base font-bold text-gray-600">Common Templates</p>
-        <font-awesome-icon icon="fa-solid fa-xmark" @click="closePopup" />
+        <font-awesome-icon 
+          icon="fa-solid fa-xmark"
+          class="cursor-pointer"
+          @click="closePopup"
+        />
       </div>
       <ul>
         <li 
@@ -44,7 +48,10 @@ function closePopup() {
           @click="selectTemplate(template.name)"
         >
           <img :src="template.src" alt="" class="template_popup_content_icon">
-          <p>{{ template.name }}</p>
+          <div class="flex flex-col justify-center items-center">
+            <p>{{ template.name }}</p>
+            <span class="text-xs text-gray-500">{{ template.version }}</span>
+          </div>
         </li>
       </ul>
     </div>
@@ -88,14 +95,18 @@ function closePopup() {
       li {
         @apply
         flex
+        transition-all
+        duration-300
         items-center
         justify-start
         w-[calc(50%-16px)]
         border-b-2
         border-gray-400
         rounded-sm
+        cursor-pointer
         p-2
-        mt-5;
+        mt-5
+        hover:bg-gray-200;
         &.active {
           @apply 
           bg-yellow-400/80
