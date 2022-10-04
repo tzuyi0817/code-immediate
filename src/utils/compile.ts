@@ -1,6 +1,7 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
+import typescript from 'typescript';
 import { useCodeContentStore } from '@/store';
 import type { CodeContent, CodeCompile } from '@/types/codeContent';
 
@@ -16,10 +17,13 @@ export function compile(content: CodeContent): Promise<CodeContent> {
   return new Promise((resolve, reject) => {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
+        const { codeTemplate } = useCodeContentStore();
+        const scripType = codeTemplate === 'React' ? 'type="text/babel"' : '';
+
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `<script>${jsCode}</script>`,
+          js: `<script ${scripType}>${jsCode}<\/script>`,
         });
       })
       .catch(reject);
@@ -80,14 +84,18 @@ async function transformJs(jsContent = '') {
   const compile = {
     Babel() {
       const { code } = self.Babel.transform(jsContent, {
-        presets: ['env'],
+        presets: ['env', 'react'],
       });
       return code;
     },
     TypeScript() {
-      const { outputText } = self.ts.transpileModule(jsContent, {
+      const { ModuleKind, JsxEmit } = typescript;
+      const { outputText } = typescript.transpileModule(jsContent, {
         reportDiagnostics: true,
-        compilerOptions: { module: 'es2015' },
+        compilerOptions: {
+          module: ModuleKind.ESNext,
+          jsx: JsxEmit.Preserve,
+        },
       });
       return outputText;
     },

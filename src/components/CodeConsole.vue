@@ -19,12 +19,12 @@ const props = defineProps<Props>();
 const emit = defineEmits(['update:isShowConsole']);
 const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref();
-const iframe: Ref = inject('iframe')!;
+const iframe: Ref<HTMLIFrameElement> = inject('iframe')!;
 
 function implementJs(event: Event) {
   const { value } = event.target as HTMLTextAreaElement;
 
-  iframe.value.contentWindow.postMessage({
+  iframe.value.contentWindow?.postMessage({
     type: 'command',
     value: value.trim(),
   });

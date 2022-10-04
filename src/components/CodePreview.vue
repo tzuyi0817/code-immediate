@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, inject } from 'vue';
+import { ref, watch, inject, Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
@@ -7,7 +7,7 @@ import { createHtml } from '@/utils/createHtml';
 import type { CodeContent } from '@/types/codeContent';
 
 const srcdoc = ref('');
-const iframe = inject('iframe');
+const iframe: Ref<HTMLIFrameElement> = inject('iframe')!;
 const { codeContent } = storeToRefs(useCodeContentStore());
 const { setLoading } = useFlagStore();
 

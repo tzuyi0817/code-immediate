@@ -40,5 +40,5 @@ function assembleHtml(head: string, body: string) {
         ${body}
       </body>
     </html>
-  `.replace(/\r\n|\n\s+/g, '');
+  `;
 }

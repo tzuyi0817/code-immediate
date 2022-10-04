@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faPenFancy, faAngleDown, faSpinner, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
+import { initTemplate } from '@/config/template';
 import '@/style/index.css';
 import '@/style/tailwind.css';
 import App from '@/App.vue';
@@ -21,5 +22,6 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 (async function init() {
   loadParse('babel');
   await initMonacoEditor();
+  initTemplate();
   app.mount('#app');
 })();

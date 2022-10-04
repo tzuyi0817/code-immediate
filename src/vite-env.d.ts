@@ -16,6 +16,5 @@ declare interface Window {
   Sass: any;
   stylus: any;
   Babel: any;
-  ts: any;
   CoffeeScript: any;
 }

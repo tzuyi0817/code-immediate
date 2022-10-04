@@ -32,7 +32,7 @@ export default function useMonacoEditor() {
       const code = monacoEditor.editor?.getValue()!;
       const type = model;
       setCodeContent({ type, code });
-    }, 1000));
+    }, 1500));
 
     monacoEditor.editor.onDidBlurEditorText(debounce(() => {
       console.log('onDidBlurEditorText');
@@ -43,9 +43,9 @@ export default function useMonacoEditor() {
 
   async function updateEditorModel(code: string, language: string) {
     language = language.toLowerCase();
-    const model = monaco.editor.createModel(code, language);
-    const oldModel = monacoEditor.editor?.getModel();
     const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
+    const model = monaco.editor.createModel(code, languageType);
+    const oldModel = monacoEditor.editor?.getModel();
     const grammars = new Map([[languageType, GRAMMARS_MAP.get(languageType)!]]);
 
     monacoEditor.editor?.setModel(model);

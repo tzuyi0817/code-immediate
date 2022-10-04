@@ -9,13 +9,29 @@ export const VUE_CSS = `#app {
   overflow-x: auto;
 }`;
 
-export const VUE_JS = `const { createApp } = Vue;
+export const VUE_JS = `const { createApp, ref } = Vue;
 
 createApp({
   setup() {
-    const message = 'Hello Vue!';
+    const message = ref('Hello Vue!');
 
     return { message };
   },
 }).mount('#app');
+`;
+
+
+export const REACT_JS = `const rootDom = document.getElementById('root');
+const root = ReactDOM.createRoot(rootDom);
+const { useState } = React;
+
+function App(props) {
+  const [message, setMessage] = useState('Hello React!');
+
+  return (
+    <h1>{message}</h1>
+  );
+}
+
+root.render(<App />);
 `;

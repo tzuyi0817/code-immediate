@@ -1,7 +1,10 @@
 import {
   VUE_CSS,
   VUE_JS,
+  REACT_JS,
 } from "@/config/defaultContent";
+import { useCodeContentStore } from '@/store'; 
+import type { CodeTemplate } from '@/types/codeContent';
 
 export const TEMPLATE_MAP = {
   ES6: {
@@ -38,6 +41,30 @@ export const TEMPLATE_MAP = {
       ],
     },
   },
-  React: {},
+  React: {
+    HTML: {
+      language: 'HTML',
+      content: '<div id="root"></div>',
+    },
+    CSS: {
+      language: 'CSS',
+      content: '',
+      resources: [],
+    },
+    JS: {
+      language: 'JavaScript',
+      content: REACT_JS,
+      resources: [
+        'lib/react@18.2.0.js',
+        'lib/react-dom@18.2.0.js',
+        'parses/babel.js',
+      ],
+    },
+  },
   Angular: {},
 };
+
+export function initTemplate() {
+  const { codeTemplate, setCodeMap } = useCodeContentStore();
+  setCodeMap(TEMPLATE_MAP[codeTemplate as CodeTemplate]);
+}

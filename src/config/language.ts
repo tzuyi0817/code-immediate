@@ -18,7 +18,7 @@ export const CSS_LANGUAGE_MAP = {
 export const JS_LANGUAGE_MAP = {
   JavaScript: 'javascript',
   Babel: 'babel',
-  TypeScript: 'typescript',
+  TypeScript: '',
   CoffeeScript: 'coffeescript',
   LiveScript: 'livescript',
 };
