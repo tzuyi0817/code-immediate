@@ -37,8 +37,6 @@ export default function useMonacoEditor() {
     monacoEditor.editor.onDidBlurEditorText(debounce(() => {
       console.log('onDidBlurEditorText');
     }));
-
-    console.log(monacoEditor);
   }
 
   async function updateEditorModel(code: string, language: string) {

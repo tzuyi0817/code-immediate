@@ -3,7 +3,8 @@ import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
 import typescript from 'typescript';
 import { useCodeContentStore } from '@/store';
-import type { CodeContent, CodeCompile } from '@/types/codeContent';
+import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
+import type { CodeContent, CodeCompile, CodeTemplate } from '@/types/codeContent';
 
 let sass: any = null;
 let showdown: any = null;
@@ -18,12 +19,12 @@ export function compile(content: CodeContent): Promise<CodeContent> {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
         const { codeTemplate } = useCodeContentStore();
-        const scripType = codeTemplate === 'React' ? 'type="text/babel"' : '';
+        const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
 
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `<script ${scripType}>${jsCode}<\/script>`,
+          js: `<script ${scriptType}>${jsCode}<\/script>`,
         });
       })
       .catch(reject);
@@ -48,7 +49,7 @@ function transformHtml(htmlContent = '') {
   return catchCompile({ language, compile, content: htmlContent });
 }
 
-function transformCss(cssContent = '') {
+export function transformCss(cssContent = '', specify = '') {
   const { codeContent: { CSS: { language } } } = useCodeContentStore();
   const compile = {
     async Less() {
@@ -76,7 +77,11 @@ function transformCss(cssContent = '') {
       return css;
     },
   };
-  return catchCompile({ language, compile, content: cssContent });
+  return catchCompile({
+    language: specify || language,
+    compile,
+    content: cssContent,
+  });
 }
 
 async function transformJs(jsContent = '') {

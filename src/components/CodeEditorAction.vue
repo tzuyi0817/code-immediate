@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParse } from '@/utils/loadParse';
 import {
@@ -20,6 +21,7 @@ const emit = defineEmits([
   'update:currentAction',
 ]);
 
+const { isSFC } = storeToRefs(useCodeContentStore());
 const languageMap = computed(() => {
   const map = {
     HTML: HTML_LANGUAGE_MAP,
@@ -56,18 +58,26 @@ async function changeLanguage(event: Event) {
 <template>
 <div class="code_editor_action">
   <div class="code_editor_action_left">
-    <button 
-      :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
-      @click="emit('update:currentAction', 'HTML')"
-    >HTML</button>
     <button
-      :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
-      @click="emit('update:currentAction', 'CSS')"
-    >CSS</button>
-    <button
-      :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
-      @click="emit('update:currentAction', 'JS')"
-    >JS</button>
+      v-if="isSFC"
+      :class="['btn_select', 'btn_select-active']"
+    >VUE</button>
+
+    <template v-else>
+      <button 
+        :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
+        @click="emit('update:currentAction', 'HTML')"
+      >HTML</button>
+      <button
+        :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
+        @click="emit('update:currentAction', 'CSS')"
+      >CSS</button>
+      <button
+        :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
+        @click="emit('update:currentAction', 'JS')"
+      >JS</button>
+    </template>
+
     <button
       :class="['btn_select', { 'btn_select-active': isShowPreview }]"
       @click="emit('update:isShowPreview', !isShowPreview)"
@@ -75,7 +85,12 @@ async function changeLanguage(event: Event) {
   </div>
 
   <div class="code_editor_action_right">
-    <select class="select select_border" @change="changeLanguage" :value="selected">
+    <select
+      v-if="!isSFC"
+      class="select select_border"
+      @change="changeLanguage"
+      :value="selected"
+    >
       <option
         v-for="(_, language) in languageMap"
         :value="language"

@@ -17,6 +17,7 @@ export async function initMonacoEditor() {
   monaco.languages.register({ id: 'stylus' });
   monaco.languages.register({ id: 'postcss' });
   monaco.languages.register({ id: 'livescript' });
+  monaco.languages.register({ id: 'vue' });
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
@@ -108,6 +109,10 @@ export function registry() {
         'source.cpp.embedded.macro': 'cpp.embedded.macro.tmLanguage.json',
         'source.glsl': 'GLSL.tmLanguage',
         'source.applescript': 'applescript.tmLanguage.json',
+        'source.vue': 'vue.tmLanguage.json',
+        'source.graphql': 'GraphQL.tmLanguage',
+        'source.js.jsx': 'JavaScript (JSX).tmLanguage',
+        'source.toml': 'TOML.tmLanguage',
       };
       const source = scopeNameMap[scopeName as keyof typeof scopeNameMap];
       const plist = [
@@ -125,6 +130,9 @@ export function registry() {
         'source.x86_64',
         'source.arm',
         'source.glsl',
+        'source.graphql',
+        'source.js.jsx',
+        'source.toml',
         'text.haml',
         'text.html.javadoc',
         'text.html.textile',
@@ -154,6 +162,7 @@ export const GRAMMARS_MAP = new Map([
   ['typescript', 'source.ts'],
   ['coffeescript', 'source.coffee'],
   ['livescript', 'source.livescript'],
+  ['vue', 'source.vue'],
 ]);
 
 export const COMMON_GRAMMARS_MAP = {

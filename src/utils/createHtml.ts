@@ -20,8 +20,10 @@ function createBody(html: string, js: string) {
   const jsResources = JS.resources.reduce((html: string, resource: string) => {
     return html + `<script src="${resource}"><\/script>\n`;
   }, '');
+  const esmImport = JS.import ?? '';
 
   return `
+    ${esmImport}
     ${jsResources}
     ${html}
     ${js}

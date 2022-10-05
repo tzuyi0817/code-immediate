@@ -2,6 +2,8 @@ import {
   VUE_HTML,
   VUE_CSS,
   VUE_JS,
+  VUE_SFC_IMPORT,
+  VUE_SFC_CONTENT,
   REACT_JS,
   ANGULAR_HTML,
   ANGULAR_JS,
@@ -23,7 +25,12 @@ export const TEMPLATE_MAP = {
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: []
+      resources: [],
+      import: '',
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
     },
   },
   Vue: {
@@ -42,6 +49,32 @@ export const TEMPLATE_MAP = {
       resources: [
         'lib/vue@3.2.40.global.js',
       ],
+      import: '',
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
+    },
+  },
+  VueSFC: {
+    HTML: {
+      language: 'HTML',
+      content: '',
+    },
+    CSS: {
+      language: 'CSS',
+      content: '',
+      resources: [],
+    },
+    JS: {
+      language: 'JavaScript',
+      content: '',
+      resources: [],
+      import: VUE_SFC_IMPORT,
+    },
+    VUE: {
+      language: 'Vue',
+      content: VUE_SFC_CONTENT,
     },
   },
   React: {
@@ -62,6 +95,11 @@ export const TEMPLATE_MAP = {
         'lib/react-dom@18.2.0.js',
         'parses/babel.js',
       ],
+      import: '',
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
     },
   },
   Angular: {
@@ -79,7 +117,12 @@ export const TEMPLATE_MAP = {
       content: ANGULAR_JS,
       resources: [
         'lib/angular@1.8.3.js',
-      ]
+      ],
+      import: '',
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
     },
   },
 };

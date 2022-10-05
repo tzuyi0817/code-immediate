@@ -2,10 +2,11 @@ export interface CodeContent {
   html: string;
   css: string;
   js: string;
+  vue?: string;
 }
 
-export type CodeModel = 'HTML' | 'CSS' | 'JS';
-export type CodeTemplate = 'ES6' | 'Vue' | 'React' | 'Angular';
+export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';
+export type CodeTemplate = 'ES6' | 'Vue' | 'VueSFC' | 'React' | 'Angular';
 
 export interface CodeCompile {
   language: string;

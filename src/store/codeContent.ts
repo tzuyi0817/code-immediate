@@ -16,7 +16,12 @@ const defaultState = {
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: []
+      resources: [],
+      import: '',
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
     },
   },
   codeTemplate: 'ES6',
@@ -31,6 +36,9 @@ interface ContentAction {
 
 export default defineStore('codeContent', {
   state: () => deepClone(defaultState),
+  getters: {
+    isSFC: (state) => state.codeTemplate === 'VueSFC',
+  },
   actions: {
     setCodeMap(map: CodeMap) {
       this.codeContent = { ...this.codeContent, ...map };

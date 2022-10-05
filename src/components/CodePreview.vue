@@ -3,27 +3,30 @@ import { ref, watch, inject, Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
+import { compileSfc } from '@/utils/compileSfc';
 import { createHtml } from '@/utils/createHtml';
 import type { CodeContent } from '@/types/codeContent';
 
 const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> = inject('iframe')!;
-const { codeContent } = storeToRefs(useCodeContentStore());
+const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { setLoading } = useFlagStore();
 
 async function runCode(content: CodeContent) {
   setLoading(true);
-  const compileResult = await compile(content)
+  const compileFun = isSFC.value ? compileSfc : compile;
+  const compileResult = await compileFun(content)
     .catch(error => { throw Error(error) });
   srcdoc.value = createHtml(compileResult);
   setLoading(false);
 }
 
-watch(codeContent, ({ HTML, CSS, JS }) => {
+watch(codeContent, ({ HTML, CSS, JS, VUE }) => {
   runCode({
     html: HTML.content,
     css: CSS.content,
     js: JS.content,
+    vue: VUE.content,
   });
 }, { deep: true , immediate: true });
 </script>

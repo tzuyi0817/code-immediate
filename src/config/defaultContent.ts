@@ -26,6 +26,38 @@ createApp({
 }).mount('#app');
 `;
 
+export const VUE_SFC_IMPORT = `<script type="importmap">
+  {
+    "imports": {
+      "vue": "lib/vue@3.2.40.esm-browser.js"
+    }
+  }
+</script>`;
+
+export const VUE_SFC_CONTENT = `<script setup>
+import { ref, createApp } from 'vue';
+
+const message = ref('Hello Vue!');
+</script>
+
+<template>
+  <h1>{{ message }}</h1>
+  <input type="text" v-model="message" />
+</template>
+
+<style lang="css">
+#app {
+  font-family: sans-serif;
+  border: 1px solid #eee;
+  border-radius: 2px;
+  padding: 20px 30px;
+  margin-top: 1em;
+  margin-bottom: 40px;
+  user-select: none;
+  overflow-x: auto;
+}
+</style>`;
+
 
 export const REACT_JS = `const rootDom = document.getElementById('root');
 const root = ReactDOM.createRoot(rootDom);

@@ -10,6 +10,7 @@ const templateList: Record<string, string>[] = [
   { name: 'ES6', src: getImageSrc('/templateIcon/es6.png'), version: '' },
   { name: 'React', src: getImageSrc('/templateIcon/react.svg'), version: 'v18.2.0' },
   { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.2.4' },
+  { name: 'VueSFC', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.2.4' },
   { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
 ];
 
