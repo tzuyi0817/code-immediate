@@ -2,7 +2,6 @@ import {
   VUE_HTML,
   VUE_CSS,
   VUE_JS,
-  VUE_SFC_IMPORT,
   VUE_SFC_CONTENT,
   REACT_JS,
   ANGULAR_HTML,
@@ -70,7 +69,7 @@ export const TEMPLATE_MAP = {
       language: 'JavaScript',
       content: '',
       resources: [],
-      import: VUE_SFC_IMPORT,
+      import: '',
     },
     VUE: {
       language: 'Vue',

@@ -49,7 +49,7 @@ function transformHtml(htmlContent = '') {
   return catchCompile({ language, compile, content: htmlContent });
 }
 
-export function transformCss(cssContent = '', specify = '') {
+export function transformCss(cssContent = '') {
   const { codeContent: { CSS: { language } } } = useCodeContentStore();
   const compile = {
     async Less() {
@@ -78,7 +78,7 @@ export function transformCss(cssContent = '', specify = '') {
     },
   };
   return catchCompile({
-    language: specify || language,
+    language,
     compile,
     content: cssContent,
   });

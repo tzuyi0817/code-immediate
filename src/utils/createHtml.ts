@@ -8,10 +8,17 @@ export function createHtml({ html, css, js }: CodeContent) {
 }
 
 function createHead(css: string) {
+  const { codeContent: { JS } } = useCodeContentStore();
+  const esmImport = JS.import ? `
+    <script async src="lib/es-module-shims@1.5.5.js"><\/script>
+    ${JS.import}
+  ` : '';
+
   return `
     <title>code Demo<\/title>
     <style type="text/css">${css}<\/style>
     <script type="text/javascript" src="message/index.js"><\/script>
+    ${esmImport}
   `;
 }
 
@@ -20,10 +27,8 @@ function createBody(html: string, js: string) {
   const jsResources = JS.resources.reduce((html: string, resource: string) => {
     return html + `<script src="${resource}"><\/script>\n`;
   }, '');
-  const esmImport = JS.import ?? '';
 
   return `
-    ${esmImport}
     ${jsResources}
     ${html}
     ${js}

@@ -26,16 +26,8 @@ createApp({
 }).mount('#app');
 `;
 
-export const VUE_SFC_IMPORT = `<script type="importmap">
-  {
-    "imports": {
-      "vue": "lib/vue@3.2.40.esm-browser.js"
-    }
-  }
-</script>`;
-
 export const VUE_SFC_CONTENT = `<script setup>
-import { ref, createApp } from 'vue';
+import { ref } from 'vue';
 
 const message = ref('Hello Vue!');
 </script>
