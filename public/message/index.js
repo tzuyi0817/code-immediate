@@ -25,6 +25,7 @@
           console.error(error);
         }
       },
+      throwError: () => console.error(value),
     };
     typeMap[type]();
   });

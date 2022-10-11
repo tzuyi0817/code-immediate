@@ -16,7 +16,14 @@ async function runCode(content: CodeContent) {
   setLoading(true);
   const compileFun = isSFC.value ? compileSfc : compile;
   const compileResult = await compileFun(content)
-    .catch(error => { throw Error(error) });
+    .catch((error: Error) => {
+      iframe.value.contentWindow?.postMessage({
+        type: 'throwError',
+        value: error.message,
+      });
+      setLoading(false);
+      throw error;
+    });
   srcdoc.value = createHtml(compileResult);
   setLoading(false);
 }

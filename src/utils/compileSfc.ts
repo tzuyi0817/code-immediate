@@ -1,15 +1,16 @@
 import {
   parse,
   compileScript,
-  compileStyle,
   compileTemplate,
   SFCDescriptor,
   SFCStyleBlock,
-  SFCStyleCompileOptions,
   SFCTemplateCompileOptions,
 } from 'vue/compiler-sfc';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { TEMPLATE_MAP } from '@/config/template';
+import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
+import { transformHtml, transformCss, transformJs } from '@/utils/compile';
+import { loadParse } from '@/utils/loadParse';
 import type { CodeContent } from '@/types/codeContent';
 
 interface RawSourceMap {
@@ -52,36 +53,46 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
   const scopeId = `data-v-${Date.now().toString().slice(-6)}`;
   const isScoped = styles.some(style => style.scoped);
   const compileTemplateOptions = template ? {
-    source: template.content,
+    source: await compileHtml(template.content, template?.lang),
     filename,
     id: scopeId,
     scoped: isScoped,
     slotted,
-    preprocessLang: template?.lang,
     compilerOptions: {
       scopeId: isScoped ? scopeId : undefined,
       mode: 'module',
     },
   } : undefined;
 
-  const cssCode = compileCss(styles, scopeId);
-  // @ts-ignore
-  const jsCode = compileJs(descriptor, scopeId, compileTemplateOptions);
-
-  return {
-    html: '<div id="app"></div>',
-    css: cssCode,
-    js: jsCode,
-  }
+  return new Promise((resolve, reject) => {
+    Promise.all([
+      compileCss(styles),
+      // @ts-ignore
+      compileJs(descriptor, scopeId, compileTemplateOptions),
+    ]).then(([css, js]) => {
+      resolve({
+        html: '<div id="app"></div>',
+        css,
+        js,
+      })
+    }).catch(reject);
+  });
 }
 
-function compileJs(
+async function compileHtml(content: string, lang: string | undefined) {
+  const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
+  const source = HTML_LANGUAGE_MAP[language as keyof typeof HTML_LANGUAGE_MAP];
+  source && await loadParse(source);
+  return await transformHtml(content, language);
+}
+
+async function compileJs(
   descriptor: SFCDescriptor,
   scopeId: string,
   compileTemplateOptions: SFCTemplateCompileOptions | undefined,
 ) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
-  const renderScript = transformSfc(descriptor, scopeId, compileTemplateOptions);
+  const renderScript = await transformSfc(descriptor, scopeId, compileTemplateOptions);
   const renderUrl = getBlobURL(renderScript);
   const importMap = {
     imports: {
@@ -100,21 +111,27 @@ function compileJs(
   `;
 }
 
-function compileCss(styles: SFCStyleBlock[], scopeId: string) {
-  return styles.reduce((result, style) => {
-    const { content, scoped, map, lang } = style;
-    const { code } = compileStyle({
-      id: scopeId,
-      source: content,
-      scoped,
-      filename: map!.file!,
-      preprocessLang: lang as SFCStyleCompileOptions['preprocessLang'],
-    });
-    return result += `${code}\r\n`;
-  }, '');
+function compileCss(styles: SFCStyleBlock[]): Promise<string> {
+  const parseCss = async (source: string, code: string, language: string) => {
+    source && await loadParse(source);
+    return await transformCss(code, language);
+  };
+  const css = styles.reduce((result: Promise<string>[], style) => {
+    const { content, lang } = style;
+    const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
+    const source = CSS_LANGUAGE_MAP[language as keyof typeof CSS_LANGUAGE_MAP];
+    result.push(parseCss(source, content, language));
+    return result;
+  }, []);
+
+  return new Promise((resolve, reject) => {
+    Promise.all(css)
+      .then((...args) => resolve(args.join('\r\n')))
+      .catch(reject);
+  });
 }
 
-function transformSfc(
+async function transformSfc(
   descriptor: SFCDescriptor,
   scopeId: string,
   compileTemplateOptions: SFCTemplateCompileOptions | undefined,
@@ -127,11 +144,17 @@ function transformSfc(
     sourceMap: true,
   });
 
-  if (template?.map)
+  if (template?.map) {
     template.code = `${template.code}\n${(sourceMappingURL(template.map))}`;
-  if (scriptBlock.map)
-    scriptBlock.content = `${scriptBlock.content}\n${sourceMappingURL(scriptBlock.map)}`;
-    console.log({ scriptBlock, template })
+  }
+
+  if (scriptBlock.map) {
+    const { lang, map, content } = scriptBlock;
+    const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
+    const code = await transformJs(content, language);
+    scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
+  }
+
   return `
     import script from '${getBlobURL(scriptBlock.content)}';
     import { render } from '${getBlobURL(template?.code ?? '')}';
@@ -143,11 +166,11 @@ function transformSfc(
 }
 
 function getBlobURL(jsCode: string) {
-  const blob = new Blob([jsCode], {type: 'text/javascript'});
+  const blob = new Blob([jsCode], { type: 'text/javascript' });
   const blobURL = URL.createObjectURL(blob);
   return blobURL;
 }
 
 function sourceMappingURL(map: RawSourceMap) {
-  return `//# sourceMappingURL=data:application/json;base64,${btoa(JSON.stringify(map))}`;
+  return `//# sourceMappingURL=data:application/json;base64,${self.btoa(JSON.stringify(map))}`;
 }

@@ -1,5 +1,5 @@
 export const HTML_LANGUAGE_MAP = {
-  HTML: 'html',
+  HTML: '',
   Haml: 'haml',
   Markdown: 'markdown',
   // Slim: 'slim',
@@ -7,7 +7,7 @@ export const HTML_LANGUAGE_MAP = {
 };
 
 export const CSS_LANGUAGE_MAP = {
-  CSS: 'css',
+  CSS: '',
   Less: 'less',
   SCSS: 'scss',
   Sass: 'scss',
@@ -16,9 +16,21 @@ export const CSS_LANGUAGE_MAP = {
 };
 
 export const JS_LANGUAGE_MAP = {
-  JavaScript: 'javascript',
+  JavaScript: '',
   Babel: 'babel',
   TypeScript: '',
   CoffeeScript: 'coffeescript',
   LiveScript: 'livescript',
+};
+
+export const VUE_LANGUAGE_MAP = {
+  haml: 'Haml',
+  markdown: 'Markdown',
+  pug: 'Pug',
+  less: 'Less',
+  scss: 'SCSS',
+  sass: 'Sass',
+  stylus: 'Stylus',
+  postcss: 'PostCSS',
+  ts: 'TypeScript',
 };

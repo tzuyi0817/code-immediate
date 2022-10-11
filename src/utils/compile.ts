@@ -11,9 +11,10 @@ let showdown: any = null;
 
 export function compile(content: CodeContent): Promise<CodeContent> {
   const { html, css, js } = content;
-  const htmlPromise = transformHtml(html);
-  const cssPromise = transformCss(css);
-  const jsPromise = transformJs(js);
+  const { codeContent: { HTML, CSS, JS } } = useCodeContentStore();
+  const htmlPromise = transformHtml(html, HTML.language);
+  const cssPromise = transformCss(css, CSS.language);
+  const jsPromise = transformJs(js, JS.language);
 
   return new Promise((resolve, reject) => {
     Promise.all([htmlPromise, cssPromise, jsPromise])
@@ -31,8 +32,7 @@ export function compile(content: CodeContent): Promise<CodeContent> {
   })
 }
 
-function transformHtml(htmlContent = '') {
-  const { codeContent: { HTML: { language } } } = useCodeContentStore();
+export function transformHtml(htmlContent = '', language = '') {
   const compile = {
     Haml() {
       return self.Haml.render(htmlContent);
@@ -49,8 +49,7 @@ function transformHtml(htmlContent = '') {
   return catchCompile({ language, compile, content: htmlContent });
 }
 
-export function transformCss(cssContent = '') {
-  const { codeContent: { CSS: { language } } } = useCodeContentStore();
+export function transformCss(cssContent = '', language = '') {
   const compile = {
     async Less() {
       const { css }: { css: string } = await self.less.render(cssContent)
@@ -84,8 +83,7 @@ export function transformCss(cssContent = '') {
   });
 }
 
-async function transformJs(jsContent = '') {
-  const { codeContent: { JS: { language } } } = useCodeContentStore();
+export async function transformJs(jsContent = '', language = '') {
   const compile = {
     Babel() {
       const { code } = self.Babel.transform(jsContent, {
