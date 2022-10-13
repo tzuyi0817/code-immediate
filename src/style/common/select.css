@@ -5,7 +5,7 @@
     @apply
     text-xs
     p-[2px]
-    rounded-sm
+    rounded-sm;
   }
 
   .select_base {

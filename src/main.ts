@@ -2,7 +2,15 @@ import { createApp } from 'vue';
 import { createPinia } from "pinia";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faPenFancy, faAngleDown, faSpinner, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPenFancy,
+  faAngleDown,
+  faSpinner,
+  faCheck,
+  faXmark,
+  faGear,
+  faFireFlameSimple,
+} from '@fortawesome/free-solid-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
 import { initTemplate } from '@/config/template';
@@ -14,7 +22,15 @@ import router from '@/router';
 const pinia = createPinia();
 const app = createApp(App);
 
-library.add(faPenFancy, faAngleDown, faSpinner, faCheck, faXmark);
+library.add(
+  faPenFancy,
+  faAngleDown,
+  faSpinner,
+  faCheck,
+  faXmark,
+  faGear,
+  faFireFlameSimple
+);
 app.use(pinia);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

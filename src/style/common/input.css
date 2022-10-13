@@ -1,0 +1,15 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .input {
+    @apply
+    text-sm
+    text-gray-600
+    border-gray-400
+    border-2
+    p-2
+    w-full
+    rounded-md
+    focus:outline-yellow-400/80;
+  }
+}

@@ -8,7 +8,7 @@ import { createHtml } from '@/utils/createHtml';
 import type { CodeContent } from '@/types/codeContent';
 
 const srcdoc = ref('');
-const iframe: Ref<HTMLIFrameElement> = inject('iframe')!;
+const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { setLoading } = useFlagStore();
 
@@ -17,7 +17,7 @@ async function runCode(content: CodeContent) {
   const compileFun = isSFC.value ? compileSfc : compile;
   const compileResult = await compileFun(content)
     .catch((error: Error) => {
-      iframe.value.contentWindow?.postMessage({
+      iframe?.value.contentWindow?.postMessage({
         type: 'throwError',
         value: error.message,
       });
