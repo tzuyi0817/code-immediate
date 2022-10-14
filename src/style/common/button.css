@@ -8,13 +8,22 @@
     items-center
     p-2
     flex
-    text-xs;
+    text-xs
+    cursor-pointer
   }
 
   .btn_base {
     @apply
     text-white
-    bg-gray-600;
+    bg-gray-600
+    hover:brightness-125;
+  }
+
+  .btn_yellow {
+    @apply
+    text-white
+    bg-yellow-400/80
+    hover:brightness-105;
   }
 
   .btn_select {
@@ -23,7 +32,9 @@
     bg-gray-700/50
     text-xs
     px-3
-    py-2;
+    py-2
+    cursor-pointer
+    hover:brightness-125;
     &-active {
       @apply bg-gray-600
     }

@@ -10,6 +10,7 @@ import {
   faXmark,
   faGear,
   faFireFlameSimple,
+  faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
@@ -29,7 +30,8 @@ library.add(
   faCheck,
   faXmark,
   faGear,
-  faFireFlameSimple
+  faFireFlameSimple,
+  faMagnifyingGlass,
 );
 app.use(pinia);
 app.use(router);

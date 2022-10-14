@@ -34,7 +34,7 @@ function closePopup() {
   <div class="template_popup popup" @click.self="closePopup">
     <div class="popup_content">
       <div class="flex justify-between items-center">
-        <p class="text-base font-bold text-gray-600">Common Templates</p>
+        <h3>Common Templates</h3>
         <font-awesome-icon 
           icon="fa-solid fa-xmark"
           class="cursor-pointer"
@@ -72,6 +72,7 @@ function closePopup() {
     flex
     flex-wrap
     justify-center
+    pb-4
     gap-2;
     li {
       @apply

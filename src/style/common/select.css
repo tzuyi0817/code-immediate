@@ -5,6 +5,8 @@
     @apply
     text-xs
     p-[2px]
+    cursor-pointer
+    hover:brightness-125
     rounded-sm;
   }
 

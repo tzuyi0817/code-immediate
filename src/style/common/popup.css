@@ -16,11 +16,10 @@
     &_content {
       @apply
       px-4
-      pt-4
-      pb-12
+      py-4
       w-[90%]
       max-w-md
-      max-h-[70vh]
+      max-h-[60vh]
       rounded-md
       bg-white;
     }

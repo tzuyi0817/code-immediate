@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { deepClone } from '@/utils/common';
 import type { CodeModel, CodeTemplate } from '@/types/codeContent';
+import type { CdnItem } from '@/types/cdn';
 
 const defaultState = {
   codeContent: {
@@ -32,6 +33,7 @@ interface ContentAction {
   type: CodeModel;
   code?: string;
   language?: string;
+  resources?: CdnItem[];
 }
 
 export default defineStore('codeContent', {
@@ -48,6 +50,9 @@ export default defineStore('codeContent', {
     },
     setCodeLanguage({ type, language }: ContentAction) {
       this.codeContent[type].language = language ?? defaultState.codeContent[type].language;
+    },
+    setCodeResource({ type, resources }: ContentAction) {
+      this.codeContent[type].resources = resources ?? [];
     },
     setCodeTemplate(template: CodeTemplate) {
       this.codeTemplate = template;
