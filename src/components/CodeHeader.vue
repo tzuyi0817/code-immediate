@@ -34,7 +34,7 @@ function toggleTemplatePop() {
     </div>
 
     <SettingsPopup
-      v-show="isShowSettingsPop"
+      v-if="isShowSettingsPop"
       v-model:isShowSettingsPop="isShowSettingsPop"
     />
     <TemplatePopup 

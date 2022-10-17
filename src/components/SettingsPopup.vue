@@ -1,74 +1,25 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
+import algoliasearch from 'algoliasearch';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
 import type { CdnItem } from '@/types/cdn';
 
+type SelectName = 'CSS' | 'JS';
+
 const emit = defineEmits(['update:isShowSettingsPop']);
-const currentSelect = ref('CSS');
+const currentSelect = ref<SelectName>('CSS');
 const keyword = ref('');
 const cdnList = ref<CdnItem[]>([]);
-
-const fakeCdn = [
-  {
-    description: "ssi-modal is the most flexible and powerful modal window.",
-    fileType: "js",
-    filename: "js/ssi-modal.min.js",
-    name: "ssi-modal",
-    objectID: "ssi-modal",
-    version: "1.0.28",
-  },
-  {
-    description: "Manage HTML metadata in Vue.js components with ssr support",
-    fileType: "js",
-    filename: "js/contact-form.min.js",
-    name: "bootstrap3-contact-form",
-    objectID: "bootstrap3-contact-form",
-    version: "1.4.1",
-  },
-  {
-    description: "Quickly integrate Bootstrap 4 components with Vue.js",
-    fileType: "js",
-    filename: "bootstrap-vue.min.js",
-    name: "bootstrap-vue",
-    objectID: "bootstrap-vue",
-    version: "2.22.0",
-  },
-  {
-    description: "JavaScript implementations of network transports, cryptography, ciphers, PKI, message digests, and various utilities.",
-    fileType: "js",
-    filename: "forge.min.js",
-    name: "forge",
-    objectID: "forge",
-    version: "1.3.1",
-  },
-  {
-    description: "A polyfill for http://www.w3.org/TR/eventsource/",
-    fileType: "js",
-    filename: "eventsource.min.js",
-    name: "event-source-polyfill",
-    objectID: "event-source-polyfill",
-    version: "0.0.9",
-  },
-  {
-    description: "Bootstrap 3 components implemented by Vue 2.",
-    fileType: "js",
-    filename: "Btn.min.js",
-    name: "uiv",
-    objectID: "uiv",
-    version: "2.0.4",
-  },
-  {
-    description: "Portal client for Node.js",
-    fileType: "js",
-    filename: "portal.min.js",
-    name: "portal",
-    objectID: "portal",
-    version: "1.1.1",
-  },
-];
-
-const tabList = [
+const isSearch = ref(false);
+const cdnResources = reactive({
+  CSS: [] as CdnItem['latest'][],
+  JS: [] as CdnItem['latest'][],
+});
+const { VITE_APPLICATION_ID, VITE_ADMIN_API_Key } = import.meta.env;
+const client = algoliasearch(VITE_APPLICATION_ID, VITE_ADMIN_API_Key);
+const index = client.initIndex('code-immediate');
+const tabList: { name: SelectName, title: string, description: string }[] = [
   {
     name: 'CSS',
     title: 'Add External Stylesheets',
@@ -82,40 +33,51 @@ const tabList = [
 ];
 
 const selectTabItem = computed(() => tabList.find(({ name }) => currentSelect.value === name));
-const cdnResources = computed(() => {
-  const { codeContent } = useCodeContentStore();
-  return codeContent[currentSelect.value].resources;
-});
 const keywordHandler = debounce(searchCdn);
 
-function changeSelect(name: string) {
+function changeSelect(name: SelectName) {
+  keyword.value = '';
+  cdnList.value = [];
   currentSelect.value = name;
 }
 
 function setCdn() {
-  // 'https://cdnjs.cloudflare.com/ajax/libs/'
-  console.log('setCdn!!!!!!!!');
+  const { setCodeResource } = useCodeContentStore();
+
+  setCodeResource({
+    type: currentSelect.value,
+    resources: [...new Set([...cdnResources[currentSelect.value]])],
+  });
+  closePopup();
 }
 
 function addCdn(cdn: CdnItem) {
-  const { setCodeResource } = useCodeContentStore();
+  const resources = cdnResources[currentSelect.value];
+  const { latest } = cdn;
 
   keyword.value = '';
   cdnList.value = [];
-  setCodeResource({
-    type: currentSelect.value,
-    resources: [...new Set([...cdnResources.value, cdn])],
-  });
+  if (resources.includes(latest)) return;
+  cdnResources[currentSelect.value].push(latest);
 };
 
 function deleteCdn(index: number) {
-  cdnResources.value.splice(index, 1);
+  cdnResources[currentSelect.value].splice(index, 1);
 }
 
 function searchCdn(word: string) {
-  cdnList.value = word === ''
-    ? []
-    : fakeCdn.filter(({ name }) => name.includes(word));
+  if (word === '') return cdnList.value = [];
+  isSearch.value = true;
+  index
+    .search(word)
+    .then(({ hits }) => {
+      cdnList.value = (hits as CdnItem[]).filter(({ fileType }) => fileType === currentSelect.value);
+      isSearch.value = false;
+    })
+    .catch(error => {
+      isSearch.value = false;
+      throw new Error(error);
+    });
 }
 
 function closePopup() {
@@ -123,6 +85,11 @@ function closePopup() {
 }
 
 watch(keyword, keywordHandler);
+onMounted(() => {
+  const { codeContent: { CSS, JS } } = useCodeContentStore();
+  cdnResources.CSS = [...CSS.resources];
+  cdnResources.JS = [...JS.resources];
+});
 </script>
 
 <template>
@@ -139,7 +106,8 @@ watch(keyword, keywordHandler);
 
       <ul class="settings_popup_tab">
         <li 
-          v-for="tab in tabList" :key="tab.name"
+          v-for="tab in tabList"
+          :key="tab.name"
           :class="{ active: currentSelect === tab.name }"
           @click="changeSelect(tab.name)"
         >{{ tab.name }}</li>
@@ -150,14 +118,20 @@ watch(keyword, keywordHandler);
         <section class="text-gray-500 mb-3">{{ selectTabItem?.description }}</section>
 
         <div class="relative">
-          <input type="text" v-model.trim="keyword" class="input pl-9" placeholder="Search CDNjs" />
-          <font-awesome-icon 
+          <input type="text" v-model.trim="keyword" class="input px-9" placeholder="Search CDNjs" />
+          <font-awesome-icon
             icon="fa-solid fa-magnifying-glass"
             class="absolute top-3 left-3 text-lg text-gray-500"
+          />
+          <font-awesome-icon
+            v-if="isSearch"
+            icon="fa-solid fa-spinner"
+            class="animate-spin absolute top-3 right-3 text-lg text-yellow-400"
           />
           <ul class="absolute bg-white w-full rounded-md shadow-lg">
             <li
               v-for="cdn in cdnList"
+              :key="cdn.objectID"
               class="p-3 border-[1px] border-gray-300 cursor-pointer hover:bg-yellow-400/80"
               @click="addCdn(cdn)"
             >
@@ -171,9 +145,9 @@ watch(keyword, keywordHandler);
         </div>
 
         <ul class="py-3">
-          <li v-for="(cdn, index) in cdnResources" :key="cdn.name" class="flex items-center justify-between">
+          <li v-for="(cdn, index) in cdnResources[currentSelect]" :key="cdn" class="flex items-center justify-between">
             <p class="text-ellipsis overflow-hidden whitespace-nowrap p-3 bg-white mb-2 rounded text-xs flex-1">
-              {{ `https://cdnjs.cloudflare.com/ajax/libs/${cdn.filename}` }}
+              {{ cdn }}
             </p>
             <font-awesome-icon 
               icon="fa-solid fa-xmark"
