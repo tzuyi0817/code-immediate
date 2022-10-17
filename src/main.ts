@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from "pinia";
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
@@ -12,6 +13,7 @@ import {
   faFireFlameSimple,
   faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
 import { initTemplate } from '@/config/template';
@@ -32,7 +34,9 @@ library.add(
   faGear,
   faFireFlameSimple,
   faMagnifyingGlass,
+  faEye,
 );
+pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 app.use(router);
 app.component('font-awesome-icon', FontAwesomeIcon);

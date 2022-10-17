@@ -58,4 +58,11 @@ export default defineStore('codeContent', {
       this.codeTemplate = template;
     }
   },
+  persist: {
+    storage: localStorage,
+    paths: [
+      'codeContent',
+      'codeTemplate',
+    ],
+  },
 });

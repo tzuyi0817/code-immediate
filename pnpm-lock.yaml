@@ -19,6 +19,7 @@ specifiers:
   monaco-textmate: ^3.0.1
   onigasm: ^2.2.5
   pinia: ^2.0.17
+  pinia-plugin-persistedstate: ^2.3.0
   postcss: ^8.4.16
   postcss-import: ^14.1.0
   postcss-nested: ^5.0.6
@@ -47,6 +48,7 @@ dependencies:
   monaco-textmate: 3.0.1_onigasm@2.2.5
   onigasm: 2.2.5
   pinia: 2.0.17_typescript@4.7.4+vue@3.2.37
+  pinia-plugin-persistedstate: 2.3.0_pinia@2.0.17
   vue: 3.2.37
   vue-router: 4.1.3_vue@3.2.37
 
@@ -1012,6 +1014,17 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /pinia-plugin-persistedstate/2.3.0_pinia@2.0.17:
+    resolution: {integrity: sha512-K7vzt68Z3lbMDjb23Ki2vgHVBP2QFvjl7WNwzIwqY/DAkhSt8mi/z6bN/cXTst7fJjXWF0lC9NyxFKHfxWehuw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    peerDependenciesMeta:
+      pinia:
+        optional: true
+    dependencies:
+      pinia: 2.0.17_typescript@4.7.4+vue@3.2.37
+    dev: false
 
   /pinia/2.0.17_typescript@4.7.4+vue@3.2.37:
     resolution: {integrity: sha512-AtwLwEWQgIjofjgeFT+nxbnK5lT2QwQjaHNEDqpsi2AiCwf/NY78uWTeHUyEhiiJy8+sBmw0ujgQMoQbWiZDfA==}

@@ -12,4 +12,20 @@
     rounded-md
     focus:outline-yellow-400/80;
   }
+
+  .input_cdn {
+    @apply
+    text-ellipsis
+    overflow-hidden 
+    whitespace-nowrap
+    p-3
+    bg-white
+    rounded
+    text-xs
+    flex-1
+    min-h-[40px]
+    focus:outline-yellow-400/80
+    disabled:cursor-not-allowed
+    disabled:bg-gray-200;
+  }
 }

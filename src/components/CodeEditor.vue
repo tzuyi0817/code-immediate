@@ -29,13 +29,14 @@ const {
 } = useMonacoEditor();
 
 function initEditor() {
+  const { content } = codeContent.value[props.model];
   createEditor(codeEditor.value, props.model);
-  updateEditorModel('', language.value);
+  updateEditorModel(content, language.value);
   resizeObserver.observe(codeEditor.value.parentNode);
 }
 
-watch([language, codeTemplate], () => {
-  const { content, language } = codeContent.value[props.model];
+watch([language, codeTemplate], ([language]) => {
+  const { content } = codeContent.value[props.model];
   updateEditorModel(content, language);
 });
 

@@ -126,7 +126,15 @@ export const TEMPLATE_MAP = {
   },
 };
 
+export const BUILT_IN_RESOURCES = new Set([
+  'lib/vue@3.2.40.global.js',
+  'lib/react@18.2.0.js',
+  'lib/react-dom@18.2.0.js',
+  'parses/babel.js',
+  'lib/angular@1.8.3.js',
+]);
+
 export function initTemplate() {
-  const { codeTemplate, setCodeMap } = useCodeContentStore();
-  setCodeMap(TEMPLATE_MAP[codeTemplate as CodeTemplate]);
+  const { codeContent, codeTemplate } = useCodeContentStore();
+  TEMPLATE_MAP[codeTemplate as CodeTemplate] = codeContent;
 }

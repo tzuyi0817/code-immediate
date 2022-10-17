@@ -3,6 +3,7 @@ import { ref, reactive, computed, watch, onMounted } from 'vue';
 import algoliasearch from 'algoliasearch';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
+import { BUILT_IN_RESOURCES } from '@/config/template';
 import type { CdnItem } from '@/types/cdn';
 
 type SelectName = 'CSS' | 'JS';
@@ -43,22 +44,22 @@ function changeSelect(name: SelectName) {
 
 function setCdn() {
   const { setCodeResource } = useCodeContentStore();
+  const resources = cdnResources[currentSelect.value].filter(Boolean);
 
   setCodeResource({
     type: currentSelect.value,
-    resources: [...new Set([...cdnResources[currentSelect.value]])],
+    resources,
   });
   closePopup();
 }
 
-function addCdn(cdn: CdnItem) {
+function addCdn(cdn: string) {
   const resources = cdnResources[currentSelect.value];
-  const { latest } = cdn;
 
   keyword.value = '';
   cdnList.value = [];
-  if (resources.includes(latest)) return;
-  cdnResources[currentSelect.value].push(latest);
+  if (resources.includes(cdn)) return;
+  resources.push(cdn);
 };
 
 function deleteCdn(index: number) {
@@ -78,6 +79,10 @@ function searchCdn(word: string) {
       isSearch.value = false;
       throw new Error(error);
     });
+}
+
+function visitCdn(cdn: string) {
+  self.open(cdn);
 }
 
 function closePopup() {
@@ -118,7 +123,7 @@ onMounted(() => {
         <section class="text-gray-500 mb-3">{{ selectTabItem?.description }}</section>
 
         <div class="relative">
-          <input type="text" v-model.trim="keyword" class="input px-9" placeholder="Search CDNjs" />
+          <input type="text" v-model.trim="keyword" class="input px-9" placeholder="Search CDNjs resources" />
           <font-awesome-icon
             icon="fa-solid fa-magnifying-glass"
             class="absolute top-3 left-3 text-lg text-gray-500"
@@ -133,7 +138,7 @@ onMounted(() => {
               v-for="cdn in cdnList"
               :key="cdn.objectID"
               class="p-3 border-[1px] border-gray-300 cursor-pointer hover:bg-yellow-400/80"
-              @click="addCdn(cdn)"
+              @click="addCdn(cdn.latest)"
             >
               <p class="flex justify-between mb-1">
                 <span>{{ cdn.name }}</span> 
@@ -145,16 +150,31 @@ onMounted(() => {
         </div>
 
         <ul class="py-3">
-          <li v-for="(cdn, index) in cdnResources[currentSelect]" :key="cdn" class="flex items-center justify-between">
-            <p class="text-ellipsis overflow-hidden whitespace-nowrap p-3 bg-white mb-2 rounded text-xs flex-1">
-              {{ cdn }}
-            </p>
-            <font-awesome-icon 
-              icon="fa-solid fa-xmark"
-              class="cursor-pointer ml-3 text-gray-500 hover:text-yellow-400/80"
-              @click="deleteCdn(index)"
+          <li v-for="(cdn, index) in cdnResources[currentSelect]" :key="cdn" class="flex items-center justify-between mb-2">
+            <input
+              type="text"
+              class="input_cdn"
+              v-model.trim.lazy="cdnResources[currentSelect][index]"
+              placeholder="https://cdnjs.cloudflare.com/ajax/libs/customresource"
+              :disabled="BUILT_IN_RESOURCES.has(cdn)"
             />
+
+            <div class="flex flex-col ml-2 gap-1">
+              <font-awesome-icon
+                v-if="!BUILT_IN_RESOURCES.has(cdn)"
+                icon="fa-solid fa-xmark"
+                class="settings_popup_icon"
+                @click="deleteCdn(index)"
+              />
+              <font-awesome-icon
+                icon="fa-regular fa-eye"
+                class="settings_popup_icon"
+                @click="visitCdn(cdn)"
+              />
+            </div>
           </li>
+
+          <button class="btn btn_yellow" @click="addCdn('')">+ custom resource</button>
         </ul>
       </div>
 
@@ -198,6 +218,12 @@ onMounted(() => {
     border-gray-300
     rounded
     shadow-lg;
+  }
+  &_icon {
+    @apply
+    cursor-pointer
+    text-gray-500
+    hover:text-yellow-400/80;
   }
 }
 </style>

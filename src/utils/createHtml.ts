@@ -8,7 +8,10 @@ export function createHtml({ html, css, js }: CodeContent) {
 }
 
 function createHead(css: string) {
-  const { codeContent: { JS } } = useCodeContentStore();
+  const { codeContent: { CSS, JS } } = useCodeContentStore();
+  const cssResources = CSS.resources.reduce((html: string, resource: string) => {
+    return html + `<link href="${resource}" rel="stylesheet">\n`;
+  }, '');
   const esmImport = JS.import ? `
     <script async src="lib/es-module-shims@1.5.5.js"><\/script>
     ${JS.import}
@@ -16,6 +19,7 @@ function createHead(css: string) {
 
   return `
     <title>code Demo<\/title>
+    ${cssResources}
     <style type="text/css">${css}<\/style>
     <script type="text/javascript" src="message/index.js"><\/script>
     ${esmImport}
