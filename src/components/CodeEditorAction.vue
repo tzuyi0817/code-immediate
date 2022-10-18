@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore, useFlagStore } from '@/store';
-import { loadParse } from '@/utils/loadParse';
+import { useCodeContentStore } from '@/store';
 import {
   HTML_LANGUAGE_MAP,
   CSS_LANGUAGE_MAP,
   JS_LANGUAGE_MAP,
 } from '@/config/language';
+import LanguageSelect from '@/components/LanguageSelect.vue';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -30,29 +30,6 @@ const languageMap = computed(() => {
   };
   return map[props.currentAction as keyof typeof map];
 });
-
-const selected = computed(() => {
-  const { codeContent } = useCodeContentStore();
-  const { currentAction } = props;
-  return codeContent[currentAction].language;
-});
-
-async function changeLanguage(event: Event) {
-  const { setCodeLanguage } = useCodeContentStore();
-  const { setLoading } = useFlagStore();
-  const { currentAction } = props;
-  const { value } = event.target as HTMLSelectElement;
-  type CodeLanguage = keyof typeof languageMap.value;
-  const source = languageMap.value[value as CodeLanguage];
-
-  setLoading(true);
-  source && await loadParse(source).catch(error => { throw new Error(error) });
-  setCodeLanguage({
-    type: currentAction,
-    language: value,
-  });
-  setLoading(false);
-}
 </script>
 
 <template>
@@ -85,18 +62,7 @@ async function changeLanguage(event: Event) {
   </div>
 
   <div class="code_editor_action_right">
-    <select
-      v-if="!isSFC"
-      class="select select_border"
-      @change="changeLanguage"
-      :value="selected"
-    >
-      <option
-        v-for="(_, language) in languageMap"
-        :value="language"
-        :key="language"
-      >{{ language }}</option>
-    </select>
+    <language-select v-if="!isSFC" :languageMap="languageMap" :model="currentAction" />
 
     <button class="btn btn_base h-[26px] w-8 rounded-sm">
       <font-awesome-icon icon="fa-solid fa-angle-down" class="text-base" />
@@ -116,18 +82,19 @@ async function changeLanguage(event: Event) {
   justify-between
   border-b-2
   border-gray-700/60
-  bg-black;
+  bg-black
+  lg:hidden;
   &_left {
     @apply
     flex
     gap-[2px]
     items-center
-    h-full
+    h-full;
   }
   &_right {
     @apply
     flex
-    gap-1
+    gap-1;
   }
 }
 </style>

@@ -33,11 +33,11 @@ function toggleTemplatePop() {
       </button>
     </div>
 
-    <SettingsPopup
+    <settings-popup
       v-if="isShowSettingsPop"
       v-model:isShowSettingsPop="isShowSettingsPop"
     />
-    <TemplatePopup 
+    <template-popup 
       v-if="isShowTemplatePop"
       v-model:isShowTemplatePop="isShowTemplatePop"
     />

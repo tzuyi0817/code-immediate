@@ -13,10 +13,6 @@ function toggleConsole() {
 <template>
   <div class="code_footer">
     <button class="btn btn_base rounded-sm h-5 mx-2" @click="toggleConsole">
-      <!-- <font-awesome-icon 
-        icon="fa-solid fa-angle-down" 
-        :class="['text-base', 'rotate-180']"
-      /> -->
       Console
     </button>
 
@@ -26,8 +22,8 @@ function toggleConsole() {
       <option value="0.25">0.25x</option>
     </select>
 
-    <CodeLoading />
-    <CodeConsole v-model:isShowConsole="isShowConsole" />
+    <code-loading />
+    <code-console v-model:isShowConsole="isShowConsole" />
   </div>
 </template>
 
