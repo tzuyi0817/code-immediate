@@ -15,9 +15,9 @@ export default defineConfig({
     //   languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
     // }),
   ],
-  server: {
-    port: 8080,
-  },
+  // server: {
+  //   port: 8080,
+  // },
   resolve: {
     alias: {
       "@": resolve(__dirname, "src"),

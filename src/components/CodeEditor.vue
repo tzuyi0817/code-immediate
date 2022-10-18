@@ -56,7 +56,7 @@ onBeforeUnmount(() => {
 .code_editor {
   @apply
   w-full
-  bg-black/90
+  bg-[#1e1e1e]
   border-b-2
   border-gray-700/60
   pt-1;

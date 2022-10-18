@@ -38,15 +38,14 @@ provide('iframe', iframe);
         <code-editor-tab :languageMap="HTML_LANGUAGE_MAP" model="HTML" />
         <code-editor :class="wrapHeight" model="HTML" />
       </div>
-
-      <code-editor
-        :class="[{ 'code_wrap_hidden': currentAction !== 'CSS' }, wrapHeight]"
-        model="CSS"
-      />
-      <code-editor
-        :class="[{ 'code_wrap_hidden': currentAction !== 'JS' }, wrapHeight]"
-        model="JS"
-      />
+      <div :class="{ 'code_wrap_hidden': currentAction !== 'CSS' }">
+        <code-editor-tab :languageMap="CSS_LANGUAGE_MAP" model="CSS" />
+        <code-editor :class="wrapHeight" model="CSS" />
+      </div>
+      <div :class="{ 'code_wrap_hidden': currentAction !== 'JS' }">
+        <code-editor-tab :languageMap="JS_LANGUAGE_MAP" model="JS" />
+        <code-editor :class="wrapHeight" model="JS" />
+      </div>
     </div>
 
     <code-editor v-show="isSFC" model="VUE" :class="wrapHeight" />

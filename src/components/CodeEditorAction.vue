@@ -8,6 +8,7 @@ import {
   JS_LANGUAGE_MAP,
 } from '@/config/language';
 import LanguageSelect from '@/components/LanguageSelect.vue';
+import CodeEditorFormat from '@/components/CodeEditorFormat.vue';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -63,10 +64,7 @@ const languageMap = computed(() => {
 
   <div class="code_editor_action_right">
     <language-select v-if="!isSFC" :languageMap="languageMap" :model="currentAction" />
-
-    <button class="btn btn_base h-[26px] w-8 rounded-sm">
-      <font-awesome-icon icon="fa-solid fa-angle-down" class="text-base" />
-    </button>
+    <code-editor-format />
   </div>
 </div>
 </template>
