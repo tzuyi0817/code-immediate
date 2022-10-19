@@ -11,7 +11,7 @@ let showdown: any = null;
 
 export function compile(content: CodeContent): Promise<CodeContent> {
   const { html, css, js } = content;
-  const { codeContent: { HTML, CSS, JS } } = useCodeContentStore();
+  const { codeContent: { HTML, CSS, JS }, setImportMap } = useCodeContentStore();
   const htmlPromise = transformHtml(html, HTML.language);
   const cssPromise = transformCss(css, CSS.language);
   const jsPromise = transformJs(js, JS.language);
@@ -22,6 +22,7 @@ export function compile(content: CodeContent): Promise<CodeContent> {
         const { codeTemplate } = useCodeContentStore();
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
 
+        setImportMap();
         resolve({
           html: htmlCode,
           css: cssCode,

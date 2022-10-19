@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, inject, Ref } from 'vue';
+import { ref, watch, inject, Ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
@@ -35,7 +35,7 @@ watch(codeContent, ({ HTML, CSS, JS, VUE }) => {
     js: JS.content,
     vue: VUE.content,
   });
-}, { deep: true , immediate: true });
+}, { deep: true, immediate: true });
 </script>
 
 <template>
@@ -48,11 +48,3 @@ watch(codeContent, ({ HTML, CSS, JS, VUE }) => {
     ></iframe>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-.code_preview {
-  @apply
-  w-full
-  h-[calc(60vh-88px)]
-}
-</style>

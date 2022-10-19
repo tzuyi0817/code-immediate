@@ -25,7 +25,6 @@ export const TEMPLATE_MAP = {
       language: 'JavaScript',
       content: '',
       resources: [],
-      import: '',
     },
     VUE: {
       language: 'Vue',
@@ -48,7 +47,6 @@ export const TEMPLATE_MAP = {
       resources: [
         'lib/vue@3.2.40.global.js',
       ],
-      import: '',
     },
     VUE: {
       language: 'Vue',
@@ -69,7 +67,6 @@ export const TEMPLATE_MAP = {
       language: 'JavaScript',
       content: '',
       resources: [],
-      import: '',
     },
     VUE: {
       language: 'Vue',
@@ -94,7 +91,6 @@ export const TEMPLATE_MAP = {
         'lib/react-dom@18.2.0.js',
         'parses/babel.js',
       ],
-      import: '',
     },
     VUE: {
       language: 'Vue',
@@ -117,7 +113,6 @@ export const TEMPLATE_MAP = {
       resources: [
         'lib/angular@1.8.3.js',
       ],
-      import: '',
     },
     VUE: {
       language: 'Vue',

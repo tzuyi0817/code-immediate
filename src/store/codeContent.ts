@@ -17,7 +17,6 @@ const defaultState = {
       language: 'JavaScript',
       content: '',
       resources: [],
-      import: '',
     },
     VUE: {
       language: 'Vue',
@@ -25,6 +24,7 @@ const defaultState = {
     },
   },
   codeTemplate: 'ES6',
+  importMap: '',
 };
 
 type CodeMap = Partial<typeof defaultState.codeContent>;
@@ -55,7 +55,10 @@ export default defineStore('codeContent', {
     },
     setCodeTemplate(template: CodeTemplate) {
       this.codeTemplate = template;
-    }
+    },
+    setImportMap(importMap = '') {
+      this.importMap = importMap;
+    }, 
   },
   persist: {
     storage: localStorage,

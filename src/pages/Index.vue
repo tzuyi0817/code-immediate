@@ -20,7 +20,9 @@ const currentAction = ref<CodeModel>('HTML');
 const iframe = ref();
 const { isSFC } = storeToRefs(useCodeContentStore());
 const wrapHeight = computed(() => {
-  return isShowPreview.value ? 'h-[calc(40vh-40px)]' : 'h-[calc(100vh-128px)]';
+  return isShowPreview.value
+    ? 'h-[calc(40vh-40px)]' + (isSFC.value ? ' lg:h-[calc(100vh-128px)]' : '')
+    : 'h-[calc(100vh-128px)]';
 });
 
 provide('iframe', iframe);
@@ -32,25 +34,38 @@ provide('iframe', iframe);
     v-model:isShowPreview="isShowPreview"
     v-model:currentAction="currentAction"
   />
-  <div class="code_wrap bg-black">
-    <div v-show="!isSFC" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div :class="{ 'code_wrap_hidden': currentAction !== 'HTML' }">
-        <code-editor-tab :languageMap="HTML_LANGUAGE_MAP" model="HTML" />
-        <code-editor :class="wrapHeight" model="HTML" />
+  <div :class="{ 'lg:flex': isSFC }">
+    <div :class="['code_wrap bg-black', { 'lg:w-1/3': isSFC }]">
+      <div v-show="!isSFC" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div :class="{ 'code_wrap_hidden': currentAction !== 'HTML' }">
+          <code-editor-tab :languageMap="HTML_LANGUAGE_MAP" model="HTML" />
+          <code-editor :class="wrapHeight" model="HTML" />
+        </div>
+        <div :class="{ 'code_wrap_hidden': currentAction !== 'CSS' }">
+          <code-editor-tab :languageMap="CSS_LANGUAGE_MAP" model="CSS" />
+          <code-editor :class="wrapHeight" model="CSS" />
+        </div>
+        <div :class="{ 'code_wrap_hidden': currentAction !== 'JS' }">
+          <code-editor-tab :languageMap="JS_LANGUAGE_MAP" model="JS" />
+          <code-editor :class="wrapHeight" model="JS" />
+        </div>
       </div>
-      <div :class="{ 'code_wrap_hidden': currentAction !== 'CSS' }">
-        <code-editor-tab :languageMap="CSS_LANGUAGE_MAP" model="CSS" />
-        <code-editor :class="wrapHeight" model="CSS" />
-      </div>
-      <div :class="{ 'code_wrap_hidden': currentAction !== 'JS' }">
-        <code-editor-tab :languageMap="JS_LANGUAGE_MAP" model="JS" />
-        <code-editor :class="wrapHeight" model="JS" />
+
+      <div v-show="isSFC">
+        <code-editor-tab model="VUE" />
+        <code-editor model="VUE" :class="wrapHeight" />
       </div>
     </div>
 
-    <code-editor v-show="isSFC" model="VUE" :class="wrapHeight" />
+    <code-preview
+      v-show="isShowPreview"
+      :class="[
+        'w-full', 
+        'h-[calc(60vh-88px)]',
+        { 'lg:w-2/3 lg:h-[calc(100vh-88px)]': isSFC },
+      ]"
+    />
   </div>
-  <code-preview v-show="isShowPreview" />
   <code-footer />
 </template>
 

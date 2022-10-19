@@ -1,25 +1,42 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import CodeEditorFormat from '@/components/CodeEditorFormat.vue';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
-  languageMap: Record<string, string>;
+  languageMap?: Record<string, string>;
   model: CodeModel;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  languageMap: () => ({}),
+});
+
+const icon = computed(() => {
+  const iconMap = {
+    HTML: { name: 'html.png', width: 25 },
+    CSS: { name: 'css.png', width: 25 },
+    JS: { name: 'js.png', width: 25 },
+    VUE: { name: 'vue.svg', width: 20 },
+  };
+  return iconMap[props.model];
+});
 </script>
 
 <template>
   <div class="code_editor_tab">
     <div class="code_editor_tab_left">
-      <img :src="`templateIcon/${model.toLocaleLowerCase()}.png`" alt="" width="25">
+      <img :src="`templateIcon/${icon.name}`" alt="" :width="icon.width" />
       {{ model }}
     </div>
 
     <div class="code_editor_tab_right">
-      <language-select :languageMap="languageMap" :model="model" />
+      <language-select
+        v-if="model !== 'VUE'"
+        :languageMap="languageMap"
+        :model="model"
+      />
       <code-editor-format />
     </div>
   </div>

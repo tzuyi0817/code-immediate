@@ -8,13 +8,13 @@ export function createHtml({ html, css, js }: CodeContent) {
 }
 
 function createHead(css: string) {
-  const { codeContent: { CSS, JS } } = useCodeContentStore();
+  const { codeContent: { CSS }, importMap } = useCodeContentStore();
   const cssResources = CSS.resources.reduce((html: string, resource: string) => {
     return html + `<link href="${resource}" rel="stylesheet">\n`;
   }, '');
-  const esmImport = JS.import ? `
+  const esmImport = importMap ? `
     <script async src="lib/es-module-shims@1.5.5.js"><\/script>
-    ${JS.import}
+    <script type="importmap">${JSON.stringify(importMap, null, '\t')}<\/script>
   ` : '';
 
   return `

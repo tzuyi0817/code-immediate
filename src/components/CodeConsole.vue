@@ -9,6 +9,8 @@ import {
   onBeforeUnmount,
   nextTick,
 } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCodeContentStore } from '@/store';
 
 interface Props {
   isShowConsole: boolean;
@@ -20,6 +22,7 @@ const emit = defineEmits(['update:isShowConsole']);
 const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref();
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
+const { isSFC } = storeToRefs(useCodeContentStore());
 
 function implementJs(event: Event) {
   const { value } = event.target as HTMLTextAreaElement;
@@ -56,7 +59,7 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 </script>
 
 <template>
-  <div class="code_console" v-show="isShowConsole">
+  <div :class="['code_console w-full', { 'lg:w-2/3' :isSFC }]" v-show="isShowConsole">
     <div class="code_console_header">
       <p class="text-gray-400 text-sm font-bold">Console</p>
 
@@ -95,8 +98,9 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 .code_console {
   @apply
   absolute
-  w-full
   h-[calc(60vh-88px)]
+  lg:h-[calc(35vh-88px)]
+  right-0
   bottom-8;
   &_header {
     @apply
@@ -112,7 +116,7 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
     @apply
     bg-black/90
     h-[calc(100%-72px)]
-    overflow-y-scroll
+    overflow-y-auto
   }
   &_message {
     @apply

@@ -7,10 +7,10 @@ import {
   SFCTemplateCompileOptions,
 } from 'vue/compiler-sfc';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
-import { TEMPLATE_MAP } from '@/config/template';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
+import { useCodeContentStore } from '@/store';
 import type { CodeContent } from '@/types/codeContent';
 
 interface RawSourceMap {
@@ -23,7 +23,7 @@ interface RawSourceMap {
   file?: string;
 }
 
-export function compileSfc(content: CodeContent): Promise<CodeContent> {
+export async function compileSfc(content: CodeContent): Promise<CodeContent> {
   const { vue } = content;
   const sfcPromise = parseSfc(vue!);
 
@@ -91,6 +91,7 @@ async function compileJs(
   scopeId: string,
   compileTemplateOptions: SFCTemplateCompileOptions | undefined,
 ) {
+  const { setImportMap } = useCodeContentStore();
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const renderScript = await transformSfc(descriptor, scopeId, compileTemplateOptions);
   const renderUrl = getBlobURL(renderScript);
@@ -101,7 +102,7 @@ async function compileJs(
     }
   };
 
-  TEMPLATE_MAP.VueSFC.JS.import = `<script type="importmap">${JSON.stringify(importMap, null, '\t')}<\/script>`;
+  setImportMap(importMap);
   return `
   <script ${scriptType}>
     import { createApp } from 'vue';
