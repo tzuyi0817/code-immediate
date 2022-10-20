@@ -21,6 +21,7 @@
       max-w-md
       max-h-[60vh]
       rounded-md
+      animate-popup
       bg-white;
     }
   }

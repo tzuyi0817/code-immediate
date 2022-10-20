@@ -22,7 +22,7 @@ export function compile(content: CodeContent): Promise<CodeContent> {
         const { codeTemplate } = useCodeContentStore();
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
 
-        setImportMap();
+        setImportMap('');
         resolve({
           html: htmlCode,
           css: cssCode,

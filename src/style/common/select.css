@@ -1,6 +1,10 @@
 @import 'tailwindcss/components';
 
 @layer components {
+  select:active {
+    @apply translate-y-[2px];
+  }
+
   .select {
     @apply
     text-xs

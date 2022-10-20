@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 
-const { isLoading } = storeToRefs(useFlagStore());
+const { isLoading, loadingType } = storeToRefs(useFlagStore());
 const isShowTick = ref(false);
+const isError = computed(() => loadingType.value.endsWith('error'));
 
 async function flashTick() {
   isShowTick.value = true;
-  await sleep();
+  await sleep(1000);
   isShowTick.value = false;
 }
 
@@ -18,6 +19,11 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
 
 <template>
   <div class="code_loading">
+    <p
+      v-if="isLoading || isShowTick"
+      :class="['text-xs mr-5', { 'text-red-500': isError }]"
+    >{{ loadingType }}</p>
+
     <font-awesome-icon
       v-if="isLoading"
       icon="fa-solid fa-spinner"
@@ -25,8 +31,8 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
     />
     <font-awesome-icon
       v-if="isShowTick"
-      icon="fa-solid fa-check"
-      class="code_loading_icon"
+      :icon="`fa-solid fa-${isError ? 'xmark' : 'check'}`"
+      :class="['code_loading_icon', { 'text-red-500': isError }]"
     />
   </div>
 </template>
@@ -35,14 +41,14 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
 .code_loading {
   @apply
   absolute
-  top-1
+  top-2
   right-3
   text-yellow-400;
   &_icon {
     @apply
     absolute
-    top-1
-    right-3
+    top-0
+    right-0;
   }
 }
 </style>

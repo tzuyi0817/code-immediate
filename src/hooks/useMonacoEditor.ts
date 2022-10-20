@@ -53,6 +53,10 @@ export default function useMonacoEditor() {
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
   }
 
+  function updateEditorValue(code: string) {
+    monacoEditor.editor?.getModel()?.setValue(code);
+  }
+
   function setModelMarkers(model: monaco.editor.ITextModel) {
     // monaco.editor.setModelMarkers(model, 'owner', [{
     //   startLineNumber: 2,
@@ -68,5 +72,6 @@ export default function useMonacoEditor() {
     monacoEditor,
     createEditor,
     updateEditorModel,
+    updateEditorValue,
   }
 }

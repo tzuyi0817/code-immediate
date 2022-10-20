@@ -23,7 +23,7 @@ interface RawSourceMap {
   file?: string;
 }
 
-export async function compileSfc(content: CodeContent): Promise<CodeContent> {
+export function compileSfc(content: CodeContent): Promise<CodeContent> {
   const { vue } = content;
   const sfcPromise = parseSfc(vue!);
 

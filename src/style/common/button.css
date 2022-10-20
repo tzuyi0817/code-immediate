@@ -1,6 +1,10 @@
 @import 'tailwindcss/components';
 
 @layer components {
+  button:active {
+    @apply translate-y-[2px];
+  }
+
   .btn {
     @apply 
     rounded-md

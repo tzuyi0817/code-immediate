@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useCodeContentStore, useFlagStore } from '@/store';
-import { loadParse } from '@/utils/loadParse';
+import { useCodeContentStore } from '@/store';
+import { loadParseSource } from '@/utils/loadParse';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -19,19 +19,11 @@ const selected = computed(() => {
 
 async function changeLanguage(event: Event) {
   const { setCodeLanguage } = useCodeContentStore();
-  const { setLoading } = useFlagStore();
-  const { model, languageMap } = props;
   const { value } = event.target as HTMLSelectElement;
-  type CodeLanguage = keyof typeof languageMap;
-  const source = languageMap[value as CodeLanguage];
+  const { model } = props;
 
-  setLoading(true);
-  source && await loadParse(source).catch(error => { throw new Error(error) });
-  setCodeLanguage({
-    type: model,
-    language: value,
-  });
-  setLoading(false);
+  await loadParseSource(value, props.languageMap);
+  setCodeLanguage({ type: model, language: value });
 }
 </script>
 

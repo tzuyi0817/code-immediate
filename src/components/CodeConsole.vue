@@ -59,7 +59,7 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 </script>
 
 <template>
-  <div :class="['code_console w-full', { 'lg:w-2/3' :isSFC }]" v-show="isShowConsole">
+  <div :class="['code_console w-full', { 'lg:w-2/3': isSFC }]" v-show="isShowConsole">
     <div class="code_console_header">
       <p class="text-gray-400 text-sm font-bold">Console</p>
 

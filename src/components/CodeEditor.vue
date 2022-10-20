@@ -3,7 +3,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
 import { debounce } from '@/utils/common';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -14,6 +14,8 @@ const props = defineProps<Props>();
 const codeEditor = ref();
 const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());
 const language = computed(() => codeContent.value[props.model].language);
+const content = computed(() => codeContent.value[props.model].content);
+const isFormatter = computed(() => useFlagStore().formatterMap[props.model]);
 const resizeEditor = debounce(() => monacoEditor.editor?.layout(), 100);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
@@ -26,18 +28,25 @@ const {
   monacoEditor,
   createEditor,
   updateEditorModel,
+  updateEditorValue,
 } = useMonacoEditor();
 
 function initEditor() {
-  const { content } = codeContent.value[props.model];
   createEditor(codeEditor.value, props.model);
-  updateEditorModel(content, language.value);
+  updateEditorModel(content.value, language.value);
   resizeObserver.observe(codeEditor.value.parentNode);
 }
 
 watch([language, codeTemplate], ([language]) => {
-  const { content } = codeContent.value[props.model];
-  updateEditorModel(content, language);
+  updateEditorModel(content.value, language);
+});
+
+watch(isFormatter, async (isFormatter) => {
+  if (!isFormatter) return;
+  const { setLoading, setFormatter } = useFlagStore();
+  updateEditorValue(content.value);
+  setLoading({ isOpen: false, type: 'Code formatter finished' });
+  setFormatter({ model: props.model, isFormatter: false });
 });
 
 onMounted(initEditor);

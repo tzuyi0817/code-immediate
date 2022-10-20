@@ -8,3 +8,5 @@ export interface CdnItem {
   version: string;
   _highlightResult?: {};
 };
+
+export type CdnModel = 'CSS' | 'JS';

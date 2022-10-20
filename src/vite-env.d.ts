@@ -17,4 +17,6 @@ declare interface Window {
   stylus: any;
   Babel: any;
   CoffeeScript: any;
+  prettier: any;
+  prettierPlugins: any;
 }

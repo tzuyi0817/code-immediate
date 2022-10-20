@@ -37,7 +37,7 @@ const icon = computed(() => {
         :languageMap="languageMap"
         :model="model"
       />
-      <code-editor-format />
+      <code-editor-format :model="model" />
     </div>
   </div>
 </template>

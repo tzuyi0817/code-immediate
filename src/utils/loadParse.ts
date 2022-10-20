@@ -1,4 +1,5 @@
 import loadjs from 'loadjs';
+import { useFlagStore } from '@/store';
 
 const loadedParseMap = new Map([
   ['html', true],
@@ -18,4 +19,16 @@ export function loadParse(language: string): Promise<void> {
       })
       .catch((error: Error) => reject(error));
   });
+}
+
+export async function loadParseSource(language: string, languageMap: Record<string, string>) {
+  const { setLoading } = useFlagStore();
+  const source = languageMap[language];
+
+  setLoading({ isOpen: true, type: 'Loading parse source' });
+  source && await loadParse(source).catch(error => {
+    setLoading({ isOpen: false, type: 'Loading parse source error' });
+    throw error;
+  });
+  setLoading({ isOpen: false, type: 'Loading parse source finished' });
 }

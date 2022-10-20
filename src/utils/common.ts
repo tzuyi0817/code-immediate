@@ -27,9 +27,8 @@ export function sleep(delay = 500) {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-export function deepClone(obj: any, hash = new WeakMap()) {
-  if (obj instanceof Date) return new Date(obj);
-  if (obj instanceof RegExp) return new RegExp(obj);
+export function deepClone<T extends object>(obj: T, hash = new WeakMap()): T {
+  if (obj instanceof Date || obj instanceof RegExp) return obj;
   if (hash.has(obj)) return hash.get(obj);
 
   const descriptors = Object.getOwnPropertyDescriptors(obj);
@@ -37,7 +36,7 @@ export function deepClone(obj: any, hash = new WeakMap()) {
 
   hash.set(obj, clone);
   Reflect.ownKeys(obj).forEach(key => {
-    const value = obj[key];
+    const value = obj[key as keyof typeof obj];
     clone[key] = isObject(value) ? deepClone(value, hash) : value;
   });
   return clone;

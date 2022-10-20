@@ -64,7 +64,7 @@ const languageMap = computed(() => {
 
   <div class="code_editor_action_right">
     <language-select v-if="!isSFC" :languageMap="languageMap" :model="currentAction" />
-    <code-editor-format />
+    <code-editor-format :model="currentAction" />
   </div>
 </div>
 </template>
