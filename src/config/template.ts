@@ -7,8 +7,7 @@ import {
   ANGULAR_HTML,
   ANGULAR_JS,
 } from "@/config/defaultContent";
-import { useCodeContentStore } from '@/store'; 
-import type { CodeTemplate } from '@/types/codeContent';
+import { useCodeContentStore } from '@/store';
 
 export const TEMPLATE_MAP = {
   ES6: {
@@ -19,12 +18,12 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: []
+      resources: [] as string[],
     },
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: [],
+      resources: [] as string[],
     },
     VUE: {
       language: 'Vue',
@@ -39,7 +38,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: VUE_CSS,
-      resources: [],
+      resources: [] as string[],
     },
     JS: {
       language: 'JavaScript',
@@ -61,12 +60,12 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [],
+      resources: [] as string[],
     },
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: [],
+      resources: [] as string[],
     },
     VUE: {
       language: 'Vue',
@@ -81,7 +80,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [],
+      resources: [] as string[],
     },
     JS: {
       language: 'JavaScript',
@@ -105,7 +104,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: []
+      resources: [] as string[],
     },
     JS: {
       language: 'JavaScript',
@@ -131,5 +130,5 @@ export const BUILT_IN_RESOURCES = new Set([
 
 export function initTemplate() {
   const { codeContent, codeTemplate } = useCodeContentStore();
-  TEMPLATE_MAP[codeTemplate as CodeTemplate] = codeContent;
+  TEMPLATE_MAP[codeTemplate] = codeContent;
 }

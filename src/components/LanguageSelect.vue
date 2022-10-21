@@ -31,6 +31,7 @@ async function changeLanguage(event: Event) {
   <select
     class="select select_border"
     @change="changeLanguage"
+    @click.stop
     :value="selected"
   >
     <option

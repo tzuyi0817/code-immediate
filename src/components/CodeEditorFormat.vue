@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { inject } from 'vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
 import { sleep } from '@/utils/common';
@@ -9,12 +9,13 @@ interface Props {
   model: CodeModel;
 }
 
-const props = defineProps<Props>();
-const isShowMenu = ref(false);
-
-function toggleMenu() {
-  isShowMenu.value = !isShowMenu.value;
+interface InjectCodeFormatMenu {
+  isShowMenuMap: Record<CodeModel, boolean>;
+  toggleMenu: (model: CodeModel) => void;
 }
+
+const props = defineProps<Props>();
+const injectCodeFormatMenu = inject<InjectCodeFormatMenu>('codeFormatMenu');
 
 async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
@@ -24,7 +25,7 @@ async function formatterCode() {
   const parser = PRETTIER_MAP[language as keyof typeof PRETTIER_MAP];
 
   setLoading({ isOpen: true, type: 'Code formatter' });
-  toggleMenu();
+  injectCodeFormatMenu?.toggleMenu(model);
   if (!parser) {
     await sleep();
     return setLoading({ isOpen: false, type: "This syntax isn't supported error" });
@@ -47,11 +48,11 @@ async function formatterCode() {
 
 <template>
   <div class="code_editor_format">
-    <button class="btn btn_base h-[26px] w-8 rounded-sm" @click="toggleMenu">
+    <button class="btn btn_base h-[26px] w-8 rounded-sm" @click.stop="injectCodeFormatMenu?.toggleMenu(model)">
       <font-awesome-icon icon="fa-solid fa-angle-down" class="text-base" />
     </button>
 
-    <ul v-if="isShowMenu" class="code_editor_format_menu animate-popup">
+    <ul v-if="injectCodeFormatMenu?.isShowMenuMap[model]" class="code_editor_format_menu animate-popup">
       <li @click="formatterCode">Format Code</li>
     </ul>
   </div>

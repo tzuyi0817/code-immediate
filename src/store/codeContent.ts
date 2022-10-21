@@ -24,7 +24,7 @@ const defaultState = {
       content: '',
     },
   },
-  codeTemplate: 'ES6',
+  codeTemplate: 'ES6' as CodeTemplate,
   importMap: '' as ImportMap,
 };
 

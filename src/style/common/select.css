@@ -2,7 +2,7 @@
 
 @layer components {
   select:active {
-    @apply translate-y-[2px];
+    @apply translate-y-[1px];
   }
 
   .select {
