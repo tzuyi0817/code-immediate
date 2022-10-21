@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
+import { sleep } from '@/utils/common';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -15,20 +16,32 @@ function toggleMenu() {
   isShowMenu.value = !isShowMenu.value;
 }
 
-function formatterCode() {
+async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
   const { setFormatter, setLoading } = useFlagStore();
   const { model } = props;
   const { content, language } = codeContent[model];
-  const formatter = self.prettier?.format(content, {
-    parser: PRETTIER_MAP[language as keyof typeof PRETTIER_MAP],
-    plugins: self.prettierPlugins,
-  });
+  const parser = PRETTIER_MAP[language as keyof typeof PRETTIER_MAP];
 
-  toggleMenu();
   setLoading({ isOpen: true, type: 'Code formatter' });
-  setFormatter({ model, isFormatter: true });
-  setCodeContent({ type: model, code: formatter });
+  toggleMenu();
+  if (!parser) {
+    await sleep();
+    return setLoading({ isOpen: false, type: "This syntax isn't supported error" });
+  }
+
+  try {
+    const formatter = self.prettier?.format(content, {
+      parser,
+      plugins: self.prettierPlugins,
+    });
+
+    setFormatter({ model, isFormatter: true });
+    setCodeContent({ type: model, code: formatter });
+  } catch {
+    await sleep();
+    setLoading({ isOpen: false, type: "Code formatter error" });
+  }
 }
 </script>
 

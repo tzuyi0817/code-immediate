@@ -1,12 +1,18 @@
 export const PRETTIER_MAP = {
   HTML: 'html',
+  Haml: '',
   Markdown: 'markdown',
+  Pug: '',
   CSS: 'css',
   Less: 'less',
   SCSS: 'scss',
   Sass: 'scss',
+  Stylus: 'css',
   PostCSS: 'scss',
   JavaScript: 'babel',
+  Babel: 'babel',
   TypeScript: 'typescript',
+  CoffeeScript: '',
+  LiveScript: '',
   Vue: 'vue',
 };

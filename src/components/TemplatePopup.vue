@@ -6,7 +6,7 @@ import type { CodeTemplate } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowTemplatePop']);
 const { codeTemplate } = storeToRefs(useCodeContentStore())
-const templateList: Record<string, string>[] = [
+const templateList: ({ name: CodeTemplate } & Record<string, string>)[] = [
   { name: 'ES6', src: getImageSrc('/templateIcon/es6.png'), version: '' },
   { name: 'React', src: getImageSrc('/templateIcon/react.svg'), version: 'v18.2.0' },
   { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.2.4' },
@@ -14,10 +14,10 @@ const templateList: Record<string, string>[] = [
   { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
 ];
 
-function selectTemplate(name: string) {
+function selectTemplate(name: CodeTemplate) {
   const { setCodeTemplate, setCodeMap } = useCodeContentStore();
   setCodeTemplate(name);
-  setCodeMap(TEMPLATE_MAP[name as CodeTemplate]);
+  setCodeMap(TEMPLATE_MAP[name]);
   closePopup();
 }
 
