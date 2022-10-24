@@ -27,7 +27,7 @@ export function sleep(delay = 500) {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-export function deepClone<T>(obj: T, hash = new WeakMap()): T {
+export function deepClone<T extends object>(obj: T, hash = new WeakMap()): T {
   if (!(obj instanceof Object)) return obj;
   if (obj instanceof Date || obj instanceof RegExp) return obj;
   if (hash.has(obj)) return hash.get(obj);
