@@ -36,6 +36,7 @@ function toggleConsole() {
   bg-gray-900
   w-full
   h-8
-  bottom-0;
+  bottom-0
+  z-[3];
 }
 </style>

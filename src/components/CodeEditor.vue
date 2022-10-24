@@ -2,7 +2,6 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
-import { debounce } from '@/utils/common';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 
@@ -16,11 +15,10 @@ const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());
 const language = computed(() => codeContent.value[props.model].language);
 const content = computed(() => codeContent.value[props.model].content);
 const isFormatter = computed(() => useFlagStore().formatterMap[props.model]);
-const resizeEditor = debounce(() => monacoEditor.editor?.layout(), 100);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
     if (height === 0 || width === 0) return;
-    resizeEditor();
+    monacoEditor.editor?.layout();
   });
 });
 

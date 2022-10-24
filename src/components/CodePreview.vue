@@ -65,7 +65,7 @@ onMounted(initLoadParseSource);
   <div class="code_preview">
     <iframe 
       ref="iframe"
-      class="h-full w-full"
+      class="h-full w-full pointer-events-none"
       :srcdoc="srcdoc"
       frameborder="0"
     ></iframe>

@@ -11,6 +11,7 @@ import {
 } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore } from '@/store';
+import CodeDrag from '@/components/CodeDrag.vue';
 
 interface Props {
   isShowConsole: boolean;
@@ -20,7 +21,8 @@ type ReceiveData = { type: string, data: string }[];
 const props = defineProps<Props>();
 const emit = defineEmits(['update:isShowConsole']);
 const consoleCode = reactive<ReceiveData>([]);
-const codeWrap = ref();
+const codeWrap = ref<HTMLDivElement | null>(null);
+const consoleHeight = ref('30vh');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
 const { isSFC } = storeToRefs(useCodeContentStore());
 
@@ -59,8 +61,13 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 </script>
 
 <template>
-  <div :class="['code_console w-full', { 'lg:w-2/3': isSFC }]" v-show="isShowConsole">
-    <div class="code_console_header">
+  <div :class="['code_console w-full dragHeight', { 'lg:w-2/3': isSFC }]" v-show="isShowConsole">
+    <code-drag
+      class="code_console_header"
+      direction="y"
+      v-model:dragB="consoleHeight"
+      unit="vh"
+    >
       <p class="text-gray-400 text-sm font-bold">Console</p>
 
       <div class="flex gap-1">
@@ -70,7 +77,7 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
           @click="emit('update:isShowConsole', false)"
         >X</button>
       </div>
-    </div>
+    </code-drag>
 
     <div class="code_console_wrap" ref="codeWrap">
       <template v-for="({ type, data }, index) in consoleCode" :key="index">
@@ -99,9 +106,13 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
   @apply
   absolute
   h-[calc(60vh-88px)]
-  lg:h-[calc(35vh-88px)]
   right-0
   bottom-8;
+  &.dragHeight {
+    @media (min-width: 1024px) {
+      height: v-bind(consoleHeight);
+    }
+  }
   &_header {
     @apply
     h-10
@@ -110,13 +121,13 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
     flex
     items-center
     justify-between
-    px-3
+    px-3;
   }
   &_wrap {
     @apply
     bg-black/90
     h-[calc(100%-72px)]
-    overflow-y-auto
+    overflow-y-auto;
   }
   &_message {
     @apply

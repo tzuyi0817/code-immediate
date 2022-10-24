@@ -7,10 +7,12 @@ import type { CodeModel } from '@/types/codeContent';
 interface Props {
   languageMap?: Record<string, string>;
   model: CodeModel;
+  width?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   languageMap: () => ({}),
+  width: '100%',
 });
 
 const icon = computed(() => {
@@ -22,11 +24,13 @@ const icon = computed(() => {
   };
   return iconMap[props.model];
 });
+
+const isRotate = computed(() => +props.width.replace('%', '') <= 13);
 </script>
 
 <template>
   <div class="code_editor_tab">
-    <div class="code_editor_tab_left">
+    <div :class="['code_editor_tab_left', { rotate: isRotate }]">
       <img :src="`templateIcon/${icon.name}`" alt="" :width="icon.width" />
       {{ model }}
     </div>
@@ -52,6 +56,8 @@ const icon = computed(() => {
   justify-between
   border-gray-700/60
   border-x-2
+  bg-black
+  select-none
   lg:flex;
   &_left {
     @apply
@@ -60,11 +66,19 @@ const icon = computed(() => {
     font-bold
     px-3
     py-2
+    transition-all
+    duration-300
     border-t-2
     border-t-gray-500/60
     rounded-t
     flex
-    gap-1
+    gap-1;
+    &.rotate {
+      @apply
+      rotate-90
+      origin-top-left
+      scale-[0.55];
+    }
   }
   &_right {
     @apply
