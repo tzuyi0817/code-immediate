@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide } from 'vue';
+import { ref, reactive, computed, provide, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeDrag from '@/components/CodeDrag.vue';
@@ -21,9 +21,11 @@ const currentAction = ref<CodeModel>('HTML');
 const iframe = ref(null);
 const codeWrapHeight = ref('40vh');
 const previewHeight = ref('60vh');
+const previewWidth = ref('66.7vw');
 const offsetHtmlWrap = ref('33.3%');
 const offsetCssWrap = ref('33.3%');
 const offsetJsWrap = ref('33.3%');
+const offsetVueWrap = ref('33.3vw');
 const isShowMenuMap = reactive({
   HTML: false,
   CSS: false,
@@ -41,6 +43,13 @@ provide('codeFormatMenu', { isShowMenuMap, toggleMenu });
 function toggleMenu(model: CodeModel, isOpen?: boolean) {
   isShowMenuMap[model] = isOpen ?? !isShowMenuMap[model];
 }
+
+function closeInitLoading() {
+  const { setInitLoading } = useFlagStore();
+  setInitLoading(false);
+}
+
+onMounted(closeInitLoading);
 </script>
 
 <template>
@@ -49,7 +58,7 @@ function toggleMenu(model: CodeModel, isOpen?: boolean) {
   <div :class="{ 'lg:flex': isSFC }">
     <div :class="[
       'code_wrap bg-black',
-      isSFC ? `${wrapHeight} lg:h-[calc(100vh-88px)] lg:w-1/3` : `${wrapHeight} dragHeight`,
+      isSFC ? `${wrapHeight} lg:h-[calc(100vh-88px)]` : `${wrapHeight} dragHeight`,
     ]">
       <code-editor-action
         v-model:isShowPreview="isShowPreview"
@@ -120,31 +129,35 @@ function toggleMenu(model: CodeModel, isOpen?: boolean) {
         v-model:dragA="codeWrapHeight"
         v-model:dragB="previewHeight"
         unit="vh"
+        :limit="{ min: 20, max: 80 }"
       />
 
-      <div v-show="isSFC" @click.self="toggleMenu('VUE', false)" class="h-full">
-        <code-editor-tab model="VUE" />
-        <code-editor class="h-[calc(100%-40px)]" model="VUE" />
+      <div v-show="isSFC" @click.self="toggleMenu('VUE', false)" class="h-full flex">
+        <div class="code_wrap_vue flex-1">
+          <code-editor-tab model="VUE" />
+          <code-editor class="h-[calc(100%-40px)]" model="VUE" />
+        </div>
+        <code-drag
+          class="code_wrap_hidden h-full"
+          direction="x"
+          v-model:dragA="offsetVueWrap"
+          v-model:dragB="previewWidth"
+          unit="vw"
+          :limit="{ min: 20, max: 80 }"
+        />
       </div>
-
-      <!-- <code-drag
-        class="code_wrap_hidden"
-        direction="x"
-        v-model:dragA="offsetCssWrap"
-        v-model:dragB="offsetJsWrap"
-      /> -->
     </div>
 
     <code-preview
       v-show="isShowPreview"
-      :style="{ height: `calc(${isSFC ? '100vh' : previewHeight} - 88px)` }"
       :class="[
         'w-full',
-        { 'lg:w-2/3': isSFC },
+        'h-[calc(60vh-88px)]',
+        isSFC ? 'lg:h-[calc(100vh-88px)] preview_width' : 'preview_height'
       ]"
     />
   </div>
-  <code-footer />
+  <code-footer :previewWidth="previewWidth" />
 </template>
 
 <style lang="postcss" scoped>
@@ -176,6 +189,24 @@ function toggleMenu(model: CodeModel, isOpen?: boolean) {
     @media (min-width: 1024px) {
       width: calc(v-bind(offsetJsWrap) - 18px);
     }
+  }
+  &_vue {
+    @apply w-full;
+    @media (min-width: 1024px) {
+      width: calc(v-bind(offsetVueWrap));
+    }
+  }
+}
+
+.preview_height {
+  @media (min-width: 1024px) {
+    height: calc(v-bind(previewHeight) - 88px);
+  }
+}
+
+.preview_width {
+  @media (min-width: 1024px) {
+    width: calc(v-bind(previewWidth) - 18px);
   }
 }
 </style>

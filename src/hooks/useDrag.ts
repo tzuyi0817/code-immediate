@@ -1,14 +1,15 @@
+import { useFlagStore } from '@/store';
 import type { DragOffset } from '@/types/drag';
 
 export default function useDrag(dragCallback: (offset: DragOffset) => void) {
+  const flagStore = useFlagStore();
   const drag = {
-    isStartDrag: false,
     screenWidth: 0,
     screenHeight: 0,
   };
 
   function startDrag(event: MouseEvent) {
-    drag.isStartDrag = true;
+    flagStore.setDragFlag(true);
     drag.screenWidth = self.screen.width;
     drag.screenHeight = self.screen.height;
     document.addEventListener('mousemove', dragging, false);
@@ -16,7 +17,7 @@ export default function useDrag(dragCallback: (offset: DragOffset) => void) {
   }
 
   function dragging(event: MouseEvent) {
-    if (!drag.isStartDrag) return;
+    if (!flagStore.isStartDrag) return;
     const { movementX, movementY } = event;
     const { screenWidth, screenHeight } = drag;
 
@@ -27,7 +28,7 @@ export default function useDrag(dragCallback: (offset: DragOffset) => void) {
   }
 
   function endDrag(event: MouseEvent) {
-    drag.isStartDrag = false;
+    flagStore.setDragFlag(false);
     document.removeEventListener('mousemove', dragging, false);
     document.removeEventListener('mouseup', endDrag, false);
   }

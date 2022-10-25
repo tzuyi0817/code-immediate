@@ -16,7 +16,7 @@ import type { CodeContent, CodeModel } from '@/types/codeContent';
 const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
-const { isFormatter } = storeToRefs(useFlagStore());
+const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
 
 async function runCode(content: CodeContent) {
   const { setLoading } = useFlagStore();
@@ -65,7 +65,7 @@ onMounted(initLoadParseSource);
   <div class="code_preview">
     <iframe 
       ref="iframe"
-      class="h-full w-full pointer-events-none"
+      :class="['h-full w-full', { 'pointer-events-none': isStartDrag }]"
       :srcdoc="srcdoc"
       frameborder="0"
     ></iframe>

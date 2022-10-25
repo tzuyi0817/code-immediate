@@ -10,10 +10,12 @@ interface Props {
   dragC?: string;
   unit?: '%' | 'vh' | 'vw';
   typeC?: 'next' | 'previous';
+  limit?: Record<'min' | 'max', number>;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   unit: '%',
+  limit: () => ({ min: 0, max: 100 }),
 });
 const emit = defineEmits(['update:dragA', 'update:dragB', 'update:dragC']);
 const cursor = computed(() => props.direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize');
@@ -24,7 +26,7 @@ const {
 } = useDrag(dragCallback);
 
 function dragCallback(offset: DragOffset) {
-  const { dragA, dragB, dragC, direction, unit, typeC } = props;
+  const { dragA, dragB, dragC, direction, unit, typeC, limit: { min, max } } = props;
   const offsetA = dragA ? calculateOffset(dragA, offset[direction]) : 50;
   const offsetB = dragB ? calculateOffset(dragB, -offset[direction]) : 50;
 
@@ -42,10 +44,8 @@ function dragCallback(offset: DragOffset) {
     dragA && emit('update:dragA', `${offsetA}${unit}`);
     return dragC && emit('update:dragC', `${offsetC}${unit}`);
   }
-  if (
-    direction === 'y' &&
-    (offsetA >= 80 || offsetB >= 80 || offsetA <= 8 || offsetB <= 8)
-  ) return;
+  if (offsetA <= min || offsetB <= min) return;
+  if (offsetA >= max || offsetB >= max) return;
 
   dragA && emit('update:dragA', `${offsetA}${unit}`);
   dragB && emit('update:dragB', `${offsetB}${unit}`);

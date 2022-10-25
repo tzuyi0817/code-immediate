@@ -3,6 +3,11 @@ import { ref } from 'vue';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
 
+interface Props {
+  previewWidth: string;
+}
+
+const props = defineProps<Props>();
 const isShowConsole = ref(false);
 
 function toggleConsole() {
@@ -23,7 +28,10 @@ function toggleConsole() {
     </select>
 
     <code-loading />
-    <code-console v-model:isShowConsole="isShowConsole" />
+    <code-console
+      v-model:isShowConsole="isShowConsole"
+      :previewWidth="previewWidth"
+    />
   </div>
 </template>
 

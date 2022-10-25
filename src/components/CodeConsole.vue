@@ -15,6 +15,7 @@ import CodeDrag from '@/components/CodeDrag.vue';
 
 interface Props {
   isShowConsole: boolean;
+  previewWidth: string;
 }
 type ReceiveData = { type: string, data: string }[];
 
@@ -61,12 +62,13 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
 </script>
 
 <template>
-  <div :class="['code_console w-full dragHeight', { 'lg:w-2/3': isSFC }]" v-show="isShowConsole">
+  <div :class="['code_console w-full drag_height', { 'preview_width': isSFC }]" v-show="isShowConsole">
     <code-drag
       class="code_console_header"
       direction="y"
       v-model:dragB="consoleHeight"
       unit="vh"
+      :limit="{ min: 8, max: 80 }"
     >
       <p class="text-gray-400 text-sm font-bold">Console</p>
 
@@ -108,9 +110,14 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
   h-[calc(60vh-88px)]
   right-0
   bottom-8;
-  &.dragHeight {
+  &.drag_height {
     @media (min-width: 1024px) {
       height: v-bind(consoleHeight);
+    }
+  }
+  &.preview_width {
+    @media (min-width: 1024px) {
+      width: calc(v-bind('props.previewWidth') - 18px);
     }
   }
   &_header {
