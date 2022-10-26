@@ -10,3 +10,8 @@ export interface CdnItem {
 };
 
 export type CdnModel = 'CSS' | 'JS';
+
+export interface CdnSourceMap {
+  variables: { local: string, imported: string }[];
+  module: string;
+}

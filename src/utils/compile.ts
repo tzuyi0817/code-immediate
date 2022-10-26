@@ -4,6 +4,7 @@ import autoprefixer from 'autoprefixer';
 import typescript from 'typescript';
 import { useCodeContentStore } from '@/store';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
+import { parseImport } from '@/utils/parseImport';
 import type { CodeContent, CodeCompile, CodeTemplate } from '@/types/codeContent';
 
 let sass: any = null;
@@ -21,12 +22,13 @@ export function compile(content: CodeContent): Promise<CodeContent> {
       .then(([htmlCode, cssCode, jsCode]) => {
         const { codeTemplate } = useCodeContentStore();
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
+        const { code, scripts = '' } = parseImport(jsCode);
 
         setImportMap('');
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `<script ${scriptType}>${jsCode}<\/script>`,
+          js: `${scripts}\n<script ${scriptType}>${code}<\/script>`,
         });
       })
       .catch(reject);

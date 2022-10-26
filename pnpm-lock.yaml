@@ -18,6 +18,7 @@ specifiers:
   monaco-editor-textmate: ^3.0.0
   monaco-textmate: ^3.0.1
   onigasm: ^2.2.5
+  parse-package-name: ^1.0.0
   pinia: ^2.0.17
   pinia-plugin-persistedstate: ^2.3.0
   postcss: ^8.4.16
@@ -59,6 +60,7 @@ devDependencies:
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.2+vue@3.2.37
   autoprefixer: 10.4.8_postcss@8.4.16
   fs-extra: 10.1.0
+  parse-package-name: 1.0.0
   postcss: 8.4.16
   postcss-import: 14.1.0_postcss@8.4.16
   postcss-nested: 5.0.6_postcss@8.4.16
@@ -997,6 +999,10 @@ packages:
     dependencies:
       lru-cache: 5.1.1
     dev: false
+
+  /parse-package-name/1.0.0:
+    resolution: {integrity: sha512-kBeTUtcj+SkyfaW4+KBe0HtsloBJ/mKTPoxpVdA57GZiPerREsUWJOhVj9anXweFiJkm5y8FG1sxFZkZ0SN6wg==}
+    dev: true
 
   /path-parse/1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}

@@ -93,14 +93,18 @@ async function compileJs(
 ) {
   const { setImportMap } = useCodeContentStore();
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
-  const renderScript = await transformSfc(descriptor, scopeId, compileTemplateOptions);
+  const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
   const renderUrl = getBlobURL(renderScript);
-  const importMap = {
+  const importMap = Object.values(imports).reduce((map, { source }) => {
+    if (source === 'vue') return map;
+    map.imports[source] = `https://unpkg.com/${source}?module`;
+    return map;
+  }, {
     imports: {
-      "vue": "./lib/vue@3.2.40.esm-browser.js",
-      [scopeId]: renderUrl
+      vue: "./lib/vue@3.2.40.esm-browser.js",
+      [scopeId]: renderUrl,
     }
-  };
+  });
 
   setImportMap(importMap);
   return `
@@ -156,14 +160,17 @@ async function transformSfc(
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }
 
-  return `
-    import script from '${getBlobURL(scriptBlock.content)}';
-    import { render } from '${getBlobURL(template?.code ?? '')}';
-    script.render = render;
-    ${filename ? `script.__file = '${filename}'` : ''};
-    ${scopeId ? `script.__scopeId = '${scopeId}'` : ''};
-    export default script;
-  `;
+  return {
+    renderScript: `
+      import script from '${getBlobURL(scriptBlock.content)}';
+      import { render } from '${getBlobURL(template?.code ?? '')}';
+      script.render = render;
+      ${filename ? `script.__file = '${filename}'` : ''};
+      ${scopeId ? `script.__scopeId = '${scopeId}'` : ''};
+      export default script;
+    `,
+    imports: scriptBlock.imports ?? {},
+  }
 }
 
 function getBlobURL(jsCode: string) {

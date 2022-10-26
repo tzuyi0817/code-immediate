@@ -8,7 +8,7 @@ export function createHtml({ html, css, js }: CodeContent) {
 }
 
 function createHead(css: string) {
-  const { codeContent: { CSS }, importMap } = useCodeContentStore();
+  const { codeContent: { CSS, JS }, importMap } = useCodeContentStore();
   const cssResources = CSS.resources.reduce((html: string, resource: string) => {
     return html + `<link href="${resource}" rel="stylesheet">\n`;
   }, '');
@@ -16,6 +16,9 @@ function createHead(css: string) {
     <script async src="lib/es-module-shims@1.5.5.js"><\/script>
     <script type="importmap">${JSON.stringify(importMap, null, '\t')}<\/script>
   ` : '';
+  const jsResources = JS.resources.reduce((html: string, resource: string) => {
+    return html + `<script src="${resource}"><\/script>\n`;
+  }, '');
 
   return `
     <title>code Demo<\/title>
@@ -23,17 +26,12 @@ function createHead(css: string) {
     <style type="text/css">${css}<\/style>
     <script type="text/javascript" src="message/index.js"><\/script>
     ${esmImport}
+    ${jsResources}
   `;
 }
 
 function createBody(html: string, js: string) {
-  const { codeContent: { JS } } = useCodeContentStore();
-  const jsResources = JS.resources.reduce((html: string, resource: string) => {
-    return html + `<script src="${resource}"><\/script>\n`;
-  }, '');
-
   return `
-    ${jsResources}
     ${html}
     ${js}
   `;
