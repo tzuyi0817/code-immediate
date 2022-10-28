@@ -1,0 +1,10 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .label {
+    @apply p-2;
+    p {
+      @apply text-gray-600 px-1 pb-1;
+    }
+  }
+}

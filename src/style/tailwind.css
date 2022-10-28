@@ -9,6 +9,10 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  h2 {
+    @apply text-xl font-bold text-gray-600;
+  }
+
   h3 {
     @apply text-base font-bold text-gray-600;
   }

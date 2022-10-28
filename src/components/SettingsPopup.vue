@@ -199,11 +199,11 @@ onMounted(() => {
       transition-all
       rounded-md
       text-center
-      hover:bg-yellow-400/80
+      hover:bg-yellow-500/90
       hover:text-white;
       &.active {
         @apply 
-        bg-yellow-400/80
+        bg-yellow-500/90
         text-white;
       }
     }

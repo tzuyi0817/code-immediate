@@ -12,6 +12,7 @@ import {
   faGear,
   faFireFlameSimple,
   faMagnifyingGlass,
+  faBarsStaggered,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
@@ -34,6 +35,7 @@ library.add(
   faGear,
   faFireFlameSimple,
   faMagnifyingGlass,
+  faBarsStaggered,
   faEye,
 );
 pinia.use(piniaPluginPersistedstate);
