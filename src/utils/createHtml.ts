@@ -1,32 +1,31 @@
-import { useCodeContentStore } from '@/store';
-import type { CodeContent } from '@/types/codeContent';
+import type { CreateHtmlParams } from '@/types/codeContent';
 
-export function createHtml({ html, css, js }: CodeContent) {
-  const head = createHead(css);
+export function createHtml({ html, css, js, cssResources, jsResources, importMap }: CreateHtmlParams) {
+  const head = createHead({ css, cssResources, jsResources, importMap });
   const body = createBody(html, js);
   return assembleHtml(head, body);
 }
 
-function createHead(css: string) {
-  const { codeContent: { CSS, JS }, importMap } = useCodeContentStore();
-  const cssResources = CSS.resources.reduce((html: string, resource: string) => {
+function createHead(params: Omit<CreateHtmlParams, 'js' | 'html'>) {
+  const { css, cssResources, jsResources, importMap } = params;
+  const links = cssResources.reduce((html: string, resource: string) => {
     return html + `<link href="${resource}" rel="stylesheet">\n`;
   }, '');
   const esmImport = importMap ? `
     <script async src="lib/es-module-shims@1.5.5.js"><\/script>
     <script type="importmap">${JSON.stringify(importMap, null, '\t')}<\/script>
   ` : '';
-  const jsResources = JS.resources.reduce((html: string, resource: string) => {
+  const scripts = jsResources.reduce((html: string, resource: string) => {
     return html + `<script src="${resource}"><\/script>\n`;
   }, '');
 
   return `
     <title>code Demo<\/title>
-    ${cssResources}
+    ${links}
     <style type="text/css">${css}<\/style>
     <script type="text/javascript" src="message/index.js"><\/script>
     ${esmImport}
-    ${jsResources}
+    ${scripts}
   `;
 }
 

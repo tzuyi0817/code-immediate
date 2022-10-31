@@ -45,6 +45,20 @@
     hover:brightness-110;
   }
 
+  .btn_blue {
+    @apply
+    text-white
+    bg-blue-600
+    hover:brightness-125;
+  }
+
+  .btn_indigo {
+    @apply
+    text-white
+    bg-indigo-600
+    hover:brightness-125;
+  }
+
   .btn_select {
     @apply
     text-white

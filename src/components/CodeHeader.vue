@@ -1,67 +1,151 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '@/store';
+import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
 import SettingsPopup from '@/components/SettingsPopup.vue';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import LoginPopup from '@/components/LoginPopup.vue';
 import SignUpPopup from '@/components/SignUpPopup.vue';
+import ProjectsPopup from '@/components/ProjectsPopup.vue';
+import LoadingButton from '@/components/LoadingButton.vue';
 import ajax from '@/utils/ajax';
 import toast from '@/utils/toast';
+import { deepClone } from '@/utils/common';
+import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 
+const title = ref('Untitled');
+const titleInput = ref<HTMLInputElement | null>(null);
+const isLoading = ref(false);
+const isShowEditTitle = ref(false);
 const isShowSettingsPop = ref(false);
 const isShowTemplatePop = ref(false);
 const isShowMenuList = ref(false);
 const isShowLoginPop = ref(false);
 const isShowSignUpPop = ref(false);
+const isShowProjectsPop = ref(false);
 const { user, isLogin } = storeToRefs(useUserStore());
+const { codeTitle } = storeToRefs(useCodeContentStore());
 
 async function logout() {
-  const { status, message } = await ajax.post('/logout');
+  isLoading.value = true;
+  const { status, message } = await ajax.post('/logout').catch(() => isLoading.value = false);
   const { setUser } = useUserStore();
 
   setUser({});
   localStorage.removeItem('code_token');
   toast.showToast(message, status);
+  isLoading.value = false;
+}
+
+function blurTitle() {
+  isShowEditTitle.value = false;
+  if (title.value === '')
+    title.value = 'Untitled';
+}
+
+async function openTitle() {
+  isShowEditTitle.value = true;
+  if (title.value === 'Untitled') title.value = '';
+  await nextTick();
+  titleInput.value?.focus();
+}
+
+async function saveCode() {
+  closeMenuList();
+  if (!isLogin.value) return toggleLoginPop();
+  const { codeContent, codeTemplate, importMap, codeId, setCodeId } = useCodeContentStore();
+  const data = {
+    title: title.value,
+    ...codeContent,
+    codeTemplate,
+    importMap,
+  };
+  const api = codeId
+    ? ajax.put(`/code/${codeId}`, { codeContent: JSON.stringify(data) })
+    : ajax.post('/code', { codeContent: JSON.stringify(data) });
+  
+  isLoading.value = true;
+  const { status, message, resultMap } = await api.catch(() => isLoading.value = false);
+
+  resultMap && setCodeId(resultMap.code._id);
+  toast.showToast(message, status);
+  isLoading.value = false;
+}
+
+function newProject() {
+  const { setCodeMap, setCodeTemplate, setImportMap, setCodeTitle, setCodeId } = useCodeContentStore();
+  const { setCreateProjectFlag, setLoading } = useFlagStore();
+  const defaultTemplate = deepClone(DEFAULT_TEMPLATE_MAP);
+
+  closeMenuList();
+  setLoading({ isOpen: true, type: 'Create new project' });
+  setCreateProjectFlag(true);
+  Object.assign(TEMPLATE_MAP, defaultTemplate);
+  setCodeMap(defaultTemplate.ES6);
+  setCodeTemplate('ES6');
+  setImportMap('');
+  setCodeTitle('Untitled');
+  setCodeId('');
 }
 
 function toggleSignUpPop() {
-  closeAllPop();
+  closeMenuList();
   isShowSignUpPop.value = !isShowSignUpPop.value;
 }
 
 function toggleLoginPop() {
-  closeAllPop();
+  closeMenuList();
   isShowLoginPop.value = !isShowLoginPop.value;
 }
 
 function toggleSettingsPop() {
-  closeAllPop();
+  closeMenuList();
   isShowSettingsPop.value = !isShowSettingsPop.value;
 }
 
 function toggleTemplatePop() {
-  closeAllPop();
+  closeMenuList();
   isShowTemplatePop.value = !isShowTemplatePop.value;
+}
+
+function toggleProjectsPop() {
+  closeMenuList();
+  isShowProjectsPop.value = !isShowProjectsPop.value;
 }
 
 function toggleMenuList() {
   isShowMenuList.value = !isShowMenuList.value;
 }
 
-function closeAllPop() {
+function closeMenuList() {
   isShowMenuList.value = false;
-  isShowLoginPop.value = false;
-  isShowSignUpPop.value = false;
 }
+
+watch(codeTitle, (projectTitle) => title.value = projectTitle);
 </script>
 
 <template>
   <header class="code_header">
     <div class="code_header_left">
-      <p class="font-bold">
-        untitled <font-awesome-icon icon="fa-solid fa-pen-fancy" />
-      </p>
+      <div class="font-bold flex items-center gap-1">
+        <input
+          v-if="isShowEditTitle"
+          type="text"
+          ref="titleInput"
+          class="bg-black text-white focus:outline-none"
+          v-model="title"
+          @blur="blurTitle"
+        />
+
+        <template v-else>
+          <span>{{ title }}</span>
+          <font-awesome-icon
+            icon="fa-solid fa-pen-fancy"
+            class="cursor-pointer"
+            @click="openTitle"
+          />
+        </template>
+      </div>
       <p class="text-xs text-gray-300">{{ isLogin ? user.account : 'Captain Anonymous' }}</p>
     </div>
 
@@ -70,16 +154,32 @@ function closeAllPop() {
         <font-awesome-icon icon="fa-solid fa-bars-staggered" @click="toggleMenuList" />
       </button>
 
+      <loading-button
+        class="btn_base w-auto text-xs p-2 hidden lg:block"
+        @click="saveCode"
+        :isLoading="isLoading"
+      >
+        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" class="mr-1" /> Save
+      </loading-button>
       <button class="btn btn_base hidden lg:block" @click="toggleSettingsPop">
         <font-awesome-icon icon="fa-solid fa-gear" class="mr-1" /> Settings
       </button>
       <button class="btn btn_base hidden lg:block" @click="toggleTemplatePop">
         <font-awesome-icon icon="fa-solid fa-fire-flame-simple" class="mr-1" /> Template
       </button>
+      <button class="btn btn_indigo hidden lg:block" @click="newProject">
+        <font-awesome-icon icon="fa-solid fa-plus" class="mr-1" /> New Project
+      </button>
 
       <template v-if="isLogin">
-        <button class="btn btn_yellow" @click="">Projects</button>
-        <button class="btn btn_red" @click="logout">Log out</button>
+        <button class="btn btn_blue" @click="toggleProjectsPop">
+          <font-awesome-icon icon="fa-solid fa-sheet-plastic" class="mr-1" /> Projects
+        </button>
+        <loading-button
+          class="btn_red w-auto text-xs p-2" 
+          @click="logout"
+          :isLoading="isLoading"
+        >Log out</loading-button>
       </template>
 
       <template v-else>
@@ -88,15 +188,25 @@ function closeAllPop() {
       </template>
 
       <ul v-if="isShowMenuList" class="code_header_menu animate-popup">
+        <li @click="saveCode">
+          <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" /> Save
+        </li>
         <li @click="toggleSettingsPop">
-          <font-awesome-icon icon="fa-solid fa-gear" class="mr-1" /> Settings
+          <font-awesome-icon icon="fa-solid fa-gear" /> Settings
         </li>
         <li @click="toggleTemplatePop">
-          <font-awesome-icon icon="fa-solid fa-fire-flame-simple" class="mr-1" /> Template
+          <font-awesome-icon icon="fa-solid fa-fire-flame-simple" /> Template
+        </li>
+        <li @click="newProject">
+          <font-awesome-icon icon="fa-solid fa-plus" /> New Project
         </li>
       </ul>
     </div>
 
+    <projects-popup
+      v-if="isShowProjectsPop"
+      v-model:isShowProjectsPop="isShowProjectsPop"
+    />
     <settings-popup
       v-if="isShowSettingsPop"
       v-model:isShowSettingsPop="isShowSettingsPop"
@@ -150,15 +260,19 @@ function closeAllPop() {
     py-2
     w-44
     z-[2]
+    text-gray-600
     lg:hidden;
     li {
       @apply
-      px-3
+      px-2
       py-1
       select-none
       whitespace-nowrap
       hover:bg-gray-200
       hover:cursor-pointer;
+      svg {
+        @apply w-5;
+      }
     }
   }
 }

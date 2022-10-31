@@ -62,7 +62,7 @@ function closePopup() {
             <input type="password" v-model.trim="password" class="input" required />
           </label>
 
-          <loading-button class="btn_yellow" :isLoading="isLoading">Log in</loading-button>
+          <loading-button class="btn_yellow mt-6" :isLoading="isLoading">Log in</loading-button>
         </form>
       </div>
     </div>

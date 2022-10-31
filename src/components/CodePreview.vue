@@ -20,19 +20,45 @@ const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
 
 async function runCode(content: CodeContent) {
   const { setLoading } = useFlagStore();
+  const { codeContent: { HTML, CSS, JS, VUE }, codeTemplate } = useCodeContentStore();
   const compileFun = isSFC.value ? compileSfc : compile;
 
   setLoading({ isOpen: true, type: 'Process code' });
-  const compileResult = await compileFun(content)
-    .catch((error: Error) => {
-      iframe?.value.contentWindow?.postMessage({
-        type: 'throwError',
-        value: error.message,
-      });
-      setLoading({ isOpen: false, type: 'Process code error' });
-      throw error;
+  const compileResult = await compileFun({
+    html: {
+      language: HTML.language,
+      content: content.html,
+    },
+    css: {
+      language: CSS.language,
+      content: content.css,
+      resources: CSS.resources,
+    },
+    js: {
+      language: JS.language,
+      content: content.js,
+      resources: JS.resources,
+    },
+    vue: {
+      language: VUE.language,
+      content: content.vue ?? '',
+    },
+    codeTemplate,
+  }).catch((error: Error) => {
+    iframe?.value.contentWindow?.postMessage({
+      type: 'throwError',
+      value: error.message,
     });
-  srcdoc.value = createHtml(compileResult);
+    setLoading({ isOpen: false, type: 'Process code error' });
+    throw error;
+  });
+
+  srcdoc.value = createHtml({
+    ...compileResult,
+    cssResources: CSS.resources,
+    jsResources: JS.resources,
+    importMap: useCodeContentStore().importMap,
+  });
   setLoading({ isOpen: false, type: 'Process code finished' });
 }
 

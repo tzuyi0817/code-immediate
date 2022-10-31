@@ -26,6 +26,8 @@ const defaultState = {
   },
   codeTemplate: 'ES6' as CodeTemplate,
   importMap: '' as ImportMap,
+  codeId: '',
+  codeTitle: '',
 };
 
 type CodeMap = Partial<typeof defaultState.codeContent>;
@@ -59,14 +61,21 @@ export default defineStore('code_immediate_content', {
     },
     setImportMap(importMap: ImportMap) {
       this.importMap = importMap;
-    }, 
+    },
+    setCodeId(id: string) {
+      this.codeId = id;
+    },
+    setCodeTitle(title: string) {
+      this.codeTitle = title;
+    },
   },
   persist: {
     storage: localStorage,
     paths: [
-      'codeContent',
-      'codeTemplate',
-      'importMap',
+      // 'codeContent',
+      // 'codeTemplate',
+      // 'importMap',
+      'codeId',
     ],
   },
 });

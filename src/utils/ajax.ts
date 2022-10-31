@@ -20,8 +20,7 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => response.data,
   error => {
-    const { data } = error.response;
-    data && toast.showToast(data.message, data.status);
+    toast.showToast(error.response?.data?.message ?? error.message, 'error');
     return Promise.reject(error);
   }
 );

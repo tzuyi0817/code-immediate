@@ -8,6 +8,8 @@ import {
   ANGULAR_JS,
 } from "@/config/defaultContent";
 import { useCodeContentStore } from '@/store';
+import getCode from '@/utils/getCode';
+import { deepClone } from '@/utils/common';
 
 export const TEMPLATE_MAP = {
   ES6: {
@@ -120,6 +122,7 @@ export const TEMPLATE_MAP = {
   },
 };
 
+export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
 export const BUILT_IN_RESOURCES = new Set([
   'lib/vue@3.2.40.global.js',
   'lib/react@18.2.0.js',
@@ -128,7 +131,9 @@ export const BUILT_IN_RESOURCES = new Set([
   'lib/angular@1.8.3.js',
 ]);
 
-export function initTemplate() {
+export async function initTemplate() {
+  const { codeId } = useCodeContentStore();
+  codeId && await getCode(codeId);
   const { codeContent, codeTemplate } = useCodeContentStore();
   TEMPLATE_MAP[codeTemplate] = codeContent;
 }

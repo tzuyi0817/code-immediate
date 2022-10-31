@@ -5,26 +5,25 @@ import typescript from 'typescript';
 import { useCodeContentStore } from '@/store';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { parseImport } from '@/utils/parseImport';
-import type { CodeContent, CodeCompile, CodeTemplate } from '@/types/codeContent';
+import type { CodeContent, CodeCompile, CodeTemplate, CompileParams } from '@/types/codeContent';
 
 let sass: any = null;
 let showdown: any = null;
 
-export function compile(content: CodeContent): Promise<CodeContent> {
-  const { html, css, js } = content;
-  const { codeContent: { HTML, CSS, JS }, setImportMap } = useCodeContentStore();
-  const htmlPromise = transformHtml(html, HTML.language);
-  const cssPromise = transformCss(css, CSS.language);
-  const jsPromise = transformJs(js, JS.language);
+export function compile(params: CompileParams, isRunCode = true): Promise<CodeContent> {
+  const { html, css, js, codeTemplate } = params;
+  const htmlPromise = transformHtml(html.content, html.language);
+  const cssPromise = transformCss(css.content, css.language);
+  const jsPromise = transformJs(js.content, js.language);
 
   return new Promise((resolve, reject) => {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
-        const { codeTemplate } = useCodeContentStore();
+        const { setImportMap } = useCodeContentStore();
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
         const { code, scripts = '' } = parseImport(jsCode);
 
-        setImportMap('');
+        isRunCode && setImportMap('');
         resolve({
           html: htmlCode,
           css: cssCode,

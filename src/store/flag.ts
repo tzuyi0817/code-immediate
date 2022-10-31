@@ -6,6 +6,8 @@ const defaultState = {
   isLoading: false,
   loadingType: '',
   isStartDrag: false,
+  isCreateProject: false,
+  isCodeLoading: false,
   formatterMap: {
     HTML: false,
     CSS: false,
@@ -35,6 +37,12 @@ export default defineStore('code_immediate_flag', {
     },
     setDragFlag(isStartDrag: boolean) {
       this.isStartDrag = isStartDrag;
+    },
+    setCreateProjectFlag(isCreate: boolean) {
+      this.isCreateProject = isCreate;
+    },
+    setCodeLoading(isLoading: boolean) {
+      this.isCodeLoading = isLoading;
     }
   },
 });
