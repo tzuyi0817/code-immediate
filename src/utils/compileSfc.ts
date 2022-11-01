@@ -10,7 +10,6 @@ import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
-import { useCodeContentStore } from '@/store';
 import type { CodeContent, CompileParams } from '@/types/codeContent';
 
 interface RawSourceMap {
@@ -23,9 +22,9 @@ interface RawSourceMap {
   file?: string;
 }
 
-export function compileSfc(content: CompileParams, isRunCode = true): Promise<CodeContent> {
+export function compileSfc(content: CompileParams): Promise<CodeContent> {
   const { vue } = content;
-  const sfcPromise = parseSfc(vue.content, isRunCode);
+  const sfcPromise = parseSfc(vue.content);
 
   return new Promise((resolve, reject) => {
     sfcPromise.then(codeContent => {
@@ -35,11 +34,11 @@ export function compileSfc(content: CompileParams, isRunCode = true): Promise<Co
   })
 }
 
-function parseSfc(content: string, isRunCode: boolean): Promise<CodeContent> {
+function parseSfc(content: string): Promise<CodeContent> {
   return new Promise(async (resolve, reject) => {
     try {
       const { descriptor } = parse(content);
-      const codeContent = await processDescriptor(descriptor, isRunCode);
+      const codeContent = await processDescriptor(descriptor);
 
       resolve(codeContent);
     } catch (error) {
@@ -48,7 +47,7 @@ function parseSfc(content: string, isRunCode: boolean): Promise<CodeContent> {
   });
 }
 
-async function processDescriptor(descriptor: SFCDescriptor, isRunCode: boolean): Promise<CodeContent> {
+async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent> {
   const { styles, filename, slotted, template } = descriptor;
   const scopeId = `data-v-${Date.now().toString().slice(-6)}`;
   const isScoped = styles.some(style => style.scoped);
@@ -68,12 +67,13 @@ async function processDescriptor(descriptor: SFCDescriptor, isRunCode: boolean):
     Promise.all([
       compileCss(styles),
       // @ts-ignore
-      compileJs(descriptor, scopeId, compileTemplateOptions, isRunCode),
+      compileJs(descriptor, scopeId, compileTemplateOptions),
     ]).then(([css, js]) => {
       resolve({
         html: '<div id="app"></div>',
         css,
-        js,
+        js: js.code,
+        importMap: js.importMap
       })
     }).catch(reject);
   });
@@ -90,9 +90,7 @@ async function compileJs(
   descriptor: SFCDescriptor,
   scopeId: string,
   compileTemplateOptions: SFCTemplateCompileOptions | undefined,
-  isRunCode: boolean,
 ) {
-  const { setImportMap } = useCodeContentStore();
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
   const renderUrl = getBlobURL(renderScript);
@@ -107,14 +105,16 @@ async function compileJs(
     }
   });
 
-  isRunCode && setImportMap(importMap);
-  return `
-  <script ${scriptType}>
-    import { createApp } from 'vue';
-    import app from '${scopeId}';
-    createApp(app).mount('#app'); 
-  </script>
-  `;
+  return {
+    code: `
+      <script ${scriptType}>
+        import { createApp } from 'vue';
+        import app from '${scopeId}';
+        createApp(app).mount('#app'); 
+      </script>
+    `,
+    importMap,
+  };
 }
 
 function compileCss(styles: SFCStyleBlock[]): Promise<string> {
@@ -171,7 +171,7 @@ async function transformSfc(
       export default script;
     `,
     imports: scriptBlock.imports ?? {},
-  }
+  };
 }
 
 function getBlobURL(jsCode: string) {

@@ -99,16 +99,16 @@ onMounted(() => {
 
 <template>
   <div class="settings_popup popup" @click.self="closePopup">
-    <div class="popup_content">
-      <div class="flex justify-between items-center">
+    <div class="popup_header">
         <h3>CDN Settings</h3>
         <font-awesome-icon 
           icon="fa-solid fa-xmark"
           class="cursor-pointer"
           @click="closePopup"
         />
-      </div>
+    </div>
 
+    <div class="popup_content">
       <ul class="settings_popup_tab">
         <li 
           v-for="tab in tabList"
@@ -199,11 +199,11 @@ onMounted(() => {
       transition-all
       rounded-md
       text-center
-      hover:bg-yellow-500/90
+      hover:bg-yellow-400
       hover:text-white;
       &.active {
         @apply 
-        bg-yellow-500/90
+        bg-yellow-400
         text-white;
       }
     }

@@ -25,7 +25,6 @@ const defaultState = {
     },
   },
   codeTemplate: 'ES6' as CodeTemplate,
-  importMap: '' as ImportMap,
   codeId: '',
   codeTitle: '',
 };
@@ -59,9 +58,6 @@ export default defineStore('code_immediate_content', {
     setCodeTemplate(template: CodeTemplate) {
       this.codeTemplate = template;
     },
-    setImportMap(importMap: ImportMap) {
-      this.importMap = importMap;
-    },
     setCodeId(id: string) {
       this.codeId = id;
     },
@@ -73,7 +69,6 @@ export default defineStore('code_immediate_content', {
     storage: localStorage,
     paths: [
       // 'codeContent',
-      // 'codeTemplate',
       // 'importMap',
       'codeId',
     ],

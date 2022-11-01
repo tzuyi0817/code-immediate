@@ -2,7 +2,6 @@ import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
 import typescript from 'typescript';
-import { useCodeContentStore } from '@/store';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { parseImport } from '@/utils/parseImport';
 import type { CodeContent, CodeCompile, CodeTemplate, CompileParams } from '@/types/codeContent';
@@ -10,7 +9,7 @@ import type { CodeContent, CodeCompile, CodeTemplate, CompileParams } from '@/ty
 let sass: any = null;
 let showdown: any = null;
 
-export function compile(params: CompileParams, isRunCode = true): Promise<CodeContent> {
+export function compile(params: CompileParams): Promise<CodeContent> {
   const { html, css, js, codeTemplate } = params;
   const htmlPromise = transformHtml(html.content, html.language);
   const cssPromise = transformCss(css.content, css.language);
@@ -19,15 +18,14 @@ export function compile(params: CompileParams, isRunCode = true): Promise<CodeCo
   return new Promise((resolve, reject) => {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
-        const { setImportMap } = useCodeContentStore();
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
         const { code, scripts = '' } = parseImport(jsCode);
 
-        isRunCode && setImportMap('');
         resolve({
           html: htmlCode,
           css: cssCode,
           js: `${scripts}\n<script ${scriptType}>${code}<\/script>`,
+          importMap: '',
         });
       })
       .catch(reject);

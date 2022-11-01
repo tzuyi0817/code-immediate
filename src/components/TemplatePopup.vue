@@ -32,15 +32,16 @@ function closePopup() {
 
 <template>
   <div class="template_popup popup" @click.self="closePopup">
+    <div class="popup_header">
+      <h3>Templates</h3>
+      <font-awesome-icon 
+        icon="fa-solid fa-xmark"
+        class="cursor-pointer"
+        @click="closePopup"
+      />
+    </div>
+
     <div class="popup_content">
-      <div class="flex justify-between items-center">
-        <h3>Common Templates</h3>
-        <font-awesome-icon 
-          icon="fa-solid fa-xmark"
-          class="cursor-pointer"
-          @click="closePopup"
-        />
-      </div>
       <ul>
         <li 
           v-for="template in templateList" 

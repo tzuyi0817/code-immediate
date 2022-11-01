@@ -14,6 +14,7 @@
     flex
     text-xs
     cursor-pointer
+    transition-all
     disabled:grayscale;
   }
 
@@ -27,7 +28,7 @@
   .btn_yellow {
     @apply
     text-white
-    bg-yellow-500/90
+    bg-yellow-400
     hover:brightness-105;
   }
 

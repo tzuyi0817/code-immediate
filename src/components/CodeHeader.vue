@@ -13,7 +13,8 @@ import toast from '@/utils/toast';
 import { deepClone } from '@/utils/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 
-const title = ref('Untitled');
+const DEFAULT_TITLE = 'Untitled';
+const title = ref(DEFAULT_TITLE);
 const titleInput = ref<HTMLInputElement | null>(null);
 const isLoading = ref(false);
 const isShowEditTitle = ref(false);
@@ -40,12 +41,12 @@ async function logout() {
 function blurTitle() {
   isShowEditTitle.value = false;
   if (title.value === '')
-    title.value = 'Untitled';
+    title.value = DEFAULT_TITLE;
 }
 
 async function openTitle() {
   isShowEditTitle.value = true;
-  if (title.value === 'Untitled') title.value = '';
+  if (title.value === DEFAULT_TITLE) title.value = '';
   await nextTick();
   titleInput.value?.focus();
 }
@@ -53,12 +54,11 @@ async function openTitle() {
 async function saveCode() {
   closeMenuList();
   if (!isLogin.value) return toggleLoginPop();
-  const { codeContent, codeTemplate, importMap, codeId, setCodeId } = useCodeContentStore();
+  const { codeContent, codeTemplate, codeId, setCodeId } = useCodeContentStore();
   const data = {
     title: title.value,
     ...codeContent,
     codeTemplate,
-    importMap,
   };
   const api = codeId
     ? ajax.put(`/code/${codeId}`, { codeContent: JSON.stringify(data) })
@@ -73,7 +73,7 @@ async function saveCode() {
 }
 
 function newProject() {
-  const { setCodeMap, setCodeTemplate, setImportMap, setCodeTitle, setCodeId } = useCodeContentStore();
+  const { setCodeMap, setCodeTemplate, setCodeTitle, setCodeId } = useCodeContentStore();
   const { setCreateProjectFlag, setLoading } = useFlagStore();
   const defaultTemplate = deepClone(DEFAULT_TEMPLATE_MAP);
 
@@ -83,9 +83,9 @@ function newProject() {
   Object.assign(TEMPLATE_MAP, defaultTemplate);
   setCodeMap(defaultTemplate.ES6);
   setCodeTemplate('ES6');
-  setImportMap('');
-  setCodeTitle('Untitled');
+  setCodeTitle(DEFAULT_TITLE);
   setCodeId('');
+  title.value = DEFAULT_TITLE;
 }
 
 function toggleSignUpPop() {
@@ -183,7 +183,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
       </template>
 
       <template v-else>
-        <button class="btn btn_yellow" @click="toggleSignUpPop">Sign up</button>
+        <button class="btn btn_blue" @click="toggleSignUpPop">Sign up</button>
         <button class="btn btn_green" @click="toggleLoginPop">Log in</button>
       </template>
 
@@ -259,7 +259,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     bg-white
     py-2
     w-44
-    z-[2]
+    z-[3]
     text-gray-600
     lg:hidden;
     li {

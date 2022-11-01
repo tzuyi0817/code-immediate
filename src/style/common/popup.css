@@ -6,22 +6,34 @@
     fixed
     top-0
     left-0
-    bg-black/30
     flex
+    flex-col
     items-center
     justify-center
     z-10
+    animate-popup
+    drop-shadow-lg
     w-full
     h-full;
+    &_header {
+      @apply
+      flex
+      w-[90%]
+      max-w-md
+      justify-between
+      items-center
+      bg-yellow-400
+      p-3
+      rounded-t-md;
+    }
     &_content {
       @apply
       px-4
-      py-4
+      pb-4
       w-[90%]
       max-w-md
       max-h-[60vh]
-      rounded-md
-      animate-popup
+      rounded-b-md
       bg-white;
     }
   }

@@ -1,56 +1,52 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineAsyncComponent } from 'vue';
+import LoadingButton from '@/components/LoadingButton.vue';
+import { useCodeContentStore } from '@/store';
 import ajax from '@/utils/ajax';
-import { compile } from '@/utils/compile';
-import { compileSfc } from '@/utils/compileSfc';
-import { createHtml } from '@/utils/createHtml';
+import toast from '@/utils/toast';
 import type { CodeProject } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowProjectsPop']);
 const projects = ref<CodeProject[]>([]);
 const page = ref(1);
 const totalPage = ref(0);
+const isLoading = ref(false);
+const isDeleting = ref(false);
+const LazyIframe  = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
 
 async function getProjects() {
-  const { resultMap } = await ajax.get('/code');
-  const { codeList, page: P, totalPage: T } = resultMap;
+  isLoading.value = true;
+  const { resultMap } = await ajax.get(`/code?page=${page.value}`).catch(() => isLoading.value = false);
+  const { codeList, totalPage: T } = resultMap;
 
-  projects.value = [...projects.value, ...codeList];
-  page.value = P;
+  projects.value = codeList;
   totalPage.value = T;
+  isLoading.value = false;
 }
 
-async function transformSrcdoc(project: CodeProject) {
-  const { CSS, HTML, JS, VUE, codeTemplate, importMap } = project;
-  const compileFun = VUE.content ? compileSfc : compile;
-  const compileResult = await compileFun({
-    html: {
-      language: HTML.language,
-      content: HTML.content,
-    },
-    css: {
-      language: CSS.language,
-      content: CSS.content,
-      resources: CSS.resources,
-    },
-    js: {
-      language: JS.language,
-      content: JS.content,
-      resources: JS.resources,
-    },
-    vue: {
-      language: VUE.language,
-      content: VUE.content,
-    },
-    codeTemplate,
-  }, false);
+function selectProject(project: CodeProject) {
+  const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
+  const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
 
-  return createHtml({
-    ...compileResult,
-    cssResources: CSS.resources,
-    jsResources: JS.resources,
-    importMap,
-  });
+  setCodeId(id);
+  setCodeTitle(title);
+  setCodeMap({ HTML, CSS, JS, VUE });
+  setCodeTemplate(codeTemplate);
+  closePopup();
+}
+
+async function deleteProject(id: string) {
+  isDeleting.value = true;
+  const { status, message } = await ajax.delete(`/code/${id}`).catch(() => isLoading.value = false);
+  toast.showToast(message, status);
+  isDeleting.value = false;
+  getProjects();
+}
+
+function goPage(offset: number) {
+  page.value += offset;
+  projects.value = [];
+  getProjects();
 }
 
 function closePopup() {
@@ -62,51 +58,114 @@ onMounted(getProjects);
 
 <template>
   <div class="projects_popup popup" @click.self="closePopup">
-    <div class="popup_content max-w-5xl">
-      <div class="flex justify-between items-center">
-        <h3>Projects</h3>
-        <font-awesome-icon 
-          icon="fa-solid fa-xmark"
-          class="cursor-pointer"
-          @click="closePopup"
-        />
-      </div>
+    <div class="popup_header max-w-5xl">
+      <h3>Projects</h3>
+      <font-awesome-icon 
+        icon="fa-solid fa-xmark"
+        class="cursor-pointer"
+        @click="closePopup"
+      />
+    </div>
 
-      <ul class="grid grid-cols-1 lg:grid-cols-3 overflow-y-auto gap-3 py-5">
-        <li v-for="project in projects" :key="project.id" class="projects_popup_card">
-          <iframe
-            :srcdoc="''"
-            frameborder="0"
-            loading="lazy"
-            scrolling="no"
-            class="w-full pointer-events-none rounded mb-3 overflow-hidden"
-            tabindex="-1"
-          ></iframe>
-          <p>{{ project.title ?? 454545454 }}</p>
+    <div class="popup_content max-w-5xl max-h-[65vh]">
+      <ul v-if="isLoading" class="projects_popup_list animate-pulse">
+        <li v-for="num in 6" :key="num" class="projects_popup_card bg-gray-300">
+          <div class="h-[150px] bg-slate-200"></div>
+          <p class="rounded mt-2 p-3 bg-slate-200"></p>
         </li>
       </ul>
+
+      <ul v-else class="projects_popup_list">
+        <li
+          v-for="project in projects"
+          :key="project.id"
+          class="projects_popup_card bg-black/5"
+          @click="selectProject(project)"
+        >
+          <Suspense>
+            <Lazy-Iframe :project="project" />
+          </Suspense>
+          <div class="rounded pt-3 px-3 flex justify-between">
+            <p>{{ project.title }}</p>
+            <font-awesome-icon
+              v-if="!isDeleting"
+              icon="fa-solid fa-trash"
+              class="hover:text-red-600"
+              @click.stop="deleteProject(project.id)"
+            />
+            <font-awesome-icon
+              v-else
+              icon="fa-solid fa-spinner" 
+              class="animate-spin text-blue-600"
+            />
+          </div>
+        </li>
+        <img
+          v-if="!projects.length"
+          src="/templateIcon/images.jfif"
+          alt=""
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </ul>
+
+      <div class="flex justify-center gap-2 mt-3">
+        <loading-button
+          v-show="page !== 1"
+          class="btn btn_yellow w-auto"
+          :isLoading="isLoading"
+          @click="goPage(-1)"
+        >
+          <font-awesome-icon icon="fa-solid fa-angle-left" class="mr-2" /> Prev
+        </loading-button>
+        <loading-button
+          v-show="page < totalPage"
+          class="btn btn_yellow w-auto"
+          :isLoading="isLoading"
+          @click="goPage(1)"
+        >
+          Next <font-awesome-icon icon="fa-solid fa-angle-right" class="ml-2" />
+        </loading-button>
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="postcss" scoped>
 .projects_popup {
+  &_list {
+    @apply
+    grid
+    grid-cols-1
+    lg:grid-cols-3
+    overflow-y-auto
+    relative
+    select-none
+    h-[calc(60vh-70px)]
+    gap-3
+    mt-5
+    pb-5
+    px-2;
+  }
   &_card {
     @apply
     rounded
     border-[1px]
     border-transparent
     text-center
-    text-gray-500
+    text-gray-400
     cursor-pointer
-    p-2
+    p-3
+    h-52
     transition-all
     duration-500
-    hover:bg-black/5
+    font-bold
+    overflow-visible
+    hover:bg-yellow-300
     hover:drop-shadow-xl
     hover:border-gray-300
     hover:shadow-lg
-    hover:font-bold
+    hover:text-black/70
+    hover:scale-[103%]
   }
 }
 </style>

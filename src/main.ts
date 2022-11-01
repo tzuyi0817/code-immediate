@@ -16,6 +16,9 @@ import {
   faCloudArrowUp,
   faSheetPlastic,
   faPlus,
+  faAngleLeft,
+  faAngleRight,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
@@ -42,6 +45,9 @@ library.add(
   faCloudArrowUp,
   faSheetPlastic,
   faPlus,
+  faAngleLeft,
+  faAngleRight,
+  faTrash,
   faEye,
 );
 pinia.use(piniaPluginPersistedstate);

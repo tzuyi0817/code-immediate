@@ -46,16 +46,16 @@ function closePopup() {
 
 <template>
   <div class="login_popup popup" @click.self="closePopup">
-    <div class="popup_content">
-      <div class="flex justify-between items-center">
-        <h2>Sign up!</h2>
-        <font-awesome-icon 
-          icon="fa-solid fa-xmark"
-          class="cursor-pointer"
-          @click="closePopup"
-        />
-      </div>
+    <div class="popup_header">
+      <h2>Sign up!</h2>
+      <font-awesome-icon 
+        icon="fa-solid fa-xmark"
+        class="cursor-pointer"
+        @click="closePopup"
+      />
+    </div>
 
+    <div class="popup_content">
       <div class="login_popup_content">
         <form @submit.prevent="register">
           <label class="label">

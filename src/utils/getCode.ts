@@ -9,11 +9,10 @@ export default async function getCode(codeId: string) {
   setCodeLoading(false);
 
   if (!resultMap) return;
-  const { setCodeMap, setCodeTemplate, setImportMap, setCodeTitle } = useCodeContentStore();
-  const { title, HTML, CSS, JS, VUE, codeTemplate, importMap } = resultMap.code;
+  const { setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
+  const { title, HTML, CSS, JS, VUE, codeTemplate } = resultMap.code;
 
   setCodeMap({ HTML, CSS, JS, VUE });
   setCodeTemplate(codeTemplate);
-  setImportMap(importMap);
   setCodeTitle(title);
 }

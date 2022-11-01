@@ -3,6 +3,7 @@ export interface CodeContent {
   css: string;
   js: string;
   vue?: string;
+  importMap: ImportMap;
 }
 
 export interface CompileParams {
@@ -57,5 +58,5 @@ export interface CodeProject {
   VUE: CodeMap;
   codeTemplate: CodeTemplate;
   id: string;
-  importMap: ImportMap;
+  srcdoc?: string;
 }

@@ -13,9 +13,8 @@ interface PathNode {
 }
 
 export function parseImport(jsCode: string) {
-  const imports: CdnSourceMap[] = [];
   if (!/\bimport\b/.test(jsCode)) return { code: jsCode };
-
+  const imports: CdnSourceMap[] = [];
   const { code } = window.Babel.transform(jsCode, {
     plugins: [
       [getImports, { imports }],

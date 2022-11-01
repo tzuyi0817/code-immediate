@@ -11,14 +11,13 @@ import {
   CSS_LANGUAGE_MAP,
   JS_LANGUAGE_MAP,
 } from '@/config/language';
-import type { CodeContent, CodeModel } from '@/types/codeContent';
 
 const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
 
-async function runCode(content: CodeContent) {
+async function runCode() {
   const { setLoading } = useFlagStore();
   const { codeContent: { HTML, CSS, JS, VUE }, codeTemplate } = useCodeContentStore();
   const compileFun = isSFC.value ? compileSfc : compile;
@@ -27,21 +26,21 @@ async function runCode(content: CodeContent) {
   const compileResult = await compileFun({
     html: {
       language: HTML.language,
-      content: content.html,
+      content: HTML.content,
     },
     css: {
       language: CSS.language,
-      content: content.css,
+      content: CSS.content,
       resources: CSS.resources,
     },
     js: {
       language: JS.language,
-      content: content.js,
+      content: JS.content,
       resources: JS.resources,
     },
     vue: {
       language: VUE.language,
-      content: content.vue ?? '',
+      content: VUE.content,
     },
     codeTemplate,
   }).catch((error: Error) => {
@@ -57,7 +56,6 @@ async function runCode(content: CodeContent) {
     ...compileResult,
     cssResources: CSS.resources,
     jsResources: JS.resources,
-    importMap: useCodeContentStore().importMap,
   });
   setLoading({ isOpen: false, type: 'Process code finished' });
 }
@@ -70,18 +68,11 @@ function initLoadParseSource() {
     loadParseSource(HTML.language, HTML_LANGUAGE_MAP),
     loadParseSource(CSS.language, CSS_LANGUAGE_MAP),
     loadParseSource(JS.language, JS_LANGUAGE_MAP),
-  ]).then(() => {
-    runCode(pickContent(codeContent));
-  });
+  ]).then(runCode);
 }
 
-function pickContent(codeMap: Record<CodeModel, Record<'content', string>>) {
-  const { HTML, CSS, JS, VUE } = codeMap;
-  return { html: HTML.content, css: CSS.content, js: JS.content, vue: VUE.content };
-}
-
-watch(codeContent, (codeMap) => {
-  !isFormatter.value && runCode(pickContent(codeMap));
+watch(codeContent, () => {
+  !isFormatter.value && runCode();
 }, { deep: true });
 
 onMounted(initLoadParseSource);
