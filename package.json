@@ -2,7 +2,11 @@
   "name": "code-immediate",
   "private": true,
   "version": "0.0.0",
+  "description": "A code online editing preview tool, similar to codepen",
   "type": "module",
+  "license": "MIT",
+  "repository": {},
+  "keywords": ["vue3", "typescript", "code"],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
