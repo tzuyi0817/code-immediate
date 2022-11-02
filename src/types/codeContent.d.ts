@@ -50,11 +50,14 @@ interface CodeMap {
   resources: string[];
 }
 
-export interface CodeProject {
-  title: string;
+export interface CodeBase {
   CSS: CodeMap;
-  HTML: CodeMap;
+  HTML: Omit<CodeMap, 'resources'>;
   JS: CodeMap;
+}
+
+export interface CodeProject extends CodeBase {
+  title: string;
   VUE: CodeMap;
   codeTemplate: CodeTemplate;
   id: string;

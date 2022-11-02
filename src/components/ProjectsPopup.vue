@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue';
 import LoadingButton from '@/components/LoadingButton.vue';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import ajax from '@/utils/ajax';
 import toast from '@/utils/toast';
+import { loadParseSources } from '@/utils/loadParse';
 import type { CodeProject } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowProjectsPop']);
@@ -24,15 +25,19 @@ async function getProjects() {
   isLoading.value = false;
 }
 
-function selectProject(project: CodeProject) {
+async function selectProject(project: CodeProject) {
   const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
+  const { setCodeLoading } = useFlagStore();
   const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
 
+  setCodeLoading(true);
+  await loadParseSources({ HTML, CSS, JS });
   setCodeId(id);
   setCodeTitle(title);
   setCodeMap({ HTML, CSS, JS, VUE });
   setCodeTemplate(codeTemplate);
   closePopup();
+  setCodeLoading(false);
 }
 
 async function deleteProject(id: string) {

@@ -5,12 +5,7 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
 import { compileSfc } from '@/utils/compileSfc';
 import { createHtml } from '@/utils/createHtml';
-import { loadParseSource } from '@/utils/loadParse';
-import {
-  HTML_LANGUAGE_MAP,
-  CSS_LANGUAGE_MAP,
-  JS_LANGUAGE_MAP,
-} from '@/config/language';
+import { loadParseSources } from '@/utils/loadParse';
 
 const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
@@ -64,11 +59,7 @@ function initLoadParseSource() {
   const { codeContent } = useCodeContentStore();
   const { HTML, CSS, JS } = codeContent;
 
-  Promise.all([
-    loadParseSource(HTML.language, HTML_LANGUAGE_MAP),
-    loadParseSource(CSS.language, CSS_LANGUAGE_MAP),
-    loadParseSource(JS.language, JS_LANGUAGE_MAP),
-  ]).then(runCode);
+  loadParseSources({ HTML, CSS, JS }).then(runCode);
 }
 
 watch(codeContent, () => {

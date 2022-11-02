@@ -48,11 +48,12 @@ watch(isFormatter, (isFormatter) => {
   setFormatter({ model: props.model, isFormatter: false });
 });
 
-watch([isCreateProject, isCodeLoading], (isCreate, isLoading) => {
-  if (!isCreate && !isLoading) return;
+watch([isCreateProject, isCodeLoading], ([isCreate, isLoading]) => {
+  console.log({ isCreate, isLoading })
+  if (!isCreate && isLoading) return;
   const { setCreateProjectFlag, setLoading } = useFlagStore();
   updateEditorModel(content.value, language.value);
-  if (isLoading) return;
+  if (!isLoading) return;
   setLoading({ isOpen: false, type: 'Create new project finished' });
   setCreateProjectFlag(false);
 });

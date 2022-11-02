@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 const emit = defineEmits(['update:dragA', 'update:dragB', 'update:dragC']);
 const cursor = computed(() => props.direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize');
-const layout = computed(() => props.direction === 'x' ? 'w-[18px]' : 'h-[18px]');
+const layout = computed(() => props.direction === 'x' ? 'w-[18px]' : 'min-h-[18px]');
 
 const {
   startDrag,

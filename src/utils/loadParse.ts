@@ -1,5 +1,11 @@
 import loadjs from 'loadjs';
 import { useFlagStore } from '@/store';
+import {
+  HTML_LANGUAGE_MAP,
+  CSS_LANGUAGE_MAP,
+  JS_LANGUAGE_MAP,
+} from '@/config/language';
+import type { CodeBase } from '@/types/codeContent';
 
 const loadedParseMap = new Map([
   ['html', true],
@@ -31,4 +37,12 @@ export async function loadParseSource(language: string, languageMap: Record<stri
     throw error;
   });
   setLoading({ isOpen: false, type: 'Loading parse source finished' });
+}
+
+export function loadParseSources({ HTML, CSS, JS }: CodeBase) {
+  return Promise.all([
+    loadParseSource(HTML.language, HTML_LANGUAGE_MAP),
+    loadParseSource(CSS.language, CSS_LANGUAGE_MAP),
+    loadParseSource(JS.language, JS_LANGUAGE_MAP),
+  ]);
 }

@@ -57,7 +57,7 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 
 (async function init() {
   loadParse('babel');
-  initMonacoEditor();
+  await initMonacoEditor();
   initTemplate();
   app.mount('#app');
 })();
