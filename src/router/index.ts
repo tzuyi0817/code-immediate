@@ -6,7 +6,7 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/',
   },
   {
-    path: '/',
+    path: '/:id?',
     name: 'Index',
     component: () => import('@/pages/Index.vue')
   },

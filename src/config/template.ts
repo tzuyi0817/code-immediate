@@ -7,8 +7,7 @@ import {
   ANGULAR_HTML,
   ANGULAR_JS,
 } from "@/config/defaultContent";
-import { useCodeContentStore, useUserStore } from '@/store';
-import getCode from '@/utils/getCode';
+import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
 
 export const TEMPLATE_MAP = {
@@ -132,8 +131,6 @@ export const BUILT_IN_RESOURCES = new Set([
 ]);
 
 export async function initTemplate() {
-  const { codeId } = useCodeContentStore();
-  codeId && await getCode(codeId);
   const { codeContent, codeTemplate } = useCodeContentStore();
   TEMPLATE_MAP[codeTemplate] = codeContent;
 }

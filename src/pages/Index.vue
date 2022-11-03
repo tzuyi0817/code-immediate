@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, onMounted } from 'vue';
+import { ref, reactive, computed, provide, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
+import getCode from '@/utils/getCode';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeDrag from '@/components/CodeDrag.vue';
@@ -32,7 +34,9 @@ const isShowMenuMap = reactive({
   JS: false,
   VUE: false,
 });
-const { isSFC } = storeToRefs(useCodeContentStore());
+const { isSFC, codeId } = storeToRefs(useCodeContentStore());
+const router = useRouter();
+const route = useRoute();
 const wrapHeight = computed(() => {
   return isShowPreview.value ? 'h-[40vh]' : 'h-[calc(100vh-88px)]';
 });
@@ -49,6 +53,9 @@ function closeInitLoading() {
   setInitLoading(false);
 }
 
+watch(codeId, (id) => router.push({ params: { id } }));
+getCode(route.params.id as string);
+useCodeContentStore().setCodeId(route.params.id as string ?? 0);
 onMounted(closeInitLoading);
 </script>
 
