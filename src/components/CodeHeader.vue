@@ -139,26 +139,29 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
 <template>
   <header class="code_header">
     <div class="code_header_left">
-      <div class="font-bold flex items-center gap-1">
-        <input
-          v-if="isShowEditTitle"
-          type="text"
-          ref="titleInput"
-          class="bg-black text-white focus:outline-none"
-          v-model="title"
-          @blur="blurTitle"
-        />
-
-        <template v-else>
-          <span>{{ title }}</span>
-          <font-awesome-icon
-            icon="fa-solid fa-pen-fancy"
-            class="cursor-pointer"
-            @click="openTitle"
+      <img src="/icon.jpg" class="w-7 h-7 invert" alt="" />
+      <div>
+        <div class="font-bold flex items-center gap-1">
+          <input
+            v-if="isShowEditTitle"
+            type="text"
+            ref="titleInput"
+            class="bg-black text-white focus:outline-none"
+            v-model="title"
+            @blur="blurTitle"
           />
-        </template>
+
+          <template v-else>
+            <span>{{ title }}</span>
+            <font-awesome-icon
+              icon="fa-solid fa-pen-fancy"
+              class="cursor-pointer"
+              @click="openTitle"
+            />
+          </template>
+        </div>
+        <p class="text-xs text-gray-300">{{ isLogin ? user.account : 'Captain Anonymous' }}</p>
       </div>
-      <p class="text-xs text-gray-300">{{ isLogin ? user.account : 'Captain Anonymous' }}</p>
     </div>
 
     <div class="code_header_right">
@@ -258,7 +261,11 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
   border-gray-700/60
   bg-black;
   &_left {
-    @apply text-white;
+    @apply
+    text-white
+    flex
+    items-center
+    gap-2;
     svg {
       @apply text-xs;
     }
