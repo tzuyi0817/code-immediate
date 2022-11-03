@@ -10,7 +10,7 @@ import {
   nextTick,
 } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeDrag from '@/components/CodeDrag.vue';
 
 interface Props {
@@ -25,7 +25,8 @@ const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref<HTMLDivElement | null>(null);
 const consoleHeight = ref('30vh');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
-const { isSFC } = storeToRefs(useCodeContentStore());
+const { isSFC, codeId } = storeToRefs(useCodeContentStore());
+const { isCreateProject } = storeToRefs(useFlagStore());
 
 function implementJs(event: Event) {
   const { value } = event.target as HTMLTextAreaElement;
@@ -56,6 +57,7 @@ async function wrapScrollToBottom() {
   scroller.scrollTop = scroller.scrollHeight;
 }
 
+watch([isCreateProject, codeId], clearConsole);
 watch(() => props.isShowConsole, (isShow) => isShow && wrapScrollToBottom());
 onMounted(() => self.addEventListener('message', receiveMessage));
 onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));

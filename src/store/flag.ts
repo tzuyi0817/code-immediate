@@ -8,12 +8,13 @@ const defaultState = {
   isStartDrag: false,
   isCreateProject: false,
   isCodeLoading: false,
+  isChangeCode: false,
   formatterMap: {
     HTML: false,
     CSS: false,
     JS: false,
     VUE: false,
-  }
+  },
 };
 
 export default defineStore('code_immediate_flag', {
@@ -43,6 +44,9 @@ export default defineStore('code_immediate_flag', {
     },
     setCodeLoading(isLoading: boolean) {
       this.isCodeLoading = isLoading;
+    },
+    setChangeCodeFlag(isChange: boolean) {
+      this.isChangeCode = isChange;
     }
   },
 });

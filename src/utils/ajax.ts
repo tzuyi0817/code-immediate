@@ -1,5 +1,6 @@
 import axios from 'axios';
 import toast from '@/utils/toast';
+import { useCodeContentStore, useUserStore } from '@/store';
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -20,7 +21,16 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   response => response.data,
   error => {
-    toast.showToast(error.response?.data?.message ?? error.message, 'error');
+    const { data } = error.response;
+
+    if (data === 'Unauthorized') {
+      useCodeContentStore().setCodeId('');
+      useUserStore().setUser({});
+      localStorage.removeItem('code_token');
+      toast.showToast('account is logged out', 'error');
+    } else {
+      toast.showToast(data?.message ?? error.message, 'error');
+    }
     return Promise.reject(error);
   }
 );

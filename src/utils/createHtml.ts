@@ -44,7 +44,7 @@ function assembleHtml(head: string, body: string) {
         <meta charset="UTF-8" />
         ${head}
       </head>
-      <body>
+      <body style="margin: 0">
         ${body}
       </body>
     </html>

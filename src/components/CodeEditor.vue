@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import useMonacoEditor from '@/hooks/useMonacoEditor';
 import { useCodeContentStore, useFlagStore } from '@/store';
+import { sleep } from '@/utils/common';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -48,12 +49,12 @@ watch(isFormatter, (isFormatter) => {
   setFormatter({ model: props.model, isFormatter: false });
 });
 
-watch([isCreateProject, isCodeLoading], ([isCreate, isLoading]) => {
-  console.log({ isCreate, isLoading })
+watch([isCreateProject, isCodeLoading], async([isCreate, isLoading]) => {
   if (!isCreate && isLoading) return;
   const { setCreateProjectFlag, setLoading } = useFlagStore();
   updateEditorModel(content.value, language.value);
-  if (!isLoading) return;
+  if (!isCreate) return;
+  await sleep(0);
   setLoading({ isOpen: false, type: 'Create new project finished' });
   setCreateProjectFlag(false);
 });

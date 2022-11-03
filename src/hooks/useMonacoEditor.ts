@@ -2,11 +2,12 @@ import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce, sleep } from '@/utils/common';
 import { registry, GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/utils/monacoEditor';
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 
 export default function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
+  const { setChangeCodeFlag } = useFlagStore();
   const monacoEditor = {
     editor: null as monaco.editor.IStandaloneCodeEditor | null,
   };
@@ -32,6 +33,7 @@ export default function useMonacoEditor() {
       const code = monacoEditor.editor?.getValue()!;
       const type = model;
       setCodeContent({ type, code });
+      setChangeCodeFlag(true);
     }, 1500));
 
     monacoEditor.editor.onDidBlurEditorText(debounce(() => {

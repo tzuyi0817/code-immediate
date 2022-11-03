@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { deepClone } from '@/utils/common';
-import type { CodeModel, CodeTemplate, ImportMap } from '@/types/codeContent';
+import type { CodeModel, CodeTemplate } from '@/types/codeContent';
 import type { CdnModel } from '@/types/cdn';
 
 const defaultState = {
@@ -68,8 +68,6 @@ export default defineStore('code_immediate_content', {
   persist: {
     storage: localStorage,
     paths: [
-      // 'codeContent',
-      // 'importMap',
       'codeId',
     ],
   },

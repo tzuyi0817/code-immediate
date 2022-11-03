@@ -7,12 +7,13 @@ import toast from '@/utils/toast';
 import { loadParseSources } from '@/utils/loadParse';
 import type { CodeProject } from '@/types/codeContent';
 
-const emit = defineEmits(['update:isShowProjectsPop']);
+const emit = defineEmits(['update:isShowProjectsPop', 'openRemindPop']);
 const projects = ref<CodeProject[]>([]);
 const page = ref(1);
 const totalPage = ref(0);
 const isLoading = ref(false);
 const isDeleting = ref(false);
+const deleteId = ref('');
 const LazyIframe  = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
 
 async function getProjects() {
@@ -26,8 +27,9 @@ async function getProjects() {
 }
 
 async function selectProject(project: CodeProject) {
+  const { setCodeLoading, isChangeCode } = useFlagStore();
+  if (isChangeCode) return emit('openRemindPop', () => selectProject(project));
   const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
-  const { setCodeLoading } = useFlagStore();
   const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
 
   setCodeLoading(true);
@@ -41,6 +43,8 @@ async function selectProject(project: CodeProject) {
 }
 
 async function deleteProject(id: string) {
+  if (isDeleting.value) return;
+  deleteId.value = id;
   isDeleting.value = true;
   const { status, message } = await ajax.delete(`/code/${id}`).catch(() => isLoading.value = false);
   toast.showToast(message, status);
@@ -93,15 +97,15 @@ onMounted(getProjects);
           <div class="rounded pt-3 px-3 flex justify-between">
             <p>{{ project.title }}</p>
             <font-awesome-icon
-              v-if="!isDeleting"
-              icon="fa-solid fa-trash"
-              class="hover:text-red-600"
-              @click.stop="deleteProject(project.id)"
+              v-if="isDeleting && deleteId === project.id"
+              icon="fa-solid fa-spinner" 
+              class="animate-spin text-blue-600"
             />
             <font-awesome-icon
               v-else
-              icon="fa-solid fa-spinner" 
-              class="animate-spin text-blue-600"
+              icon="fa-solid fa-trash"
+              :class="['hover:text-red-600', { 'hover:cursor-not-allowed': isDeleting }]"
+              @click.stop="deleteProject(project.id)"
             />
           </div>
         </li>

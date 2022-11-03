@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from 'vue';
+import { ref, nextTick, watch, defineAsyncComponent } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
-import SettingsPopup from '@/components/SettingsPopup.vue';
-import TemplatePopup from '@/components/TemplatePopup.vue';
-import LoginPopup from '@/components/LoginPopup.vue';
-import SignUpPopup from '@/components/SignUpPopup.vue';
-import ProjectsPopup from '@/components/ProjectsPopup.vue';
 import LoadingButton from '@/components/LoadingButton.vue';
 import ajax from '@/utils/ajax';
 import toast from '@/utils/toast';
@@ -24,6 +19,14 @@ const isShowMenuList = ref(false);
 const isShowLoginPop = ref(false);
 const isShowSignUpPop = ref(false);
 const isShowProjectsPop = ref(false);
+const isShowRemindPop = ref(false);
+const doFun = ref<Function | null>(null);
+const SettingsPopup = defineAsyncComponent(() => import('@/components/SettingsPopup.vue'));
+const TemplatePopup = defineAsyncComponent(() => import('@/components/TemplatePopup.vue'));
+const LoginPopup = defineAsyncComponent(() => import('@/components/LoginPopup.vue'));
+const SignUpPopup = defineAsyncComponent(() => import('@/components/SignUpPopup.vue'));
+const ProjectsPopup = defineAsyncComponent(() => import('@/components/ProjectsPopup.vue'));
+const RemindPopup = defineAsyncComponent(() => import('@/components/RemindPopup.vue'));
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
 
@@ -33,6 +36,7 @@ async function logout() {
   const { setUser } = useUserStore();
 
   setUser({});
+  newProject();
   localStorage.removeItem('code_token');
   toast.showToast(message, status);
   isLoading.value = false;
@@ -66,15 +70,18 @@ async function saveCode() {
   
   isLoading.value = true;
   const { status, message, resultMap } = await api.catch(() => isLoading.value = false);
+  const { setChangeCodeFlag } = useFlagStore();
 
   resultMap && setCodeId(resultMap.code._id);
+  setChangeCodeFlag(false);
   toast.showToast(message, status);
   isLoading.value = false;
 }
 
 function newProject() {
+  const { setCreateProjectFlag, setLoading, isChangeCode } = useFlagStore();
+  if (isChangeCode) return openRemindPop(newProject);
   const { setCodeMap, setCodeTemplate, setCodeTitle, setCodeId } = useCodeContentStore();
-  const { setCreateProjectFlag, setLoading } = useFlagStore();
   const defaultTemplate = deepClone(DEFAULT_TEMPLATE_MAP);
 
   closeMenuList();
@@ -86,6 +93,11 @@ function newProject() {
   setCodeTitle(DEFAULT_TITLE);
   setCodeId('');
   title.value = DEFAULT_TITLE;
+}
+
+function openRemindPop(fun: Function) {
+  doFun.value = fun;
+  isShowRemindPop.value = true;
 }
 
 function toggleSignUpPop() {
@@ -206,6 +218,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     <projects-popup
       v-if="isShowProjectsPop"
       v-model:isShowProjectsPop="isShowProjectsPop"
+      @openRemindPop="openRemindPop"
     />
     <settings-popup
       v-if="isShowSettingsPop"
@@ -222,6 +235,12 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     <sign-up-popup
       v-if="isShowSignUpPop"
       v-model:isShowSignUpPop="isShowSignUpPop"
+    />
+    <remind-popup
+      v-if="isShowRemindPop"
+      v-model:isShowRemindPop="isShowRemindPop"
+      :saveCode="saveCode"
+      :doFun="doFun"
     />
   </header>
 </template>

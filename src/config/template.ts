@@ -7,7 +7,7 @@ import {
   ANGULAR_HTML,
   ANGULAR_JS,
 } from "@/config/defaultContent";
-import { useCodeContentStore } from '@/store';
+import { useCodeContentStore, useUserStore } from '@/store';
 import getCode from '@/utils/getCode';
 import { deepClone } from '@/utils/common';
 
