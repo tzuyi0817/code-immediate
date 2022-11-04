@@ -140,7 +140,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
   <header class="code_header">
     <div class="code_header_left">
       <img src="/icon.jpg" class="w-7 h-7 invert" alt="" />
-      <div>
+      <div class="w-[calc(100%-36px)]">
         <div class="font-bold flex items-center gap-1">
           <input
             v-if="isShowEditTitle"
@@ -152,7 +152,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
           />
 
           <template v-else>
-            <span>{{ title }}</span>
+            <span class="text_ellipsis">{{ title }}</span>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
               class="cursor-pointer"
@@ -265,6 +265,8 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     text-white
     flex
     items-center
+    max-w-[calc(100%-200px)]
+    lg:max-w-[calc(100%-520px)]
     gap-2;
     svg {
       @apply text-xs;
@@ -274,6 +276,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     @apply
     relative
     flex
+    min-w-fit
     gap-1;
   }
   &_menu {

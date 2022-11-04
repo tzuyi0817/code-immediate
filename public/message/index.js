@@ -4,7 +4,8 @@
       const value = Reflect.get(...arguments);
 
       return function (...args) {
-        postMessageToParent({ type: prop, data: formatMessage(args[0]) });
+        const data = args.reduce((result, arg) => result + ` ${formatMessage(arg)}`, '');
+        postMessageToParent({ type: prop, data });
         return value.apply(target, args);
       }
     },
@@ -42,6 +43,18 @@
       undefined: () => '<span class="atom">undefined</span>',
       boolean: () => `<span class="atom">${message}</span>`,
       symbol: () => `<span class="atom">Symbol(${formatMessage(message.description)})</span>`,
+      function: () => {
+        const [statement, args, ...msg] = message.toString().split(/[)(]/);
+        const [fun, variable] = statement.split(' ');
+        const argsDom = args.split(',').filter(Boolean).reduce((dom, arg, index) => {
+          const comma = index === 0 ? '' : ', ';
+          return dom + `${comma}<span class="def">${arg.trim()}</span>`;
+        }, '');
+        return `<span class="key">${fun}</span>` +
+          `<span class="def"> ${variable}</span>` +
+          `(${argsDom}) ` +
+          `<span>${msg.join('')}</span>`;
+      },
       array: () => {
         const assemble = message.reduce((result, value, index) => {
           const comma = index === message.length - 1 ? '' : ',';

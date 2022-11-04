@@ -164,6 +164,9 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
       .key {
         @apply text-yellow-400;
       }
+      .def {
+        @apply text-blue-400;
+      }
     }
     &.error {
       @apply 

@@ -49,7 +49,7 @@ watch(isFormatter, (isFormatter) => {
   setFormatter({ model: props.model, isFormatter: false });
 });
 
-watch([isCreateProject, isCodeLoading], async([isCreate, isLoading]) => {
+watch([isCreateProject, isCodeLoading], async ([isCreate, isLoading]) => {
   if (!isCreate && isLoading) return;
   const { setCreateProjectFlag, setLoading } = useFlagStore();
   updateEditorModel(content.value, language.value);
