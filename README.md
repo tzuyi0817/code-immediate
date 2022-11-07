@@ -7,7 +7,7 @@ A code online editing preview tool, similar to `codepen`.
 [o] Built-in many common templates  
 [o] Support multiple preprocessing languages  
 [o] Support `vue3 sfc`  
-[o] Support for save code
+[o] Support for save code  
 [o] Built-in support for using ES module syntax on browsers using [unpkg](https://unpkg.com/), [esbuild](https://esbuild.vercel.app) and [importmap](https://github.com/WICG/import-maps)  
 [o] Support code formatting  
 [o] Support setting [CDNjs](https://cdnjs.com/) for use  

@@ -4,7 +4,7 @@
       const value = Reflect.get(...arguments);
 
       return function (...args) {
-        const data = args.reduce((result, arg) => result + ` ${formatMessage(arg)}`, '');
+        const data = args.reduce((result, arg) => result + `${formatMessage(arg)} `, '');
         postMessageToParent({ type: prop, data });
         return value.apply(target, args);
       }
@@ -12,9 +12,13 @@
   });
 
   self.console = consoleProxy;
-  self.onerror = function (event) {
-    console.error(`${event} at ${self.parent.origin}`);
+  self.onerror = function (message) {
+    console.error(`${message} at ${self.parent.origin}`);
   };
+
+  self.addEventListener('unhandledrejection', error => {
+    console.error(`Uncaught (in promise) ${error.reason} at ${self.parent.origin}`);
+  });
 
   self.addEventListener('message', ({ data: { value, type } }) => {
     const typeMap = {
@@ -46,7 +50,7 @@
       function: () => {
         const [statement, args, ...msg] = message.toString().split(/[)(]/);
         const [fun, variable] = statement.split(' ');
-        const argsDom = args.split(',').filter(Boolean).reduce((dom, arg, index) => {
+        const argsDom = args?.split(',').filter(Boolean).reduce((dom, arg, index) => {
           const comma = index === 0 ? '' : ', ';
           return dom + `${comma}<span class="def">${arg.trim()}</span>`;
         }, '');
@@ -64,7 +68,7 @@
       },
       object: () => {
         const assemble = Reflect.ownKeys(message).reduce((result, key) => {
-          return result + `  <span class="key">${key}:</span> ${formatMessage(message[key])}` + '\n';
+          return result + `   <span class="key">${key}:</span> ${formatMessage(message[key])}` + '\n';
         }, '');
         return `{\n${assemble}}`;
       }
