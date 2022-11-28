@@ -6,7 +6,8 @@ import toast from '@/utils/toast';
 import LoadingButton from '@/components/LoadingButton.vue';
 
 const emit = defineEmits(['update:isShowLoginPop']);
-const account = ref('');
+const localAccount = localStorage.getItem('code_account');
+const account = ref(localAccount ?? '');
 const password = ref('');
 const isLoading = ref(false);
 
@@ -23,6 +24,7 @@ async function login() {
 
   setUser(user);
   localStorage.setItem('code_token', token);
+  localStorage.setItem('code_account', account.value);
   toast.showToast(message, status);
   isLoading.value = false;
   closePopup();
