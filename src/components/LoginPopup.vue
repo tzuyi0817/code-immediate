@@ -30,6 +30,30 @@ async function login() {
   closePopup();
 }
 
+function loginGithub() {
+  const { innerHeight, innerWidth } = window;
+  const { VITE_API_URL } = import.meta.env;
+  const windowFeatures = `left=${innerWidth * 0.5 - 250},top=${innerHeight * 0.5 - 250},width=500,height=500`;
+  let authWindow = window.open(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
+
+  if (!authWindow) return;
+  authWindow.focus();
+  authWindow.onload = () => {
+    const { searchParams } = new URL(authWindow?.location.href ?? '');
+    const { setUser } = useUserStore();
+    const token = searchParams.get('token') ?? '';
+    const account = searchParams.get('account') ?? '';
+
+    setUser({ account });
+    localStorage.setItem('code_token', token);
+    localStorage.setItem('code_account', account);
+    authWindow?.close();
+    authWindow = null;
+    toast.showToast('login success', 'success');
+    closePopup();
+  }
+}
+
 function cleanForm() {
   account.value = password.value = '';
   isLoading.value = false;
@@ -66,6 +90,10 @@ function closePopup() {
 
           <loading-button class="btn_yellow mt-6" :isLoading="isLoading">Log in</loading-button>
         </form>
+
+        <loading-button class="btn_blue mt-2" :isLoading="isLoading" @click="loginGithub">
+          <font-awesome-icon icon="fa-brands fa-github" class="mr-5 text-xl" /> Log in with GitHub
+        </loading-button>
       </div>
     </div>
   </div>

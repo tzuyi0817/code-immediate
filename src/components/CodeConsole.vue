@@ -39,7 +39,7 @@ function implementJs(event: Event) {
 }
 
 function receiveMessage(event: MessageEvent) {
-  const { data } = event
+  const { data } = event;
   if (data.type === void 0) return;
   consoleCode.push(data);
   // console.log(data)
