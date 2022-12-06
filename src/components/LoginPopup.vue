@@ -46,7 +46,6 @@ function loginGithub() {
 
     setUser({ account });
     localStorage.setItem('code_token', token);
-    localStorage.setItem('code_account', account);
     authWindow?.close();
     authWindow = null;
     toast.showToast('login success', 'success');

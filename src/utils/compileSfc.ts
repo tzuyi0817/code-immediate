@@ -22,6 +22,10 @@ interface RawSourceMap {
   file?: string;
 }
 
+type BoldURLType = 'render' | 'script' | 'template';
+
+const blobURLMap = new Map<BoldURLType, string>();
+
 export function compileSfc(content: CompileParams): Promise<CodeContent> {
   const { vue } = content;
   const sfcPromise = parseSfc(vue.content);
@@ -93,7 +97,7 @@ async function compileJs(
 ) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
-  const renderUrl = getBlobURL(renderScript);
+  const renderUrl = getBlobURL(renderScript, 'render');
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
     map.imports[source] = `https://unpkg.com/${source}?module`;
@@ -161,10 +165,11 @@ async function transformSfc(
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }
 
+  revokeBlobURL();
   return {
     renderScript: `
-      import script from '${getBlobURL(scriptBlock.content)}';
-      import { render } from '${getBlobURL(template?.code ?? '')}';
+      import script from '${getBlobURL(scriptBlock.content, 'script')}';
+      import { render } from '${getBlobURL(template?.code ?? '', 'template')}';
       script.render = render;
       ${filename ? `script.__file = '${filename}'` : ''};
       ${scopeId ? `script.__scopeId = '${scopeId}'` : ''};
@@ -174,10 +179,15 @@ async function transformSfc(
   };
 }
 
-function getBlobURL(jsCode: string) {
+function getBlobURL(jsCode: string, type: BoldURLType) {
   const blob = new Blob([jsCode], { type: 'text/javascript' });
   const blobURL = URL.createObjectURL(blob);
+  blobURLMap.set(type, blobURL);
   return blobURL;
+}
+
+function revokeBlobURL() {
+  blobURLMap.forEach(blobURL => URL.revokeObjectURL(blobURL));
 }
 
 function sourceMappingURL(map: RawSourceMap) {
