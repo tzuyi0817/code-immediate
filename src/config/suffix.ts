@@ -1,0 +1,18 @@
+export const SUFFIX_MAP = {
+  HTML: 'html',
+  Haml: 'haml',
+  Markdown: 'md',
+  Pug: 'pug',
+  CSS: 'css',
+  Less: 'less',
+  SCSS: 'scss',
+  Sass: 'sass',
+  Stylus: 'styl',
+  PostCSS: 'css',
+  JavaScript: 'js',
+  Babel: 'js',
+  TypeScript: 'ts',
+  CoffeeScript: 'coffee',
+  LiveScript: 'mlx',
+  Vue: 'vue',
+};

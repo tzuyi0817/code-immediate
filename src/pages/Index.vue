@@ -42,7 +42,7 @@ const wrapHeight = computed(() => {
 });
 
 provide('iframe', iframe);
-provide('codeFormatMenu', { isShowMenuMap, toggleMenu });
+provide('codeMenu', { isShowMenuMap, toggleMenu });
 
 function toggleMenu(model: CodeModel, isOpen?: boolean) {
   isShowMenuMap[model] = isOpen ?? !isShowMenuMap[model];
@@ -139,7 +139,7 @@ onMounted(closeInitLoading);
         :limit="{ min: 20, max: 80 }"
       />
 
-      <div v-show="isSFC" @click.self="toggleMenu('VUE', false)" class="h-full flex">
+      <div v-show="isSFC" @click="toggleMenu('VUE', false)" class="h-full flex">
         <div class="code_wrap_vue flex-1">
           <code-editor-tab model="VUE" />
           <code-editor class="h-[calc(100%-40px)]" model="VUE" />

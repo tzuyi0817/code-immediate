@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import LanguageSelect from '@/components/LanguageSelect.vue';
-import CodeEditorFormat from '@/components/CodeEditorFormat.vue';
+import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -41,7 +41,7 @@ const isRotate = computed(() => +props.width.replace('%', '') <= 13);
         :languageMap="languageMap"
         :model="model"
       />
-      <code-editor-format :model="model" />
+      <code-editor-menu :model="model" />
     </div>
   </div>
 </template>

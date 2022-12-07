@@ -22,9 +22,9 @@ interface RawSourceMap {
   file?: string;
 }
 
-type BoldURLType = 'render' | 'script' | 'template';
+type BlobURLType = 'render' | 'script' | 'template';
 
-const blobURLMap = new Map<BoldURLType, string>();
+const blobURLMap = new Map<BlobURLType, string>();
 
 export function compileSfc(content: CompileParams): Promise<CodeContent> {
   const { vue } = content;
@@ -179,7 +179,7 @@ async function transformSfc(
   };
 }
 
-function getBlobURL(jsCode: string, type: BoldURLType) {
+function getBlobURL(jsCode: string, type: BlobURLType) {
   const blob = new Blob([jsCode], { type: 'text/javascript' });
   const blobURL = URL.createObjectURL(blob);
   blobURLMap.set(type, blobURL);

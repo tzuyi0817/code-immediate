@@ -44,7 +44,7 @@ export interface CodeCompile {
   content: string;
 }
 
-interface CodeMap {
+export interface CodeMap {
   language: string;
   content: string;
   resources: string[];
