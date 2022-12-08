@@ -17,6 +17,7 @@ const { isCreateProject, isCodeLoading } = storeToRefs(useFlagStore());
 const language = computed(() => codeContent.value[props.model].language);
 const content = computed(() => codeContent.value[props.model].content);
 const isFormatter = computed(() => useFlagStore().formatterMap[props.model]);
+const isEmbed = computed(() => useFlagStore().EmbedMap[props.model]);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
     if (height === 0 || width === 0) return;
@@ -57,6 +58,13 @@ watch([isCreateProject, isCodeLoading], async ([isCreate, isLoading]) => {
   await sleep(0);
   setLoading({ isOpen: false, type: 'Create new project finished' });
   setCreateProjectFlag(false);
+});
+
+watch(isEmbed, async (isEmbed) => {
+  if (!isEmbed) return;
+  const { setEmbedFlag } = useFlagStore();
+  updateEditorValue(content.value);
+  setEmbedFlag({ model: props.model, isEmbed: false });
 });
 
 onMounted(initEditor);

@@ -11,7 +11,7 @@ async function exportZip({ content, language }: ExportData, filename: string) {
 
   zip.file(`index.${suffix}`, content);
   const blob = await zip.generateAsync({ type: 'blob' });
-  saveAs(blob, `${filename || 'download'}.zip`, { autoBom: true});
+  saveAs(blob, `${filename || 'download'}.zip`, { autoBom: true });
 }
 
 export default exportZip;

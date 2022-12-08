@@ -12,9 +12,9 @@ A code online editing preview tool, similar to `codepen`.
 [o] Support code formatting  
 [o] Support setting [CDNjs](https://cdnjs.com/) for use  
 [o] Support github third-party login  
+[o] Support export `zip`  
+[o] Support embedded mode for easy use in documentation sites, making documentation examples easier  
 [x] Support multiple layouts to switch  
-[x] Support embedded mode for easy use in documentation sites, making documentation examples easier  
-[x] Support export `zip`  
 
 ## Development
 

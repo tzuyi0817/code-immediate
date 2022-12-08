@@ -2,8 +2,11 @@
 import { inject } from 'vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
+import { SUFFIX_MAP } from '@/config/suffix';
 import { sleep } from '@/utils/common';
 import exportZip from '@/utils/exportZip';
+import readFile from '@/utils/readFile';
+import toast from '@/utils/toast';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -58,6 +61,27 @@ async function exportCode() {
   setLoading({ isOpen: false, type: 'Export zip finished' });
 
 }
+
+function EmbedFile() {
+  const { codeContent, setCodeContent } = useCodeContentStore();
+  const { setEmbedFlag } = useFlagStore();
+  const { model } = props;
+  const { language } = codeContent[model];
+  let element: HTMLInputElement | null = document.createElement('input');
+
+  element.type = 'file';
+  element.accept = `.${SUFFIX_MAP[language as keyof typeof SUFFIX_MAP]}`;
+  element.click();
+  element.addEventListener('change', async (event) => {
+    const code = await readFile(event).catch(() => toast.showToast('Embed file failed', 'error'));
+
+    if (code) {
+      setCodeContent({ type: model, code });
+      setEmbedFlag({ model, isEmbed: true });
+    }
+    element = null;
+  });
+}
 </script>
 
 <template>
@@ -69,6 +93,7 @@ async function exportCode() {
     <ul v-if="injectCodeMenu?.isShowMenuMap[model]" class="code_editor_menu_content animate-popup">
       <li @click="formatterCode">Format Code</li>
       <li @click="exportCode">Export Zip</li>
+      <li @click="EmbedFile">Embed Local File</li>
     </ul>
   </div>
 </template>

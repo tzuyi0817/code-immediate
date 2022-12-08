@@ -15,6 +15,12 @@ const defaultState = {
     JS: false,
     VUE: false,
   },
+  EmbedMap: {
+    HTML: false,
+    CSS: false,
+    JS: false,
+    VUE: false,
+  },
 };
 
 export default defineStore('code_immediate_flag', {
@@ -47,6 +53,9 @@ export default defineStore('code_immediate_flag', {
     },
     setChangeCodeFlag(isChange: boolean) {
       this.isChangeCode = isChange;
+    },
+    setEmbedFlag({ model, isEmbed }: { model: CodeModel, isEmbed: boolean }) {
+      this.EmbedMap[model] = isEmbed;
     }
   },
 });
