@@ -104,7 +104,7 @@ async function compileJs(
     return map;
   }, {
     imports: {
-      vue: "./lib/vue@3.2.40.esm-browser.js",
+      vue: "./lib/vue@3.3.4.esm-browser.js",
       [scopeId]: renderUrl,
     }
   });

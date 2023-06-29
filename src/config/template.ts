@@ -45,7 +45,7 @@ export const TEMPLATE_MAP = {
       language: 'JavaScript',
       content: VUE_JS,
       resources: [
-        'lib/vue@3.2.40.global.js',
+        'lib/vue@3.3.4.global.js',
       ],
     },
     VUE: {
@@ -123,7 +123,7 @@ export const TEMPLATE_MAP = {
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
 export const BUILT_IN_RESOURCES = new Set([
-  'lib/vue@3.2.40.global.js',
+  'lib/vue@3.3.4.global.js',
   'lib/react@18.2.0.js',
   'lib/react-dom@18.2.0.js',
   'parses/babel.js',
