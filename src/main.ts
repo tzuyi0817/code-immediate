@@ -10,7 +10,6 @@ import {
   faCheck,
   faXmark,
   faGear,
-  faFireFlameSimple,
   faMagnifyingGlass,
   faBarsStaggered,
   faCloudArrowUp,
@@ -21,7 +20,7 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
 import { initTemplate } from '@/config/template';
@@ -40,7 +39,6 @@ library.add(
   faCheck,
   faXmark,
   faGear,
-  faFireFlameSimple,
   faMagnifyingGlass,
   faBarsStaggered,
   faCloudArrowUp,
@@ -51,6 +49,7 @@ library.add(
   faTrash,
   faEye,
   faGithub,
+  faCentos,
 );
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);

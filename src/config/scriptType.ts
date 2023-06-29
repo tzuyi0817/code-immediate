@@ -4,4 +4,5 @@ export const SCRIPT_TYPE_MAP = {
   VueSFC: 'type="module"',
   React: 'type="text/babel"',
   Angular: '',
-};
+  SolidJs: 'type="module"',
+} as const;

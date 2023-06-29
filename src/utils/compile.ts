@@ -19,7 +19,8 @@ export function compile(params: CompileParams): Promise<CodeContent> {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
-        const { code, scripts = '' } = parseImport(jsCode);
+        const isESM = scriptType === 'type="module"';
+        const { code, scripts = '' } = parseImport(jsCode, isESM);
 
         resolve({
           html: htmlCode,

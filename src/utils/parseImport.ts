@@ -12,7 +12,7 @@ interface PathNode {
   remove: () => void;
 }
 
-export function parseImport(jsCode: string) {
+export function parseImport(jsCode: string, isESM = false) {
   if (!/\bimport\b/.test(jsCode)) return { code: jsCode };
   const imports: CdnSourceMap[] = [];
   const { code } = window.Babel.transform(jsCode, {
@@ -20,7 +20,7 @@ export function parseImport(jsCode: string) {
       [getImports, { imports }],
     ]
   });
-  const { statements, scripts } = transformImports(imports);
+  const { statements, scripts } = transformImports(imports, isESM);
 
   return { code: statements + code, scripts };
 }
@@ -30,7 +30,8 @@ function getImports(code: string, { imports }: { imports: CdnSourceMap[] }) {
     visitor: {
       ImportDeclaration(path: PathNode) {
         const { node: { source, specifiers } } = path;
-
+  
+        if (source.value.startsWith('https://')) return;
         imports.push({
           variables: specifiers.map(({ local, imported }) => ({
             local: local.name,
@@ -44,15 +45,27 @@ function getImports(code: string, { imports }: { imports: CdnSourceMap[] }) {
   }
 }
 
-function transformImports(imports: CdnSourceMap[]) {
+function transformImports(imports: CdnSourceMap[], isESM: boolean) {
   return imports.reduce(({ statements, scripts }, { variables, module }, index) => {
-    const { version, path } = parsePackage(module);
-    const moduleName = `__module_${index}`;
+    if (isESM) {
+      const vars = variables
+        .filter(({ imported }) => imported !== 'default')
+        .map(({ local }) => local)
+        .join(', ');
+      const locals = vars ? `{ ${ vars} }` : '';
+      const defaultImported = variables.find(({ imported }) => imported === 'default')?.local;
+      const imported = [defaultImported, locals].filter(Boolean);
 
-    variables.forEach(({ local, imported }) => {
-      statements += `const ${local} = ${moduleName}.${imported};\n`;
-      scripts += `\n<script src="https://esbuild.vercel.app/${module}@${version}${path}?format=iife&globalName=${moduleName}"><\/script>`;
-    });
+      statements += `\nimport ${imported.join(', ')} from 'https://unpkg.com/${module}?module'\n`;
+    } else {
+      const { version, path } = parsePackage(module);
+      const moduleName = `__module_${index}`;
+
+      variables.forEach(({ local, imported }) => {
+        statements += `const ${local} = ${moduleName}.${imported};\n`;
+        scripts += `\n<script src="https://esbuild.vercel.app/${module}@${version}${path}?format=iife&globalName=${moduleName}"><\/script>`;
+      });
+    }
     return { statements, scripts };
   }, { statements: '', scripts: '' });
 }

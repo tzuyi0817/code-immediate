@@ -6,6 +6,8 @@ import {
   REACT_JS,
   ANGULAR_HTML,
   ANGULAR_JS,
+  SOLID_JS,
+  SOLID_CSS,
 } from "@/config/defaultContent";
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
@@ -119,6 +121,26 @@ export const TEMPLATE_MAP = {
       content: '',
     },
   },
+  SolidJs: {
+    HTML: {
+      language: 'HTML',
+      content: '<div id="root"></div>',
+    },
+    CSS: {
+      language: 'CSS',
+      content: SOLID_CSS,
+      resources: [] as string[],
+    },
+    JS: {
+      language: 'JavaScript',
+      content: SOLID_JS,
+      resources: [] as string[],
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
+    },
+  }
 };
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);

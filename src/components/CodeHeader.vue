@@ -180,7 +180,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
         <font-awesome-icon icon="fa-solid fa-gear" class="mr-1" /> Settings
       </button>
       <button class="btn btn_base hidden lg:block" @click="toggleTemplatePop">
-        <font-awesome-icon icon="fa-solid fa-fire-flame-simple" class="mr-1" /> Template
+        <font-awesome-icon icon="fa-brands fa-centos" class="mr-1" /> Template
       </button>
       <button class="btn btn_indigo hidden lg:block" @click="newProject">
         <font-awesome-icon icon="fa-solid fa-plus" class="mr-1" /> New Project

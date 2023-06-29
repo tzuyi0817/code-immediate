@@ -2,7 +2,7 @@
 
 @layer components {
   ::-webkit-scrollbar {
-    @apply w-[10px] h-[10px];
+    @apply w-1 h-1;
   }
  
   ::-webkit-scrollbar-track {

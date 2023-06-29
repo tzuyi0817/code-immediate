@@ -12,6 +12,7 @@ const templateList: ({ name: CodeTemplate } & Record<string, string>)[] = [
   { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.3.4' },
   { name: 'VueSFC', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.3.4' },
   { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
+  { name: 'SolidJs', src: getImageSrc('/templateIcon/solid.png'), version: 'v1.7.7' },
 ];
 
 function selectTemplate(name: CodeTemplate) {

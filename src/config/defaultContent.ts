@@ -92,3 +92,40 @@ app.controller('HelloCtrl', ($scope) => {
   $scope.message = 'Hello AngularJs!';
 });
 `;
+
+export const SOLID_JS = `import {
+  createSignal,
+  onCleanup,
+} from 'https://cdn.skypack.dev/solid-js';
+import { render } from 'https://cdn.skypack.dev/solid-js/web';
+import h from 'https://cdn.skypack.dev/solid-js/h';
+
+const App = () => {
+  const [message, setMessage] = createSignal('Hello SolidJs!');
+  const [count, setCount] = createSignal(0);
+  const timer = setInterval(() => setCount(count() + 1), 1000);
+
+  function inputHandler(event) {
+    const { value } = event.target;
+    setMessage(value);
+  }
+
+  onCleanup(() => clearInterval(timer));
+  return [
+    h('h1', message),
+    h('input', { type: 'text', value: message, onInput: inputHandler }),
+    h('p.count', count),
+  ];
+};
+
+render(App, document.getElementById('root'));
+`;
+
+export const SOLID_CSS = `.count {
+  font-family: sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 1em;
+  margin-bottom: 40px;
+}`;
