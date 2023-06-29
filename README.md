@@ -24,6 +24,34 @@ Clone this repository and install dependencies by running `pnpm`, then:
 - `pnpm build`: Build in production mode
 - `pnpm preview`: Run preview
 
+## Built-in frontend framework
+
+- React
+- Vue
+- Vue3 SFC
+- Angular
+- SolidJs
+
+## Support ES module syntax
+
+Currently supports using `ESM` in `JavaScript`, `TypeScript`, `CoffeeScript`, etc. mode, by default, if you directly import as follows：
+
+```js
+import moment from 'moment'
+```
+
+It will be converted into `script` and placed in `html head`:
+
+```html
+<script src="https://esbuild.vercel.app/moment@latest?format=iife"></script>
+```
+
+In the case of `script type="module"` (ex: `vue3 sfc` or `solidJs`), it will be converted into:
+
+```js
+import moment from 'https://unpkg.com/moment?module'
+```
+
 ## Support Languages
 
 Category | Language |
