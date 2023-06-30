@@ -152,7 +152,7 @@ export const BUILT_IN_RESOURCES = new Set([
   'lib/angular@1.8.3.js',
 ]);
 
-export async function initTemplate() {
+export function initTemplate() {
   const { codeContent, codeTemplate } = useCodeContentStore();
   TEMPLATE_MAP[codeTemplate] = codeContent;
 }

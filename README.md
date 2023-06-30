@@ -1,6 +1,6 @@
 # code immediate
 
-A code online editing preview tool, similar to `codepen`.
+This is a code online editing preview tool, similar to `codepen`.
 
 ## Features
 
