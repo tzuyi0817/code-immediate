@@ -12,6 +12,9 @@ module.exports = {
       ...defaultTheme.screens,
     },
     extend: {
+      colors: {
+        secondary: '#444857',
+      },
       animation: {
         popup: 'popup-in 0.3s',
       },

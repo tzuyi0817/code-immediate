@@ -14,10 +14,11 @@ import {
   faBarsStaggered,
   faCloudArrowUp,
   faSheetPlastic,
-  faPlus,
   faAngleLeft,
   faAngleRight,
   faTrash,
+  faFileCirclePlus,
+  faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
@@ -43,13 +44,14 @@ library.add(
   faBarsStaggered,
   faCloudArrowUp,
   faSheetPlastic,
-  faPlus,
+  faFileCirclePlus,
   faAngleLeft,
   faAngleRight,
   faTrash,
   faEye,
   faGithub,
   faCentos,
+  faArrowRightFromBracket,
 );
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);

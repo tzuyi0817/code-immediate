@@ -7,7 +7,7 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <button class="btn w-full p-3 text-sm" :disabled="isLoading">
+  <button class="btn w-full text-sm" :disabled="isLoading">
     <font-awesome-icon
       v-show="isLoading"
       icon="fa-solid fa-spinner"

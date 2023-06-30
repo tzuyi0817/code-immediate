@@ -139,20 +139,19 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
 <template>
   <header class="code_header">
     <div class="code_header_left">
-      <img src="/icon.jpg" class="w-7 h-7 invert" alt="" />
+      <img src="/icon.jpg" class="w-7 h-7 invert basis-7 shrink-0" alt="" />
       <div class="w-[calc(100%-36px)]">
-        <div class="font-bold flex items-center gap-1">
+        <div class="font-bold flex items-center gap-1 w-full">
           <input
             v-if="isShowEditTitle"
             type="text"
             ref="titleInput"
-            class="bg-black text-white focus:outline-none"
+            class="w-full bg-black text-white focus:outline-none"
             v-model="title"
             @blur="blurTitle"
           />
-
           <template v-else>
-            <span class="text_ellipsis">{{ title }}</span>
+            <p class="max-w-[calc(100%-16px)] text_ellipsis">{{ title }}</p>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
               class="cursor-pointer"
@@ -160,7 +159,9 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
             />
           </template>
         </div>
-        <p class="text-xs text-gray-300">{{ isLogin ? user.account : 'Captain Anonymous' }}</p>
+        <p class="text-xs text-gray-300 text_ellipsis">
+          {{ isLogin ? user.account : 'Captain Anonymous' }}
+        </p>
       </div>
     </div>
 
@@ -170,7 +171,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
       </button>
 
       <loading-button
-        class="btn_base w-auto text-xs p-2 hidden lg:block"
+        class="btn_base w-auto text-xs hidden lg:block"
         @click="saveCode"
         :isLoading="isLoading"
       >
@@ -183,7 +184,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
         <font-awesome-icon icon="fa-brands fa-centos" class="mr-1" /> Template
       </button>
       <button class="btn btn_indigo hidden lg:block" @click="newProject">
-        <font-awesome-icon icon="fa-solid fa-plus" class="mr-1" /> New Project
+        <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-1" /> New Project
       </button>
 
       <template v-if="isLogin">
@@ -191,10 +192,12 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
           <font-awesome-icon icon="fa-solid fa-sheet-plastic" class="mr-1" /> Projects
         </button>
         <loading-button
-          class="btn_red w-auto text-xs p-2" 
+          class="btn_red w-auto text-xs" 
           @click="logout"
           :isLoading="isLoading"
-        >Log out</loading-button>
+        >
+          <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" class="mr-1" /> Log out
+        </loading-button>
       </template>
 
       <template v-else>
@@ -213,7 +216,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
           <font-awesome-icon icon="fa-brands fa-centos" /> Template
         </li>
         <li @click="newProject">
-          <font-awesome-icon icon="fa-solid fa-plus" /> New Project
+          <font-awesome-icon icon="fa-solid fa-file-circle-plus" /> New Project
         </li>
       </ul>
     </div>
@@ -254,6 +257,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
   h-14
   p-2
   flex
+  gap-2
   items-center
   justify-between
   text-sm
@@ -265,8 +269,9 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     text-white
     flex
     items-center
+    w-full
     max-w-[calc(100%-200px)]
-    lg:max-w-[calc(100%-520px)]
+    lg:max-w-[calc(100%-590px)]
     gap-2;
     svg {
       @apply text-xs;
@@ -276,8 +281,10 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     @apply
     relative
     flex
+    items-center
     min-w-fit
-    gap-1;
+    gap-1
+    lg:gap-2;
   }
   &_menu {
     @apply

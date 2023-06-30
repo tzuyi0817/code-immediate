@@ -14,6 +14,7 @@ This is a code online editing preview tool, similar to `codepen`.
 [o] Support github third-party login  
 [o] Support export `zip`  
 [o] Support embedded mode for easy use in documentation sites, making documentation examples easier  
+[o] Support sharing code URL to others to view  
 [x] Support multiple layouts to switch  
 
 ## Development

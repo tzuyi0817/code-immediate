@@ -1,33 +1,56 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useCodeContentStore } from '@/store';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
+import toast from '@/utils/toast';
 
 interface Props {
   previewWidth: string;
 }
 
 const props = defineProps<Props>();
+const { codeId } = storeToRefs(useCodeContentStore());
 const isShowConsole = ref(false);
 
 function toggleConsole() {
   isShowConsole.value = !isShowConsole.value;
 }
+
+function shareLink() {
+  const textField = document.createElement('textarea');
+
+  textField.innerText = location.href;
+  document.body.appendChild(textField);
+  textField.select();
+  document.execCommand('copy');
+  textField.remove();
+  toast.showToast('Copied URL to clipboard!', 'success');
+}
 </script>
 
 <template>
   <div class="code_footer">
-    <button class="btn btn_base rounded-sm h-5 mx-2" @click="toggleConsole">
-      Console
-    </button>
+    <section class="code_footer_section">
+      <button class="btn_small btn_base" @click="toggleConsole">
+        Console
+      </button>
 
-    <select class="select select_base">
-      <option value="1">1.0x</option>
-      <option value="0.5">0.5x</option>
-      <option value="0.25">0.25x</option>
-    </select>
+      <select class="select select_base">
+        <option value="1">1.0x</option>
+        <option value="0.5">0.5x</option>
+        <option value="0.25">0.25x</option>
+      </select>
+    </section>
 
-    <code-loading />
+    <section class="code_footer_section">
+      <code-loading />
+      <button v-if="codeId" class="btn_small btn_base" @click="shareLink">
+        Share
+      </button>
+    </section>
+
     <code-console
       v-model:isShowConsole="isShowConsole"
       :previewWidth="previewWidth"
@@ -40,11 +63,16 @@ function toggleConsole() {
   @apply
   fixed
   flex
+  justify-between
   items-center
-  bg-gray-900
+  bg-black
   w-full
   h-8
+  px-2
   bottom-0
   z-[3];
+  &_section {
+    @apply flex items-center gap-1;
+  }
 }
 </style>

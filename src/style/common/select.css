@@ -17,7 +17,7 @@
   .select_base {
     @apply
     text-white
-    bg-gray-600;
+    bg-secondary;
   }
 
   .select_border {

@@ -7,10 +7,12 @@
 
   .btn {
     @apply 
-    rounded-md
+    rounded
     justify-center
     items-center
-    p-2
+    py-3
+    px-2
+    lg:px-3
     flex
     text-xs
     cursor-pointer
@@ -18,10 +20,14 @@
     disabled:grayscale;
   }
 
+  .btn_small {
+    @apply rounded-sm py-[3px] px-2 text-xs cursor-pointer transition-all disabled:grayscale;
+  }
+
   .btn_base {
     @apply
     text-white
-    bg-gray-600
+    bg-secondary
     hover:brightness-125;
   }
 
@@ -63,14 +69,14 @@
   .btn_select {
     @apply
     text-white
-    bg-gray-700/50
+    bg-secondary/70
     text-xs
     px-3
     py-2
     cursor-pointer
     hover:brightness-125;
     &-active {
-      @apply bg-gray-600
+      @apply bg-secondary
     }
   }
 }

@@ -21,7 +21,7 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
   <div class="code_loading">
     <p
       v-if="isLoading || isShowTick"
-      :class="['text-xs mr-5', { 'text-red-500': isError }]"
+      :class="['text-xs', { 'text-red-500': isError }]"
     >{{ loadingType }}</p>
 
     <font-awesome-icon
@@ -39,16 +39,6 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
 
 <style lang="postcss" scoped>
 .code_loading {
-  @apply
-  absolute
-  top-2
-  right-3
-  text-yellow-400;
-  &_icon {
-    @apply
-    absolute
-    top-0
-    right-0;
-  }
+  @apply flex text-yellow-400 gap-2;
 }
 </style>
