@@ -93,12 +93,10 @@ app.controller('HelloCtrl', ($scope) => {
 });
 `;
 
-export const SOLID_JS = `import {
-  createSignal,
-  onCleanup,
-} from 'https://cdn.skypack.dev/solid-js';
-import { render } from 'https://cdn.skypack.dev/solid-js/web';
-import h from 'https://cdn.skypack.dev/solid-js/h';
+export const SOLID_JS = `import { createSignal, onCleanup } from 'solid-js';
+import { render } from 'solid-js/web';
+import h from 'solid-js/h';
+import html from 'solid-js/html';
 
 const App = () => {
   const [message, setMessage] = createSignal('Hello SolidJs!');

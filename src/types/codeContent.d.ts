@@ -3,7 +3,7 @@ export interface CodeContent {
   css: string;
   js: string;
   vue?: string;
-  importMap: ImportMap;
+  importMap: ImportMap | null;
 }
 
 export interface CompileParams {
@@ -31,12 +31,12 @@ export interface CompileParams {
 export interface CreateHtmlParams extends CodeContent {
   cssResources: string[];
   jsResources: string[];
-  importMap: ImportMap;
+  importMap: ImportMap | null;
 }
 
 export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';
 export type CodeTemplate = 'ES6' | 'Vue' | 'VueSFC' | 'React' | 'Angular' | 'SolidJs';
-export type ImportMap = string | Record<'imports', Record<string, string>>;
+export type ImportMap = Record<'imports', Record<string, string>>;
 
 export interface CodeCompile {
   language: string;

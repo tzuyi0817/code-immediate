@@ -3,8 +3,9 @@ import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
 import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
+import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
-import type { CodeContent, CodeCompile, CodeTemplate, CompileParams } from '@/types/codeContent';
+import type { CodeContent, CodeCompile, CompileParams } from '@/types/codeContent';
 
 let sass: any = null;
 let showdown: any = null;
@@ -18,15 +19,15 @@ export function compile(params: CompileParams): Promise<CodeContent> {
   return new Promise((resolve, reject) => {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
-        const scriptType = SCRIPT_TYPE_MAP[codeTemplate as CodeTemplate] ?? '';
+        const scriptType = SCRIPT_TYPE_MAP[codeTemplate] ?? '';
         const isESM = scriptType === 'type="module"';
         const { code, scripts = '' } = parseImport(jsCode, isESM);
 
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `${scripts}\n<script ${scriptType}>${code}<\/script>`,
-          importMap: '',
+          js: `${scripts}\n<script ${scriptType}>\n${code}\n<\/script>`,
+          importMap: IMPORT_MAP[codeTemplate],
         });
       })
       .catch(reject);

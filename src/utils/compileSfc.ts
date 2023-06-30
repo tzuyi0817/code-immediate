@@ -8,9 +8,10 @@ import {
 } from 'vue/compiler-sfc';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
+import { IMPORT_MAP } from '@/config/importMap';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
-import type { CodeContent, CompileParams } from '@/types/codeContent';
+import type { CodeContent, CompileParams, ImportMap } from '@/types/codeContent';
 
 interface RawSourceMap {
   version: string;
@@ -98,16 +99,17 @@ async function compileJs(
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
   const renderUrl = getBlobURL(renderScript, 'render');
+  const defaultImportMap: ImportMap = {
+    imports: {
+      ...IMPORT_MAP.VueSFC.imports,
+      [scopeId]: renderUrl,
+    }
+  };
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
     map.imports[source] = `https://unpkg.com/${source}?module`;
     return map;
-  }, {
-    imports: {
-      vue: "./lib/vue@3.3.4.esm-browser.js",
-      [scopeId]: renderUrl,
-    }
-  });
+  }, defaultImportMap);
 
   return {
     code: `
