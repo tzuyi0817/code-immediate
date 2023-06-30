@@ -4,7 +4,7 @@ A code online editing preview tool, similar to `codepen`.
 
 ## Features
 
-[o] Built-in many common templates  
+[o] Built-in many frontend templates  
 [o] Support multiple preprocessing languages  
 [o] Support `vue3 sfc`  
 [o] Support for save code  
@@ -59,6 +59,18 @@ Category | Language |
 HTML | Haml, Markdown, Pug |
 CSS | Less, SCSS, Sass, Stylus, PostCSS |
 JS | Babel, TypeScript, CoffeeScript, LiveScript |
+
+## Use Technology
+
+- vue3
+- pinia
+- typescript
+- tailwindcss
+- vite
+- monaco editor
+- loadjs
+- jszip
+- file-saver
 
 ## License
 
