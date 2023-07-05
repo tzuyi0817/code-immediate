@@ -1,8 +1,15 @@
 import ajax from '@/utils/ajax';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/loadParse';
+import type { CodeProject } from '@/types/codeContent';
 
-export default async function getCode(codeId: string) {
+type CodePayload = Omit<CodeProject, 'id' | 'srcdoc'>
+
+export function getCodes(page: number) {
+  return ajax.get(`/code?page=${page}`);
+}
+
+export async function getCode(codeId: string) {
   if (!codeId) return;
   const { setCodeLoading } = useFlagStore();
   setCodeLoading(true);
@@ -18,4 +25,16 @@ export default async function getCode(codeId: string) {
     setCodeTitle(title);
   }
   setCodeLoading(false);
+}
+
+export function postCode(data: CodePayload) {
+  return ajax.post('/code', { codeContent: JSON.stringify(data) });
+}
+
+export function putCode(codeId: string, data: CodePayload) {
+  return ajax.put(`/code/${codeId}`, { codeContent: JSON.stringify(data) });
+}
+
+export function deleteCode(codeId: string) {
+  return ajax.delete(`/code/${codeId}`);
 }

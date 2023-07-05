@@ -3,7 +3,7 @@ import { ref, reactive, computed, provide, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import getCode from '@/utils/getCode';
+import { getCode } from '@/apis/code';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeDrag from '@/components/CodeDrag.vue';
@@ -175,9 +175,7 @@ onMounted(closeInitLoading);
     }
   }
   &_hidden {
-    @apply
-    hidden
-    lg:block;
+    @apply hidden lg:block;
   }
   &_html {
     @apply w-full;

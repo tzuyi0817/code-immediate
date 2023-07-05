@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useUserStore } from '@/store';
-import ajax from '@/utils/ajax';
+import { loginUser } from '@/apis/user';
 import toast from '@/utils/toast';
 import LoadingButton from '@/components/LoadingButton.vue';
 
@@ -18,7 +18,7 @@ async function login() {
   };
 
   isLoading.value = true;
-  const { status, message, resultMap } = await ajax.post('/login', data).catch(cleanForm);
+  const { status, message, resultMap } = await loginUser(data).catch(cleanForm);
   const { token, user } = resultMap;
   const { setUser } = useUserStore();
 
@@ -31,9 +31,10 @@ async function login() {
 }
 
 function loginGithub() {
-  const { innerHeight, innerWidth } = window;
+  const { screenX, screenLeft, screen, innerHeight } = window;
   const { VITE_API_URL } = import.meta.env;
-  const windowFeatures = `left=${innerWidth * 0.5 - 250},top=${innerHeight * 0.5 - 250},width=500,height=500`;
+  const left = (screenX ?? screenLeft ?? 0) + (screen.width - 500) / 2;
+  const windowFeatures = `left=${left},top=${innerHeight * 0.5 - 250},width=500,height=500`;
   let authWindow = window.open(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
 
   if (!authWindow) return;

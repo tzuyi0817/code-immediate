@@ -3,7 +3,8 @@ import { ref, nextTick, watch, defineAsyncComponent } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
 import LoadingButton from '@/components/LoadingButton.vue';
-import ajax from '@/utils/ajax';
+import { logoutUser } from '@/apis/user';
+import { postCode, putCode } from '@/apis/code';
 import toast from '@/utils/toast';
 import { deepClone } from '@/utils/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
@@ -32,7 +33,7 @@ const { codeTitle } = storeToRefs(useCodeContentStore());
 
 async function logout() {
   isLoading.value = true;
-  const { status, message } = await ajax.post('/logout').catch(() => isLoading.value = false);
+  const { status, message } = await logoutUser().catch(() => isLoading.value = false);
   const { setUser } = useUserStore();
 
   setUser({});
@@ -64,9 +65,7 @@ async function saveCode() {
     ...codeContent,
     codeTemplate,
   };
-  const api = codeId
-    ? ajax.put(`/code/${codeId}`, { codeContent: JSON.stringify(data) })
-    : ajax.post('/code', { codeContent: JSON.stringify(data) });
+  const api = codeId ? putCode(codeId, data) : postCode(data);
   
   isLoading.value = true;
   const { status, message, resultMap } = await api.catch(() => isLoading.value = false);

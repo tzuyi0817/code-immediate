@@ -58,7 +58,7 @@ export interface CodeBase {
 
 export interface CodeProject extends CodeBase {
   title: string;
-  VUE: CodeMap;
+  VUE: Omit<CodeMap, 'resources'>;
   codeTemplate: CodeTemplate;
   id: string;
   srcdoc?: string;

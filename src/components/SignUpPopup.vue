@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useUserStore } from '@/store';
-import ajax from '@/utils/ajax';
+import { registerUser } from '@/apis/user';
 import toast from '@/utils/toast';
 import LoadingButton from '@/components/LoadingButton.vue';
 
@@ -23,7 +23,7 @@ async function register() {
   };
 
   isLoading.value = true;
-  const { status, message, resultMap } = await ajax.post('/register', data).catch(cleanForm);
+  const { status, message, resultMap } = await registerUser(data).catch(cleanForm);
   const { token, user } = resultMap;
   const { setUser } = useUserStore();
 

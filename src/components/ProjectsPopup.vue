@@ -2,7 +2,7 @@
 import { ref, onMounted, defineAsyncComponent } from 'vue';
 import LoadingButton from '@/components/LoadingButton.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import ajax from '@/utils/ajax';
+import { getCodes, deleteCode } from '@/apis/code';
 import toast from '@/utils/toast';
 import { loadParseSources } from '@/utils/loadParse';
 import type { CodeProject } from '@/types/codeContent';
@@ -18,11 +18,11 @@ const LazyIframe  = defineAsyncComponent(() => import('@/components/LazyIframe.v
 
 async function getProjects() {
   isLoading.value = true;
-  const { resultMap } = await ajax.get(`/code?page=${page.value}`).catch(() => isLoading.value = false);
-  const { codeList, totalPage: T } = resultMap;
+  const { resultMap } = await getCodes(page.value).catch(() => isLoading.value = false);
+  const { codeList, totalPage: total } = resultMap;
 
   projects.value = codeList;
-  totalPage.value = T;
+  totalPage.value = total;
   isLoading.value = false;
 }
 
@@ -46,7 +46,7 @@ async function deleteProject(id: string) {
   if (isDeleting.value) return;
   deleteId.value = id;
   isDeleting.value = true;
-  const { status, message } = await ajax.delete(`/code/${id}`).catch(() => isLoading.value = false);
+  const { status, message } = await deleteCode(id).catch(() => isLoading.value = false);
   toast.showToast(message, status);
   isDeleting.value = false;
   getProjects();
@@ -124,7 +124,7 @@ onMounted(getProjects);
           :isLoading="isLoading"
           @click="goPage(-1)"
         >
-          <font-awesome-icon icon="fa-solid fa-angle-left" class="mr-2" /> Prev
+          <font-awesome-icon icon="fa-solid fa-arrow-left" class="mr-2" /> Prev
         </loading-button>
         <loading-button
           v-show="page < totalPage"
@@ -132,7 +132,7 @@ onMounted(getProjects);
           :isLoading="isLoading"
           @click="goPage(1)"
         >
-          Next <font-awesome-icon icon="fa-solid fa-angle-right" class="ml-2" />
+          Next <font-awesome-icon icon="fa-solid fa-arrow-right" class="ml-2" />
         </loading-button>
       </div>
     </div>
