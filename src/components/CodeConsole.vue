@@ -88,6 +88,7 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
         <pre v-if="type === 'echo'" class="code_console_message echo">{{ data }}</pre>
         <pre v-else-if="type === 'log'" class="code_console_message log" v-html="data"></pre>
         <pre v-else-if="type === 'error'" class="code_console_message error" v-html="data"></pre>
+        <pre v-else class="code_console_message" v-html="data"></pre>
       </template>
     </div>
   
@@ -153,24 +154,40 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
     }
     &.log {
       .number {
-        @apply text-orange-500;
+        @apply text-[#b5cea8];
       }
       .string {
-        @apply text-gray-400;
+        @apply text-[#ce9178];
       }
       .atom {
         @apply text-orange-300/80;
       }
       .key {
-        @apply text-yellow-400;
+        @apply text-[#9cdcfe];
+      }
+      .var {
+        @apply text-[#569cd6];
       }
       .def {
-        @apply text-blue-400;
+        @apply text-[#dcdcaa];
       }
     }
     &.error {
-      @apply 
-      bg-red-700/40;
+      @apply bg-red-700/40;
+    }
+    .html {
+      .symbol {
+        @apply text-[#808080];
+      }
+      .tag {
+        @apply text-[#569cd6];
+      }
+      .string {
+        @apply text-[#ce9178];
+      }
+      .attribute {
+        @apply text-[#9cdcfe];
+      }
     }
   }
   &_command {

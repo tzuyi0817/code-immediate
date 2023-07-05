@@ -5,6 +5,10 @@
     @apply translate-y-[2px];
   }
 
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+
   .btn {
     @apply 
     rounded
