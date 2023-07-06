@@ -9,14 +9,12 @@ export const IMPORT_MAP = {
   SolidJs: {
     imports: { 
       'solid-js': 'https://cdn.skypack.dev/solid-js',
-      'solid-js/web': 'https://cdn.skypack.dev/solid-js/web',
-      'solid-js/h': 'https://cdn.skypack.dev/solid-js/h',
-      'solid-js/html': 'https://cdn.skypack.dev/solid-js/html',
+      'solid-js/': 'https://cdn.skypack.dev/solid-js/',
     },
   },
 } as const;
 
-export const IMPORT_MAP_SOURCES = new Set([
+export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([
   'solid-js',
   'solid-js/web',
   'solid-js/h',

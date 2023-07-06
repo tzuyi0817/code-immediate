@@ -1,5 +1,5 @@
 import { parse as parsePackage } from 'parse-package-name';
-import { IMPORT_MAP_SOURCES } from '@/config/importMap';
+import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/importMap';
 import type { CdnSourceMap } from '@/types/cdn';
 
 interface PathNode {
@@ -32,8 +32,8 @@ function getImports(code: string, { imports }: { imports: CdnSourceMap[] }) {
       ImportDeclaration(path: PathNode) {
         const { node: { source, specifiers } } = path;
   
+        if (IMPORT_MAP_BUILD_IN_SOURCES.has(source.value)) return;
         if (source.value.startsWith('https://')) return;
-        if (IMPORT_MAP_SOURCES.has(source.value)) return;
         imports.push({
           variables: specifiers.map(({ local, imported }) => ({
             local: local.name,

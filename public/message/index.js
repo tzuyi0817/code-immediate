@@ -82,7 +82,7 @@
         }, '');
         return `{\n${assemble}${'&nbsp&nbsp'.repeat(deep)}}`;
       },
-      html:() => `<span class="html">${formatHtml(message)}</span>`,
+      html: () => `<span class="html">${formatHtml(message)}</span>`,
     };
     return messageTypeMap[messageType]?.() ?? `<span class="${messageType}">${message}</span>`;
   }
