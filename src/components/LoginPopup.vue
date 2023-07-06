@@ -32,7 +32,7 @@ async function login() {
 
 function loginGithub() {
   const { screenX, screenLeft, screen, innerHeight } = window;
-  const { VITE_API_URL } = import.meta.env;
+  const { VITE_API_URL } = process.env;
   const left = (screenX ?? screenLeft ?? 0) + (screen.width - 500) / 2;
   const windowFeatures = `left=${left},top=${innerHeight * 0.5 - 250},width=500,height=500`;
   let authWindow = window.open(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
