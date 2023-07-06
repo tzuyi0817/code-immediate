@@ -17,7 +17,7 @@ const cdnResources = reactive({
   CSS: [] as CdnItem['latest'][],
   JS: [] as CdnItem['latest'][],
 });
-const { VITE_APPLICATION_ID = '', VITE_ADMIN_API_Key = '' } = process.env;
+const { VITE_APPLICATION_ID = '', VITE_ADMIN_API_Key = '' } = import.meta.env;
 const client = algoliasearch(VITE_APPLICATION_ID, VITE_ADMIN_API_Key);
 const index = client.initIndex('code-immediate');
 const tabList: { name: SelectName, title: string, description: string }[] = [

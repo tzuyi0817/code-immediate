@@ -23,5 +23,4 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   moduleFileExtensions: ['js', 'vue', 'ts'],
-
 };
