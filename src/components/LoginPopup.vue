@@ -42,7 +42,6 @@ function loginGithub() {
 
   authWindow.focus();
   window.onmessage = ({ data: search }) => {
-    console.log({ search });
     if (!search || typeof search !== 'string') return;
     const searchParams = new URLSearchParams(search);
     const { setUser } = useUserStore();
