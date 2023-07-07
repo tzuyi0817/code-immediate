@@ -38,19 +38,33 @@ function loginGithub() {
   let authWindow = window.open(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
 
   if (!authWindow) return;
+  let timer: NodeJS.Timeout | null = null;
+
   authWindow.focus();
-  authWindow.onload = () => {
-    const { searchParams } = new URL(authWindow?.location.href ?? '');
+  window.onmessage = ({ data: search }) => {
+    console.log({ search });
+    if (!search || typeof search !== 'string') return;
+    const searchParams = new URLSearchParams(search);
     const { setUser } = useUserStore();
     const token = searchParams.get('token') ?? '';
     const account = searchParams.get('account') ?? '';
 
+    closeAuthWindow();
     setUser({ account });
     localStorage.setItem('code_token', token);
-    authWindow?.close();
-    authWindow = null;
     toast.showToast('login success', 'success');
     closePopup();
+  };
+  timer = setInterval(() => {
+    authWindow?.closed && closeAuthWindow();
+    authWindow?.opener.postMessage(authWindow?.location.search, location.origin);
+  }, 300);
+
+  function closeAuthWindow() {
+    timer && clearInterval(timer);
+    authWindow?.close();
+    authWindow = null;
+    window.onmessage = null;
   }
 }
 

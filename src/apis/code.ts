@@ -3,7 +3,7 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/loadParse';
 import type { CodeProject } from '@/types/codeContent';
 
-type CodePayload = Omit<CodeProject, 'id' | 'srcdoc'>
+type CodePayload = Omit<CodeProject, 'id' | 'srcdoc'>;
 
 export function getCodes(page: number) {
   return ajax.get(`/code?page=${page}`);
