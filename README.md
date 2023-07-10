@@ -34,6 +34,7 @@ Clone this repository and install dependencies by running `pnpm`, then:
 - Vue3 SFC
 - Angular
 - SolidJs
+- RxJS
 
 ## Support ES module syntax
 
