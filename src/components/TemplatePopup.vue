@@ -13,6 +13,7 @@ const templateList: ({ name: CodeTemplate } & Record<string, string>)[] = [
   { name: 'VueSFC', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.3.4' },
   { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
   { name: 'SolidJs', src: getImageSrc('/templateIcon/solid.png'), version: 'v1.7.7' },
+  { name: 'RxJS', src: getImageSrc('/templateIcon/rxjs.png'), version: 'v7.8.1' },
 ];
 
 function selectTemplate(name: CodeTemplate) {
@@ -71,10 +72,10 @@ function closePopup() {
   }
   ul {
     @apply
-    flex
-    flex-wrap
-    justify-center
+    grid
+    grid-cols-2
     pb-4
+    px-3
     gap-2;
     li {
       @apply
@@ -82,7 +83,6 @@ function closePopup() {
       transition-all
       items-center
       justify-start
-      w-[calc(50%-16px)]
       border-b-2
       border-gray-400
       rounded-sm

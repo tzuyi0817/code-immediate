@@ -175,7 +175,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
         @click="saveCode"
         :isLoading="isLoading"
       >
-        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up"  class="mr-1" /> Save
+        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up" class="mr-1" /> Save
       </loading-button>
       <button class="btn btn_base hidden lg:block" @click="toggleSettingsPop">
         <font-awesome-icon icon="fa-solid fa-gear" title="fa-gear" class="mr-1" /> Settings

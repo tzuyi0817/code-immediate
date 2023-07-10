@@ -8,6 +8,9 @@ import {
   ANGULAR_JS,
   SOLID_JS,
   SOLID_CSS,
+  RXJS_HTML,
+  RXJS_JS,
+  RXJS_CSS,
 } from "@/config/defaultContent";
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
@@ -134,6 +137,26 @@ export const TEMPLATE_MAP = {
     JS: {
       language: 'JavaScript',
       content: SOLID_JS,
+      resources: [] as string[],
+    },
+    VUE: {
+      language: 'Vue',
+      content: '',
+    },
+  },
+  RxJS: {
+    HTML: {
+      language: 'HTML',
+      content: RXJS_HTML,
+    },
+    CSS: {
+      language: 'CSS',
+      content: RXJS_CSS,
+      resources: [] as string[],
+    },
+    JS: {
+      language: 'JavaScript',
+      content: RXJS_JS,
       resources: [] as string[],
     },
     VUE: {

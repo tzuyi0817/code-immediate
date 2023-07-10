@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 
-describe('CodeHeader Component test', () => {
+describe('CodeHeader Component', () => {
   const pinia = createPinia();
 
   setActivePinia(pinia);

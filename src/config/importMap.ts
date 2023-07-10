@@ -12,6 +12,12 @@ export const IMPORT_MAP = {
       'solid-js/': 'https://cdn.skypack.dev/solid-js/',
     },
   },
+  RxJS: {
+    imports: { 
+      'rxjs': 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs.min.js',
+      'rxjs/operators': 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs-operators.min.js',
+    },
+  }
 } as const;
 
 export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([
@@ -19,4 +25,6 @@ export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([
   'solid-js/web',
   'solid-js/h',
   'solid-js/html',
+  'rxjs',
+  'rxjs/operators',
 ]);

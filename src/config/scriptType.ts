@@ -5,4 +5,5 @@ export const SCRIPT_TYPE_MAP = {
   React: 'type="text/babel"',
   Angular: '',
   SolidJs: 'type="module"',
+  RxJS: 'type="module"',
 } as const;

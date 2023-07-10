@@ -127,3 +127,49 @@ export const SOLID_CSS = `.count {
   margin-top: 1em;
   margin-bottom: 40px;
 }`;
+
+export const RXJS_HTML = `<header>
+  <img
+    src="https://rxjs.dev/generated/images/marketing/home/Rx_Logo-512-512.png"
+    class="logo"
+  />
+  <h1>RxJS Playground</h1>
+</header>
+`;
+
+export const RXJS_JS = `import { fromEvent } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+fromEvent(document, 'click')
+  .pipe(
+    filter((_, index) => index % 2 === 0),
+    map((event) => ({ x: event.x, y: event.y }))
+  )
+  .subscribe((position) => {
+    console.log(` + '`x: ${position.x}, y: ${position.y}`);' + `
+  });
+`;
+
+export const RXJS_CSS = `:root {
+  --bg-color: #d81b60;
+  --font-base: aliceblue;
+}
+
+html,
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16px;
+  background-color: var(--bg-color);
+  color: var(--font-base);
+  margin-top: 20px;
+}
+
+header {
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+}
+`;
