@@ -153,6 +153,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
             <p class="max-w-[calc(100%-16px)] text_ellipsis">{{ title }}</p>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
+              title="fa-pen-fancy"
               class="cursor-pointer"
               @click="openTitle"
             />
@@ -166,7 +167,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
 
     <div class="code_header_right">
       <button class="btn btn_base lg:hidden">
-        <font-awesome-icon icon="fa-solid fa-bars-staggered" @click="toggleMenuList" />
+        <font-awesome-icon icon="fa-solid fa-bars-staggered" title="fa-bars-staggered" @click="toggleMenuList" />
       </button>
 
       <loading-button
@@ -174,28 +175,40 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
         @click="saveCode"
         :isLoading="isLoading"
       >
-        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" class="mr-1" /> Save
+        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up"  class="mr-1" /> Save
       </loading-button>
       <button class="btn btn_base hidden lg:block" @click="toggleSettingsPop">
-        <font-awesome-icon icon="fa-solid fa-gear" class="mr-1" /> Settings
+        <font-awesome-icon icon="fa-solid fa-gear" title="fa-gear" class="mr-1" /> Settings
       </button>
       <button class="btn btn_base hidden lg:block" @click="toggleTemplatePop">
-        <font-awesome-icon icon="fa-brands fa-centos" class="mr-1" /> Template
+        <font-awesome-icon icon="fa-brands fa-centos" title="fa-centos" class="mr-1" /> Template
       </button>
       <button class="btn btn_indigo hidden lg:block" @click="newProject">
-        <font-awesome-icon icon="fa-solid fa-file-circle-plus" class="mr-1" /> New Project
+        <font-awesome-icon
+          icon="fa-solid fa-file-circle-plus"
+          title="fa-file-circle-plus"
+          class="mr-1"
+        /> New Project
       </button>
 
       <template v-if="isLogin">
         <button class="btn btn_blue" @click="toggleProjectsPop">
-          <font-awesome-icon icon="fa-solid fa-sheet-plastic" class="mr-1" /> Projects
+          <font-awesome-icon
+            icon="fa-solid fa-sheet-plastic"
+            title="fa-sheet-plastic"
+            class="mr-1"
+          /> Projects
         </button>
         <loading-button
           class="btn_red w-auto text-xs" 
           @click="logout"
           :isLoading="isLoading"
         >
-          <font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" class="mr-1" /> Log out
+          <font-awesome-icon
+            icon="fa-solid fa-arrow-right-from-bracket"
+            title="fa-arrow-right-from-bracket"
+            class="mr-1"
+          /> Log out
         </loading-button>
       </template>
 
@@ -206,16 +219,19 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
 
       <ul v-if="isShowMenuList" class="code_header_menu animate-popup">
         <li @click="saveCode">
-          <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" /> Save
+          <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up" /> Save
         </li>
         <li @click="toggleSettingsPop">
-          <font-awesome-icon icon="fa-solid fa-gear" /> Settings
+          <font-awesome-icon icon="fa-solid fa-gear" title="fa-gear" /> Settings
         </li>
         <li @click="toggleTemplatePop">
-          <font-awesome-icon icon="fa-brands fa-centos" /> Template
+          <font-awesome-icon icon="fa-brands fa-centos" title="fa-centos" /> Template
         </li>
         <li @click="newProject">
-          <font-awesome-icon icon="fa-solid fa-file-circle-plus" /> New Project
+          <font-awesome-icon
+            icon="fa-solid fa-file-circle-plus"
+            title="fa-solid fa-file-circle-plus"
+          /> New Project
         </li>
       </ul>
     </div>

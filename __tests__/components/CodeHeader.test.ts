@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/vue';
+import { render, fireEvent, screen } from '@testing-library/vue';
 import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -23,11 +23,29 @@ describe('CodeHeader Component test', () => {
   it('renders the correct content', () => {
     expect(screen.getByText('Untitled')).toBeInTheDocument();
     expect(screen.getByText('Captain Anonymous')).toBeInTheDocument();
+    expect(screen.getByText('Save')).toBeInTheDocument();
     expect(screen.getByText('Settings')).toBeInTheDocument();
     expect(screen.getByText('Template')).toBeInTheDocument();
     expect(screen.getByText('New Project')).toBeInTheDocument();
     expect(screen.getByText('Sign up')).toBeInTheDocument();
     expect(screen.getByText('Log in')).toBeInTheDocument();
+    expect(screen.getByTitle('fa-pen-fancy')).toBeInTheDocument();
+    expect(screen.getByTitle('fa-cloud-arrow-up')).toBeInTheDocument();
+    expect(screen.getByTitle('fa-gear')).toBeInTheDocument();
+    expect(screen.getByTitle('fa-centos')).toBeInTheDocument();
+    expect(screen.getByTitle('fa-file-circle-plus')).toBeInTheDocument();
+  });
+
+  it('edit project title', async () => {
+    const pen = screen.getByTitle('fa-pen-fancy');
+
+    await fireEvent.click(pen);
+    const titleInput = screen.getByRole('textbox');
+    const value = 'test title';
+
+    fireEvent.update(titleInput, value);
+    await fireEvent.blur(titleInput);
+    expect(screen.getByText(value)).toBeInTheDocument();
   });
 });
 
