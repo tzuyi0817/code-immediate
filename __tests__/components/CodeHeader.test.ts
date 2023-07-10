@@ -2,52 +2,14 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/vue';
 import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faPenFancy,
-  faAngleDown,
-  faSpinner,
-  faCheck,
-  faXmark,
-  faGear,
-  faMagnifyingGlass,
-  faBarsStaggered,
-  faCloudArrowUp,
-  faSheetPlastic,
-  faArrowLeft,
-  faArrowRight,
-  faTrash,
-  faFileCirclePlus,
-  faArrowRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
+import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 
 describe('CodeHeader Component test', () => {
   const pinia = createPinia();
 
   setActivePinia(pinia);
-  library.add(
-    faPenFancy,
-    faAngleDown,
-    faSpinner,
-    faCheck,
-    faXmark,
-    faGear,
-    faMagnifyingGlass,
-    faBarsStaggered,
-    faCloudArrowUp,
-    faSheetPlastic,
-    faFileCirclePlus,
-    faArrowLeft,
-    faArrowRight,
-    faTrash,
-    faEye,
-    faGithub,
-    faCentos,
-    faArrowRightFromBracket,
-  );
+  registerFaIcons();
 
   beforeEach(() => {
     render(CodeHeader, {
@@ -60,6 +22,12 @@ describe('CodeHeader Component test', () => {
 
   it('renders the correct content', () => {
     expect(screen.getByText('Untitled')).toBeInTheDocument();
+    expect(screen.getByText('Captain Anonymous')).toBeInTheDocument();
+    expect(screen.getByText('Settings')).toBeInTheDocument();
+    expect(screen.getByText('Template')).toBeInTheDocument();
+    expect(screen.getByText('New Project')).toBeInTheDocument();
+    expect(screen.getByText('Sign up')).toBeInTheDocument();
+    expect(screen.getByText('Log in')).toBeInTheDocument();
   });
 });
 

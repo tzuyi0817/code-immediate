@@ -1,27 +1,8 @@
 import { createApp } from 'vue';
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import { library } from '@fortawesome/fontawesome-svg-core';
+import registerFaIcons from '@/utils/registerFaIcons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import {
-  faPenFancy,
-  faAngleDown,
-  faSpinner,
-  faCheck,
-  faXmark,
-  faGear,
-  faMagnifyingGlass,
-  faBarsStaggered,
-  faCloudArrowUp,
-  faSheetPlastic,
-  faArrowLeft,
-  faArrowRight,
-  faTrash,
-  faFileCirclePlus,
-  faArrowRightFromBracket,
-} from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
 import { initMonacoEditor } from '@/utils/monacoEditor';
 import { loadParse } from '@/utils/loadParse';
 import { initTemplate } from '@/config/template';
@@ -33,26 +14,7 @@ import router from '@/router';
 const pinia = createPinia();
 const app = createApp(App);
 
-library.add(
-  faPenFancy,
-  faAngleDown,
-  faSpinner,
-  faCheck,
-  faXmark,
-  faGear,
-  faMagnifyingGlass,
-  faBarsStaggered,
-  faCloudArrowUp,
-  faSheetPlastic,
-  faFileCirclePlus,
-  faArrowLeft,
-  faArrowRight,
-  faTrash,
-  faEye,
-  faGithub,
-  faCentos,
-  faArrowRightFromBracket,
-);
+registerFaIcons();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 app.use(router);
