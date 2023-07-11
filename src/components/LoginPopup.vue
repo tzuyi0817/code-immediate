@@ -18,16 +18,22 @@ async function login() {
   };
 
   isLoading.value = true;
-  const { status, message, resultMap } = await loginUser(data).catch(cleanForm);
-  const { token, user } = resultMap;
-  const { setUser } = useUserStore();
+  try {
+    const { status, message, resultMap } = await loginUser(data);
+    const { token, user } = resultMap;
+    const { setUser } = useUserStore();
 
-  setUser(user);
-  localStorage.setItem('code_token', token);
-  localStorage.setItem('code_account', account.value);
-  toast.showToast(message, status);
-  isLoading.value = false;
-  closePopup();
+    setUser(user);
+    localStorage.setItem('code_token', token);
+    localStorage.setItem('code_account', account.value);
+    toast.showToast(message, status);
+    closePopup();
+    console.log({ success: 'success', message, status });
+  } catch {
+    cleanForm();
+  } finally {
+    isLoading.value = false;
+  }
 }
 
 function loginGithub() {
@@ -69,7 +75,6 @@ function loginGithub() {
 
 function cleanForm() {
   account.value = password.value = '';
-  isLoading.value = false;
 }
 
 function closePopup() {
@@ -83,6 +88,7 @@ function closePopup() {
       <h2>Log in!</h2>
       <font-awesome-icon 
         icon="fa-solid fa-xmark"
+        title="fa-xmark"
         class="cursor-pointer"
         @click="closePopup"
       />

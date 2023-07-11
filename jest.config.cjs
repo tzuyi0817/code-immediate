@@ -11,6 +11,7 @@ module.exports = {
     // }],
     '^.+\\.vue$': '@vue/vue3-jest',
   },
+  testMatch: ['<rootDir>/src/__tests__/**/*.test.ts'],
   transformIgnorePatterns: [
     '/node_modules/(?!pinia/.*)',
   ],
@@ -23,4 +24,5 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   moduleFileExtensions: ['js', 'vue', 'ts'],
+  clearMocks: true,
 };

@@ -10,7 +10,6 @@ describe('CodeHeader Component', () => {
 
   setActivePinia(pinia);
   registerFaIcons();
-
   beforeEach(() => {
     render(CodeHeader, {
       global: {
