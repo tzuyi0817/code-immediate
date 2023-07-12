@@ -12,7 +12,6 @@ describe('LoginPopup component', () => {
 
   setActivePinia(pinia);
   registerFaIcons();
-
   beforeEach(() => {
     render(LoginPopup, {
       global: {

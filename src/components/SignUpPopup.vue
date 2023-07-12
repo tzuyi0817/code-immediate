@@ -45,18 +45,19 @@ function closePopup() {
 </script>
 
 <template>
-  <div class="login_popup popup" @click.self="closePopup">
+  <div class="signup_popup popup" @click.self="closePopup">
     <div class="popup_header">
       <h2>Sign up!</h2>
       <font-awesome-icon 
         icon="fa-solid fa-xmark"
+        title="fa-xmark"
         class="cursor-pointer"
         @click="closePopup"
       />
     </div>
 
     <div class="popup_content">
-      <div class="login_popup_content">
+      <div class="signup_popup_content">
         <form @submit.prevent="register">
           <label class="label">
             <p>Account</p>
