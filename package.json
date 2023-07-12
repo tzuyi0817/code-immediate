@@ -44,6 +44,7 @@
     "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
     "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/user-event": "^14.4.3",
     "@testing-library/vue": "^7.0.0",
     "@types/file-saver": "^2.0.5",
     "@types/jest": "^29.5.2",

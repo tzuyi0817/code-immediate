@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/vue';
+import userEvent from '@testing-library/user-event';
 import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -38,22 +39,22 @@ describe('CodeHeader Component', () => {
   describe('project title', () => {
     it('edit project title', async () => {
       const pen = screen.getByTitle('fa-pen-fancy');
-      await fireEvent.click(pen);
+      await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
       const value = 'test title';
   
-      fireEvent.update(titleInput, value);
+      await userEvent.type(titleInput, value);
       await fireEvent.blur(titleInput);
       expect(screen.getByText(value)).toBeInTheDocument();
     });
 
     it ('edit empty value to display default title', async () => {
       const pen = screen.getByTitle('fa-pen-fancy');
-      await fireEvent.click(pen);
+      await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
       const DEFAULT_TITLE = 'Untitled';
 
-      fireEvent.update(titleInput, '');
+      await userEvent.type(titleInput, '{tab}');
       await fireEvent.blur(titleInput);
       expect(screen.getByText(DEFAULT_TITLE)).toBeInTheDocument();
     });
@@ -61,22 +62,22 @@ describe('CodeHeader Component', () => {
 
   describe('correct show popup', () => {
     it ('settings popup', async () => {
-      fireEvent.click(screen.getByRole('button', { name: /fa\-gear settings/i }));
+      userEvent.click(screen.getByRole('button', { name: /fa\-gear settings/i }));
       expect(await screen.findByText('CDN Settings')).toBeInTheDocument();
     });
 
     it ('templates popup', async () => {
-      fireEvent.click(screen.getByRole('button', { name: /fa\-centos template/i }));
+      userEvent.click(screen.getByRole('button', { name: /fa\-centos template/i }));
       expect(await screen.findByText('Templates')).toBeInTheDocument();
     });
 
     it ('sign up popup', async () => {
-      fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+      userEvent.click(screen.getByRole('button', { name: /sign up/i }));
       expect(await screen.findByText('Sign up!')).toBeInTheDocument();
     });
 
     it ('login popup', async () => {
-      fireEvent.click(screen.getByRole('button', { name: /log in/i }));
+      userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
     });
   });

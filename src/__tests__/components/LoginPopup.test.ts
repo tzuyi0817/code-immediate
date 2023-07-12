@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
-import { render, fireEvent, screen } from '@testing-library/vue';
+import { render, screen } from '@testing-library/vue';
+import userEvent from '@testing-library/user-event';
 import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -42,9 +43,9 @@ describe('LoginPopup component', () => {
         token: password,
       },
     });
-    fireEvent.update(screen.getByRole('textbox', { name: /account/i }), account);
-    fireEvent.update(screen.getByLabelText('Password'), password);
-    await fireEvent.click(screen.getByRole('button', { name: 'Log in' }));
+    await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
+    await userEvent.type(screen.getByLabelText('Password'), password);
+    await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
     expect(window.localStorage.getItem('code_token')).toEqual(password);
     expect(window.localStorage.getItem('code_account')).toEqual(account);
   });

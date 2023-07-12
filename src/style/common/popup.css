@@ -19,7 +19,7 @@
       @apply
       flex
       w-[90%]
-      max-w-md
+      max-w-xl
       justify-between
       items-center
       bg-yellow-400
@@ -31,7 +31,7 @@
       px-4
       pb-4
       w-[90%]
-      max-w-md
+      max-w-xl
       max-h-[60vh]
       rounded-b-md
       bg-white;

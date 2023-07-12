@@ -28,7 +28,6 @@ async function login() {
     localStorage.setItem('code_account', account.value);
     toast.showToast(message, status);
     closePopup();
-    console.log({ success: 'success', message, status });
   } catch {
     cleanForm();
   } finally {

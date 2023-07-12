@@ -52,7 +52,7 @@ function closePopup() {
           @click="selectTemplate(template.name)"
         >
           <img :src="template.src" alt="" class="template_popup_icon">
-          <div class="flex flex-col justify-center items-center">
+          <div class="flex flex-col flex-1 justify-center items-center">
             <p>{{ template.name }}</p>
             <span class="text-xs text-gray-500">{{ template.version }}</span>
           </div>
@@ -74,6 +74,7 @@ function closePopup() {
     @apply
     grid
     grid-cols-2
+    lg:grid-cols-3
     pb-4
     px-3
     gap-2;
