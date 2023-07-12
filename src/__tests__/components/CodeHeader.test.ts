@@ -1,23 +1,20 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { setActivePinia, createPinia } from 'pinia';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
+import Toast from '@/components/Toast.vue';
+import { useUserStore } from '@/store';
+import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
+import { mockLogin } from '@/__tests__/__mocks__/login';
+import spyAjax from '@/__tests__/__mocks__/ajax';
 
 describe('CodeHeader Component', () => {
-  const pinia = createPinia();
+  const pinia = setPinia();
 
-  setActivePinia(pinia);
   registerFaIcons();
   beforeEach(() => {
-    render(CodeHeader, {
-      global: {
-        stubs: { FontAwesomeIcon },
-        plugins: [pinia],
-      },
-    });
+    renderComponent(CodeHeader, { pinia });
   });
 
   it('renders the correct content', () => {
@@ -48,7 +45,7 @@ describe('CodeHeader Component', () => {
       expect(screen.getByText(value)).toBeInTheDocument();
     });
 
-    it ('edit empty value to display default title', async () => {
+    it('edit empty value to display default title', async () => {
       const pen = screen.getByTitle('fa-pen-fancy');
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
@@ -61,24 +58,44 @@ describe('CodeHeader Component', () => {
   });
 
   describe('correct show popup', () => {
-    it ('settings popup', async () => {
+    it('settings popup', async () => {
       userEvent.click(screen.getByRole('button', { name: /fa\-gear settings/i }));
       expect(await screen.findByText('CDN Settings')).toBeInTheDocument();
     });
 
-    it ('templates popup', async () => {
+    it('templates popup', async () => {
       userEvent.click(screen.getByRole('button', { name: /fa\-centos template/i }));
       expect(await screen.findByText('Templates')).toBeInTheDocument();
     });
 
-    it ('sign up popup', async () => {
+    it('sign up popup', async () => {
       userEvent.click(screen.getByRole('button', { name: /sign up/i }));
       expect(await screen.findByText('Sign up!')).toBeInTheDocument();
     });
 
-    it ('login popup', async () => {
+    it('login popup', async () => {
       userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
     });
+  });
+
+  it('logout test', async () => {
+    const { getByText } = render(Toast);
+    const userStore = useUserStore();
+
+    renderLoadingButton();
+    mockLogin();
+    spyAjax('post').mockResolvedValueOnce({
+      status: '200',
+      message: 'successfully logout',
+    });
+
+    const logoutButton = await screen.findByRole('button', { name: /fa\-arrow\-right\-from\-bracket log out/i });
+
+    expect(logoutButton).toBeInTheDocument();
+    await userEvent.click(logoutButton);
+    expect(userStore.isLogin).toBeFalsy();
+    expect(window.localStorage.getItem('code_token')).toBeNull();
+    expect(getByText('successfully logout')).toBeInTheDocument();
   });
 });

@@ -15,7 +15,7 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.2",

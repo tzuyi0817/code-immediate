@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import SignUpPopup from '@/components/SignUpPopup.vue';
 import Toast from '@/components/Toast.vue';
+import { useUserStore } from '@/store';
 import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
 import spyAjax from '@/__tests__/__mocks__/ajax';
 
@@ -45,6 +46,7 @@ describe('SignUpPopup component', () => {
   it('signup test', async () => {
     const account = 'root';
     const password = '123456789';
+    const userStore = useUserStore();
     const { getByText } = render(Toast);
 
     renderLoadingButton();
@@ -60,6 +62,7 @@ describe('SignUpPopup component', () => {
     await userEvent.type(screen.getByLabelText('Password'), password);
     await userEvent.type(screen.getByLabelText('Confirm Password'), password);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
+    expect(userStore.user).toEqual(account);
     expect(window.localStorage.getItem('code_token')).toEqual(password);
     expect(getByText('signup success')).toBeInTheDocument();
   });

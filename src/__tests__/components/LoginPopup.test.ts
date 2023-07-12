@@ -1,24 +1,19 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { setActivePinia, createPinia } from 'pinia';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import registerFaIcons from '@/utils/registerFaIcons';
 import LoginPopup from '@/components/LoginPopup.vue';
+import Toast from '@/components/Toast.vue';
+import { useUserStore } from '@/store';
+import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
 import spyAjax from '@/__tests__/__mocks__/ajax';
 
 describe('LoginPopup component', () => {
-  const pinia = createPinia();
+  const pinia = setPinia();
 
-  setActivePinia(pinia);
   registerFaIcons();
   beforeEach(() => {
-    render(LoginPopup, {
-      global: {
-        stubs: { FontAwesomeIcon },
-        plugins: [pinia],
-      }
-    })
+    renderComponent(LoginPopup, { pinia });
   });
 
   it('renders the correct content', () => {
@@ -30,10 +25,19 @@ describe('LoginPopup component', () => {
     expect(screen.getByRole('button', { name: /log in with github/i })).toBeInTheDocument();
   });
 
-  it ('login test', async () => {
+  it('form fields should be required', async () => {
+    await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
+    expect(screen.getByLabelText('Account')).toBeInvalid();
+    expect(screen.getByLabelText('Password')).toBeInvalid();
+  });
+
+  it('login test', async () => {
     const account = 'root';
     const password = '123456789';
+    const userStore = useUserStore();
+    const { getByText } = render(Toast);
 
+    renderLoadingButton();
     spyAjax('post').mockResolvedValue({
       status: '200',
       message: 'login success',
@@ -45,7 +49,9 @@ describe('LoginPopup component', () => {
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), password);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
+    expect(userStore.user).toEqual(account);
     expect(window.localStorage.getItem('code_token')).toEqual(password);
     expect(window.localStorage.getItem('code_account')).toEqual(account);
+    expect(getByText('login success')).toBeInTheDocument();
   });
 });
