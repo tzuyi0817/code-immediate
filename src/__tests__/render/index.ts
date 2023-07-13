@@ -1,3 +1,4 @@
+import type { Component } from 'vue';
 import { render } from '@testing-library/vue';
 import { setActivePinia, createPinia, type Pinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -15,7 +16,7 @@ export function setPinia() {
   return pinia;
 }
 
-export function renderComponent(TestComponent: any, options?: RenderComponentOptions) {
+export function renderComponent(TestComponent: Component, options?: RenderComponentOptions) {
   const { props, pinia } = options ?? {};
 
   return render(TestComponent, {
