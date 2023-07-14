@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -6,7 +5,6 @@ import LoginPopup from '@/components/LoginPopup.vue';
 import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/store';
 import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
-import spyAjax from '@/__tests__/__mocks__/ajax';
 
 describe('LoginPopup component', () => {
   const pinia = setPinia();
@@ -38,14 +36,6 @@ describe('LoginPopup component', () => {
     const { getByText } = render(Toast);
 
     renderLoadingButton();
-    spyAjax('post').mockResolvedValue({
-      status: '200',
-      message: 'login success',
-      resultMap: {
-        user: account,
-        token: password,
-      },
-    });
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), password);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));

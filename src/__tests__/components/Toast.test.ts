@@ -1,5 +1,4 @@
 import { nextTick } from 'vue';
-import '@testing-library/jest-dom';
 import { screen } from '@testing-library/vue';
 import Toast from '@/components/Toast.vue';
 import toast from "@/utils/toast";

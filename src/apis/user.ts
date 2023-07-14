@@ -1,13 +1,5 @@
 import ajax from '@/utils/ajax';
-
-interface LoginPayload {
-  account: string;
-  password: string;
-}
-
-interface RegisterPayload extends LoginPayload {
-  confirmPassword: string;
-}
+import type { LoginPayload, RegisterPayload } from '@/types/user';
 
 export function loginUser(data: LoginPayload) {
   return ajax.post('/login', data)

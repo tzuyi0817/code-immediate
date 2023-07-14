@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render, fireEvent, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -7,7 +6,6 @@ import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/store';
 import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
 import { mockLogin } from '@/__tests__/__mocks__/login';
-import spyAjax from '@/__tests__/__mocks__/ajax';
 
 describe('CodeHeader Component', () => {
   const pinia = setPinia();
@@ -85,10 +83,6 @@ describe('CodeHeader Component', () => {
 
     renderLoadingButton();
     mockLogin();
-    spyAjax('post').mockResolvedValueOnce({
-      status: '200',
-      message: 'successfully logout',
-    });
 
     const logoutButton = await screen.findByRole('button', { name: /fa\-arrow\-right\-from\-bracket log out/i });
 
