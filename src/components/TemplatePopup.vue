@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore } from '@/store'; 
-import { TEMPLATE_MAP } from '@/config/template';
+import { TEMPLATE_MAP, TEMPLATE_LIST } from '@/config/template';
 import type { CodeTemplate } from '@/types/codeContent';
 
 const emit = defineEmits(['update:isShowTemplatePop']);
 const { codeTemplate } = storeToRefs(useCodeContentStore())
-const templateList: ({ name: CodeTemplate } & Record<string, string>)[] = [
-  { name: 'ES6', src: getImageSrc('/templateIcon/es6.png'), version: '' },
-  { name: 'React', src: getImageSrc('/templateIcon/react.svg'), version: 'v18.2.0' },
-  { name: 'Vue', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.3.4' },
-  { name: 'VueSFC', src: getImageSrc('/templateIcon/vue.svg'), version: 'v3.3.4' },
-  { name: 'Angular', src: getImageSrc('/templateIcon/angular.png'), version: 'v1.8.3' },
-  { name: 'SolidJs', src: getImageSrc('/templateIcon/solid.png'), version: 'v1.7.7' },
-  { name: 'RxJS', src: getImageSrc('/templateIcon/rxjs.png'), version: 'v7.8.1' },
-];
 
 function selectTemplate(name: CodeTemplate) {
   const { setCodeTemplate, setCodeMap } = useCodeContentStore();
@@ -24,7 +15,7 @@ function selectTemplate(name: CodeTemplate) {
 }
 
 function getImageSrc(path: string) {
-  return new URL(path, import.meta.url).toString();
+  return new URL(path, import.meta.url).href;
 }
 
 function closePopup() {
@@ -39,6 +30,7 @@ function closePopup() {
       <font-awesome-icon 
         icon="fa-solid fa-xmark"
         class="cursor-pointer"
+        title="fa-xmark"
         @click="closePopup"
       />
     </div>
@@ -46,12 +38,12 @@ function closePopup() {
     <div class="popup_content">
       <ul>
         <li 
-          v-for="template in templateList" 
+          v-for="template in TEMPLATE_LIST" 
           :key="template.name"
           :class="{ active: codeTemplate === template.name }"
           @click="selectTemplate(template.name)"
         >
-          <img :src="template.src" alt="" class="template_popup_icon">
+          <img :src="getImageSrc(template.src)" class="template_popup_icon" :alt="template.name" />
           <div class="flex flex-col flex-1 justify-center items-center">
             <p>{{ template.name }}</p>
             <span class="text-xs text-gray-500">{{ template.version }}</span>

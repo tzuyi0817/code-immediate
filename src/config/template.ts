@@ -175,6 +175,16 @@ export const BUILT_IN_RESOURCES = new Set([
   'lib/angular@1.8.3.js',
 ]);
 
+export const TEMPLATE_LIST = [
+  { name: 'ES6', src: '/templateIcon/es6.png', version: '' },
+  { name: 'React', src: '/templateIcon/react.svg', version: 'v18.2.0' },
+  { name: 'Vue', src: '/templateIcon/vue.svg', version: 'v3.3.4' },
+  { name: 'VueSFC', src: '/templateIcon/vue.svg', version: 'v3.3.4' },
+  { name: 'Angular', src: '/templateIcon/angular.png', version: 'v1.8.3' },
+  { name: 'SolidJs', src: '/templateIcon/solid.png', version: 'v1.7.7' },
+  { name: 'RxJS', src: '/templateIcon/rxjs.png', version: 'v7.8.1' },
+] as const;
+
 export function initTemplate() {
   const { codeContent, codeTemplate } = useCodeContentStore();
   TEMPLATE_MAP[codeTemplate] = codeContent;
