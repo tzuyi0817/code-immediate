@@ -4,7 +4,7 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import LoginPopup from '@/components/LoginPopup.vue';
 import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/store';
-import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
+import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 
 describe('LoginPopup component', () => {
   const pinia = setPinia();
@@ -39,7 +39,7 @@ describe('LoginPopup component', () => {
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), password);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
-    expect(userStore.user).toEqual(account);
+    expect(userStore.user).toEqual({ account });
     expect(window.localStorage.getItem('code_token')).toEqual(password);
     expect(window.localStorage.getItem('code_account')).toEqual(account);
     expect(getByText('login success')).toBeInTheDocument();

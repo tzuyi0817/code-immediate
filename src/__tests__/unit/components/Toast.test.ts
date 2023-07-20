@@ -2,7 +2,7 @@ import { nextTick } from 'vue';
 import { screen } from '@testing-library/vue';
 import Toast from '@/components/Toast.vue';
 import toast from "@/utils/toast";
-import { renderComponent } from '@/__tests__/render';
+import { renderComponent } from '@/__tests__/unit/render';
 
 describe('Toast Component', () => {
   beforeEach(() => {

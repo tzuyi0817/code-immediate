@@ -4,7 +4,7 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
-import { setPinia, renderComponent } from '@/__tests__/render';
+import { setPinia, renderComponent } from '@/__tests__/unit/render';
 import type { CodeTemplate } from '@/types/codeContent';
 
 describe('TemplatePopup component', () => {

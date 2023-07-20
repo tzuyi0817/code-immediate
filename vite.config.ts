@@ -1,17 +1,15 @@
-import { defineConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { resolve } from "path";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
-import EnvironmentPlugin from 'vite-plugin-environment';
 // import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 
 export default defineConfig({
   base: './',
   plugins: [
     vue(),
-    EnvironmentPlugin('all'),
     // @ts-ignore
     // monacoEditorPlugin.default({
     //   languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
@@ -73,4 +71,4 @@ export default defineConfig({
       ],
     },
   },
-})
+}) as UserConfig;

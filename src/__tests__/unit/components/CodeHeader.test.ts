@@ -4,7 +4,7 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/store';
-import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/render';
+import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import { mockLogin } from '@/__tests__/__mocks__/login';
 
 describe('CodeHeader Component', () => {
