@@ -48,5 +48,5 @@ jobs:
         if: steps.dependencies-cache.outputs.cache-hit != 'true'
         run: pnpm install
 
-      - name: Run test
-        run: pnpm test
+      - name: Run unit test
+        run: pnpm test:unit
