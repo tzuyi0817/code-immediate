@@ -5,13 +5,10 @@ import toast from "@/utils/toast";
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('Toast Component', () => {
-  beforeEach(() => {
-    renderComponent(Toast);
-  });
-
   it('open toast', async () => {
     const message = 'test success';
 
+    renderComponent(Toast);
     toast.showToast(message, 'success');
     await nextTick();
     const toastDom = screen.getByText(message);
@@ -23,6 +20,7 @@ describe('Toast Component', () => {
   it('close toast', async () => {
     const message = 'test toast';
 
+    renderComponent(Toast);
     toast.showToast(message, 'success');
     await nextTick();
     const toastDom = screen.getByText(message);
@@ -36,12 +34,14 @@ describe('Toast Component', () => {
     const message = 'test toast';
 
     it('success toast', async () => {
+      renderComponent(Toast);
       toast.showToast(message, 'success');
       await nextTick();
       expect(screen.getByText(message)).toHaveClass('bg-green-600');
     });
 
     it('error toast', async () => {
+      renderComponent(Toast);
       toast.showToast(message, 'error');
       await nextTick();
       expect(screen.getByText(message)).toHaveClass('bg-red-600');

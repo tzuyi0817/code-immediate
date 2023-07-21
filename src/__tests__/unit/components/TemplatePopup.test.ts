@@ -4,18 +4,14 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
-import { setPinia, renderComponent } from '@/__tests__/unit/render';
+import { renderComponent } from '@/__tests__/unit/render';
 import type { CodeTemplate } from '@/types/codeContent';
 
 describe('TemplatePopup component', () => {
-  const pinia = setPinia();
-
   registerFaIcons();
-  beforeEach(() => {
-    renderComponent(TemplatePopup, { pinia });
-  });
 
   it('renders the correct content', () => {
+    renderComponent(TemplatePopup);
     expect(screen.getByRole('heading', { name: /templates/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
     
@@ -27,6 +23,7 @@ describe('TemplatePopup component', () => {
   });
 
   it('select template', () => {
+    renderComponent(TemplatePopup);
     const listItems = screen.getAllByRole('listitem');
     const codeContentStore = useCodeContentStore();
 

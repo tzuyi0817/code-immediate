@@ -5,12 +5,12 @@ const mockUserApi = {
   loginUser: rest.post('/login', (req: MockedRequest<LoginPayload>, res, ctx) => {
     const { account, password } = req.body;
     const isAuthenticated = account === 'root' && password === '123456789';
-
+    
     if (!isAuthenticated) {
       return res(
         ctx.status(403),
         ctx.json({
-          errorMessage: 'Not authorized',
+          message: 'Not authorized',
         }),
       );
     }
@@ -27,6 +27,16 @@ const mockUserApi = {
   }),
   registerUser: rest.post('/register', (req: MockedRequest<RegisterPayload>, res, ctx) => {
     const { account, password } = req.body;
+    const isAuthenticated = account === 'root' && password === '123456789';
+    
+    if (!isAuthenticated) {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: 'account already exists',
+        }),
+      );
+    }
 
     return res(
       ctx.status(200),

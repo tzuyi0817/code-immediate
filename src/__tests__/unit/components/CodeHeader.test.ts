@@ -4,18 +4,14 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 import Toast from '@/components/Toast.vue';
 import { useUserStore } from '@/store';
-import { setPinia, renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
-import { mockLogin } from '@/__tests__/__mocks__/login';
+import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import { mockLogin } from '@/__tests__/__mocks__/user';
 
 describe('CodeHeader Component', () => {
-  const pinia = setPinia();
-
   registerFaIcons();
-  beforeEach(() => {
-    renderComponent(CodeHeader, { pinia });
-  });
 
   it('renders the correct content', () => {
+    renderComponent(CodeHeader);
     expect(screen.getByText('Untitled')).toBeInTheDocument();
     expect(screen.getByText('Captain Anonymous')).toBeInTheDocument();
     expect(screen.getByText('Save')).toBeInTheDocument();
@@ -33,6 +29,7 @@ describe('CodeHeader Component', () => {
 
   describe('project title', () => {
     it('edit project title', async () => {
+      renderComponent(CodeHeader);
       const pen = screen.getByTitle('fa-pen-fancy');
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
@@ -44,6 +41,7 @@ describe('CodeHeader Component', () => {
     });
 
     it('edit empty value to display default title', async () => {
+      renderComponent(CodeHeader);
       const pen = screen.getByTitle('fa-pen-fancy');
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
@@ -57,21 +55,25 @@ describe('CodeHeader Component', () => {
 
   describe('correct show popup', () => {
     it('settings popup', async () => {
+      renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-gear settings/i }));
       expect(await screen.findByText('CDN Settings')).toBeInTheDocument();
     });
 
     it('templates popup', async () => {
+      renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-centos template/i }));
       expect(await screen.findByText('Templates')).toBeInTheDocument();
     });
 
     it('sign up popup', async () => {
+      renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /sign up/i }));
       expect(await screen.findByText('Sign up!')).toBeInTheDocument();
     });
 
     it('login popup', async () => {
+      renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
     });
@@ -81,6 +83,7 @@ describe('CodeHeader Component', () => {
     const { getByText } = render(Toast);
     const userStore = useUserStore();
 
+    renderComponent(CodeHeader);
     renderLoadingButton();
     mockLogin();
 

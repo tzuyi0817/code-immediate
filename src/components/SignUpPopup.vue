@@ -23,15 +23,20 @@ async function register() {
   };
 
   isLoading.value = true;
-  const { status, message, resultMap } = await registerUser(data).catch(cleanForm);
-  const { token, user } = resultMap;
-  const { setUser } = useUserStore();
+  try {
+    const { status, message, resultMap } = await registerUser(data);
+    const { token, user } = resultMap;
+    const { setUser } = useUserStore();
 
-  setUser(user);
-  localStorage.setItem('code_token', token);
-  toast.showToast(message, status);
-  isLoading.value = false;
-  closePopup();
+    setUser(user);
+    localStorage.setItem('code_token', token);
+    toast.showToast(message, status);
+    closePopup();
+  } catch {
+    cleanForm();
+  } finally {
+    isLoading.value = false;
+  }
 }
 
 function cleanForm() {
