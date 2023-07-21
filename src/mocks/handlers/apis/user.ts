@@ -1,9 +1,8 @@
 import { rest, type MockedRequest } from 'msw';
 import type { LoginPayload, RegisterPayload } from '@/types/user';
 
-const { VITE_API_URL } = import.meta.env;
 const mockUserApi = {
-  loginUser: rest.post(`${VITE_API_URL}/login`, (req: MockedRequest<LoginPayload>, res, ctx) => {
+  loginUser: rest.post('/login', (req: MockedRequest<LoginPayload>, res, ctx) => {
     const { account, password } = req.body;
     const isAuthenticated = account === 'root' && password === '123456789';
 
@@ -26,7 +25,7 @@ const mockUserApi = {
       }),
     );
   }),
-  registerUser: rest.post(`${VITE_API_URL}/register`, (req: MockedRequest<RegisterPayload>, res, ctx) => {
+  registerUser: rest.post('/register', (req: MockedRequest<RegisterPayload>, res, ctx) => {
     const { account, password } = req.body;
 
     return res(
@@ -40,7 +39,7 @@ const mockUserApi = {
       }),
     );
   }),
-  logoutUser: rest.post(`${VITE_API_URL}/logout`, (req, res, ctx) => {
+  logoutUser: rest.post('/logout', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json({
