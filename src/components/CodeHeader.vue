@@ -166,8 +166,8 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     </div>
 
     <div class="code_header_right">
-      <button class="btn btn_base lg:hidden">
-        <font-awesome-icon icon="fa-solid fa-bars-staggered" title="fa-bars-staggered" @click="toggleMenuList" />
+      <button class="btn btn_base lg:hidden" @click="toggleMenuList">
+        <font-awesome-icon icon="fa-solid fa-bars-staggered" title="fa-bars-staggered" />
       </button>
 
       <loading-button
