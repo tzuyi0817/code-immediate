@@ -75,7 +75,7 @@ JS | Babel, TypeScript, CoffeeScript, LiveScript |
 - loadjs
 - jszip
 - file-saver
-- jest
+- vitest
 - @testing-library
 - msw
 

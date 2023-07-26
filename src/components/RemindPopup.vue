@@ -39,6 +39,7 @@ function closePopup() {
       <h3>Remind</h3>
       <font-awesome-icon 
         icon="fa-solid fa-xmark"
+        title="fa-xmark"
         class="cursor-pointer"
         @click="closePopup"
       />
