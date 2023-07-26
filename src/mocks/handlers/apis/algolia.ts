@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-const searchUrl = 'https://intrwa7wba-dsn.algolia.net/1/indexes/code-immediate/query';
+const searchUrl = /https:\/\/.*algolia.*\/1\/indexes\/code-immediate\/query/;
 const mockAlgoliaApi = {
   search: rest.all(searchUrl, (_req, res, ctx) => {
     return res(
