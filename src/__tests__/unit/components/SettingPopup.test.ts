@@ -38,10 +38,20 @@ describe('SettingPopup component', () => {
     expect(screen.getByText(/any url's added here will be added as <script>s in order, and run before the javascript in the editor\./i)).toBeInTheDocument();
   });
 
-  it('add and delete custom cdn resource', async () => {
+  it('search cdn resource', async () => {
     renderComponent(SettingsPopup);
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 's');
     expect(await screen.findByTitle('fa-spinner')).toBeInTheDocument();
+    expect(await screen.findByText(/slider\-pro/i)).toBeInTheDocument();
+    expect(await screen.findByText(/responsive jquery slider, featuring modular architecture, css3 animations, touch swipe, animated layers, retina, lazy loading and much more\./i))
+      .toBeInTheDocument();
+    expect(await screen.findByText(/s3colors/i)).toBeInTheDocument();
+    expect(await screen.findByText(  /easy to use css colors in your project with simple class you can colorize your text or background with the class of color name\./i))
+      .toBeInTheDocument();
+  });
+
+  it('add and delete custom cdn resource', async () => {
+    renderComponent(SettingsPopup);
     await userEvent.click(screen.getByRole('button', { name: /\+ custom resource/i }));
     const cdn = 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css';
 
