@@ -6,8 +6,6 @@ declare module '*.vue' {
   export default component
 };
 
-declare module 'loadjs';
-
 declare interface Window {
   Haml: any;
   showdown: any;

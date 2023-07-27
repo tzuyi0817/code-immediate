@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, computed, provide, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCode } from '@/apis/code';

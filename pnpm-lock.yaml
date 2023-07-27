@@ -79,6 +79,9 @@ devDependencies:
   '@types/file-saver':
     specifier: ^2.0.5
     version: 2.0.5
+  '@types/loadjs':
+    specifier: ^4.0.1
+    version: 4.0.1
   '@types/node':
     specifier: ^18.6.5
     version: 18.6.5
@@ -1160,6 +1163,10 @@ packages:
 
   /@types/js-levenshtein@1.1.1:
     resolution: {integrity: sha512-qC4bCqYGy1y/NP7dDVr7KJarn+PbX1nSpwA7JXdu0HxT3QYjO8MJ+cntENtHFVy2dRAyBV23OZ6MxsW1AM1L8g==}
+    dev: true
+
+  /@types/loadjs@4.0.1:
+    resolution: {integrity: sha512-UEMOleWwITwDvj+kI6T4etC9yMjmejH6UdJRAa1MWZwzDIW+Iz7T6z6Zc96N/5FeFsxAEBA/zP1ki+HluXPcHQ==}
     dev: true
 
   /@types/ms@0.7.31:
