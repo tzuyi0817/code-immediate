@@ -30,15 +30,13 @@ function dragCallback(offset: DragOffset) {
   const offsetA = dragA ? calculateOffset(dragA, offset[direction]) : 50;
   const offsetB = dragB ? calculateOffset(dragB, -offset[direction]) : 50;
 
-  if (offsetA <= 0) {
-    if (typeC !== 'previous') return;
+  if (offsetA <= 0 && typeC === 'previous') {
     const offsetC = dragC ? calculateOffset(dragC, offset[direction]) : 0;
     if (offsetC <= 0) return;
     dragB && emit('update:dragB', `${offsetB}${unit}`);
     return dragC && emit('update:dragC', `${offsetC}${unit}`);
   }
-  if (offsetB <= 0) {
-    if (typeC !== 'next') return;
+  if (offsetB <= 0 && typeC === 'next') {
     const offsetC = dragC ? calculateOffset(dragC, -offset[direction]) : 0;
     if (offsetC <= 0) return;
     dragA && emit('update:dragA', `${offsetA}${unit}`);
@@ -53,13 +51,16 @@ function dragCallback(offset: DragOffset) {
 
 function calculateOffset(drag: string, offset: number) {
   const { unit } = props;
-  return (+drag.slice(0, -unit.length) / 100 + offset) * 100;
+  const result = (+drag.slice(0, -unit.length) / 100 + offset) * 100;
+
+  return isNaN(result) ? 0 : result;
 }
 </script>
 
 <template>
   <div
     :class="['code_drag', cursor, layout]"
+    title="drag"
     @mousedown="startDrag"
   >
     <slot></slot>
