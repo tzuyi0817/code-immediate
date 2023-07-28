@@ -10,7 +10,7 @@ interface Props {
   previewWidth: string;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 const { codeId } = storeToRefs(useCodeContentStore());
 const isShowConsole = ref(false);
 
@@ -18,14 +18,18 @@ function toggleConsole() {
   isShowConsole.value = !isShowConsole.value;
 }
 
-function shareLink() {
-  const textField = document.createElement('textarea');
+async function shareLink() {
+  if (document.execCommand) {
+    const textField = document.createElement('textarea');
 
-  textField.innerText = location.href;
-  document.body.appendChild(textField);
-  textField.select();
-  document.execCommand('copy');
-  textField.remove();
+    textField.innerText = location.href;
+    document.body.appendChild(textField);
+    textField.select();
+    document.execCommand('copy');
+    textField.remove();
+  } else {
+    await navigator.clipboard.writeText(location.href);
+  }
   toast.showToast('Copied URL to clipboard!', 'success');
 }
 </script>
