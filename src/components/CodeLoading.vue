@@ -7,6 +7,7 @@ import { sleep } from '@/utils/common';
 const { isLoading, loadingType } = storeToRefs(useFlagStore());
 const isShowTick = ref(false);
 const isError = computed(() => loadingType.value.endsWith('error'));
+const statusIcon = computed(() => `fa-${isError.value ? 'xmark' : 'check'}`);
 
 async function flashTick() {
   isShowTick.value = true;
@@ -27,11 +28,13 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
     <font-awesome-icon
       v-if="isLoading"
       icon="fa-solid fa-spinner"
+      title="fa-spinner"
       class="animate-spin code_loading_icon"
     />
     <font-awesome-icon
       v-if="isShowTick"
-      :icon="`fa-solid fa-${isError ? 'xmark' : 'check'}`"
+      :icon="`fa-solid ${statusIcon}`"
+      :title="statusIcon"
       :class="['code_loading_icon', { 'text-red-500': isError }]"
     />
   </div>
