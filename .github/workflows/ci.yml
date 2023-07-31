@@ -2,7 +2,11 @@ name: CI-Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/**'
 
 jobs:
   CI:

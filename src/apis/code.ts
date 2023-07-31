@@ -1,9 +1,7 @@
 import ajax from '@/utils/ajax';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/loadParse';
-import type { CodeProject } from '@/types/codeContent';
-
-type CodePayload = Omit<CodeProject, 'id' | 'srcdoc'>;
+import type { CodePayload } from '@/types/codeContent';
 
 export function getCodes(page: number) {
   return ajax.get(`/code?page=${page}`);

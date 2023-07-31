@@ -63,3 +63,5 @@ export interface CodeProject extends CodeBase {
   id: string;
   srcdoc?: string;
 }
+
+export type CodePayload = Omit<CodeProject, 'id' | 'srcdoc'>;

@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 import Toast from '@/components/Toast.vue';
-import { useUserStore } from '@/store';
+import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import { mockLogin } from '@/__tests__/__mocks__/user';
 
@@ -76,6 +76,40 @@ describe('CodeHeader Component', () => {
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
+    });
+  });
+
+  describe('save code', () => {
+    it ('not logged in save code', async () => {
+      renderComponent(CodeHeader);
+      userEvent.click(screen.getByText('Save'));
+      expect(await screen.findByText('Log in!')).toBeInTheDocument();
+    });
+
+    it('logged in save new code', async () => {
+      const codeContentStore = useCodeContentStore();
+      const flagStore = useFlagStore();
+
+      mockLogin();
+      flagStore.setChangeCodeFlag(true);
+      renderComponent(CodeHeader);
+      renderComponent(Toast);
+      await userEvent.click(screen.getByText('Save'));
+      expect(codeContentStore.codeId).toEqual('post123');
+      expect(flagStore.isChangeCode).toBeFalsy();
+      expect(screen.getByText('save code success')).toBeInTheDocument();
+    });
+
+    it('logged in update code', async () => {
+      const codeContentStore = useCodeContentStore();
+
+      mockLogin();
+      codeContentStore.setCodeId('put123');
+      renderComponent(CodeHeader);
+      renderComponent(Toast);
+      await userEvent.click(screen.getByText('Save'));
+      expect(codeContentStore.codeId).toEqual('put123');
+      expect(screen.getByText('update code success')).toBeInTheDocument();
     });
   });
 
