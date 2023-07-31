@@ -5,7 +5,7 @@ import CodeHeader from '@/components/CodeHeader.vue';
 import Toast from '@/components/Toast.vue';
 import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
-import { mockLogin } from '@/__tests__/__mocks__/user';
+import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
 
 describe('CodeHeader Component', () => {
   registerFaIcons();
@@ -14,23 +14,26 @@ describe('CodeHeader Component', () => {
     renderComponent(CodeHeader);
     expect(screen.getByText('Untitled')).toBeInTheDocument();
     expect(screen.getByText('Captain Anonymous')).toBeInTheDocument();
-    expect(screen.getByText('Save')).toBeInTheDocument();
-    expect(screen.getByText('Settings')).toBeInTheDocument();
-    expect(screen.getByText('Template')).toBeInTheDocument();
-    expect(screen.getByText('New Project')).toBeInTheDocument();
-    expect(screen.getByText('Sign up')).toBeInTheDocument();
-    expect(screen.getByText('Log in')).toBeInTheDocument();
-    expect(screen.getByTitle('fa-pen-fancy')).toBeInTheDocument();
-    expect(screen.getByTitle('fa-cloud-arrow-up')).toBeInTheDocument();
-    expect(screen.getByTitle('fa-gear')).toBeInTheDocument();
-    expect(screen.getByTitle('fa-centos')).toBeInTheDocument();
-    expect(screen.getByTitle('fa-file-circle-plus')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-gear settings/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-centos template/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-file\-circle\-plus new project/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-bars\-staggered/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /fa\-pen\-fancy/i })).toBeInTheDocument();
+  });
+
+  it('show menu list', async () => {
+    renderComponent(CodeHeader);
+    userEvent.click(screen.getByRole('button', { name: /fa\-bars\-staggered/i }));
+    expect(await screen.findByRole('list')).toBeInTheDocument();
   });
 
   describe('project title', () => {
     it('edit project title', async () => {
       renderComponent(CodeHeader);
-      const pen = screen.getByTitle('fa-pen-fancy');
+      const pen = screen.getByRole('img', { name: /fa\-pen\-fancy/i });
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
       const value = 'test title';
@@ -42,7 +45,7 @@ describe('CodeHeader Component', () => {
 
     it('edit empty value to display default title', async () => {
       renderComponent(CodeHeader);
-      const pen = screen.getByTitle('fa-pen-fancy');
+      const pen = screen.getByRole('img', { name: /fa\-pen\-fancy/i });
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
       const DEFAULT_TITLE = 'Untitled';
@@ -77,12 +80,27 @@ describe('CodeHeader Component', () => {
       userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
     });
+
+    it ('projects popup', async () => {
+      mockLogin();
+      renderComponent(CodeHeader);
+      userEvent.click(screen.getByRole('button', { name: /fa\-sheet\-plastic projects/i }));
+      expect(await screen.findByRole('heading', { name: /projects/i} )).toBeInTheDocument();
+      mockLogout();
+    });
+
+    it('remind popup', async () => {
+      useFlagStore().setChangeCodeFlag(true);
+      renderComponent(CodeHeader);
+      userEvent.click(screen.getByRole('button', { name: /fa\-file\-circle\-plus new project/i }));
+      expect(await screen.findByRole('heading', { name: /remind/i })).toBeInTheDocument();
+    });
   });
 
   describe('save code', () => {
     it ('not logged in save code', async () => {
       renderComponent(CodeHeader);
-      userEvent.click(screen.getByText('Save'));
+      userEvent.click(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
     });
 
@@ -94,7 +112,7 @@ describe('CodeHeader Component', () => {
       flagStore.setChangeCodeFlag(true);
       renderComponent(CodeHeader);
       renderComponent(Toast);
-      await userEvent.click(screen.getByText('Save'));
+      await userEvent.click(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i }));
       expect(codeContentStore.codeId).toEqual('post123');
       expect(flagStore.isChangeCode).toBeFalsy();
       expect(screen.getByText('save code success')).toBeInTheDocument();
@@ -107,7 +125,7 @@ describe('CodeHeader Component', () => {
       codeContentStore.setCodeId('put123');
       renderComponent(CodeHeader);
       renderComponent(Toast);
-      await userEvent.click(screen.getByText('Save'));
+      await userEvent.click(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i }));
       expect(codeContentStore.codeId).toEqual('put123');
       expect(screen.getByText('update code success')).toBeInTheDocument();
     });

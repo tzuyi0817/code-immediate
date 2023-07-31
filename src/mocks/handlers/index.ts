@@ -9,6 +9,7 @@ export const handlers = [
 
   mockAlgoliaApi.search,
 
+  mockCodeApi.getCodes,
   mockCodeApi.postCode,
   mockCodeApi.putCode,
 ];
