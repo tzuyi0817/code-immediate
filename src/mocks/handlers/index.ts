@@ -12,4 +12,5 @@ export const handlers = [
   mockCodeApi.getCodes,
   mockCodeApi.postCode,
   mockCodeApi.putCode,
+  mockCodeApi.deleteCode,
 ];

@@ -1,20 +1,14 @@
 import type { Component } from 'vue';
-import { render } from '@testing-library/vue';
+import { render, RenderOptions } from '@testing-library/vue';
 import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import LoadingButton from '@/components/LoadingButton.vue';
-
-interface RenderComponentOptions {
-  props?: Record<string, any>;
-  provide?: Record<any, any>;
-}
 
 const pinia = createPinia();
 
 setActivePinia(pinia);
 
-
-export function renderComponent(testComponent: Component, options?: RenderComponentOptions) {
+export function renderComponent(testComponent: Component, options?: RenderOptions) {
   const componentOptions = options ?? {};
 
   return render(testComponent, {

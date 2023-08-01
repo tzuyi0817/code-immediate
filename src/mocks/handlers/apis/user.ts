@@ -1,8 +1,8 @@
-import { rest, type MockedRequest } from 'msw';
+import { rest, type RestRequest } from 'msw';
 import type { LoginPayload, RegisterPayload } from '@/types/user';
 
 const mockUserApi = {
-  loginUser: rest.post('*/login', (req: MockedRequest<LoginPayload>, res, ctx) => {
+  loginUser: rest.post('*/login', (req: RestRequest<LoginPayload>, res, ctx) => {
     const { account, password } = req.body;
     const isAuthenticated = account === 'root' && password === '123456789';
     
@@ -25,7 +25,7 @@ const mockUserApi = {
       }),
     );
   }),
-  registerUser: rest.post('*/register', (req: MockedRequest<RegisterPayload>, res, ctx) => {
+  registerUser: rest.post('*/register', (req: RestRequest<RegisterPayload>, res, ctx) => {
     const { account, password } = req.body;
     const isAuthenticated = account === 'root' && password === '123456789';
     

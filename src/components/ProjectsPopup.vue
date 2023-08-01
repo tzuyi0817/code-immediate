@@ -71,6 +71,7 @@ onMounted(getProjects);
       <h3>Projects</h3>
       <font-awesome-icon 
         icon="fa-solid fa-xmark"
+        title="fa-xmark"
         class="cursor-pointer"
         @click="closePopup"
       />
@@ -98,12 +99,14 @@ onMounted(getProjects);
             <p>{{ project.title }}</p>
             <font-awesome-icon
               v-if="isDeleting && deleteId === project.id"
-              icon="fa-solid fa-spinner" 
+              icon="fa-solid fa-spinner"
+              title="fa-spinner"
               class="animate-spin text-blue-600"
             />
             <font-awesome-icon
               v-else
               icon="fa-solid fa-trash"
+              title="fa-trash"
               :class="['hover:text-red-600', { 'hover:cursor-not-allowed': isDeleting }]"
               @click.stop="deleteProject(project.id)"
             />
