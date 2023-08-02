@@ -77,7 +77,7 @@ function searchCdn(word: string) {
     })
     .catch(error => {
       isSearch.value = false;
-      throw new Error(error);
+      throw new Error(error.message, { cause: error });
     });
 }
 

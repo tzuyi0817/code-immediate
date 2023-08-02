@@ -12,6 +12,12 @@ export default mergeConfig(
       include: ['src/__tests__/unit/**/*.test.ts'],
       root: fileURLToPath(new URL('./', import.meta.url)),
       setupFiles: ['src/__tests__/setup/unitTest.ts'],
+      alias: [
+        {
+          find: /^monaco-editor$/,
+          replacement: __dirname + '/node_modules/monaco-editor/esm/vs/editor/editor.api',
+        },
+      ],
     },
   }) as UserConfig,
 );

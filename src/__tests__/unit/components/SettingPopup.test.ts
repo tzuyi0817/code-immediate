@@ -46,7 +46,7 @@ describe('SettingPopup component', () => {
     expect(await screen.findByText(/responsive jquery slider, featuring modular architecture, css3 animations, touch swipe, animated layers, retina, lazy loading and much more\./i))
       .toBeInTheDocument();
     expect(await screen.findByText(/s3colors/i)).toBeInTheDocument();
-    expect(await screen.findByText(  /easy to use css colors in your project with simple class you can colorize your text or background with the class of color name\./i))
+    expect(await screen.findByText(/easy to use css colors in your project with simple class you can colorize your text or background with the class of color name\./i))
       .toBeInTheDocument();
   });
 
