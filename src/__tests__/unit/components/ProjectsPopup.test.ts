@@ -29,7 +29,7 @@ describe('ProjectsPopup Component', () => {
       const codeContentStore = useCodeContentStore();
       const { id, title, HTML, CSS, JS, codeTemplate } = CODES_RESPONSE_RESULT_MAP['1'].codeList[0];
       renderComponent(ProjectsPopup);
-      const iframe = await screen.findByTitle(`${id}-lazy-iframe`);
+      const iframe = await screen.findByTitle('6361d5461292968b0f28f39f-lazy-iframe');
 
       await userEvent.click(iframe);
       expect(codeContentStore.codeId).toEqual(id);
