@@ -27,7 +27,7 @@ export async function initMonacoEditor() {
   }
 }
 
-export function setCustomLanguage() {
+function setCustomLanguage() {
   monaco.languages.register({ id: 'haml' });
   monaco.languages.register({ id: 'sass' });
   monaco.languages.register({ id: 'stylus' });
