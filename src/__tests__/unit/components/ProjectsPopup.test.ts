@@ -1,4 +1,3 @@
-import { nextTick } from 'vue';
 import { waitFor, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
@@ -29,10 +28,13 @@ describe('ProjectsPopup Component', () => {
     it('not change code', async () => {
       const codeContentStore = useCodeContentStore();
       const { id, title, HTML, CSS, JS, codeTemplate } = CODES_RESPONSE_RESULT_MAP['1'].codeList[0];
-      renderComponent(ProjectsPopup);
-      await nextTick();
-      const iframe = await screen.findByTitle(`${id}-lazy-iframe`);
+      let iframe: HTMLElement | null = null;
 
+      renderComponent(ProjectsPopup);
+      await waitFor(() => {
+        iframe = screen.getByTitle(`${id}-lazy-iframe`);
+      });
+      if (!iframe) return;
       await userEvent.click(iframe);
       expect(codeContentStore.codeId).toEqual(id);
       expect(codeContentStore.codeTitle).toEqual(title);
