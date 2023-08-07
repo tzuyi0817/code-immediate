@@ -1,15 +1,65 @@
-import { waitFor, screen, within } from '@testing-library/vue';
-import userEvent from '@testing-library/user-event';
+import { nextTick } from 'vue';
+import { screen } from '@testing-library/vue';
 import registerFaIcons from '@/utils/registerFaIcons';
 import CodeEditor from '@/components/CodeEditor.vue';
-import Toast from '@/components/Toast.vue';
+import CodeLoading from '@/components/CodeLoading.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
+import { setTestEnvironmentLanguage } from '@/utils/monacoEditor';
 import { renderComponent } from '@/__tests__/unit/render';
 
-describe('CodeEditor Component', () => {
+describe('CodeEditor Component', async () => {
   registerFaIcons();
+  setTestEnvironmentLanguage();
 
-  it('renders the correct content', async () => {
-    renderComponent(CodeEditor, { props: { model: 'CSS' }});
+  it('renders the editor', async () => {
+    renderComponent(CodeEditor, { props: { model: 'HTML' }});
+    expect(screen.getByTitle('codeEditor')).toBeInTheDocument();
+    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('html');
+  });
+
+  it('change to markdown language', async () => {
+    const codeContentStore = useCodeContentStore();
+
+    renderComponent(CodeEditor, { props: { model: 'HTML' }});
+    codeContentStore.setCodeLanguage({ type: 'HTML', language: 'markdown' });
+    await nextTick();
+    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('markdown');
+    codeContentStore.setCodeTemplate('Vue');
+  });
+
+  it('render vue template editor', async () => {
+    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('vue');
+  });
+
+  it('formatter editor', async () => {
+    const flagStore = useFlagStore();
+
+    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeLoading);
+    flagStore.setLoading({ isOpen: true, type: 'Code formatter' });
+    await nextTick();
+    flagStore.setFormatter({ model: 'VUE', isFormatter: true });
+    expect(await screen.findByText('Code formatter finished')).toBeInTheDocument();
+  });
+
+  it('create new project', async () => {
+    const flagStore = useFlagStore();
+
+    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeLoading);
+    flagStore.setCreateProjectFlag(true);
+    flagStore.setLoading({ isOpen: true, type: 'Create new project' });
+    await nextTick();
+    expect(await screen.findByText('Create new project finished')).toBeInTheDocument();
+  });
+
+  it('embed file', async () => {
+    const flagStore = useFlagStore();
+
+    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    flagStore.setEmbedFlag({ model: 'VUE', isEmbed: true });
+    await nextTick();
+    expect(flagStore.EmbedMap.VUE).toBeFalsy();
   });
 });

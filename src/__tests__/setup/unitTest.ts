@@ -1,16 +1,13 @@
 import '@testing-library/jest-dom';
 import 'vitest-canvas-mock';
+import ResizeObserver from 'resize-observer-polyfill';
 import { mswServer } from '@/mocks/server';
 
 beforeAll(() => mswServer.listen());
 afterEach(() => mswServer.resetHandlers());
 afterAll(() => mswServer.close());
 
-global.ResizeObserver = vi.fn().mockImplementation(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}));
+global.ResizeObserver = ResizeObserver;
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,

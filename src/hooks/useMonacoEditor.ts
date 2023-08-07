@@ -51,6 +51,7 @@ export default function useMonacoEditor() {
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
     setModelMarkers(model);
+    if (import.meta.env.MODE === 'test') return;
     await sleep();
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
   }

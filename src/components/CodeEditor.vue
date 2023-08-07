@@ -19,6 +19,7 @@ const content = computed(() => codeContent.value[props.model].content);
 const isFormatter = computed(() => useFlagStore().formatterMap[props.model]);
 const isEmbed = computed(() => useFlagStore().EmbedMap[props.model]);
 const resizeObserver = new ResizeObserver(entries => {
+  console.log({ entries });
   entries.forEach(({ contentRect: { height, width } }) => {
     if (height === 0 || width === 0) return;
     monacoEditor.editor?.layout();
@@ -75,7 +76,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="code_editor">
-    <div ref="codeEditor" class="w-full h-full"></div>
+    <div ref="codeEditor" title="codeEditor" class="w-full h-full"></div>
     <div v-if="isCodeLoading" class="code_editor_loading">
       <font-awesome-icon
         icon="fa-solid fa-spinner" 

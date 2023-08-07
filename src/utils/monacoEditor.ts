@@ -8,8 +8,10 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker.js?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker.js?worker';
 import vueConfiguration from '@/config/language-configuration/vue.json';
 
+const baseUrl = import.meta.env.MODE === 'test' ? 'http://localhost:3000/' : '';
+
 export async function initMonacoEditor() {
-  await loadWASM('/onigasm/onigasm.wasm');
+  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
   const theme = await (await fetch('themes/themes.json')).json();
 
   monaco.editor.defineTheme('vs-code-theme-converted', theme);
@@ -25,7 +27,7 @@ export async function initMonacoEditor() {
   }
 }
 
-function setCustomLanguage() {
+export function setCustomLanguage() {
   monaco.languages.register({ id: 'haml' });
   monaco.languages.register({ id: 'sass' });
   monaco.languages.register({ id: 'stylus' });
@@ -40,6 +42,12 @@ function setCustomLanguage() {
   // monaco.languages.registerHoverProvider('vue', {
   //   provideHover(model, position, token) {},
   // });
+}
+
+export function setTestEnvironmentLanguage() {
+  monaco.languages.register({ id: 'html' });
+  monaco.languages.register({ id: 'markdown' });
+  setCustomLanguage();
 }
 
 export function registry() {
@@ -154,7 +162,7 @@ export function registry() {
       ];
       return {
         format: plist.includes(scopeName) ? 'plist' : 'json',
-        content: await (await fetch(`/grammars/${source}`)).text(),
+        content: await (await fetch(`${baseUrl}grammars/${source}`)).text(),
       }
     }
   });
