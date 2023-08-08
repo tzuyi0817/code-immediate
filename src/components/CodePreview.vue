@@ -49,7 +49,8 @@ async function runCode() {
     });
     setLoading({ isOpen: false, type: 'Process code finished' });
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const isErrorConstructor = error instanceof Error;
+    const message = isErrorConstructor ? error.message : String(error);
 
     iframe?.value?.contentWindow?.postMessage?.({
       type: 'throwError',
@@ -57,7 +58,7 @@ async function runCode() {
     }, '*');
     setLoading({ isOpen: false, type: 'Process code error' });
     if (import.meta.env.MODE !== 'test') 
-      throw new Error(message, { cause: error });
+      throw new Error(message, { cause: isErrorConstructor ? error : void 0 });
   }
 }
 
