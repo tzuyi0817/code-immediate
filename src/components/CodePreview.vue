@@ -18,41 +18,45 @@ async function runCode() {
   const compileFun = isSFC.value ? compileSfc : compile;
 
   setLoading({ isOpen: true, type: 'Process code' });
-  const compileResult = await compileFun({
-    html: {
-      language: HTML.language,
-      content: HTML.content,
-    },
-    css: {
-      language: CSS.language,
-      content: CSS.content,
-      resources: CSS.resources,
-    },
-    js: {
-      language: JS.language,
-      content: JS.content,
-      resources: JS.resources,
-    },
-    vue: {
-      language: VUE.language,
-      content: VUE.content,
-    },
-    codeTemplate,
-  }).catch((error: Error) => {
-    iframe?.value.contentWindow?.postMessage({
+
+  try {
+    const compileResult = await compileFun({
+      html: {
+        language: HTML.language,
+        content: HTML.content,
+      },
+      css: {
+        language: CSS.language,
+        content: CSS.content,
+        resources: CSS.resources,
+      },
+      js: {
+        language: JS.language,
+        content: JS.content,
+        resources: JS.resources,
+      },
+      vue: {
+        language: VUE.language,
+        content: VUE.content,
+      },
+      codeTemplate,
+    });
+
+    srcdoc.value = createHtml({
+      ...compileResult,
+      cssResources: CSS.resources,
+      jsResources: JS.resources,
+    });
+    setLoading({ isOpen: false, type: 'Process code finished' });
+  } catch (error: any) {
+    iframe?.value?.contentWindow?.postMessage?.({
       type: 'throwError',
       value: error.message,
-    });
+    }, '*');
     setLoading({ isOpen: false, type: 'Process code error' });
-    throw error;
-  });
-
-  srcdoc.value = createHtml({
-    ...compileResult,
-    cssResources: CSS.resources,
-    jsResources: JS.resources,
-  });
-  setLoading({ isOpen: false, type: 'Process code finished' });
+    if (import.meta.env.MODE !== 'test') 
+      throw new Error(error.message, { cause: error });
+  }
 }
 
 function initLoadParseSource() {
@@ -73,6 +77,7 @@ onMounted(initLoadParseSource);
   <div class="code_preview">
     <iframe 
       ref="iframe"
+      title="code preview"
       :class="['h-full w-full', { 'pointer-events-none': isStartDrag }]"
       :srcdoc="srcdoc"
       frameborder="0"

@@ -94,7 +94,8 @@ onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
   
     <div class="code_console_command">
       <font-awesome-icon 
-        icon="fa-solid fa-angle-down" 
+        icon="fa-solid fa-angle-down"
+        title="fa-angle-down"
         class="text-xs rotate-[270deg] text-gray-300 px-2"
       />
       <textarea

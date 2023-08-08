@@ -7,7 +7,7 @@ import {
 } from '@/config/language';
 import type { CodeBase } from '@/types/codeContent';
 
-const loadedParseMap = new Map([
+export const loadedParseMap = new Map([
   ['html', true],
   ['css', true],
   ['javascript', true],

@@ -1,0 +1,34 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CodePreview component > preview the correct content 1`] = `
+<iframe
+  class="h-full w-full"
+  frameborder="0"
+  srcdoc="
+    <!DOCTYPE html>
+    <html lang=\\"en\\">
+      <head>
+        <meta charset=\\"UTF-8\\" />
+        
+    <title>code Demo</title>
+    
+    <style type=\\"text/css\\"></style>
+    <script type=\\"text/javascript\\" src=\\"message/index.js\\"></script>
+    
+    
+  
+      </head>
+      <body style=\\"margin: 0\\">
+        
+    <h1>Hello World!<h1>
+    
+<script >
+
+</script>
+  
+      </body>
+    </html>
+  "
+  title="code preview"
+/>
+`;

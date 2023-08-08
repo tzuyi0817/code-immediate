@@ -21,6 +21,7 @@ export function renderComponent(testComponent: Component, options?: RenderCompon
     global: {
       stubs: { FontAwesomeIcon },
       plugins: [pinia],
+      provide: options?.provide,
     },
   });
 }
