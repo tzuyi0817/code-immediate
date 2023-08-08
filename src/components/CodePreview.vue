@@ -48,14 +48,16 @@ async function runCode() {
       jsResources: JS.resources,
     });
     setLoading({ isOpen: false, type: 'Process code finished' });
-  } catch (error: any) {
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
     iframe?.value?.contentWindow?.postMessage?.({
       type: 'throwError',
-      value: error.message,
+      value: message,
     }, '*');
     setLoading({ isOpen: false, type: 'Process code error' });
     if (import.meta.env.MODE !== 'test') 
-      throw new Error(error.message, { cause: error });
+      throw new Error(message, { cause: error });
   }
 }
 
