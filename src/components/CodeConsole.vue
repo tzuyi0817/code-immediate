@@ -34,15 +34,15 @@ function implementJs(event: Event) {
   iframe?.value.contentWindow?.postMessage({
     type: 'command',
     value: value.trim(),
-  });
+  }, '*');
   (event.target as HTMLTextAreaElement).value = '';
 }
 
 function receiveMessage(event: MessageEvent) {
+  console.log({ event})
   const { data } = event;
   if (data.type === void 0) return;
   consoleCode.push(data);
-  // console.log(data)
   wrapScrollToBottom();
 }
 
@@ -59,8 +59,8 @@ async function wrapScrollToBottom() {
 
 watch([isCreateProject, codeId], clearConsole);
 watch(() => props.isShowConsole, (isShow) => isShow && wrapScrollToBottom());
-onMounted(() => self.addEventListener('message', receiveMessage));
-onBeforeUnmount(() => self.removeEventListener('message', receiveMessage));
+onMounted(() => window.addEventListener('message', receiveMessage));
+onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 </script>
 
 <template>

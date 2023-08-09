@@ -9,6 +9,7 @@ import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodePreview component', () => {
   registerFaIcons();
+
   it('renders the correct content', async () => {
     renderComponent(CodePreview, ({ provide: { iframe: ref(null) } }));
     expect(screen.getByTitle('code preview')).toBeInTheDocument();
