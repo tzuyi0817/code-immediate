@@ -19,7 +19,7 @@ import {
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
-const currentAction = ref<CodeModel>('HTML');
+const currentAction = ref<Exclude<CodeModel, 'VUE'>>('HTML');
 const iframe = ref(null);
 const codeWrapHeight = ref('40vh');
 const previewHeight = ref('60vh');

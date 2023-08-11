@@ -87,7 +87,7 @@ function EmbedFile() {
 <template>
   <div class="code_editor_menu">
     <button class="btn btn_base h-[26px] w-8 rounded-sm" @click.stop="injectCodeMenu?.toggleMenu(model)">
-      <font-awesome-icon icon="fa-solid fa-angle-down" class="text-base" />
+      <font-awesome-icon icon="fa-solid fa-angle-down" title="fa-angle-down" class="text-base" />
     </button>
 
     <ul v-if="injectCodeMenu?.isShowMenuMap[model]" class="code_editor_menu_content animate-popup">

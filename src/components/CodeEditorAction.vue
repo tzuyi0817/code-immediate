@@ -13,7 +13,7 @@ import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
   isShowPreview: boolean;
-  currentAction: CodeModel;
+  currentAction: Exclude<CodeModel, 'VUE'>;
 }
 
 const props = defineProps<Props>();
@@ -28,8 +28,8 @@ const languageMap = computed(() => {
     HTML: HTML_LANGUAGE_MAP,
     CSS: CSS_LANGUAGE_MAP,
     JS: JS_LANGUAGE_MAP,
-  };
-  return map[props.currentAction as keyof typeof map];
+  } as const;
+  return map[props.currentAction];
 });
 </script>
 
