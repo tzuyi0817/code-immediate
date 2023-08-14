@@ -25,7 +25,7 @@ async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
   const { setFormatter, setLoading } = useFlagStore();
   const { model } = props;
-  const { content, language } = codeContent[model];
+  const { content, language } = codeContent[model] ?? {};
   const parser = PRETTIER_MAP[language as keyof typeof PRETTIER_MAP];
 
   setLoading({ isOpen: true, type: 'Code formatter' });
@@ -36,7 +36,7 @@ async function formatterCode() {
   }
 
   try {
-    const formatter = self.prettier?.format(content, {
+    const formatter = self.prettier.format(content, {
       parser,
       plugins: self.prettierPlugins,
     });
@@ -69,6 +69,7 @@ function EmbedFile() {
   const { language } = codeContent[model];
   let element: HTMLInputElement | null = document.createElement('input');
 
+  injectCodeMenu?.toggleMenu(model);
   element.type = 'file';
   element.accept = `.${SUFFIX_MAP[language as keyof typeof SUFFIX_MAP]}`;
   element.click();
