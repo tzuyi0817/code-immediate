@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useCodeContentStore } from '@/store';
 import { loadParseSource } from '@/utils/loadParse';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel, Languages } from '@/types/codeContent';
 
 interface Props {
   languageMap: Record<string, string>;
@@ -23,7 +23,7 @@ async function changeLanguage(event: Event) {
   const { model } = props;
 
   await loadParseSource(value, props.languageMap);
-  setCodeLanguage({ type: model, language: value });
+  setCodeLanguage({ type: model, language: value as Languages });
 }
 </script>
 

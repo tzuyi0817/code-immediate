@@ -11,7 +11,7 @@ import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/
 import { IMPORT_MAP } from '@/config/importMap';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
-import type { CodeContent, CompileParams, ImportMap } from '@/types/codeContent';
+import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/codeContent';
 
 interface RawSourceMap {
   version: string;
@@ -85,8 +85,8 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
 }
 
 async function compileHtml(content: string, lang: string | undefined) {
-  const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
-  const source = HTML_LANGUAGE_MAP[language as keyof typeof HTML_LANGUAGE_MAP];
+  const language = VUE_LANGUAGE_MAP.html[lang as keyof typeof VUE_LANGUAGE_MAP.html];
+  const source = HTML_LANGUAGE_MAP[language as HtmlLanguages];
   source && await loadParse(source);
   return await transformHtml(content, language);
 }
@@ -124,14 +124,14 @@ async function compileJs(
 }
 
 function compileCss(styles: SFCStyleBlock[]): Promise<string> {
-  const parseCss = async (source: string, code: string, language: string) => {
+  const parseCss = async (source: string, code: string, language: CssLanguages) => {
     source && await loadParse(source);
     return await transformCss(code, language);
   };
   const css = styles.reduce((result: Promise<string>[], style) => {
     const { content, lang } = style;
-    const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
-    const source = CSS_LANGUAGE_MAP[language as keyof typeof CSS_LANGUAGE_MAP];
+    const language = VUE_LANGUAGE_MAP.css[lang as keyof typeof VUE_LANGUAGE_MAP.css];
+    const source = CSS_LANGUAGE_MAP[language];
     result.push(parseCss(source, content, language));
     return result;
   }, []);
@@ -162,7 +162,7 @@ async function transformSfc(
 
   if (scriptBlock.map) {
     const { lang, map, content } = scriptBlock;
-    const language = VUE_LANGUAGE_MAP[lang as keyof typeof VUE_LANGUAGE_MAP];
+    const language = VUE_LANGUAGE_MAP.js[lang as keyof typeof VUE_LANGUAGE_MAP.js];
     const code = await transformJs(content, language);
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }

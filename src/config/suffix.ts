@@ -15,4 +15,4 @@ export const SUFFIX_MAP = {
   CoffeeScript: 'coffee',
   LiveScript: 'mlx',
   Vue: 'vue',
-};
+} as const;

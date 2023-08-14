@@ -26,7 +26,7 @@ async function formatterCode() {
   const { setFormatter, setLoading } = useFlagStore();
   const { model } = props;
   const { content, language } = codeContent[model] ?? {};
-  const parser = PRETTIER_MAP[language as keyof typeof PRETTIER_MAP];
+  const parser = PRETTIER_MAP[language];
 
   setLoading({ isOpen: true, type: 'Code formatter' });
   injectCodeMenu?.toggleMenu(model);
@@ -71,7 +71,7 @@ function EmbedFile() {
 
   injectCodeMenu?.toggleMenu(model);
   element.type = 'file';
-  element.accept = `.${SUFFIX_MAP[language as keyof typeof SUFFIX_MAP]}`;
+  element.accept = `.${SUFFIX_MAP[language]}`;
   element.click();
   element.addEventListener('change', async (event) => {
     const code = await readFile(event).catch(() => toast.showToast('Embed file failed', 'error'));

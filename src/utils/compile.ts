@@ -5,7 +5,14 @@ import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
-import type { CodeContent, CodeCompile, CompileParams } from '@/types/codeContent';
+import type {
+  CodeContent,
+  CodeCompile,
+  CompileParams,
+  HtmlLanguages,
+  CssLanguages,
+  JsLanguages,
+} from '@/types/codeContent';
 
 let sass: any = null;
 let showdown: any = null;
@@ -34,7 +41,7 @@ export function compile(params: CompileParams): Promise<CodeContent> {
   })
 }
 
-export function transformHtml(htmlContent = '', language = '') {
+export function transformHtml(htmlContent: string, language: HtmlLanguages) {
   const compile = {
     Haml() {
       return self.Haml.render(htmlContent);
@@ -51,7 +58,7 @@ export function transformHtml(htmlContent = '', language = '') {
   return catchCompile({ language, compile, content: htmlContent });
 }
 
-export function transformCss(cssContent = '', language = '') {
+export function transformCss(cssContent: string, language: CssLanguages) {
   const compile = {
     async Less() {
       const { css }: { css: string } = await self.less.render(cssContent)
@@ -85,7 +92,7 @@ export function transformCss(cssContent = '', language = '') {
   });
 }
 
-export async function transformJs(jsContent = '', language = '') {
+export async function transformJs(jsContent: string, language: JsLanguages) {
   const compile = {
     Babel() {
       const { code } = self.Babel.transform(jsContent, {

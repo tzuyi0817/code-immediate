@@ -15,4 +15,4 @@ export const PRETTIER_MAP = {
   CoffeeScript: '',
   LiveScript: '',
   Vue: 'vue',
-};
+} as const;

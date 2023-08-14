@@ -7,7 +7,7 @@ type ExportData = Omit<CodeMap, 'resources'>;
 
 async function exportZip({ content, language }: ExportData, filename: string) {
   const zip = new JSZip();
-  const suffix = SUFFIX_MAP[language as keyof typeof SUFFIX_MAP];
+  const suffix = SUFFIX_MAP[language];
 
   zip.file(`index.${suffix}`, content);
   const blob = await zip.generateAsync({ type: 'blob' });

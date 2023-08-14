@@ -1,9 +1,16 @@
 import { defineStore } from "pinia";
 import { deepClone } from '@/utils/common';
-import type { CodeModel, CodeTemplate } from '@/types/codeContent';
+import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/codeContent';
 import type { CdnModel } from '@/types/cdn';
 
-const defaultState = {
+interface CodeContentStore {
+  codeContent: CodeTemplateMap;
+  codeTemplate: CodeTemplate;
+  codeId: string;
+  codeTitle: string;
+}
+
+const defaultState: CodeContentStore = {
   codeContent: {
     HTML: {
       language: 'HTML',
@@ -12,19 +19,19 @@ const defaultState = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
       content: '',
     },
   },
-  codeTemplate: 'ES6' as CodeTemplate,
+  codeTemplate: 'ES6',
   codeId: '',
   codeTitle: '',
 };
@@ -33,7 +40,7 @@ type CodeMap = Partial<typeof defaultState.codeContent>;
 interface ContentAction<T> {
   type: T;
   code?: string;
-  language?: string;
+  language?: Languages;
   resources?: string[];
 }
 

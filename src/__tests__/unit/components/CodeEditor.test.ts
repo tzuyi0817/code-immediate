@@ -21,7 +21,7 @@ describe('CodeEditor Component', async () => {
     const codeContentStore = useCodeContentStore();
 
     renderComponent(CodeEditor, { props: { model: 'HTML' }});
-    codeContentStore.setCodeLanguage({ type: 'HTML', language: 'markdown' });
+    codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
     await nextTick();
     expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('markdown');
     codeContentStore.setCodeTemplate('Vue');

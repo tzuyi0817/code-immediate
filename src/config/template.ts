@@ -14,8 +14,9 @@ import {
 } from "@/config/defaultContent";
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
+import type { CodeTemplate, CodeTemplateMap } from '@/types/codeContent';
 
-export const TEMPLATE_MAP = {
+export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
   ES6: {
     HTML: {
       language: 'HTML',
@@ -24,12 +25,12 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
@@ -44,7 +45,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: VUE_CSS,
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
@@ -66,12 +67,12 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
@@ -86,7 +87,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
@@ -110,7 +111,7 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: '',
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
@@ -132,12 +133,12 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: SOLID_CSS,
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
       content: SOLID_JS,
-      resources: [] as string[],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
@@ -152,18 +153,18 @@ export const TEMPLATE_MAP = {
     CSS: {
       language: 'CSS',
       content: RXJS_CSS,
-      resources: [] as string[],
+      resources: [],
     },
     JS: {
       language: 'JavaScript',
       content: RXJS_JS,
-      resources: [] as string[],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
       content: '',
     },
-  }
+  },
 };
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
