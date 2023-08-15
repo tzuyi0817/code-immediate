@@ -62,8 +62,8 @@ dependencies:
 
 devDependencies:
   '@esbuild-plugins/node-globals-polyfill':
-    specifier: ^0.1.1
-    version: 0.1.1(esbuild@0.14.50)
+    specifier: ^0.2.0
+    version: 0.2.0(esbuild@0.14.50)
   '@esbuild-plugins/node-modules-polyfill':
     specifier: ^0.1.4
     version: 0.1.4(esbuild@0.14.50)
@@ -625,6 +625,14 @@ packages:
 
   /@esbuild-plugins/node-globals-polyfill@0.1.1(esbuild@0.14.50):
     resolution: {integrity: sha512-MR0oAA+mlnJWrt1RQVQ+4VYuRJW/P2YmRTv1AsplObyvuBMnPHiizUF95HHYiSsMGLhyGtWufaq2XQg6+iurBg==}
+    peerDependencies:
+      esbuild: '*'
+    dependencies:
+      esbuild: 0.14.50
+    dev: true
+
+  /@esbuild-plugins/node-globals-polyfill@0.2.0(esbuild@0.14.50):
+    resolution: {integrity: sha512-0CW4lNQOPVITN5X4FrAN+jyoQnE8ZaDkp+EM9yDx5a2EzLkPWKImVSRkfEkaG87EDSi2m2Ij9IHofBNR8ryF6g==}
     peerDependencies:
       esbuild: '*'
     dependencies:
