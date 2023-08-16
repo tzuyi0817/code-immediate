@@ -310,7 +310,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     bg-white
     py-2
     w-44
-    z-[3]
+    z-[4]
     text-gray-600
     lg:hidden;
     li {
