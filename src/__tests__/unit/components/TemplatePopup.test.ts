@@ -1,11 +1,10 @@
-import { screen, waitFor } from '@testing-library/vue';
+import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
 import { renderComponent } from '@/__tests__/unit/render';
-import type { CodeTemplate } from '@/types/codeContent';
 
 describe('TemplatePopup component', () => {
   registerFaIcons();
@@ -22,20 +21,19 @@ describe('TemplatePopup component', () => {
     }
   });
 
-  it('select template', () => {
+  it('select VueSFC template', async () => {
     renderComponent(TemplatePopup);
-    const listItems = screen.getAllByRole('listitem');
     const codeContentStore = useCodeContentStore();
+    await userEvent.click(screen.getByRole('img', { name: /vuesfc/i }));
+    expect(codeContentStore.codeTemplate).toEqual('VueSFC');
+    expect(codeContentStore.codeContent).toEqual(TEMPLATE_MAP.VueSFC);
+  });
 
-    listItems.forEach(async (listItem) => {
-      const p = listItem.querySelector('p') as HTMLParagraphElement;
-      const codeMap = TEMPLATE_MAP[p.textContent as CodeTemplate];
-
-      await waitFor(async () => {
-        await userEvent.click(listItem);
-        expect(codeContentStore.codeTemplate).toEqual(p.textContent);
-        expect(codeContentStore.codeContent).toEqual(codeMap);
-      });
-    });
+  it('select RxJS template', async () => {
+    renderComponent(TemplatePopup);
+    const codeContentStore = useCodeContentStore();
+    await userEvent.click(screen.getByRole('img', { name: /rxjs/i }));
+    expect(codeContentStore.codeTemplate).toEqual('RxJS');
+    expect(codeContentStore.codeContent).toEqual(TEMPLATE_MAP.RxJS);
   });
 });
