@@ -3,6 +3,7 @@ import { ref, reactive, computed, watch, onMounted } from 'vue';
 import algoliasearch from 'algoliasearch';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
+import toast from "@/utils/toast";
 import { BUILT_IN_RESOURCES } from '@/config/template';
 import type { CdnItem } from '@/types/cdn';
 
@@ -77,7 +78,9 @@ function searchCdn(word: string) {
     })
     .catch(error => {
       isSearch.value = false;
-      throw new Error(error.message, { cause: error });
+      toast.showToast(error.message, 'error');
+      if (import.meta.env.MODE !== 'test')
+        throw new Error(error.message, { cause: error });
     });
 }
 

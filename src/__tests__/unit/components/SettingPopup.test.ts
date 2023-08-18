@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/vue';
+import { screen, fireEvent } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import SettingsPopup from '@/components/SettingsPopup.vue';
+import Toast from '@/components/Toast.vue';
 import { useCodeContentStore } from '@/store';
 import { renderComponent } from '@/__tests__/unit/render';
 
@@ -50,13 +51,26 @@ describe('SettingPopup component', () => {
       .toBeInTheDocument();
   });
 
+  it('algolia search error', async () => {
+    renderComponent(SettingsPopup);
+    renderComponent(Toast);
+    await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'algolia');
+    expect(await screen.findByTitle('fa-spinner')).toBeInTheDocument();
+    expect(await screen.findByText('algolia search error')).toBeInTheDocument();
+    expect(screen.queryByTitle('fa-spinner')).not.toBeInTheDocument();
+  });
+
   it('add and delete custom cdn resource', async () => {
     renderComponent(SettingsPopup);
     await userEvent.click(screen.getByRole('button', { name: /\+ custom resource/i }));
     const cdn = 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css';
+    const mockWindowOpen = vi.fn();
 
+    vi.stubGlobal('open', mockWindowOpen);
     await userEvent.type(screen.getByPlaceholderText('https://cdnjs.cloudflare.com/ajax/libs/customresource'), cdn);
-    expect(screen.getByTitle('fa-eye')).toBeInTheDocument();
+    await fireEvent.blur(screen.getByPlaceholderText('https://cdnjs.cloudflare.com/ajax/libs/customresource'));
+    await userEvent.click(screen.getByTitle('fa-eye'));
+    expect(mockWindowOpen).toBeCalledWith(cdn);
 
     await userEvent.click(screen.getByTitle('fa-xmark-cdn'));
     expect(screen.queryByText('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css')).toBeNull();

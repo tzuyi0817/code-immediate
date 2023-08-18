@@ -1,8 +1,18 @@
-import { rest } from 'msw';
+import { rest, type RestRequest } from 'msw';
 
 const searchUrl = /https:\/\/.*algolia.*\/1\/indexes\/code-immediate\/query/;
 const mockAlgoliaApi = {
-  search: rest.all(searchUrl, (_req, res, ctx) => {
+  search: rest.all(searchUrl, (req: RestRequest<string>, res, ctx) => {
+    const { query } = JSON.parse(req.body);
+
+    if (query === 'algolia') {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          message: 'algolia search error',
+        }),
+      );
+    }
     return res(
       ctx.status(200),
       ctx.json({
