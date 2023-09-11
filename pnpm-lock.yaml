@@ -36,11 +36,11 @@ dependencies:
     specifier: ^4.2.0
     version: 4.2.0
   monaco-editor:
-    specifier: ^0.41.0
-    version: 0.41.0
+    specifier: ^0.43.0
+    version: 0.43.0
   monaco-editor-textmate:
     specifier: ^4.0.0
-    version: 4.0.0(monaco-editor@0.41.0)(monaco-textmate@3.0.1)
+    version: 4.0.0(monaco-editor@0.43.0)(monaco-textmate@3.0.1)
   monaco-textmate:
     specifier: ^3.0.1
     version: 3.0.1(onigasm@2.2.5)
@@ -141,10 +141,10 @@ devDependencies:
     version: 4.0.0(@types/node@18.6.5)
   vite-plugin-monaco-editor:
     specifier: ^1.1.0
-    version: 1.1.0(monaco-editor@0.41.0)
+    version: 1.1.0(monaco-editor@0.43.0)
   vite-plugin-node-polyfills:
-    specifier: ^0.12.0
-    version: 0.12.0(rollup@3.28.0)(vite@4.0.0)
+    specifier: ^0.13.0
+    version: 0.13.0(rollup@3.28.0)(vite@4.0.0)
   vitest:
     specifier: ^0.34.0
     version: 0.34.0(jsdom@22.1.0)
@@ -4203,18 +4203,18 @@ packages:
       ufo: 1.1.2
     dev: true
 
-  /monaco-editor-textmate@4.0.0(monaco-editor@0.41.0)(monaco-textmate@3.0.1):
+  /monaco-editor-textmate@4.0.0(monaco-editor@0.43.0)(monaco-textmate@3.0.1):
     resolution: {integrity: sha512-Clwup5LJzVfwURQrS+odSEC5/hZBEG36pQnvBKt4OtBndF8r2xLeXUZcK/AqEBK2u0Npy7frFp9hG7m66Ol9hA==}
     peerDependencies:
       monaco-editor: 0.x.x
       monaco-textmate: ^3.0.0
     dependencies:
-      monaco-editor: 0.41.0
+      monaco-editor: 0.43.0
       monaco-textmate: 3.0.1(onigasm@2.2.5)
     dev: false
 
-  /monaco-editor@0.41.0:
-    resolution: {integrity: sha512-1o4olnZJsiLmv5pwLEAmzHTE/5geLKQ07BrGxlF4Ri/AXAc2yyDGZwHjiTqD8D/ROKUZmwMA28A+yEowLNOEcA==}
+  /monaco-editor@0.43.0:
+    resolution: {integrity: sha512-cnoqwQi/9fml2Szamv1XbSJieGJ1Dc8tENVMD26Kcfl7xGQWp7OBKMjlwKVGYFJ3/AXJjSOGvcqK7Ry/j9BM1Q==}
 
   /monaco-textmate@3.0.1(onigasm@2.2.5):
     resolution: {integrity: sha512-ZxxY3OsqUczYP1sGqo97tu+CJmMBwuSW+dL0WEBdDhOZ5G1zntw72hvBc68ZQAirosWvbDKgN1dL5k173QtFww==}
@@ -5563,16 +5563,16 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-monaco-editor@1.1.0(monaco-editor@0.41.0):
+  /vite-plugin-monaco-editor@1.1.0(monaco-editor@0.43.0):
     resolution: {integrity: sha512-IvtUqZotrRoVqwT0PBBDIZPNraya3BxN/bfcNfnxZ5rkJiGcNtO5eAOWWSgT7zullIAEqQwxMU83yL9J5k7gww==}
     peerDependencies:
       monaco-editor: '>=0.33.0'
     dependencies:
-      monaco-editor: 0.41.0
+      monaco-editor: 0.43.0
     dev: true
 
-  /vite-plugin-node-polyfills@0.12.0(rollup@3.28.0)(vite@4.0.0):
-    resolution: {integrity: sha512-xZfpD81aNhwEbIjccEiy8Q/hDdnlYqBSeEaUMIukOpGHuMaz65jqrC2lmnF/FXnliovISy2L1n92da0JOvk36A==}
+  /vite-plugin-node-polyfills@0.13.0(rollup@3.28.0)(vite@4.0.0):
+    resolution: {integrity: sha512-TaTJmGnVz65I1lquc2Y8AYarPJb2r9XZUDWnXUWbAn3krfqXP7v/V9lg7K7NdVTmCXD/GVwUxl1cWLRwRwjnKg==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
