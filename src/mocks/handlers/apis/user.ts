@@ -1,61 +1,48 @@
-import { rest, type RestRequest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import type { LoginPayload, RegisterPayload } from '@/types/user';
 
 const mockUserApi = {
-  loginUser: rest.post('*/login', (req: RestRequest<LoginPayload>, res, ctx) => {
-    const { account, password } = req.body;
+  loginUser: http.post('*/login', async ({ request }) => {
+    const { account, password } = await request.json() as LoginPayload;
     const isAuthenticated = account === 'root' && password === '123456789';
     
     if (!isAuthenticated) {
-      return res(
-        ctx.status(403),
-        ctx.json({
-          message: 'Not authorized',
-        }),
+      return HttpResponse.json(
+        { message: 'Not authorized' },
+        { status: 403 },
       );
     }
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'login success',
-        resultMap: {
-          user: { account },
-          token: password,
-        },
-      }),
-    );
+    return HttpResponse.json({
+      message: 'login success',
+      resultMap: {
+        user: { account },
+        token: password,
+      },
+    });
   }),
-  registerUser: rest.post('*/register', (req: RestRequest<RegisterPayload>, res, ctx) => {
-    const { account, password } = req.body;
+  registerUser: http.post('*/register', async ({ request }) => {
+    const { account, password } = await request.json() as RegisterPayload;
     const isAuthenticated = account === 'root' && password === '123456789';
     
     if (!isAuthenticated) {
-      return res(
-        ctx.status(400),
-        ctx.json({
-          message: 'account already exists',
-        }),
+      return HttpResponse.json(
+        { message: 'account already exists' },
+        { status: 400 },
       );
     }
 
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'signup success',
-        resultMap: {
-          user: { account },
-          token: password,
-        },
-      }),
-    );
+    return HttpResponse.json({
+      message: 'signup success',
+      resultMap: {
+        user: { account },
+        token: password,
+      },
+    });
   }),
-  logoutUser: rest.post('*/logout', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'successfully logout',
-      }),
-    );
+  logoutUser: http.post('*/logout', () => {
+    return HttpResponse.json({
+      message: 'successfully logout',
+    });
   }),
 };
 

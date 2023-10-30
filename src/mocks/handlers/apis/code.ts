@@ -1,67 +1,51 @@
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 
 const mockCodeApi = {
-  getCodes: rest.get('*/code', (req, res, ctx) => {
-    const page = req.url.searchParams.get('page');
+  getCodes: http.get('*/code', ({ request }) => {
+    const page = new URL(request.url).searchParams.get('page');
 
     if (!page || (page !== '1' && page !== '2')) {
-      return res(
-        ctx.status(400),
-        ctx.json({
-          message: 'can not find the codes page',
-        }),
+      return HttpResponse.json(
+        { message: 'can not find the codes page' },
+        { status: 400 },
       );
     }
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'success',
-        status: 'success',
-        resultMap: CODES_RESPONSE_RESULT_MAP[page],
-      }),
-    );
+    return HttpResponse.json({
+      message: 'success',
+      status: 'success',
+      resultMap: CODES_RESPONSE_RESULT_MAP[page],
+    });
   }),
-  postCode: rest.post('*/code', (_req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'save code success',
-        status: 'success',
-        resultMap: {
-          code: { _id: 'post123' },
-        },
-      }),
-    );
+  postCode: http.post('*/code', () => {
+    return HttpResponse.json({
+      message: 'save code success',
+      status: 'success',
+      resultMap: {
+        code: { _id: 'post123' },
+      },
+    });
   }),
-  putCode: rest.put('*/code/:codeId', (req, res, ctx) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'update code success',
-        status: 'success',
-        resultMap: {
-          code: { _id: req.params.codeId },
-        },
-      }),
-    );
+  putCode: http.put('*/code/:codeId', ({ params }) => {
+    return HttpResponse.json({
+      message: 'update code success',
+      status: 'success',
+      resultMap: {
+        code: { _id: params.codeId },
+      },
+    });
   }),
-  deleteCode: rest.delete('*/code/:codeId', (req, res, ctx) => {
-    if (req.params.codeId !== '6361d5461292968b0f28f39f') {
-      return res(
-        ctx.status(400),
-        ctx.json({
-          message: 'failed to delete',
-        }),
+  deleteCode: http.delete('*/code/:codeId', ({ params }) => {
+    if (params.codeId !== '6361d5461292968b0f28f39f') {
+      return HttpResponse.json(
+        { message: 'failed to delete' },
+        { status: 400 },
       );
     }
-    return res(
-      ctx.status(200),
-      ctx.json({
-        message: 'successfully deleted',
-        status: 'success',
-      }),
-    );
+    return HttpResponse.json({
+      message: 'successfully deleted',
+      status: 'success',
+    });
   }),
 };
 
