@@ -60,24 +60,24 @@ describe('CodeHeader Component', () => {
     it('settings popup', async () => {
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-gear settings/i }));
-      expect(await screen.findByText('CDN Settings')).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: /cdn settings/i })).toBeInTheDocument();
     });
 
     it('templates popup', async () => {
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-centos template/i }));
-      expect(await screen.findByText('Templates')).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: /templates/i })).toBeInTheDocument();
     });
 
     it('sign up popup', async () => {
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /sign up/i }));
-      expect(await screen.findByText('Sign up!')).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: /sign up!/i })).toBeInTheDocument();
     });
 
     it('login popup', async () => {
       renderComponent(CodeHeader);
-      fireEvent.click(screen.getByRole('button', { name: /log in/i }));
+      userEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByRole('heading', { name: /log in!/i })).toBeInTheDocument();
     });
 
