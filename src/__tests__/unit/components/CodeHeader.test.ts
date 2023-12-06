@@ -77,7 +77,7 @@ describe('CodeHeader Component', () => {
 
     it('login popup', async () => {
       renderComponent(CodeHeader);
-      userEvent.click(screen.getByRole('button', { name: /log in/i }));
+      fireEvent.click(screen.getByRole('button', { name: /log in/i }));
       expect(await screen.findByRole('heading', { name: /log in!/i })).toBeInTheDocument();
     });
 
