@@ -32,7 +32,7 @@ describe('ProjectsPopup Component', () => {
 
       renderComponent(ProjectsPopup);
       await waitFor(() => {
-        iframe = screen.getByTitle(`${id}-lazy-iframe`);
+        iframe = screen.getByText(title);
       });
       if (!iframe) return;
       await userEvent.click(iframe);
@@ -47,7 +47,7 @@ describe('ProjectsPopup Component', () => {
     it('changed code', async () => {
       useFlagStore().setChangeCodeFlag(true);
       const { emitted } = renderComponent(ProjectsPopup);
-      const iframe = await screen.findByTitle('6361d5461292968b0f28f39f-lazy-iframe');
+      const iframe = await screen.findByText('gsap example');
 
       userEvent.click(iframe);
       await waitFor(() => {
@@ -57,10 +57,10 @@ describe('ProjectsPopup Component', () => {
   });
 
   it('delete project', async () => {
-    const projectId = '6361d5461292968b0f28f39f';
+    const projectName = 'gsap example';
     renderComponent(ProjectsPopup);
     renderComponent(Toast);
-    const li = (await screen.findByTitle(`${projectId}-lazy-iframe`)).closest('li');
+    const li = (await screen.findByText(projectName)).closest('li');
 
     if (!li) return;
     const trashSvg = within(li).getByRole('img', { name: /fa\-trash/i });
