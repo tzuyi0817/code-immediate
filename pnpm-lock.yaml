@@ -36,11 +36,11 @@ dependencies:
     specifier: ^4.2.0
     version: 4.2.0
   monaco-editor:
-    specifier: ^0.44.0
-    version: 0.44.0
+    specifier: ^0.45.0
+    version: 0.45.0
   monaco-editor-textmate:
     specifier: ^4.0.0
-    version: 4.0.0(monaco-editor@0.44.0)(monaco-textmate@3.0.1)
+    version: 4.0.0(monaco-editor@0.45.0)(monaco-textmate@3.0.1)
   monaco-textmate:
     specifier: ^3.0.1
     version: 3.0.1(onigasm@2.2.5)
@@ -141,7 +141,7 @@ devDependencies:
     version: 5.0.0(@types/node@20.8.9)
   vite-plugin-monaco-editor:
     specifier: ^1.1.0
-    version: 1.1.0(monaco-editor@0.44.0)
+    version: 1.1.0(monaco-editor@0.45.0)
   vite-plugin-node-polyfills:
     specifier: ^0.17.0
     version: 0.17.0(rollup@3.28.0)(vite@5.0.0)
@@ -284,10 +284,10 @@ packages:
       '@babel/helper-compilation-targets': 7.22.6(@babel/core@7.22.6)
       '@babel/helper-module-transforms': 7.22.5
       '@babel/helpers': 7.22.6
-      '@babel/parser': 7.22.6
+      '@babel/parser': 7.23.5
       '@babel/template': 7.22.5
       '@babel/traverse': 7.22.6
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
       '@nicolo-ribaudo/semver-v6': 6.3.3
       convert-source-map: 1.9.0
       debug: 4.3.4
@@ -412,7 +412,7 @@ packages:
     dependencies:
       '@babel/template': 7.22.5
       '@babel/traverse': 7.22.6
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1001,7 +1001,7 @@ packages:
       jest-validate: 29.6.0
       jest-watcher: 29.6.0
       micromatch: 4.0.5
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
       slash: 3.0.0
       strip-ansi: 6.0.1
     transitivePeerDependencies:
@@ -1081,18 +1081,18 @@ packages:
       exit: 0.1.2
       glob: 7.2.3
       graceful-fs: 4.2.10
-      istanbul-lib-coverage: 3.2.0
+      istanbul-lib-coverage: 3.2.2
       istanbul-lib-instrument: 5.2.1
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 4.0.1
-      istanbul-reports: 3.1.5
+      istanbul-reports: 3.1.6
       jest-message-util: 29.6.0
       jest-util: 29.6.0
       jest-worker: 29.6.0
       slash: 3.0.0
       string-length: 4.0.2
       strip-ansi: 6.0.1
-      v8-to-istanbul: 9.1.0
+      v8-to-istanbul: 9.2.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1503,8 +1503,8 @@ packages:
   /@types/babel__core@7.20.1:
     resolution: {integrity: sha512-aACu/U/omhdk15O4Nfb+fHgH/z3QsfQzpnvRZhYhThms83ZnAOZz7zZAWO7mn2yyNQaA4xTO8GLK3uqFU4bYYw==}
     dependencies:
-      '@babel/parser': 7.22.6
-      '@babel/types': 7.22.5
+      '@babel/parser': 7.23.5
+      '@babel/types': 7.23.5
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
       '@types/babel__traverse': 7.20.1
@@ -1513,20 +1513,20 @@ packages:
   /@types/babel__generator@7.6.4:
     resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
     dependencies:
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
     dev: true
 
   /@types/babel__template@7.4.1:
     resolution: {integrity: sha512-azBFKemX6kMg5Io+/rdGT0dkGreboUVR0Cdm3fz9QJWpaQGJRQXl7C+6hOTCZcMll7KFyEQpgbYI2lHdsS4U7g==}
     dependencies:
-      '@babel/parser': 7.22.6
-      '@babel/types': 7.22.5
+      '@babel/parser': 7.23.5
+      '@babel/types': 7.23.5
     dev: true
 
   /@types/babel__traverse@7.20.1:
     resolution: {integrity: sha512-MitHFXnhtgwsGZWtT68URpOvLN4EREih1u3QtQiN4VdAxWKRVvGCSvw/Qth0M0Qq3pJpnGOu5JaM/ydK7OGbqg==}
     dependencies:
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
     dev: true
 
   /@types/cookie@0.4.1:
@@ -2075,7 +2075,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@babel/template': 7.22.5
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
       '@types/babel__core': 7.20.1
       '@types/babel__traverse': 7.20.1
     dev: true
@@ -3593,11 +3593,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /istanbul-lib-coverage@3.2.0:
-    resolution: {integrity: sha512-eOeJ5BHCmHYvQK7xt9GkdHuzuCGS1Y6g9Gvnx3Ym33fz/HpLRYxiS0wHNr+m/MBC8B647Xt608vCDEvhl9c6Mw==}
-    engines: {node: '>=8'}
-    dev: true
-
   /istanbul-lib-coverage@3.2.2:
     resolution: {integrity: sha512-O8dpsF+r0WV/8MNRKfnmrtCWhuKjxrq2w+jpzBL5UZKTi2LeVWnWOmWRxFlesJONmc+wLAGvKQZEOanko0LFTg==}
     engines: {node: '>=8'}
@@ -3608,9 +3603,9 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@babel/core': 7.22.6
-      '@babel/parser': 7.22.6
+      '@babel/parser': 7.23.5
       '@istanbuljs/schema': 0.1.3
-      istanbul-lib-coverage: 3.2.0
+      istanbul-lib-coverage: 3.2.2
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
@@ -3634,14 +3629,6 @@ packages:
       source-map: 0.6.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /istanbul-reports@3.1.5:
-    resolution: {integrity: sha512-nUsEMa9pBt/NOHqbcbeJEgqIlY/K7rVWUX6Lql2orY5e9roQOthbR3vtY4zzf2orPELg80fnxxk9zUyPlgwD1w==}
-    engines: {node: '>=8'}
-    dependencies:
-      html-escaper: 2.0.2
-      istanbul-lib-report: 3.0.1
     dev: true
 
   /istanbul-reports@3.1.6:
@@ -3687,7 +3674,7 @@ packages:
       jest-snapshot: 29.6.0
       jest-util: 29.6.0
       p-limit: 3.1.0
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
       pure-rand: 6.0.2
       slash: 3.0.0
       stack-utils: 2.0.6
@@ -3755,7 +3742,7 @@ packages:
       jest-validate: 29.6.0
       micromatch: 4.0.5
       parse-json: 5.2.0
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -3787,7 +3774,7 @@ packages:
       chalk: 4.1.2
       jest-get-type: 29.4.3
       jest-util: 29.6.0
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
     dev: true
 
   /jest-environment-node@29.6.0:
@@ -3831,7 +3818,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       jest-get-type: 29.4.3
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
     dev: true
 
   /jest-matcher-utils@29.6.0:
@@ -3977,7 +3964,7 @@ packages:
       '@babel/generator': 7.22.5
       '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.6)
       '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.6)
-      '@babel/types': 7.22.5
+      '@babel/types': 7.23.5
       '@jest/expect-utils': 29.6.0
       '@jest/transform': 29.6.0
       '@jest/types': 29.6.0
@@ -3992,7 +3979,7 @@ packages:
       jest-message-util: 29.6.0
       jest-util: 29.6.0
       natural-compare: 1.4.0
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
       semver: 7.5.3
     transitivePeerDependencies:
       - supports-color
@@ -4019,7 +4006,7 @@ packages:
       chalk: 4.1.2
       jest-get-type: 29.4.3
       leven: 3.1.0
-      pretty-format: 29.6.0
+      pretty-format: 29.7.0
     dev: true
 
   /jest-watcher@29.6.0:
@@ -4403,18 +4390,18 @@ packages:
       ufo: 1.3.2
     dev: true
 
-  /monaco-editor-textmate@4.0.0(monaco-editor@0.44.0)(monaco-textmate@3.0.1):
+  /monaco-editor-textmate@4.0.0(monaco-editor@0.45.0)(monaco-textmate@3.0.1):
     resolution: {integrity: sha512-Clwup5LJzVfwURQrS+odSEC5/hZBEG36pQnvBKt4OtBndF8r2xLeXUZcK/AqEBK2u0Npy7frFp9hG7m66Ol9hA==}
     peerDependencies:
       monaco-editor: 0.x.x
       monaco-textmate: ^3.0.0
     dependencies:
-      monaco-editor: 0.44.0
+      monaco-editor: 0.45.0
       monaco-textmate: 3.0.1(onigasm@2.2.5)
     dev: false
 
-  /monaco-editor@0.44.0:
-    resolution: {integrity: sha512-5SmjNStN6bSuSE5WPT2ZV+iYn1/yI9sd4Igtk23ChvqB7kDk9lZbB9F5frsuvpB+2njdIeGGFf2G4gbE6rCC9Q==}
+  /monaco-editor@0.45.0:
+    resolution: {integrity: sha512-mjv1G1ZzfEE3k9HZN0dQ2olMdwIfaeAAjFiwNprLfYNRSz7ctv9XuCT7gPtBGrMUeV1/iZzYKj17Khu1hxoHOA==}
 
   /monaco-textmate@3.0.1(onigasm@2.2.5):
     resolution: {integrity: sha512-ZxxY3OsqUczYP1sGqo97tu+CJmMBwuSW+dL0WEBdDhOZ5G1zntw72hvBc68ZQAirosWvbDKgN1dL5k173QtFww==}
@@ -5798,15 +5785,6 @@ packages:
       which-typed-array: 1.1.9
     dev: true
 
-  /v8-to-istanbul@9.1.0:
-    resolution: {integrity: sha512-6z3GW9x8G1gd+JIIgQQQxXuiJtCXeAjp6RaPEPLv62mH3iPHPxV6W3robxtCzNErRo6ZwTmzWhsbNvjyEBKzKA==}
-    engines: {node: '>=10.12.0'}
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.18
-      '@types/istanbul-lib-coverage': 2.0.4
-      convert-source-map: 1.9.0
-    dev: true
-
   /v8-to-istanbul@9.2.0:
     resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
     engines: {node: '>=10.12.0'}
@@ -5837,12 +5815,12 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-monaco-editor@1.1.0(monaco-editor@0.44.0):
+  /vite-plugin-monaco-editor@1.1.0(monaco-editor@0.45.0):
     resolution: {integrity: sha512-IvtUqZotrRoVqwT0PBBDIZPNraya3BxN/bfcNfnxZ5rkJiGcNtO5eAOWWSgT7zullIAEqQwxMU83yL9J5k7gww==}
     peerDependencies:
       monaco-editor: '>=0.33.0'
     dependencies:
-      monaco-editor: 0.44.0
+      monaco-editor: 0.45.0
     dev: true
 
   /vite-plugin-node-polyfills@0.17.0(rollup@3.28.0)(vite@5.0.0):
