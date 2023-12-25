@@ -143,8 +143,8 @@ devDependencies:
     specifier: ^1.1.0
     version: 1.1.0(monaco-editor@0.45.0)
   vite-plugin-node-polyfills:
-    specifier: ^0.17.0
-    version: 0.17.0(rollup@3.28.0)(vite@5.0.0)
+    specifier: ^0.18.0
+    version: 0.18.0(rollup@3.28.0)(vite@5.0.0)
   vitest:
     specifier: ^1.0.0
     version: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
@@ -1270,21 +1270,6 @@ packages:
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
     dev: true
 
-  /@rollup/plugin-inject@5.0.3(rollup@3.28.0):
-    resolution: {integrity: sha512-411QlbL+z2yXpRWFXSmw/teQRMkXcAAC8aYTemc15gwJRpvEVDQwoe+N/HTFD8RFG8+88Bme9DK2V9CVm7hJdA==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.0.3(rollup@3.28.0)
-      estree-walker: 2.0.2
-      magic-string: 0.27.0
-      rollup: 3.28.0
-    dev: true
-
   /@rollup/plugin-inject@5.0.5(rollup@3.28.0):
     resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
     engines: {node: '>=14.0.0'}
@@ -2263,13 +2248,6 @@ packages:
 
   /buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
-    dependencies:
-      base64-js: 1.5.1
-      ieee754: 1.2.1
-    dev: true
-
-  /buffer@6.0.3:
-    resolution: {integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==}
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
@@ -4253,13 +4231,6 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
-  /magic-string@0.27.0:
-    resolution: {integrity: sha512-8UnnX2PeRAPZuN12svgR9j7M1uWMovg/CEnIwIG0LFkXSJJe4PdfUGiTGl8V9bsBHFUtfVINcSyYxd7q+kx9fA==}
-    engines: {node: '>=12'}
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-    dev: true
-
   /magic-string@0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
     engines: {node: '>=12'}
@@ -5250,7 +5221,7 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.3(rollup@3.28.0)
+      '@rollup/plugin-inject': 5.0.5(rollup@3.28.0)
       rollup: 3.28.0
     dev: true
 
@@ -5823,15 +5794,13 @@ packages:
       monaco-editor: 0.45.0
     dev: true
 
-  /vite-plugin-node-polyfills@0.17.0(rollup@3.28.0)(vite@5.0.0):
-    resolution: {integrity: sha512-iPmPn7376e5u6QvoTSJa16hf5Q0DFwHFXJk2uYpsNlmI3JdPms7hWyh55o+OysJ5jo9J5XPhLC9sMOYifwFd1w==}
+  /vite-plugin-node-polyfills@0.18.0(rollup@3.28.0)(vite@5.0.0):
+    resolution: {integrity: sha512-zkdLD3gpOhLFyxYRMJ5apk0RcODhomuS3XQgExowiX8naoc251JfcP3toqnfDlMdF0xuPYahre/H38xAcq8ApA==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@3.28.0)
-      buffer-polyfill: /buffer@6.0.3
       node-stdlib-browser: 1.2.0
-      process: 0.11.10
       vite: 5.0.0(@types/node@20.8.9)
     transitivePeerDependencies:
       - rollup
