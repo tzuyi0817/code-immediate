@@ -89,8 +89,8 @@ devDependencies:
     specifier: ^5.14.7
     version: 5.14.7
   '@vitejs/plugin-vue':
-    specifier: ^4.0.0
-    version: 4.0.0(vite@5.0.0)(vue@3.3.4)
+    specifier: ^5.0.0
+    version: 5.0.2(vite@5.0.0)(vue@3.3.4)
   '@vitest/coverage-v8':
     specifier: ^1.0.0
     version: 1.0.1(vitest@1.0.1)
@@ -116,8 +116,8 @@ devDependencies:
     specifier: ^8.4.16
     version: 8.4.16
   postcss-import:
-    specifier: ^15.0.0
-    version: 15.0.0(postcss@8.4.16)
+    specifier: ^16.0.0
+    version: 16.0.0(postcss@8.4.16)
   postcss-nested:
     specifier: ^6.0.0
     version: 6.0.0(postcss@8.4.16)
@@ -143,8 +143,8 @@ devDependencies:
     specifier: ^1.1.0
     version: 1.1.0(monaco-editor@0.45.0)
   vite-plugin-node-polyfills:
-    specifier: ^0.18.0
-    version: 0.18.0(rollup@3.28.0)(vite@5.0.0)
+    specifier: ^0.19.0
+    version: 0.19.0(rollup@3.28.0)(vite@5.0.0)
   vitest:
     specifier: ^1.0.0
     version: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
@@ -1605,11 +1605,11 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
-  /@vitejs/plugin-vue@4.0.0(vite@5.0.0)(vue@3.3.4):
-    resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
+  /@vitejs/plugin-vue@5.0.2(vite@5.0.0)(vue@3.3.4):
+    resolution: {integrity: sha512-kEjJHrLb5ePBvjD0SPZwJlw1QTRcjjCA9sB5VyfonoXVBxTS7TMnqL6EkLt1Eu61RDeiuZ/WN9Hf6PxXhPI2uA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
-      vite: ^4.0.0
+      vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
       vite: 5.0.0(@types/node@20.8.9)
@@ -4841,9 +4841,9 @@ packages:
       resolve: 1.22.1
     dev: true
 
-  /postcss-import@15.0.0(postcss@8.4.16):
-    resolution: {integrity: sha512-Y20shPQ07RitgBGv2zvkEAu9bqvrD77C9axhj/aA1BQj4czape2MdClCExvB27EwYEJdGgKZBpKanb0t1rK2Kg==}
-    engines: {node: '>=14.0.0'}
+  /postcss-import@16.0.0(postcss@8.4.16):
+    resolution: {integrity: sha512-e77lhVvrD1I2y7dYmBv0k9ULTdArgEYZt97T4w6sFIU5uxIHvDFQlKgUUyY7v7Barj0Yf/zm5A4OquZN7jKm5Q==}
+    engines: {node: '>=18.0.0'}
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
@@ -5794,8 +5794,8 @@ packages:
       monaco-editor: 0.45.0
     dev: true
 
-  /vite-plugin-node-polyfills@0.18.0(rollup@3.28.0)(vite@5.0.0):
-    resolution: {integrity: sha512-zkdLD3gpOhLFyxYRMJ5apk0RcODhomuS3XQgExowiX8naoc251JfcP3toqnfDlMdF0xuPYahre/H38xAcq8ApA==}
+  /vite-plugin-node-polyfills@0.19.0(rollup@3.28.0)(vite@5.0.0):
+    resolution: {integrity: sha512-AhdVxAmVnd1doUlIRGUGV6ZRPfB9BvIwDF10oCOmL742IsvsFIAV4tSMxSfu5e0Px0QeJLgWVOSbtHIvblzqMw==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
