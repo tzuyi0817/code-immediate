@@ -104,8 +104,8 @@ devDependencies:
     specifier: ^11.0.0
     version: 11.0.0
   jsdom:
-    specifier: ^23.0.0
-    version: 23.0.0
+    specifier: ^24.0.0
+    version: 24.0.0
   msw:
     specifier: ^2.0.0
     version: 2.0.0(typescript@5.0.2)
@@ -147,7 +147,7 @@ devDependencies:
     version: 0.19.0(rollup@3.28.0)(vite@5.0.0)
   vitest:
     specifier: ^1.0.0
-    version: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
+    version: 1.0.1(@types/node@20.8.9)(jsdom@24.0.0)
   vitest-canvas-mock:
     specifier: ^0.3.2
     version: 0.3.2(vitest@1.0.1)
@@ -1453,7 +1453,7 @@ packages:
       jest: 29.6.0(@types/node@20.8.9)
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
+      vitest: 1.0.1(@types/node@20.8.9)(jsdom@24.0.0)
     dev: true
 
   /@testing-library/user-event@14.4.3(@testing-library/dom@9.3.3):
@@ -1634,7 +1634,7 @@ packages:
       std-env: 3.6.0
       test-exclude: 6.0.0
       v8-to-istanbul: 9.2.0
-      vitest: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
+      vitest: 1.0.1(@types/node@20.8.9)(jsdom@24.0.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2573,9 +2573,9 @@ packages:
     resolution: {integrity: sha512-6tun4LoZnj7VN6YeegOVb67KBX/7JJsqvj+pv3ZA7F878/eN33AbGa5b/S/wXxS/tcp8nc40xRUrsPlxIyNUPg==}
     dev: true
 
-  /cssstyle@3.0.0:
-    resolution: {integrity: sha512-N4u2ABATi3Qplzf0hWbVCdjenim8F3ojEXpBDF5hBpjzW182MjNGLqfmQ0SkSPeQ+V86ZXgeH8aXj6kayd4jgg==}
-    engines: {node: '>=14'}
+  /cssstyle@4.0.1:
+    resolution: {integrity: sha512-8ZYiJ3A/3OkDd093CBT/0UKDWry7ak4BdPTFP2+QEP7cmhouyq/Up709ASSj2cK02BbZiMgk7kYjZNS4QP5qrQ==}
+    engines: {node: '>=18'}
     dependencies:
       rrweb-cssom: 0.6.0
     dev: true
@@ -4059,16 +4059,16 @@ packages:
       esprima: 4.0.1
     dev: true
 
-  /jsdom@23.0.0:
-    resolution: {integrity: sha512-cbL/UCtohJguhFC7c2/hgW6BeZCNvP7URQGnx9tSJRYKCdnfbfWOrtuLTMfiB2VxKsx5wPHVsh/J0aBy9lIIhQ==}
+  /jsdom@24.0.0:
+    resolution: {integrity: sha512-UDS2NayCvmXSXVP6mpTj+73JnNQadZlr9N68189xib2tx5Mls7swlTNao26IoHv46BZJFvXygyRtyXd1feAk1A==}
     engines: {node: '>=18'}
     peerDependencies:
-      canvas: ^3.0.0
+      canvas: ^2.11.2
     peerDependenciesMeta:
       canvas:
         optional: true
     dependencies:
-      cssstyle: 3.0.0
+      cssstyle: 4.0.1
       data-urls: 5.0.0
       decimal.js: 10.4.3
       form-data: 4.0.0
@@ -4087,7 +4087,7 @@ packages:
       whatwg-encoding: 3.1.1
       whatwg-mimetype: 4.0.0
       whatwg-url: 14.0.0
-      ws: 8.14.2
+      ws: 8.16.0
       xml-name-validator: 5.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -5848,10 +5848,10 @@ packages:
       vitest: '*'
     dependencies:
       jest-canvas-mock: 2.4.0
-      vitest: 1.0.1(@types/node@20.8.9)(jsdom@23.0.0)
+      vitest: 1.0.1(@types/node@20.8.9)(jsdom@24.0.0)
     dev: true
 
-  /vitest@1.0.1(@types/node@20.8.9)(jsdom@23.0.0):
+  /vitest@1.0.1(@types/node@20.8.9)(jsdom@24.0.0):
     resolution: {integrity: sha512-MHsOj079S28hDsvdDvyD1pRj4dcS51EC5Vbe0xvOYX+WryP8soiK2dm8oULi+oA/8Xa/h6GoJEMTmcmBy5YM+Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -5887,7 +5887,7 @@ packages:
       chai: 4.3.10
       debug: 4.3.4
       execa: 8.0.1
-      jsdom: 23.0.0
+      jsdom: 24.0.0
       local-pkg: 0.5.0
       magic-string: 0.30.5
       pathe: 1.1.1
@@ -6109,8 +6109,8 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws@8.14.2:
-    resolution: {integrity: sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==}
+  /ws@8.16.0:
+    resolution: {integrity: sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
