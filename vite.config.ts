@@ -72,15 +72,7 @@ export default defineConfig({
       plugins: [rollupNodePolyFill()],
       output: {
         manualChunks: filepath => {
-          if (filepath.includes('monaco-editor')) {
-            // if (filepath.includes('basic-languages')) return 'monaco-editor-basic-languages';
-            // if (filepath.includes('esm/vs/base')) return 'monaco-editor-base';
-            // if (filepath.includes('editor/browser')) return 'monaco-editor-browser';
-            // if (filepath.includes('editor/common')) return 'monaco-editor-common';
-            // if (filepath.includes('editor/contrib')) return 'monaco-editor-contrib';
-            return 'monaco-editor';
-          }
-          if (filepath.includes('compiler-sfc.esm-browser')) return 'vue-compiler-sfc';
+          if (filepath.includes('monaco-editor')) return 'monaco-editor';
         },
       },
     },

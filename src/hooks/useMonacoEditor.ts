@@ -29,16 +29,20 @@ export default function useMonacoEditor() {
       lineDecorationsWidth: 0,
     });
 
-    monacoEditor.editor.onDidChangeModelContent(debounce(() => {
-      const code = monacoEditor.editor?.getValue()!;
-      const type = model;
-      setCodeContent({ type, code });
-      setChangeCodeFlag(true);
-    }, 1500));
+    monacoEditor.editor.onDidChangeModelContent(
+      debounce(() => {
+        const code = monacoEditor.editor?.getValue()!;
+        const type = model;
+        setCodeContent({ type, code });
+        setChangeCodeFlag(true);
+      }, 1500),
+    );
 
-    monacoEditor.editor.onDidBlurEditorText(debounce(() => {
-      console.log('onDidBlurEditorText');
-    }));
+    monacoEditor.editor.onDidBlurEditorText(
+      debounce(() => {
+        console.log('onDidBlurEditorText');
+      }),
+    );
   }
 
   async function updateEditorModel(code: string, language: string) {
@@ -50,7 +54,7 @@ export default function useMonacoEditor() {
 
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
-    setModelMarkers(model);
+    // setModelMarkers(model);
     if (import.meta.env.MODE === 'test') return;
     await sleep();
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
@@ -60,21 +64,22 @@ export default function useMonacoEditor() {
     monacoEditor.editor?.getModel()?.setValue(code);
   }
 
-  function setModelMarkers(model: monaco.editor.ITextModel) {
-    // monaco.editor.setModelMarkers(model, 'owner', [{
-    //   startLineNumber: 2,
-    //   endLineNumber: 2,
-    //   startColumn: 1,
-    //   endColumn: 10,
-    //   severity: monaco.MarkerSeverity.Error,
-    //   message: `syntax error`,
-    // }]);
-  }
+  // function setModelMarkers(model: monaco.editor.ITextModel) {
+  //   console.log({ model });
+  //   monaco.editor.setModelMarkers(model, 'owner', [{
+  //     startLineNumber: 2,
+  //     endLineNumber: 2,
+  //     startColumn: 1,
+  //     endColumn: 10,
+  //     severity: monaco.MarkerSeverity.Error,
+  //     message: `syntax error`,
+  //   }]);
+  // }
 
   return {
     monacoEditor,
     createEditor,
     updateEditorModel,
     updateEditorValue,
-  }
+  };
 }

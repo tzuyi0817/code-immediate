@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { compile } from '@/utils/compile';
-import { compileSfc } from '@/utils/compileSfc';
 import { createHtml } from '@/utils/createHtml';
 import { loadParseSources } from '@/utils/loadParse';
+import { dynamicImport } from '@/utils/import';
 import type { CodeProject } from '@/types/codeContent';
 
 interface Props {
@@ -13,6 +13,7 @@ const props = defineProps<Props>();
 const srcdoc = await transformSrcdoc(props.project);
 
 async function transformSrcdoc(project: CodeProject) {
+  const { compileSfc } = await dynamicImport('compileSfc');
   const { CSS, HTML, JS, VUE, codeTemplate } = project;
   const compileFun = VUE.content ? compileSfc : compile;
   await loadParseSources({ HTML, CSS, JS });
