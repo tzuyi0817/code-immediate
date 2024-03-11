@@ -7,12 +7,15 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <button class="btn w-full text-sm" :disabled="isLoading">
+  <button
+    class="btn text-sm"
+    :disabled="isLoading"
+  >
     <font-awesome-icon
       v-show="isLoading"
       icon="fa-solid fa-spinner"
-      class="animate-spin mr-3" 
-    /> 
+      class="animate-spin mr-3"
+    />
     <slot></slot>
   </button>
 </template>

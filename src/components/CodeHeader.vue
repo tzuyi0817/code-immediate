@@ -33,7 +33,7 @@ const { codeTitle } = storeToRefs(useCodeContentStore());
 
 async function logout() {
   isLoading.value = true;
-  const { status, message } = await logoutUser().catch(() => isLoading.value = false);
+  const { status, message } = await logoutUser().catch(() => (isLoading.value = false));
   const { setUser } = useUserStore();
 
   setUser({});
@@ -45,8 +45,7 @@ async function logout() {
 
 function blurTitle() {
   isShowEditTitle.value = false;
-  if (title.value === '')
-    title.value = DEFAULT_TITLE;
+  if (title.value === '') title.value = DEFAULT_TITLE;
 }
 
 async function openTitle() {
@@ -66,9 +65,9 @@ async function saveCode() {
     codeTemplate,
   };
   const api = codeId ? putCode(codeId, data) : postCode(data);
-  
+
   isLoading.value = true;
-  const { status, message, resultMap } = await api.catch(() => isLoading.value = false);
+  const { status, message, resultMap } = await api.catch(() => (isLoading.value = false));
   const { setChangeCodeFlag } = useFlagStore();
 
   resultMap && setCodeId(resultMap.code._id);
@@ -132,13 +131,17 @@ function closeMenuList() {
   isShowMenuList.value = false;
 }
 
-watch(codeTitle, (projectTitle) => title.value = projectTitle);
+watch(codeTitle, projectTitle => (title.value = projectTitle));
 </script>
 
 <template>
   <header class="code_header">
     <div class="code_header_left">
-      <img src="/icon.jpg" class="w-7 h-7 invert basis-7 shrink-0" alt="" />
+      <img
+        src="/icon.jpg"
+        class="w-7 h-7 invert basis-7 shrink-0"
+        alt=""
+      />
       <div class="w-[calc(100%-36px)]">
         <div class="font-bold flex items-center gap-1 w-full">
           <input
@@ -166,8 +169,14 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     </div>
 
     <div class="code_header_right">
-      <button class="btn btn_base lg:hidden" @click="toggleMenuList">
-        <font-awesome-icon icon="fa-solid fa-bars-staggered" title="fa-bars-staggered" />
+      <button
+        class="btn btn_base lg:hidden"
+        @click="toggleMenuList"
+      >
+        <font-awesome-icon
+          icon="fa-solid fa-bars-staggered"
+          title="fa-bars-staggered"
+        />
       </button>
 
       <loading-button
@@ -175,32 +184,61 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
         @click="saveCode"
         :isLoading="isLoading"
       >
-        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up" class="mr-1" /> Save
+        <font-awesome-icon
+          icon="fa-solid fa-cloud-arrow-up"
+          title="fa-cloud-arrow-up"
+          class="mr-1"
+        />
+        Save
       </loading-button>
-      <button class="btn btn_base hidden lg:block" @click="toggleSettingsPop">
-        <font-awesome-icon icon="fa-solid fa-gear" title="fa-gear" class="mr-1" /> Settings
+      <button
+        class="btn btn_base hidden lg:block"
+        @click="toggleSettingsPop"
+      >
+        <font-awesome-icon
+          icon="fa-solid fa-gear"
+          title="fa-gear"
+          class="mr-1"
+        />
+        Settings
       </button>
-      <button class="btn btn_base hidden lg:block" @click="toggleTemplatePop">
-        <font-awesome-icon icon="fa-brands fa-centos" title="fa-centos" class="mr-1" /> Template
+      <button
+        class="btn btn_base hidden lg:block"
+        @click="toggleTemplatePop"
+      >
+        <font-awesome-icon
+          icon="fa-brands fa-centos"
+          title="fa-centos"
+          class="mr-1"
+        />
+        Template
       </button>
-      <button class="btn btn_indigo hidden lg:block" @click="newProject">
+      <button
+        class="btn btn_indigo hidden lg:block"
+        @click="newProject"
+      >
         <font-awesome-icon
           icon="fa-solid fa-file-circle-plus"
           title="fa-file-circle-plus"
           class="mr-1"
-        /> New Project
+        />
+        New Project
       </button>
 
       <template v-if="isLogin">
-        <button class="btn btn_blue" @click="toggleProjectsPop">
+        <button
+          class="btn btn_blue"
+          @click="toggleProjectsPop"
+        >
           <font-awesome-icon
             icon="fa-solid fa-sheet-plastic"
             title="fa-sheet-plastic"
             class="mr-1"
-          /> Projects
+          />
+          Projects
         </button>
         <loading-button
-          class="btn_red w-auto text-xs" 
+          class="btn_red w-auto text-xs"
           @click="logout"
           :isLoading="isLoading"
         >
@@ -208,30 +246,57 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
             icon="fa-solid fa-arrow-right-from-bracket"
             title="fa-arrow-right-from-bracket"
             class="mr-1"
-          /> Log out
+          />
+          Log out
         </loading-button>
       </template>
 
       <template v-else>
-        <button class="btn btn_blue" @click="toggleSignUpPop">Sign up</button>
-        <button class="btn btn_green" @click="toggleLoginPop">Log in</button>
+        <button
+          class="btn btn_blue"
+          @click="toggleSignUpPop"
+        >
+          Sign up
+        </button>
+        <button
+          class="btn btn_green"
+          @click="toggleLoginPop"
+        >
+          Log in
+        </button>
       </template>
 
-      <ul v-if="isShowMenuList" class="code_header_menu animate-popup">
+      <ul
+        v-if="isShowMenuList"
+        class="code_header_menu animate-popup"
+      >
         <li @click="saveCode">
-          <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" title="fa-cloud-arrow-up" /> Save
+          <font-awesome-icon
+            icon="fa-solid fa-cloud-arrow-up"
+            title="fa-cloud-arrow-up"
+          />
+          Save
         </li>
         <li @click="toggleSettingsPop">
-          <font-awesome-icon icon="fa-solid fa-gear" title="fa-gear" /> Settings
+          <font-awesome-icon
+            icon="fa-solid fa-gear"
+            title="fa-gear"
+          />
+          Settings
         </li>
         <li @click="toggleTemplatePop">
-          <font-awesome-icon icon="fa-brands fa-centos" title="fa-centos" /> Template
+          <font-awesome-icon
+            icon="fa-brands fa-centos"
+            title="fa-centos"
+          />
+          Template
         </li>
         <li @click="newProject">
           <font-awesome-icon
             icon="fa-solid fa-file-circle-plus"
             title="fa-solid fa-file-circle-plus"
-          /> New Project
+          />
+          New Project
         </li>
       </ul>
     </div>
@@ -245,7 +310,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
       v-if="isShowSettingsPop"
       v-model:isShowSettingsPop="isShowSettingsPop"
     />
-    <template-popup 
+    <template-popup
       v-if="isShowTemplatePop"
       v-model:isShowTemplatePop="isShowTemplatePop"
     />
@@ -268,8 +333,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
 
 <style lang="postcss" scoped>
 .code_header {
-  @apply
-  h-14
+  @apply h-14
   p-2
   flex
   gap-2
@@ -280,8 +344,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
   border-gray-700/60
   bg-black;
   &_left {
-    @apply
-    text-white
+    @apply text-white
     flex
     items-center
     w-full
@@ -293,8 +356,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     }
   }
   &_right {
-    @apply
-    relative
+    @apply relative
     flex
     items-center
     min-w-fit
@@ -302,8 +364,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     lg:gap-2;
   }
   &_menu {
-    @apply
-    absolute
+    @apply absolute
     top-11
     -right-1
     rounded
@@ -314,8 +375,7 @@ watch(codeTitle, (projectTitle) => title.value = projectTitle);
     text-gray-600
     lg:hidden;
     li {
-      @apply
-      px-2
+      @apply px-2
       py-1
       select-none
       whitespace-nowrap

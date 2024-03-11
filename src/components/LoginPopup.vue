@@ -82,10 +82,13 @@ function closePopup() {
 </script>
 
 <template>
-  <div class="login_popup popup" @click.self="closePopup">
+  <div
+    class="login_popup popup"
+    @click.self="closePopup"
+  >
     <div class="popup_header">
       <h2>Log in!</h2>
-      <font-awesome-icon 
+      <font-awesome-icon
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
@@ -98,19 +101,41 @@ function closePopup() {
         <form @submit.prevent="login">
           <label class="label">
             <p>Account</p>
-            <input type="text" v-model.trim="account" class="input" required />
+            <input
+              type="text"
+              v-model.trim="account"
+              class="input"
+              required
+            />
           </label>
 
           <label class="label">
             <p>Password</p>
-            <input type="password" v-model.trim="password" class="input" required />
+            <input
+              type="password"
+              v-model.trim="password"
+              class="input"
+              required
+            />
           </label>
 
-          <loading-button class="btn_yellow mt-6" :isLoading="isLoading">Log in</loading-button>
+          <loading-button
+            class="btn_yellow w-full mt-6"
+            :isLoading="isLoading"
+            >Log in</loading-button
+          >
         </form>
 
-        <loading-button class="btn_blue mt-2" :isLoading="isLoading" @click="loginGithub">
-          <font-awesome-icon icon="fa-brands fa-github" class="mr-5 text-xl" /> Log in with GitHub
+        <loading-button
+          class="btn_blue w-full mt-2"
+          :isLoading="isLoading"
+          @click="loginGithub"
+        >
+          <font-awesome-icon
+            icon="fa-brands fa-github"
+            class="mr-5 text-xl"
+          />
+          Log in with GitHub
         </loading-button>
       </div>
     </div>
