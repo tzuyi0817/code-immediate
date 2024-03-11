@@ -1,6 +1,6 @@
 import { defineConfig, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { resolve } from "path";
+import { fileURLToPath, URL } from 'node:url';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
@@ -20,7 +20,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"),
+      '@': fileURLToPath(new URL('src', import.meta.url)),
       _stream_duplex: 'rollup-plugin-node-polyfills/polyfills/readable-stream/duplex',
       _stream_passthrough: 'rollup-plugin-node-polyfills/polyfills/readable-stream/passthrough',
       _stream_readable: 'rollup-plugin-node-polyfills/polyfills/readable-stream/readable',
@@ -53,7 +53,7 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
       define: {
-        global: 'globalThis'
+        global: 'globalThis',
       },
       plugins: [
         NodeGlobalsPolyfillPlugin({
@@ -61,14 +61,12 @@ export default defineConfig({
           process: true,
         }),
         NodeModulesPolyfillPlugin(),
-      ]
+      ],
     },
   },
   build: {
     rollupOptions: {
-      plugins: [
-        rollupNodePolyFill(),
-      ],
+      plugins: [rollupNodePolyFill()],
     },
   },
 }) as UserConfig;
