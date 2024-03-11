@@ -1,7 +1,6 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import autoprefixer from 'autoprefixer';
-import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
@@ -33,16 +32,16 @@ export function compile(params: CompileParams): Promise<CodeContent> {
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `${scripts}\n<script ${scriptType}>\n${code}\n<\/script>`,
+          js: `${scripts}\n<script ${scriptType}>\n${code}\n</script>`,
           importMap: IMPORT_MAP[codeTemplate],
         });
       })
       .catch(reject);
-  })
+  });
 }
 
 export function transformHtml(htmlContent: string, language: HtmlLanguages) {
-  const compile = {
+  const compileHtml = {
     Haml() {
       return self.Haml.render(htmlContent);
     },
@@ -54,15 +53,16 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
     Pug() {
       return self.pug.render(htmlContent);
     },
-  }
-  return catchCompile({ language, compile, content: htmlContent });
+  };
+  return catchCompile({ language, compile: compileHtml, content: htmlContent });
 }
 
 export function transformCss(cssContent: string, language: CssLanguages) {
-  const compile = {
+  const compileCss = {
     async Less() {
-      const { css }: { css: string } = await self.less.render(cssContent)
-        .catch((error: Error) => console.log('syntax error'));
+      const { css }: { css: string } = await self.less
+        .render(cssContent)
+        .catch((error: Error) => console.log(`syntax error, cause ${error}`));
       return css;
     },
     SCSS() {
@@ -87,22 +87,22 @@ export function transformCss(cssContent: string, language: CssLanguages) {
   };
   return catchCompile({
     language,
-    compile,
+    compile: compileCss,
     content: cssContent,
   });
 }
 
 export async function transformJs(jsContent: string, language: JsLanguages) {
-  const compile = {
+  const compileJs = {
     Babel() {
       const { code } = self.Babel.transform(jsContent, {
         presets: ['env', 'react'],
       });
       return code;
     },
-    TypeScript() {
-      const { ModuleKind, JsxEmit } = typescript;
-      const { outputText } = typescript.transpileModule(jsContent, {
+    async TypeScript() {
+      const { ModuleKind, JsxEmit, transpileModule } = await import('typescript');
+      const { outputText } = transpileModule(jsContent, {
         reportDiagnostics: true,
         compilerOptions: {
           module: ModuleKind.ESNext,
@@ -118,27 +118,23 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
       return self.require('livescript').compile(jsContent);
     },
   };
-  return catchCompile({ language, compile, content: jsContent });
+  return catchCompile({ language, compile: compileJs, content: jsContent });
 }
 
 function compileScss(cssContent: string, indentedSyntax = false): Promise<string> {
   return new Promise(resolve => {
     if (!sass) sass = new self.Sass();
-    sass.compile(
-      cssContent,
-      { indentedSyntax },
-      ({ text }: { text: string }) => resolve(text)
-    );
+    sass.compile(cssContent, { indentedSyntax }, ({ text }: { text: string }) => resolve(text));
   });
 }
 
-function catchCompile({ language, compile, content }: CodeCompile): Promise<string> {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const result = await compile[language]?.() ?? content;
-      resolve(result);
-    } catch (error) {
-      reject(error);
-    }
-  });
+function catchCompile({ language, compile: compileCode, content }: CodeCompile): Promise<string> {
+  const compilePromise = compileCode[language];
+
+  if (!compilePromise) return Promise.resolve(content);
+  try {
+    return compilePromise();
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }

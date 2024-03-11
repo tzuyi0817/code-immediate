@@ -17,5 +17,5 @@
   "terminal.integrated.shellIntegration.enabled": true,
   "files.associations": {},
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["pinia", "fortawesome", "fontawesome", "commitlint"]
+  "cSpell.words": ["pinia", "fortawesome", "fontawesome", "commitlint", "Haml", "livescript"]
 }

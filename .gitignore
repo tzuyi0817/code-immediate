@@ -22,3 +22,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# Visualizer
+stats.html
