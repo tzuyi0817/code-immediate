@@ -2,7 +2,6 @@
 import { ref, watch, inject, Ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { compile } from '@/utils/compile';
 import { createHtml } from '@/utils/createHtml';
 import { loadParseSources } from '@/utils/loadParse';
 import { dynamicImport } from '@/utils/import';
@@ -13,13 +12,14 @@ const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
 
 async function runCode() {
-  const { compileSfc } = await dynamicImport('compileSfc');
   const { setLoading } = useFlagStore();
   const {
     codeContent: { HTML, CSS, JS, VUE },
     codeTemplate,
   } = useCodeContentStore();
-  const compileFun = isSFC.value ? compileSfc : compile;
+  const compileFun = isSFC.value
+    ? (await dynamicImport('compileSfc')).compileSfc
+    : (await dynamicImport('compile')).compile;
 
   setLoading({ isOpen: true, type: 'Process code' });
 
