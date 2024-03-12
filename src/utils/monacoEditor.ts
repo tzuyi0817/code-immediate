@@ -23,8 +23,8 @@ export async function initMonacoEditor() {
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
       return new EditorWorker();
-    }
-  }
+    },
+  };
 }
 
 function setCustomLanguage() {
@@ -52,7 +52,7 @@ export function setTestEnvironmentLanguage() {
 
 export function registry() {
   return new Registry({
-    getGrammarDefinition: async (scopeName) => {
+    getGrammarDefinition: async scopeName => {
       const scopeNameMap = {
         'text.html.basic': 'html.tmLanguage.json',
         'text.html.markdown': 'markdown.tmLanguage.json',
@@ -163,8 +163,8 @@ export function registry() {
       return {
         format: plist.includes(scopeName) ? 'plist' : 'json',
         content: await (await fetch(`${baseUrl}grammars/${source}`)).text(),
-      }
-    }
+      };
+    },
   });
 }
 

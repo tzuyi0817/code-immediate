@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { createPinia } from "pinia";
+import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import registerFaIcons from '@/utils/registerFaIcons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -22,7 +22,7 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 
 (async function init() {
   loadParse('babel');
-  await initMonacoEditor();
+  initMonacoEditor();
   initTemplate();
   app.mount('#app');
 })();

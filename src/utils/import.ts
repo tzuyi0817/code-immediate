@@ -7,21 +7,13 @@ interface ModulesMap {
   compile: Record<'compile', (params: CompileParams) => Promise<CodeContent>>;
 }
 
-const compileSfc = import.meta.glob('@/utils/compileSfc.ts', { query: '?url', import: 'default' });
-const compile = import.meta.glob('@/utils/compile.ts', { query: '?url', import: 'default' });
 const modules = {
-  compileSfc: getModule(compileSfc),
-  compile: getModule(compile),
+  compileSfc: import('@/utils/compileSfc.ts?url'),
+  compile: import('@/utils/compile.ts?url'),
 } as const;
 
-async function getModule(module: Record<string, () => Promise<unknown>>) {
-  const key = Object.keys(module)[0];
-
-  return module[key]();
-}
-
 export async function dynamicImport<T extends Modules>(module: T): Promise<ModulesMap[T]> {
-  const url = (await modules[module]) as string;
+  const { default: url } = await modules[module];
 
   return import(url);
 }
