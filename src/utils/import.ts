@@ -1,3 +1,5 @@
+import compileUrl from '@/utils/compile.ts?url';
+import compileSfcUrl from '@/utils/compileSfc.ts?url';
 import type { CompileParams, CodeContent } from '@/types/codeContent';
 
 type Modules = keyof typeof modules;
@@ -8,12 +10,12 @@ interface ModulesMap {
 }
 
 const modules = {
-  compileSfc: import('@/utils/compileSfc.ts?url'),
-  compile: import('@/utils/compile.ts?url'),
+  compileSfc: compileUrl,
+  compile: compileSfcUrl,
 } as const;
 
-export async function dynamicImport<T extends Modules>(module: T): Promise<ModulesMap[T]> {
-  const { default: url } = await modules[module];
+export function dynamicImport<T extends Modules>(module: T): Promise<ModulesMap[T]> {
+  const url = modules[module];
 
   return import(url);
 }
