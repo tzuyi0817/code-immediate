@@ -4,7 +4,8 @@ import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { createHtml } from '@/utils/createHtml';
 import { loadParseSources } from '@/utils/loadParse';
-import { dynamicImport } from '@/utils/import';
+import { compile } from '@/utils/compile';
+import { compileSfc } from '@/utils/compileSfc';
 
 const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
@@ -17,9 +18,7 @@ async function runCode() {
     codeContent: { HTML, CSS, JS, VUE },
     codeTemplate,
   } = useCodeContentStore();
-  const compileFun = isSFC.value
-    ? (await dynamicImport('compileSfc')).compileSfc
-    : (await dynamicImport('compile')).compile;
+  const compileFun = isSFC.value ? compileSfc : compile;
 
   setLoading({ isOpen: true, type: 'Process code' });
 
