@@ -10,8 +10,8 @@ interface ModulesMap {
 }
 
 const modules = {
-  compileSfc: compileUrl,
-  compile: compileSfcUrl,
+  compileSfc: compileSfcUrl,
+  compile: compileUrl,
 } as const;
 
 export function dynamicImport<T extends Modules>(module: T): Promise<ModulesMap[T]> {
