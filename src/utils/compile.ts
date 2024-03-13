@@ -1,6 +1,5 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
-import autoprefixer from 'autoprefixer';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
@@ -80,7 +79,8 @@ export function transformCss(cssContent: string, language: CssLanguages) {
       });
     },
     async PostCSS() {
-      const processor = postcss([autoprefixer, postcssNested]);
+      const autoprefixer = await import('autoprefixer');
+      const processor = postcss([autoprefixer.default, postcssNested]);
       const { css } = processor.process(cssContent);
       return css;
     },

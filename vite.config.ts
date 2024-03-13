@@ -70,11 +70,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
-      // output: {
-      //   manualChunks: filepath => {
-      //     if (filepath.includes('monaco-editor')) return 'monaco-editor';
-      //   },
-      // },
+      output: {
+        manualChunks: filepath => {
+          if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
+        },
+      },
     },
   },
 }) as UserConfig;
