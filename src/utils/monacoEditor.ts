@@ -6,7 +6,7 @@ import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?work
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker.js?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker.js?worker';
-import vueConfiguration from '@/config/language-configuration/vue.json';
+import { vueConfiguration } from '@/config/language-configuration/vue';
 
 const baseUrl = import.meta.env.MODE === 'test' ? 'http://localhost:3000/' : '';
 
@@ -34,7 +34,6 @@ function setCustomLanguage() {
   monaco.languages.register({ id: 'postcss' });
   monaco.languages.register({ id: 'livescript' });
   monaco.languages.register({ id: 'vue' });
-  // @ts-ignore
   monaco.languages.setLanguageConfiguration('vue', vueConfiguration);
   // monaco.languages.registerCompletionItemProvider('vue', {
   //   provideCompletionItems: () => {},
