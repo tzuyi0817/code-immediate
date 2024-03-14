@@ -7,17 +7,17 @@ export const IMPORT_MAP = {
   React: null,
   Angular: null,
   SolidJs: {
-    imports: { 
+    imports: {
       'solid-js': 'https://cdn.skypack.dev/solid-js',
       'solid-js/': 'https://cdn.skypack.dev/solid-js/',
     },
   },
   RxJS: {
-    imports: { 
-      'rxjs': 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs.min.js',
+    imports: {
+      rxjs: 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs.min.js',
       'rxjs/operators': 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs-operators.min.js',
     },
-  }
+  },
 } as const;
 
 export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([

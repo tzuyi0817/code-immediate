@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore",
+    "lint": "eslint --ext .js,.ts,.vue",
     "lint:fix": "pnpm run lint --fix .",
     "ts-check": "bash -c vue-tsc --noEmit",
     "test:unit": "vitest --coverage",
