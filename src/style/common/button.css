@@ -10,69 +10,61 @@
   }
 
   .btn {
-    @apply 
-    rounded
+    @apply rounded
     justify-center
     items-center
-    py-3
+    py-2
     px-2
-    lg:px-3
     flex
     text-xs
+    font-semibold
     cursor-pointer
     transition-all
     disabled:grayscale;
   }
 
   .btn_small {
-    @apply rounded-sm py-[3px] px-2 text-xs cursor-pointer transition-all disabled:grayscale;
+    @apply rounded-sm py-[3px] px-2 text-xs cursor-pointer transition-all font-medium disabled:grayscale;
   }
 
   .btn_base {
-    @apply
-    text-white
+    @apply text-white
     bg-secondary
     hover:brightness-125;
   }
 
   .btn_yellow {
-    @apply
-    text-white
+    @apply text-gray-600
     bg-yellow-400
     hover:brightness-105;
   }
 
   .btn_green {
-    @apply
-    text-white
-    bg-green-600
+    @apply text-white
+    bg-[#3ca877]
     hover:brightness-110;
   }
 
   .btn_red {
-    @apply
-    text-white
+    @apply text-white
     bg-red-600
     hover:brightness-110;
   }
 
   .btn_blue {
-    @apply
-    text-white
+    @apply text-white
     bg-blue-600
     hover:brightness-125;
   }
 
   .btn_indigo {
-    @apply
-    text-white
+    @apply text-gray-200
     bg-indigo-600
     hover:brightness-125;
   }
 
   .btn_select {
-    @apply
-    text-white
+    @apply text-white
     bg-secondary/70
     text-xs
     px-3
@@ -80,7 +72,7 @@
     cursor-pointer
     hover:brightness-125;
     &-active {
-      @apply bg-secondary
+      @apply bg-secondary;
     }
   }
 }

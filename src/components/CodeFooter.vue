@@ -37,22 +37,39 @@ async function shareLink() {
 <template>
   <div class="code_footer">
     <section class="code_footer_section">
-      <button class="btn_small btn_base" @click="toggleConsole">
+      <button
+        class="btn_small btn_base"
+        @click="toggleConsole"
+      >
         Console
       </button>
 
-      <select class="select select_base">
+      <!-- <select class="select select_base">
         <option value="1">1.0x</option>
         <option value="0.5">0.5x</option>
         <option value="0.25">0.25x</option>
-      </select>
+      </select> -->
     </section>
 
     <section class="code_footer_section">
       <code-loading />
-      <button v-if="codeId" class="btn_small btn_base" @click="shareLink">
-        Share
-      </button>
+      <a
+        href="https://github.com/tzuyi0817/code-immediate"
+        class="flex items-center"
+        title="github-link"
+      >
+        <font-awesome-icon
+          icon="fa-brands fa-github"
+          class="code_footer_icon text-2xl"
+        />
+      </a>
+      <font-awesome-icon
+        v-if="codeId"
+        icon="fa-solid fa-share"
+        class="code_footer_icon text-xl"
+        title="fa-share"
+        @click="shareLink"
+      />
     </section>
 
     <code-console
@@ -64,8 +81,7 @@ async function shareLink() {
 
 <style lang="postcss" scoped>
 .code_footer {
-  @apply
-  fixed
+  @apply fixed
   flex
   justify-between
   items-center
@@ -76,7 +92,10 @@ async function shareLink() {
   bottom-0
   z-[3];
   &_section {
-    @apply flex items-center gap-1;
+    @apply flex items-center gap-3;
+  }
+  &_icon {
+    @apply text-[#666] transition-colors hover:text-white;
   }
 }
 </style>

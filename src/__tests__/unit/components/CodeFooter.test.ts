@@ -10,12 +10,12 @@ describe('CodeFooter Component', () => {
   registerFaIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeFooter, { 
+    renderComponent(CodeFooter, {
       provide: { iframe: null },
       props: { previewWidth: '33.3vw' },
     });
     expect(screen.getByRole('button', { name: /console/i })).toBeInTheDocument();
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /github\-link/i })).toBeInTheDocument();
   });
 
   it('share button render and interact', async () => {
@@ -25,7 +25,7 @@ describe('CodeFooter Component', () => {
     const mockedWriteText = vi.fn();
 
     codeContentStore.setCodeId(codeId);
-    renderComponent(CodeFooter, { 
+    renderComponent(CodeFooter, {
       provide: { iframe: null },
       props: { previewWidth: '33.3vw' },
     });
@@ -35,20 +35,31 @@ describe('CodeFooter Component', () => {
         writeText: mockedWriteText,
       },
     });
-    expect(screen.getByRole('button', { name: /share/i })).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: /share/i }));
+    expect(screen.getByRole('img', { name: /fa\-share/i })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('img', { name: /fa\-share/i }));
     expect(mockedWriteText).toHaveBeenCalledTimes(1);
     expect(mockedWriteText).toHaveBeenCalledWith(location.href);
     expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
     /* document.execCommand **/
     document.execCommand = mockedWriteText;
-    await userEvent.click(screen.getByRole('button', { name: /share/i }));
+    await userEvent.click(screen.getByRole('img', { name: /fa\-share/i }));
     expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
     vi.resetAllMocks();
   });
 
+  it('link to github', async () => {
+    renderComponent(CodeFooter, {
+      provide: { iframe: null },
+      props: { previewWidth: '33.3vw' },
+    });
+    expect(screen.getByRole('link', { name: /github\-link/i })).toHaveAttribute(
+      'href',
+      'https://github.com/tzuyi0817/code-immediate',
+    );
+  });
+
   it('toggle console', async () => {
-    renderComponent(CodeFooter, { 
+    renderComponent(CodeFooter, {
       provide: { iframe: null },
       props: { previewWidth: '33.3vw' },
     });

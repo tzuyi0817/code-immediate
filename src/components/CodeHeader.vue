@@ -180,7 +180,7 @@ watch(codeTitle, projectTitle => (title.value = projectTitle));
       </button>
 
       <loading-button
-        class="btn_base w-auto text-xs hidden lg:block"
+        class="btn btn_green w-auto text-xs hidden lg:block"
         @click="saveCode"
         :isLoading="isLoading"
       >
@@ -203,7 +203,7 @@ watch(codeTitle, projectTitle => (title.value = projectTitle));
         Settings
       </button>
       <button
-        class="btn btn_base hidden lg:block"
+        class="btn btn_indigo hidden lg:block"
         @click="toggleTemplatePop"
       >
         <font-awesome-icon
@@ -214,7 +214,7 @@ watch(codeTitle, projectTitle => (title.value = projectTitle));
         Template
       </button>
       <button
-        class="btn btn_indigo hidden lg:block"
+        class="btn btn_blue hidden lg:block"
         @click="newProject"
       >
         <font-awesome-icon
@@ -222,12 +222,12 @@ watch(codeTitle, projectTitle => (title.value = projectTitle));
           title="fa-file-circle-plus"
           class="mr-1"
         />
-        New Project
+        New
       </button>
 
       <template v-if="isLogin">
         <button
-          class="btn btn_blue"
+          class="btn btn_yellow"
           @click="toggleProjectsPop"
         >
           <font-awesome-icon
@@ -253,7 +253,7 @@ watch(codeTitle, projectTitle => (title.value = projectTitle));
 
       <template v-else>
         <button
-          class="btn btn_blue"
+          class="btn btn_yellow"
           @click="toggleSignUpPop"
         >
           Sign up

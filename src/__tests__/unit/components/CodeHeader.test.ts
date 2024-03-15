@@ -17,7 +17,7 @@ describe('CodeHeader Component', () => {
     expect(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /fa\-gear settings/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /fa\-centos template/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /fa\-file\-circle\-plus new project/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa\-file\-circle\-plus new/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /log in/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /fa\-bars\-staggered/i })).toBeInTheDocument();
@@ -37,7 +37,7 @@ describe('CodeHeader Component', () => {
       await userEvent.click(pen);
       const titleInput = screen.getByRole('textbox');
       const value = 'test title';
-  
+
       await userEvent.type(titleInput, value);
       await fireEvent.blur(titleInput);
       expect(screen.getByText(value)).toBeInTheDocument();
@@ -81,24 +81,24 @@ describe('CodeHeader Component', () => {
       expect(await screen.findByRole('heading', { name: /log in!/i })).toBeInTheDocument();
     });
 
-    it ('projects popup', async () => {
+    it('projects popup', async () => {
       mockLogin();
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-sheet\-plastic projects/i }));
-      expect(await screen.findByRole('heading', { name: /projects/i} )).toBeInTheDocument();
+      expect(await screen.findByRole('heading', { name: /projects/i })).toBeInTheDocument();
       mockLogout();
     });
 
     it('remind popup', async () => {
       useFlagStore().setChangeCodeFlag(true);
       renderComponent(CodeHeader);
-      userEvent.click(screen.getByRole('button', { name: /fa\-file\-circle\-plus new project/i }));
+      userEvent.click(screen.getByRole('button', { name: /fa\-file\-circle\-plus new/i }));
       expect(await screen.findByRole('heading', { name: /remind/i })).toBeInTheDocument();
     });
   });
 
   describe('save code', () => {
-    it ('not logged in save code', async () => {
+    it('not logged in save code', async () => {
       renderComponent(CodeHeader);
       userEvent.click(screen.getByRole('button', { name: /fa\-cloud\-arrow\-up save/i }));
       expect(await screen.findByText('Log in!')).toBeInTheDocument();
