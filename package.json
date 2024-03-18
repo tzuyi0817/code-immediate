@@ -81,6 +81,7 @@
     "vite-plugin-node-polyfills": "^0.21.0",
     "vitest": "^1.0.0",
     "vitest-canvas-mock": "^0.3.2",
+    "volar-service-typescript": "^0.0.34",
     "vscode-theme-to-monaco-theme-node": "^1.0.0",
     "vue-tsc": "^2.0.0"
   },

@@ -58,7 +58,8 @@ function setVueLanguage() {
   languages.onLanguage('vue', () => {
     const worker = createWebWorker('vue');
 
-    worker.getProxy();
+    console.log({ worker });
+    // worker.getProxy();
   });
   // monaco.languages.registerCompletionItemProvider('vue', {
   //   provideCompletionItems: () => {},
