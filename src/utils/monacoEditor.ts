@@ -1,6 +1,6 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
-import * as monaco from 'monaco-editor';
+import { editor, languages } from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
@@ -13,31 +13,53 @@ import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/conf
 const baseUrl = import.meta.env.MODE === 'test' ? 'http://localhost:3000/' : '';
 
 export async function initMonacoEditor() {
-  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
-  const theme = await (await fetch('themes/themes.json')).json();
-
-  monaco.editor.defineTheme('vs-code-theme-converted', theme);
-  setCustomLanguage();
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
-      if (label === 'vue') return new VueWorker();
+      if (label === 'vue') {
+        const worker = new VueWorker();
+        console.log({ label });
+        worker.addEventListener('message', data => {
+          console.log({ data });
+        });
+        return worker;
+      }
       return new EditorWorker();
     },
   };
+  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
+  const theme = await (await fetch('themes/themes.json')).json();
+
+  editor.defineTheme('vs-code-theme-converted', theme);
+  setCustomLanguage();
 }
 
 function setCustomLanguage() {
-  monaco.languages.register({ id: 'haml', extensions: ['.haml'] });
-  monaco.languages.register({ id: 'sass', extensions: ['.sass'] });
-  monaco.languages.register({ id: 'stylus', extensions: ['.styl'] });
-  monaco.languages.register({ id: 'postcss', extensions: ['.postcss'] });
-  monaco.languages.register({ id: 'livescript', extensions: ['.mlx'] });
-  monaco.languages.register({ id: 'vue', extensions: ['.vue'] });
-  monaco.languages.setLanguageConfiguration('vue', vueConfiguration);
+  languages.register({ id: 'haml', extensions: ['.haml'] });
+  languages.register({ id: 'sass', extensions: ['.sass'] });
+  languages.register({ id: 'stylus', extensions: ['.styl'] });
+  languages.register({ id: 'postcss', extensions: ['.postcss'] });
+  languages.register({ id: 'livescript', extensions: ['.mlx'] });
+  setVueLanguage();
+}
+
+export function setTestEnvironmentLanguage() {
+  languages.register({ id: 'html' });
+  languages.register({ id: 'markdown' });
+  setCustomLanguage();
+}
+
+function setVueLanguage() {
+  languages.register({ id: 'vue', extensions: ['.vue'] });
+  languages.setLanguageConfiguration('vue', vueConfiguration);
+  languages.onLanguage('vue', () => {
+    const worker = createWebWorker('vue');
+
+    worker.getProxy();
+  });
   // monaco.languages.registerCompletionItemProvider('vue', {
   //   provideCompletionItems: () => {},
   // });
@@ -46,10 +68,14 @@ function setCustomLanguage() {
   // });
 }
 
-export function setTestEnvironmentLanguage() {
-  monaco.languages.register({ id: 'html' });
-  monaco.languages.register({ id: 'markdown' });
-  setCustomLanguage();
+function createWebWorker(language: string) {
+  return editor.createWebWorker({
+    moduleId: `vs/language/${language}/${language}.worker`,
+    label: language,
+    createData: {
+      language,
+    },
+  });
 }
 
 export function registry() {
