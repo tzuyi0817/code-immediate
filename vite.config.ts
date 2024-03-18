@@ -70,7 +70,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
-      external: ['vue', 'vue/compiler-sfc'],
+      external: ['vue/compiler-sfc'],
       output: {
         chunkFileNames: 'chunks/[name]-[hash].js',
       },
