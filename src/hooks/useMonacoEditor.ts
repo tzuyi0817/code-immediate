@@ -1,7 +1,8 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { debounce, sleep } from '@/utils/common';
-import { registry, GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/utils/monacoEditor';
+import { registry } from '@/utils/monacoEditor';
+import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 

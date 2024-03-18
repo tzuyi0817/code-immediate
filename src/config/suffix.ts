@@ -8,7 +8,7 @@ export const SUFFIX_MAP = {
   SCSS: 'scss',
   Sass: 'sass',
   Stylus: 'styl',
-  PostCSS: 'css',
+  PostCSS: 'postcss',
   JavaScript: 'js',
   Babel: 'js',
   TypeScript: 'ts',

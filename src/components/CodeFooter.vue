@@ -95,7 +95,7 @@ async function shareLink() {
     @apply flex items-center gap-3;
   }
   &_icon {
-    @apply text-[#666] transition-colors hover:text-white;
+    @apply text-[#666] transition-colors cursor-pointer hover:text-white;
   }
 }
 </style>
