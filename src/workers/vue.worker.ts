@@ -2,11 +2,11 @@
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import type * as monaco from 'monaco-editor';
 import { type ServiceEnvironment, createTypeScriptWorkerService } from '@volar/monaco/worker';
+import * as ts from 'typescript';
 // import { create as createTypeScriptService } from 'volar-service-typescript';
 
 self.onmessage = (msg: MessageEvent) => {
   worker.initialize(async (ctx: monaco.worker.IWorkerContext) => {
-    const ts = await import('typescript');
     const env: ServiceEnvironment = {
       workspaceFolder: 'file:///',
       typescript: {

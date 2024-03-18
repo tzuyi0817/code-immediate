@@ -70,10 +70,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       plugins: [rollupNodePolyFill()],
+      external: ['vue', 'vue/compiler-sfc'],
       output: {
-        manualChunks: filepath => {
-          if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
-        },
+        chunkFileNames: 'chunks/[name]-[hash].js',
       },
     },
   },
