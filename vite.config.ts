@@ -76,7 +76,6 @@ export default defineConfig({
           if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
           if (filepath.includes('monaco-textmate')) return 'monaco-textmate';
           if (filepath.includes('@fortawesome')) return '@fortawesome';
-          if (filepath.includes('@volar')) return '@volar';
         },
       },
     },
