@@ -74,6 +74,10 @@ export default defineConfig({
         chunkFileNames: 'chunks/[name]-[hash].js',
         manualChunks: filepath => {
           if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
+          if (filepath.includes('@volar/language-service')) return '@volar/language-service';
+          if (filepath.includes('monaco-textmate')) return 'monaco-textmate';
+          if (filepath.includes('runtime-core.esm-bundler')) return 'runtime-core-esm-bundler';
+          if (filepath.includes('@fortawesome')) return '@fortawesome';
         },
       },
     },

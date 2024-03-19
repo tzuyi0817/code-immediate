@@ -12,7 +12,8 @@ import VueWorker from '@/workers/vue.worker.ts?worker';
 import { vueConfiguration } from '@/config/language-configuration/vue';
 import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/config/grammar';
 
-const baseUrl = import.meta.env.MODE === 'test' ? 'http://localhost:3000/' : '';
+const isTestMode = import.meta.env.MODE === 'test';
+const baseUrl = isTestMode ? 'http://localhost:3000/' : '';
 
 export async function initMonacoEditor() {
   window.MonacoEnvironment = {
@@ -51,6 +52,7 @@ function setVueLanguage() {
   languages.register({ id: 'vue', extensions: ['.vue'] });
   languages.setLanguageConfiguration('vue', vueConfiguration);
   languages.onLanguage('vue', () => {
+    if (isTestMode) return;
     const worker = createWebWorker<LanguageService>('vue');
     const syncFiles = () => [];
 
@@ -64,6 +66,7 @@ function createWebWorker<T extends object>(language: string) {
   return editor.createWebWorker<T>({
     moduleId: `vs/language/${language}/${language}.worker`,
     label: language,
+    createData: {},
   });
 }
 

@@ -1,6 +1,6 @@
 // @ts-expect-error
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
-import type * as monaco from 'monaco-editor';
+import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import { type ServiceEnvironment, createTypeScriptWorkerService } from '@volar/monaco/worker';
 import * as ts from 'typescript';
 import { create as createTypeScriptService } from 'volar-service-typescript';
