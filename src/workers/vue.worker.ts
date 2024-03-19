@@ -3,10 +3,10 @@ import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import type * as monaco from 'monaco-editor';
 import { type ServiceEnvironment, createTypeScriptWorkerService } from '@volar/monaco/worker';
 import * as ts from 'typescript';
-// import { create as createTypeScriptService } from 'volar-service-typescript';
+import { create as createTypeScriptService } from 'volar-service-typescript';
 
-self.onmessage = (msg: MessageEvent) => {
-  worker.initialize(async (ctx: monaco.worker.IWorkerContext) => {
+self.onmessage = () => {
+  worker.initialize((ctx: monaco.worker.IWorkerContext) => {
     const env: ServiceEnvironment = {
       workspaceFolder: 'file:///',
       typescript: {
@@ -14,14 +14,20 @@ self.onmessage = (msg: MessageEvent) => {
         fileNameToUri: fileName => `file://${fileName}`,
       },
     };
+    const compilerOptions: ts.CompilerOptions = {
+      ...ts.getDefaultCompilerOptions(),
+      allowJs: true,
+      jsx: ts.JsxEmit.Preserve,
+      module: ts.ModuleKind.ESNext,
+      moduleResolution: ts.ModuleResolutionKind.NodeJs,
+    };
 
-    self.postMessage({ msg });
     return createTypeScriptWorkerService({
       typescript: ts,
-      compilerOptions: {},
+      compilerOptions,
       workerContext: ctx,
       env,
-      // servicePlugins: [createTypeScriptService(ts)],
+      servicePlugins: createTypeScriptService(ts),
     });
   });
 };

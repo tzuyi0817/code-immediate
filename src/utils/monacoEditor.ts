@@ -1,6 +1,8 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
 import { editor, languages } from 'monaco-editor';
+import { activateMarkers, activateAutoInsertion, registerProviders } from '@volar/monaco';
+import type { LanguageService } from '@volar/language-service';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
@@ -19,14 +21,7 @@ export async function initMonacoEditor() {
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
-      if (label === 'vue') {
-        const worker = new VueWorker();
-        console.log({ label });
-        worker.addEventListener('message', data => {
-          console.log({ data });
-        });
-        return worker;
-      }
+      if (label === 'vue') return new VueWorker();
       return new EditorWorker();
     },
   };
@@ -56,26 +51,19 @@ function setVueLanguage() {
   languages.register({ id: 'vue', extensions: ['.vue'] });
   languages.setLanguageConfiguration('vue', vueConfiguration);
   languages.onLanguage('vue', () => {
-    const worker = createWebWorker('vue');
+    const worker = createWebWorker<LanguageService>('vue');
+    const syncFiles = () => [];
 
-    console.log({ worker });
-    // worker.getProxy();
+    activateMarkers(worker, ['vue'], 'vue', syncFiles, editor);
+    activateAutoInsertion(worker, ['vue'], syncFiles, editor);
+    registerProviders(worker, ['vue'], syncFiles, languages);
   });
-  // monaco.languages.registerCompletionItemProvider('vue', {
-  //   provideCompletionItems: () => {},
-  // });
-  // monaco.languages.registerHoverProvider('vue', {
-  //   provideHover(model, position, token) {},
-  // });
 }
 
-function createWebWorker(language: string) {
-  return editor.createWebWorker({
+function createWebWorker<T extends object>(language: string) {
+  return editor.createWebWorker<T>({
     moduleId: `vs/language/${language}/${language}.worker`,
     label: language,
-    createData: {
-      language,
-    },
   });
 }
 

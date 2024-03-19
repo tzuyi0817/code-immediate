@@ -108,6 +108,9 @@ devDependencies:
   '@vitest/coverage-v8':
     specifier: ^1.0.0
     version: 1.4.0(vitest@1.4.0)
+  '@volar/language-service':
+    specifier: ^2.1.2
+    version: 2.1.2
   '@volar/monaco':
     specifier: ^2.1.2
     version: 2.1.2
@@ -194,7 +197,7 @@ devDependencies:
     version: 0.3.3(vitest@1.4.0)
   volar-service-typescript:
     specifier: ^0.0.34
-    version: 0.0.34
+    version: 0.0.34(@volar/language-service@2.1.2)
   vscode-theme-to-monaco-theme-node:
     specifier: ^1.0.0
     version: 1.0.0
@@ -7719,7 +7722,7 @@ packages:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
     dev: true
 
-  /volar-service-typescript@0.0.34:
+  /volar-service-typescript@0.0.34(@volar/language-service@2.1.2):
     resolution: {integrity: sha512-NbAry0w8ZXFgGsflvMwmPDCzgJGx3C+eYxFEbldaumkpTAJiywECWiUbPIOfmEHgpOllUKSnhwtLlWFK4YnfQg==}
     peerDependencies:
       '@volar/language-service': ~2.1.0
@@ -7727,6 +7730,7 @@ packages:
       '@volar/language-service':
         optional: true
     dependencies:
+      '@volar/language-service': 2.1.2
       path-browserify: 1.0.1
       semver: 7.6.0
       typescript-auto-import-cache: 0.3.2
