@@ -1,32 +1,26 @@
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
-import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { type ServiceEnvironment, createTypeScriptWorkerService } from '@volar/monaco/worker';
+import type * as monaco from 'monaco-editor';
+import { createJsDelivrFs, createJsDelivrUriResolver, decorateServiceEnvironment } from '@volar/cdn';
+import { resolveConfig } from '@vue/language-service';
+import { createLanguageHost, createLanguageService, createServiceEnvironment } from '@volar/monaco/worker';
 import * as ts from 'typescript';
-import { create as createTypeScriptService } from 'volar-service-typescript';
+import type { CreateData } from '@/utils/monacoEditor';
 
 self.onmessage = () => {
-  worker.initialize((ctx: monaco.worker.IWorkerContext) => {
-    const env: ServiceEnvironment = {
-      workspaceFolder: 'file:///',
-      typescript: {
-        uriToFileName: uri => uri.substring('file://'.length),
-        fileNameToUri: fileName => `file://${fileName}`,
-      },
-    };
-    const compilerOptions: ts.CompilerOptions = {
-      ...ts.getDefaultCompilerOptions(),
-      allowJs: true,
-      jsx: ts.JsxEmit.Preserve,
-      module: ts.ModuleKind.ESNext,
-      moduleResolution: ts.ModuleResolutionKind.NodeJs,
-    };
+  worker.initialize((ctx: monaco.worker.IWorkerContext, { tsconfig, dependencies }: CreateData) => {
+    const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions || {}, '');
+    const env = createServiceEnvironment();
+    const host = createLanguageHost(ctx.getMirrorModels, env, '/src', compilerOptions);
+    const jsDelivrFs = createJsDelivrFs();
+    const jsDelivrUriResolver = createJsDelivrUriResolver('/node_modules', dependencies);
 
-    return createTypeScriptWorkerService({
-      typescript: ts,
-      compilerOptions,
-      workerContext: ctx,
+    decorateServiceEnvironment(env, jsDelivrUriResolver, jsDelivrFs);
+
+    return createLanguageService(
+      { typescript: ts },
       env,
-      servicePlugins: createTypeScriptService(ts),
-    });
+      resolveConfig(ts, {}, compilerOptions, tsconfig.vueCompilerOptions || {}),
+      host,
+    );
   });
 };

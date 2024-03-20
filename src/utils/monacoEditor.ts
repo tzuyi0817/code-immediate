@@ -1,8 +1,8 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
-import { editor, languages } from 'monaco-editor';
-import { activateMarkers, activateAutoInsertion, registerProviders } from '@volar/monaco';
-import type { LanguageService } from '@volar/language-service';
+import { editor, languages, Uri } from 'monaco-editor';
+import * as volar from '@volar/monaco';
+import type { LanguageService, VueCompilerOptions } from '@vue/language-service';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
@@ -15,12 +15,15 @@ import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/conf
 const isTestMode = import.meta.env.MODE === 'test';
 const baseUrl = isTestMode ? 'http://localhost:3000/' : '';
 
-export async function initMonacoEditor() {
-  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
-  const theme = await (await fetch('themes/themes.json')).json();
+export interface CreateData {
+  tsconfig: {
+    compilerOptions?: import('typescript').CompilerOptions;
+    vueCompilerOptions?: Partial<VueCompilerOptions>;
+  };
+  dependencies: Record<string, string>;
+}
 
-  editor.defineTheme('vs-code-theme-converted', theme);
-  setCustomLanguage();
+export async function initMonacoEditor() {
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
@@ -31,6 +34,11 @@ export async function initMonacoEditor() {
       return new EditorWorker();
     },
   };
+  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
+  const theme = await (await fetch('themes/themes.json')).json();
+
+  editor.defineTheme('vs-code-theme-converted', theme);
+  setCustomLanguage();
 }
 
 function setCustomLanguage() {
@@ -55,19 +63,26 @@ function setVueLanguage() {
     if (isTestMode) return;
     const worker = createWebWorker<LanguageService>('vue');
     const languageId = ['vue'];
-    const syncUris = () => editor.getModels().map(model => model.uri);
+    const getSyncUris = () => [Uri.parse('file:///demo.vue')];
 
-    activateMarkers(worker, languageId, 'vue', syncUris, editor);
-    activateAutoInsertion(worker, languageId, syncUris, editor);
-    await registerProviders(worker, languageId, syncUris, languages);
+    volar.editor.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
+    volar.editor.activateAutoInsertion(worker, languageId, getSyncUris, editor);
+    await volar.languages.registerProvides(worker, languageId, getSyncUris, languages);
   });
 }
 
-function createWebWorker<T extends object>(language: string) {
+function createWebWorker<T extends object>(
+  language: string,
+  dependencies: Record<string, string> = {},
+  tsconfig: Record<string, any> = {},
+) {
   return editor.createWebWorker<T>({
     moduleId: `vs/language/${language}/${language}.worker`,
     label: language,
-    createData: {},
+    createData: {
+      tsconfig,
+      dependencies,
+    } satisfies CreateData,
   });
 }
 

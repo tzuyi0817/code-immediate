@@ -12,7 +12,7 @@ describe('CodeEditor Component', async () => {
   setTestEnvironmentLanguage();
 
   it('renders the editor', async () => {
-    renderComponent(CodeEditor, { props: { model: 'HTML' }});
+    renderComponent(CodeEditor, { props: { model: 'HTML' } });
     expect(screen.getByTitle('codeEditor')).toBeInTheDocument();
     expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('html');
   });
@@ -20,7 +20,7 @@ describe('CodeEditor Component', async () => {
   it('change to markdown language', async () => {
     const codeContentStore = useCodeContentStore();
 
-    renderComponent(CodeEditor, { props: { model: 'HTML' }});
+    renderComponent(CodeEditor, { props: { model: 'HTML' } });
     codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
     await nextTick();
     expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('markdown');
@@ -28,14 +28,14 @@ describe('CodeEditor Component', async () => {
   });
 
   it('render vue template editor', async () => {
-    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeEditor, { props: { model: 'VUE' } });
     expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('vue');
   });
 
   it('formatter editor', async () => {
     const flagStore = useFlagStore();
 
-    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeEditor, { props: { model: 'VUE' } });
     renderComponent(CodeLoading);
     flagStore.setLoading({ isOpen: true, type: 'Code formatter' });
     await nextTick();
@@ -46,7 +46,7 @@ describe('CodeEditor Component', async () => {
   it('create new project', async () => {
     const flagStore = useFlagStore();
 
-    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeEditor, { props: { model: 'VUE' } });
     renderComponent(CodeLoading);
     flagStore.setCreateProjectFlag(true);
     flagStore.setLoading({ isOpen: true, type: 'Create new project' });
@@ -57,7 +57,7 @@ describe('CodeEditor Component', async () => {
   it('embed file', async () => {
     const flagStore = useFlagStore();
 
-    renderComponent(CodeEditor, { props: { model: 'VUE' }});
+    renderComponent(CodeEditor, { props: { model: 'VUE' } });
     flagStore.setEmbedFlag({ model: 'VUE', isEmbed: true });
     await nextTick();
     expect(flagStore.EmbedMap.VUE).toBeFalsy();

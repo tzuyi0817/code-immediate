@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 import { deepClone } from '@/utils/common';
 import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/codeContent';
 import type { CdnModel } from '@/types/cdn';
@@ -47,7 +47,7 @@ interface ContentAction<T> {
 export default defineStore('code_immediate_content', {
   state: () => deepClone(defaultState),
   getters: {
-    isSFC: (state) => state.codeTemplate === 'VueSFC',
+    isSFC: state => state.codeTemplate === 'VueSFC',
   },
   actions: {
     setCodeMap(map: CodeMap) {

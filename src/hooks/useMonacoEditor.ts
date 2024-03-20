@@ -69,23 +69,22 @@ export default function useMonacoEditor() {
   }
 
   async function updateEditorModel(code: string, language: string) {
+    if (!monacoEditor.editor) return;
     language = language.toLowerCase();
-    const uri = monaco.Uri.parse(`file:///demo.${language}`);
-    const oldModel = monacoEditor.editor?.getModel();
 
-    if (oldModel?.uri.path === uri.path) {
-      oldModel.setValue(code);
-      return;
-    }
+    const uri = monaco.Uri.parse(`file:///demo.${language}`);
+    const oldModel = monacoEditor.editor.getModel();
+    const cacheModel = monaco.editor.getModel(uri);
     const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
-    const model = monaco.editor.createModel(code, languageType, uri);
+    const model = cacheModel ?? monaco.editor.createModel(code, languageType, uri);
     const grammars = new Map([[languageType, GRAMMARS_MAP.get(languageType)!]]);
 
-    monacoEditor.editor?.setModel(model);
-    oldModel?.dispose();
+    if (cacheModel) model.setValue(code);
+    monacoEditor.editor.setModel(model);
+    if (oldModel !== cacheModel) oldModel?.dispose();
     if (import.meta.env.MODE === 'test') return;
     await sleep();
-    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
+    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor);
   }
 
   function updateEditorValue(code: string) {

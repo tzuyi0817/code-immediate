@@ -26,7 +26,7 @@ createApp({
 }).mount('#app');
 `;
 
-export const VUE_SFC_CONTENT = `<script setup>
+export const VUE_SFC_CONTENT = `<script setup lang="ts">
 import { ref } from 'vue';
 
 const message = ref('Hello Vue!');
@@ -49,7 +49,6 @@ const message = ref('Hello Vue!');
   overflow-x: auto;
 }
 </style>`;
-
 
 export const REACT_JS = `const rootDom = document.getElementById('root');
 const root = ReactDOM.createRoot(rootDom);
@@ -137,7 +136,8 @@ export const RXJS_HTML = `<header>
 </header>
 `;
 
-export const RXJS_JS = `import { fromEvent } from 'rxjs';
+export const RXJS_JS =
+  `import { fromEvent } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 fromEvent(document, 'click')
@@ -146,7 +146,9 @@ fromEvent(document, 'click')
     map((event) => ({ x: event.x, y: event.y }))
   )
   .subscribe((position) => {
-    console.log(` + '`x: ${position.x}, y: ${position.y}`);' + `
+    console.log(` +
+  '`x: ${position.x}, y: ${position.y}`);' +
+  `
   });
 `;
 
