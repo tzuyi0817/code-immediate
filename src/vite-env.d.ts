@@ -1,10 +1,10 @@
 /// <reference types="vite/client" />
 
 declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
-  export default component
-};
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
 
 declare interface Window {
   Haml: any;
@@ -17,4 +17,8 @@ declare interface Window {
   CoffeeScript: any;
   prettier: any;
   prettierPlugins: any;
+}
+
+declare module 'monaco-editor/esm/vs/editor/editor.worker' {
+  export function initialize(callback: (ctx: any, createData: any) => any): void;
 }

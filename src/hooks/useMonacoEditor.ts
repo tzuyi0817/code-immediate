@@ -30,10 +30,12 @@ export default function useMonacoEditor() {
       lineDecorationsWidth: 0,
     });
 
+    highlightSemantic(monacoEditor.editor);
     monacoEditor.editor.onDidChangeModelContent(
       debounce(() => {
         const code = monacoEditor.editor?.getValue()!;
         const type = model;
+
         setCodeContent({ type, code });
         setChangeCodeFlag(true);
       }, 1500),
@@ -46,16 +48,41 @@ export default function useMonacoEditor() {
     );
   }
 
+  function highlightSemantic(editor: monaco.editor.IStandaloneCodeEditor) {
+    const theme = (editor as any)._themeService._theme;
+
+    theme.getTokenStyleMetadata = (type: string, modifiers: string[]) => {
+      const _readonly = modifiers.includes('readonly');
+      switch (type) {
+        case 'function':
+        case 'method':
+          return { foreground: 12 };
+        case 'class':
+          return { foreground: 11 };
+        case 'variable':
+        case 'property':
+          return { foreground: _readonly ? 21 : 9 };
+        default:
+          return { foreground: 0 };
+      }
+    };
+  }
+
   async function updateEditorModel(code: string, language: string) {
     language = language.toLowerCase();
-    const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
-    const model = monaco.editor.createModel(code, languageType);
+    const uri = monaco.Uri.parse(`file:///demo.${language}`);
     const oldModel = monacoEditor.editor?.getModel();
+
+    if (oldModel?.uri.path === uri.path) {
+      oldModel.setValue(code);
+      return;
+    }
+    const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
+    const model = monaco.editor.createModel(code, languageType, uri);
     const grammars = new Map([[languageType, GRAMMARS_MAP.get(languageType)!]]);
 
     monacoEditor.editor?.setModel(model);
     oldModel?.dispose();
-    // setModelMarkers(model);
     if (import.meta.env.MODE === 'test') return;
     await sleep();
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor!);
@@ -64,18 +91,6 @@ export default function useMonacoEditor() {
   function updateEditorValue(code: string) {
     monacoEditor.editor?.getModel()?.setValue(code);
   }
-
-  // function setModelMarkers(model: monaco.editor.ITextModel) {
-  //   console.log({ model });
-  //   monaco.editor.setModelMarkers(model, 'owner', [{
-  //     startLineNumber: 2,
-  //     endLineNumber: 2,
-  //     startColumn: 1,
-  //     endColumn: 10,
-  //     severity: monaco.MarkerSeverity.Error,
-  //     message: `syntax error`,
-  //   }]);
-  // }
 
   return {
     monacoEditor,

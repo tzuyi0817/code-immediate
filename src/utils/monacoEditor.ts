@@ -16,6 +16,11 @@ const isTestMode = import.meta.env.MODE === 'test';
 const baseUrl = isTestMode ? 'http://localhost:3000/' : '';
 
 export async function initMonacoEditor() {
+  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
+  const theme = await (await fetch('themes/themes.json')).json();
+
+  editor.defineTheme('vs-code-theme-converted', theme);
+  setCustomLanguage();
   window.MonacoEnvironment = {
     getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
@@ -26,11 +31,6 @@ export async function initMonacoEditor() {
       return new EditorWorker();
     },
   };
-  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
-  const theme = await (await fetch('themes/themes.json')).json();
-
-  editor.defineTheme('vs-code-theme-converted', theme);
-  setCustomLanguage();
 }
 
 function setCustomLanguage() {
@@ -51,14 +51,15 @@ export function setTestEnvironmentLanguage() {
 function setVueLanguage() {
   languages.register({ id: 'vue', extensions: ['.vue'] });
   languages.setLanguageConfiguration('vue', vueConfiguration);
-  languages.onLanguage('vue', () => {
+  languages.onLanguage('vue', async () => {
     if (isTestMode) return;
     const worker = createWebWorker<LanguageService>('vue');
-    const syncFiles = () => [];
+    const languageId = ['vue'];
+    const syncUris = () => editor.getModels().map(model => model.uri);
 
-    activateMarkers(worker, ['vue'], 'vue', syncFiles, editor);
-    activateAutoInsertion(worker, ['vue'], syncFiles, editor);
-    registerProviders(worker, ['vue'], syncFiles, languages);
+    activateMarkers(worker, languageId, 'vue', syncUris, editor);
+    activateAutoInsertion(worker, languageId, syncUris, editor);
+    await registerProviders(worker, languageId, syncUris, languages);
   });
 }
 
