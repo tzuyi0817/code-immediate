@@ -5,19 +5,10 @@ import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfil
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { visualizer } from 'rollup-plugin-visualizer';
-// import monacoEditorPlugin from 'vite-plugin-monaco-editor';
 
 export default defineConfig({
   base: './',
-  plugins: [
-    vue(),
-    visualizer({ gzipSize: true }),
-    splitVendorChunkPlugin(),
-    // @ts-ignore
-    // monacoEditorPlugin.default({
-    //   languageWorkers: ['editorWorkerService', 'css', 'html', 'json', 'typescript'],
-    // }),
-  ],
+  plugins: [vue(), visualizer({ gzipSize: true }), splitVendorChunkPlugin()],
   server: {
     port: 8080,
   },
@@ -66,6 +57,10 @@ export default defineConfig({
         NodeModulesPolyfillPlugin(),
       ],
     },
+  },
+  esbuild: {
+    pure: ['console.log'],
+    drop: ['debugger'],
   },
   build: {
     rollupOptions: {

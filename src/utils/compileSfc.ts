@@ -171,7 +171,6 @@ async function transformSfc(
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }
   revokeBlobURL();
-  console.log(scriptBlock?.content);
   return {
     renderScript: `
       import __sfc__ from '${getBlobURL(scriptBlock.content, 'script')}';
