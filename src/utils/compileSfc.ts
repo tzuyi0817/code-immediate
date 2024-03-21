@@ -32,20 +32,20 @@ export function compileSfc(content: CompileParams): Promise<CodeContent> {
   const sfcPromise = parseSfc(vue.content);
 
   return new Promise((resolve, reject) => {
-    sfcPromise.then(codeContent => {
-      resolve(codeContent);
-    })
-    .catch(reject);
-  })
+    sfcPromise
+      .then(codeContent => {
+        resolve(codeContent);
+      })
+      .catch(reject);
+  });
 }
 
 function parseSfc(content: string): Promise<CodeContent> {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
       const { descriptor } = parse(content);
-      const codeContent = await processDescriptor(descriptor);
 
-      resolve(codeContent);
+      processDescriptor(descriptor).then(resolve);
     } catch (error) {
       reject(error);
     }
@@ -56,45 +56,49 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
   const { styles, filename, slotted, template } = descriptor;
   const scopeId = `data-v-${Date.now().toString().slice(-6)}`;
   const isScoped = styles.some(style => style.scoped);
-  const compileTemplateOptions = template ? {
-    source: await compileHtml(template.content, template?.lang),
-    filename,
-    id: scopeId,
-    scoped: isScoped,
-    slotted,
-    compilerOptions: {
-      scopeId: isScoped ? scopeId : undefined,
-      mode: 'module',
-    },
-  } : undefined;
+  const compileTemplateOptions = template
+    ? {
+        source: await compileHtml(template.content, template?.lang),
+        filename,
+        id: scopeId,
+        scoped: isScoped,
+        slotted,
+        compilerOptions: {
+          scopeId: isScoped ? scopeId : undefined,
+          mode: 'module',
+        },
+      }
+    : undefined;
 
   return new Promise((resolve, reject) => {
     Promise.all([
       compileCss(styles),
       // @ts-ignore
       compileJs(descriptor, scopeId, compileTemplateOptions),
-    ]).then(([css, js]) => {
-      resolve({
-        html: '<div id="app"></div>',
-        css,
-        js: js.code,
-        importMap: js.importMap
+    ])
+      .then(([css, js]) => {
+        resolve({
+          html: '<div id="app"></div>',
+          css,
+          js: js.code,
+          importMap: js.importMap,
+        });
       })
-    }).catch(reject);
+      .catch(reject);
   });
 }
 
-async function compileHtml(content: string, lang: string | undefined) {
+async function compileHtml(content: string, lang?: string) {
   const language = VUE_LANGUAGE_MAP.html[lang as keyof typeof VUE_LANGUAGE_MAP.html];
   const source = HTML_LANGUAGE_MAP[language as HtmlLanguages];
-  source && await loadParse(source);
+  source && (await loadParse(source));
   return await transformHtml(content, language);
 }
 
 async function compileJs(
   descriptor: SFCDescriptor,
   scopeId: string,
-  compileTemplateOptions: SFCTemplateCompileOptions | undefined,
+  compileTemplateOptions?: SFCTemplateCompileOptions,
 ) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
@@ -103,7 +107,7 @@ async function compileJs(
     imports: {
       ...IMPORT_MAP.VueSFC.imports,
       [scopeId]: renderUrl,
-    }
+    },
   };
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
@@ -125,7 +129,7 @@ async function compileJs(
 
 function compileCss(styles: SFCStyleBlock[]): Promise<string> {
   const parseCss = async (source: string, code: string, language: CssLanguages) => {
-    source && await loadParse(source);
+    source && (await loadParse(source));
     return await transformCss(code, language);
   };
   const css = styles.reduce((result: Promise<string>[], style) => {
@@ -146,7 +150,7 @@ function compileCss(styles: SFCStyleBlock[]): Promise<string> {
 async function transformSfc(
   descriptor: SFCDescriptor,
   scopeId: string,
-  compileTemplateOptions: SFCTemplateCompileOptions | undefined,
+  compileTemplateOptions?: SFCTemplateCompileOptions,
 ) {
   const { filename } = descriptor;
   const template = compileTemplateOptions ? compileTemplate(compileTemplateOptions) : null;
@@ -154,28 +158,29 @@ async function transformSfc(
     id: scopeId,
     templateOptions: compileTemplateOptions,
     sourceMap: true,
+    inlineTemplate: true,
   });
 
   if (template?.map) {
-    template.code = `${template.code}\n${(sourceMappingURL(template.map))}`;
+    template.code = `${template.code}\n${sourceMappingURL(template.map)}`;
   }
-
   if (scriptBlock.map) {
     const { lang, map, content } = scriptBlock;
     const language = VUE_LANGUAGE_MAP.js[lang as keyof typeof VUE_LANGUAGE_MAP.js];
     const code = await transformJs(content, language);
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }
-
   revokeBlobURL();
+  console.log(scriptBlock?.content);
   return {
     renderScript: `
-      import script from '${getBlobURL(scriptBlock.content, 'script')}';
+      import __sfc__ from '${getBlobURL(scriptBlock.content, 'script')}';
       import { render } from '${getBlobURL(template?.code ?? '', 'template')}';
-      script.render = render;
-      ${filename ? `script.__file = '${filename}'` : ''};
-      ${scopeId ? `script.__scopeId = '${scopeId}'` : ''};
-      export default script;
+
+      __sfc__.render = render;
+      __sfc__.__file = 'src/${filename}';
+      __sfc__.__scopeId = '${scopeId}';
+      export default __sfc__;
     `,
     imports: scriptBlock.imports ?? {},
   };
