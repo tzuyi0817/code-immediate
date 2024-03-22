@@ -1,3 +1,4 @@
+import { VERSION } from '@/config/template';
 import type { CreateHtmlParams } from '@/types/codeContent';
 
 export function createHtml({ html, css, js, cssResources, jsResources, importMap }: CreateHtmlParams) {
@@ -13,7 +14,7 @@ function createHead(params: Omit<CreateHtmlParams, 'js' | 'html'>) {
   }, '');
   const esmImport = importMap
     ? `
-    <script async src="lib/es-module-shims@1.8.3.js"></script>
+    <script async src="lib/es-module-shims@${VERSION.ES_MODULE_SHIMS}.js"></script>
     <script type="importmap">${JSON.stringify(importMap, null, '\t')}</script>
   `
     : '';

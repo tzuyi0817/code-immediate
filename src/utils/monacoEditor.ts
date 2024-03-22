@@ -10,10 +10,22 @@ import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker.js?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker.js?worker';
 import VueWorker from '@/workers/vue.worker.ts?worker';
 import { vueConfiguration } from '@/config/language-configuration/vue';
+import { VERSION } from '@/config/template';
 import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/config/grammar';
 
-const isTestMode = import.meta.env.MODE === 'test';
-const baseUrl = isTestMode ? 'http://localhost:3000/' : '';
+const IS_TEST_MODE = import.meta.env.MODE === 'test';
+const BASE_URL = IS_TEST_MODE ? 'http://localhost:3000/' : '';
+const TSCONFIG = {
+  compilerOptions: {
+    allowJs: true,
+    checkJs: true,
+    jsx: 'Preserve',
+    target: 'ESNext',
+    module: 'ESNext',
+    moduleResolution: 'Bundler',
+    allowImportingTsExtensions: true,
+  },
+};
 
 export interface CreateData {
   tsconfig: {
@@ -34,7 +46,7 @@ export async function initMonacoEditor() {
       return new EditorWorker();
     },
   };
-  await loadWASM(`${baseUrl}onigasm/onigasm.wasm`);
+  await loadWASM(`${BASE_URL}onigasm/onigasm.wasm`);
   const theme = await (await fetch('themes/themes.json')).json();
 
   editor.defineTheme('vs-code-theme-converted', theme);
@@ -60,8 +72,11 @@ function setupVueLanguage() {
   languages.register({ id: 'vue', extensions: ['.vue'] });
   languages.setLanguageConfiguration('vue', vueConfiguration);
   languages.onLanguage('vue', async () => {
-    if (isTestMode) return;
-    const worker = createWebWorker<LanguageService>('vue');
+    if (IS_TEST_MODE) return;
+    const worker = createWebWorker<LanguageService>('vue', {
+      ...TSCONFIG,
+      vueCompilerOptions: { target: VERSION.VUE },
+    });
     const languageId = ['vue'];
     const getSyncUris = () => [Uri.parse('file:///demo.vue')];
 
@@ -73,8 +88,8 @@ function setupVueLanguage() {
 
 function createWebWorker<T extends object>(
   language: string,
-  dependencies: Record<string, string> = {},
   tsconfig: Record<string, any> = {},
+  dependencies: Record<string, string> = {},
 ) {
   return editor.createWebWorker<T>({
     moduleId: `vs/language/${language}/${language}.worker`,
@@ -93,7 +108,7 @@ export function registry() {
 
       return {
         format: GRAMMAR_PLIST.includes(scopeName) ? 'plist' : 'json',
-        content: await (await fetch(`${baseUrl}grammars/${source}`)).text(),
+        content: await (await fetch(`${BASE_URL}grammars/${source}`)).text(),
       };
     },
   });

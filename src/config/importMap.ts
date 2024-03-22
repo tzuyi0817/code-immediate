@@ -1,8 +1,10 @@
+import { VERSION } from './template';
+
 export const IMPORT_MAP = {
   ES6: null,
   Vue: null,
   VueSFC: {
-    imports: { vue: './lib/vue@3.4.21.esm-browser.js' },
+    imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
   },
   React: null,
   Angular: null,

@@ -16,6 +16,15 @@ import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import type { CodeTemplate, CodeTemplateMap } from '@/types/codeContent';
 
+export const VERSION = {
+  REACT: '18.2.0',
+  VUE: '3.4.21',
+  ANGULAR: '1.8.3',
+  SOLID_JS: '1.7.7',
+  RXJS: '7.8.1',
+  ES_MODULE_SHIMS: '1.8.3',
+} as const;
+
 export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
   ES6: {
     HTML: {
@@ -50,7 +59,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
     JS: {
       language: 'JavaScript',
       content: VUE_JS,
-      resources: ['lib/vue@3.4.21.global.js'],
+      resources: [`lib/vue@${VERSION.VUE}.global.js`],
     },
     VUE: {
       language: 'Vue',
@@ -90,7 +99,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
     JS: {
       language: 'JavaScript',
       content: REACT_JS,
-      resources: ['lib/react@18.2.0.js', 'lib/react-dom@18.2.0.js', 'parses/babel.js'],
+      resources: [`lib/react@${VERSION.REACT}.js`, `lib/react-dom@${VERSION.REACT}.js`, 'parses/babel.js'],
     },
     VUE: {
       language: 'Vue',
@@ -110,7 +119,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
     JS: {
       language: 'JavaScript',
       content: ANGULAR_JS,
-      resources: ['lib/angular@1.8.3.js'],
+      resources: [`lib/angular@${VERSION.ANGULAR}.js`],
     },
     VUE: {
       language: 'Vue',
@@ -161,21 +170,21 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
 export const BUILT_IN_RESOURCES = new Set([
-  'lib/vue@3.4.21.global.js',
-  'lib/react@18.2.0.js',
-  'lib/react-dom@18.2.0.js',
+  `lib/vue@${VERSION.VUE}.global.js`,
+  `lib/react@${VERSION.REACT}.js`,
+  `lib/react-dom@${VERSION.REACT}.js`,
   'parses/babel.js',
-  'lib/angular@1.8.3.js',
+  `lib/angular@${VERSION.ANGULAR}.js`,
 ]);
 
 export const TEMPLATE_LIST = [
   { name: 'ES6', src: '/templateIcon/es6.png', version: '' },
-  { name: 'React', src: '/templateIcon/react.svg', version: 'v18.2.0' },
-  { name: 'Vue', src: '/templateIcon/vue.svg', version: 'v3.4.21' },
-  { name: 'VueSFC', src: '/templateIcon/vue.svg', version: 'v3.4.21' },
-  { name: 'Angular', src: '/templateIcon/angular.png', version: 'v1.8.3' },
-  { name: 'SolidJs', src: '/templateIcon/solid.png', version: 'v1.7.7' },
-  { name: 'RxJS', src: '/templateIcon/rxjs.png', version: 'v7.8.1' },
+  { name: 'React', src: '/templateIcon/react.svg', version: `v${VERSION.REACT}` },
+  { name: 'Vue', src: '/templateIcon/vue.svg', version: `v${VERSION.VUE}` },
+  { name: 'VueSFC', src: '/templateIcon/vue.svg', version: `v${VERSION.VUE}` },
+  { name: 'Angular', src: '/templateIcon/angular.png', version: `v${VERSION.ANGULAR}` },
+  { name: 'SolidJs', src: '/templateIcon/solid.png', version: `v${VERSION.SOLID_JS}` },
+  { name: 'RxJS', src: '/templateIcon/rxjs.png', version: `v${VERSION.RXJS}` },
 ] as const;
 
 export function initTemplate() {
