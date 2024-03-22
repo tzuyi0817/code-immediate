@@ -4,6 +4,7 @@ exports[`CodePreview component > preview the correct content 1`] = `
 <iframe
   class="h-full w-full"
   frameborder="0"
+  sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
   srcdoc="
     <!DOCTYPE html>
     <html lang="en">
