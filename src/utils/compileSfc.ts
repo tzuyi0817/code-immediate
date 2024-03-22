@@ -45,7 +45,7 @@ function parseSfc(content: string): Promise<CodeContent> {
     try {
       const { descriptor } = parse(content);
 
-      processDescriptor(descriptor).then(resolve);
+      processDescriptor(descriptor).then(resolve).catch(reject);
     } catch (error) {
       reject(error);
     }
@@ -56,7 +56,7 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
   const { styles, filename, slotted, template } = descriptor;
   const scopeId = `data-v-${Date.now().toString().slice(-6)}`;
   const isScoped = styles.some(style => style.scoped);
-  const compileTemplateOptions = template
+  const compileTemplateOptions: SFCTemplateCompileOptions | undefined = template
     ? {
         source: await compileHtml(template.content, template?.lang),
         filename,
@@ -71,11 +71,7 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
     : undefined;
 
   return new Promise((resolve, reject) => {
-    Promise.all([
-      compileCss(styles),
-      // @ts-ignore
-      compileJs(descriptor, scopeId, compileTemplateOptions),
-    ])
+    Promise.all([compileCss(styles), compileJs(descriptor, scopeId, compileTemplateOptions)])
       .then(([css, js]) => {
         resolve({
           html: '<div id="app"></div>',

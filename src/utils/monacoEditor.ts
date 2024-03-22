@@ -38,25 +38,25 @@ export async function initMonacoEditor() {
   const theme = await (await fetch('themes/themes.json')).json();
 
   editor.defineTheme('vs-code-theme-converted', theme);
-  setCustomLanguage();
+  setupCustomLanguage();
 }
 
-function setCustomLanguage() {
+function setupCustomLanguage() {
   languages.register({ id: 'haml', extensions: ['.haml'] });
   languages.register({ id: 'sass', extensions: ['.sass'] });
   languages.register({ id: 'stylus', extensions: ['.styl'] });
   languages.register({ id: 'postcss', extensions: ['.postcss'] });
   languages.register({ id: 'livescript', extensions: ['.mlx'] });
-  setVueLanguage();
+  setupVueLanguage();
 }
 
-export function setTestEnvironmentLanguage() {
+export function setupTestEnvironmentLanguage() {
   languages.register({ id: 'html' });
   languages.register({ id: 'markdown' });
-  setCustomLanguage();
+  setupCustomLanguage();
 }
 
-function setVueLanguage() {
+function setupVueLanguage() {
   languages.register({ id: 'vue', extensions: ['.vue'] });
   languages.setLanguageConfiguration('vue', vueConfiguration);
   languages.onLanguage('vue', async () => {

@@ -11,6 +11,16 @@ const srcdoc = ref('');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
+const sandboxAttribute = [
+  'allow-forms',
+  'allow-modals',
+  'allow-pointer-lock',
+  'allow-popups',
+  'allow-popups-to-escape-sandbox',
+  'allow-same-origin',
+  'allow-scripts',
+  'allow-top-navigation-by-user-activation',
+].join(' ');
 
 async function runCode() {
   const { setLoading } = useFlagStore();
@@ -89,6 +99,7 @@ onMounted(initLoadParseSource);
     <iframe
       ref="iframe"
       title="code preview"
+      :sandbox="sandboxAttribute"
       :class="['h-full w-full', { 'pointer-events-none': isStartDrag }]"
       :srcdoc="srcdoc"
       frameborder="0"

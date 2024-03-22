@@ -32,6 +32,7 @@
       },
       throwError: () => console.error(value),
     };
+    if (!typeMap[type]) return;
     typeMap[type]();
   });
 

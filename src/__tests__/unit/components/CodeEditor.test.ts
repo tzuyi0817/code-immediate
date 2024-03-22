@@ -4,12 +4,12 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { setTestEnvironmentLanguage } from '@/utils/monacoEditor';
+import { setupTestEnvironmentLanguage } from '@/utils/monacoEditor';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeEditor Component', async () => {
   registerFaIcons();
-  setTestEnvironmentLanguage();
+  setupTestEnvironmentLanguage();
 
   it('renders the editor', async () => {
     renderComponent(CodeEditor, { props: { model: 'HTML' } });

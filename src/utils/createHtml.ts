@@ -9,21 +9,23 @@ export function createHtml({ html, css, js, cssResources, jsResources, importMap
 function createHead(params: Omit<CreateHtmlParams, 'js' | 'html'>) {
   const { css, cssResources, jsResources, importMap } = params;
   const links = cssResources.reduce((html: string, resource: string) => {
-    return html + `<link href="${resource}" rel="stylesheet">\n`;
+    return `${html}<link href="${resource}" rel="stylesheet">\n`;
   }, '');
-  const esmImport = importMap ? `
-    <script async src="lib/es-module-shims@1.5.5.js"><\/script>
-    <script type="importmap">${JSON.stringify(importMap, null, '\t')}<\/script>
-  ` : '';
+  const esmImport = importMap
+    ? `
+    <script async src="lib/es-module-shims@1.8.3.js"></script>
+    <script type="importmap">${JSON.stringify(importMap, null, '\t')}</script>
+  `
+    : '';
   const scripts = jsResources.reduce((html: string, resource: string) => {
-    return html + `<script src="${resource}"><\/script>\n`;
+    return `${html}<script src="${resource}"></script>\n`;
   }, '');
 
   return `
-    <title>code Demo<\/title>
+    <title>code Demo</title>
     ${links}
-    <style type="text/css">${css}<\/style>
-    <script type="text/javascript" src="message/index.js"><\/script>
+    <style type="text/css">${css}</style>
+    <script type="text/javascript" src="message/index.js"></script>
     ${esmImport}
     ${scripts}
   `;
