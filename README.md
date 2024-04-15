@@ -4,6 +4,8 @@ This is a code online editing preview tool, similar to `codepen`.
 
 ![CI](https://github.com/tzuyi0817/code-immediate/actions/workflows/ci.yml/badge.svg)
 
+![image](./public/cover.png)
+
 ## Features
 
 [o] Built-in many frontend templates  
@@ -17,7 +19,7 @@ This is a code online editing preview tool, similar to `codepen`.
 [o] Support export `zip`  
 [o] Support embedded mode for easy use in documentation sites, making documentation examples easier  
 [o] Support sharing code URL to others to view  
-[x] Support multiple layouts to switch  
+[x] Support multiple layouts to switch
 
 ## Development
 
@@ -58,11 +60,11 @@ import moment from 'https://unpkg.com/moment?module';
 
 ## Support Languages
 
-Category | Language |
-:--- | :--- |
-HTML | Haml, Markdown, Pug |
-CSS | Less, SCSS, Sass, Stylus, PostCSS |
-JS | Babel, TypeScript, CoffeeScript, LiveScript |
+| Category | Language                                    |
+| :------- | :------------------------------------------ |
+| HTML     | Haml, Markdown, Pug                         |
+| CSS      | Less, SCSS, Sass, Stylus, PostCSS           |
+| JS       | Babel, TypeScript, CoffeeScript, LiveScript |
 
 ## Use Technology
 
