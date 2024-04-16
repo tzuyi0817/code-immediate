@@ -7,7 +7,8 @@ import toast from '@/utils/toast';
 import { loadParseSources } from '@/utils/loadParse';
 import type { CodeProject } from '@/types/codeContent';
 
-const emit = defineEmits(['update:isShowProjectsPop', 'openRemindPop']);
+const emit = defineEmits(['openRemindPop']);
+const isShowProjectsPop = defineModel<boolean>('isShowProjectsPop');
 const projects = ref<CodeProject[]>([]);
 const page = ref(1);
 const totalPage = ref(0);
@@ -59,7 +60,7 @@ function goPage(offset: number) {
 }
 
 function closePopup() {
-  emit('update:isShowProjectsPop', false);
+  isShowProjectsPop.value = false;
 }
 
 onMounted(getProjects);

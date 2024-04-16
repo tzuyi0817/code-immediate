@@ -9,7 +9,7 @@ import type { CdnItem } from '@/types/cdn';
 
 type SelectName = 'CSS' | 'JS';
 
-const emit = defineEmits(['update:isShowSettingsPop']);
+const isShowSettingsPop = defineModel<boolean>('isShowSettingsPop');
 const currentSelect = ref<SelectName>('CSS');
 const keyword = ref('');
 const cdnList = ref<CdnItem[]>([]);
@@ -89,7 +89,7 @@ function visitCdn(cdn: string) {
 }
 
 function closePopup() {
-  emit('update:isShowSettingsPop', false);
+  isShowSettingsPop.value = false;
 }
 
 watch(keyword, keywordHandler);

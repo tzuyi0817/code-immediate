@@ -7,14 +7,10 @@ import LanguageSelect from '@/components/LanguageSelect.vue';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import type { CodeModel } from '@/types/codeContent';
 
-interface Props {
-  isShowPreview: boolean;
-  currentAction: Exclude<CodeModel, 'VUE'>;
-}
+type Action = Exclude<CodeModel, 'VUE'>;
 
-const props = defineProps<Props>();
-const emit = defineEmits(['update:isShowPreview', 'update:currentAction']);
-
+const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
+const currentAction = defineModel<Action>('currentAction', { required: true });
 const { isSFC } = storeToRefs(useCodeContentStore());
 const languageMap = computed(() => {
   const map = {
@@ -22,8 +18,12 @@ const languageMap = computed(() => {
     CSS: CSS_LANGUAGE_MAP,
     JS: JS_LANGUAGE_MAP,
   } as const;
-  return map[props.currentAction];
+  return map[currentAction.value];
 });
+
+function updateAction(action: Action) {
+  currentAction.value = action;
+}
 </script>
 
 <template>
@@ -39,19 +39,19 @@ const languageMap = computed(() => {
       <template v-else>
         <button
           :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
-          @click="emit('update:currentAction', 'HTML')"
+          @click="updateAction('HTML')"
         >
           HTML
         </button>
         <button
           :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
-          @click="emit('update:currentAction', 'CSS')"
+          @click="updateAction('CSS')"
         >
           CSS
         </button>
         <button
           :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
-          @click="emit('update:currentAction', 'JS')"
+          @click="updateAction('JS')"
         >
           JS
         </button>
@@ -59,7 +59,7 @@ const languageMap = computed(() => {
 
       <button
         :class="['btn_select', { 'btn_select-active': isShowPreview }]"
-        @click="emit('update:isShowPreview', !isShowPreview)"
+        @click="isShowPreview = !isShowPreview"
       >
         Result
       </button>

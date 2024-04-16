@@ -4,7 +4,7 @@ import { useCodeContentStore } from '@/store';
 import { TEMPLATE_MAP, TEMPLATE_LIST } from '@/config/template';
 import type { CodeTemplate } from '@/types/codeContent';
 
-const emit = defineEmits(['update:isShowTemplatePop']);
+const isShowTemplatePop = defineModel<boolean>('isShowTemplatePop');
 const { codeTemplate } = storeToRefs(useCodeContentStore());
 
 function selectTemplate(name: CodeTemplate) {
@@ -19,7 +19,7 @@ function getImageSrc(path: string) {
 }
 
 function closePopup() {
-  emit('update:isShowTemplatePop', false);
+  isShowTemplatePop.value = false;
 }
 </script>
 

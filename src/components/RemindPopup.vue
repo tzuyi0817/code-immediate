@@ -10,7 +10,7 @@ interface Props {
 
 const isLoading = ref(false);
 const props = defineProps<Props>();
-const emit = defineEmits(['update:isShowRemindPop']);
+const isShowRemindPop = defineModel<boolean>('isShowRemindPop');
 
 async function confirm() {
   const { saveCode, doFun } = props;
@@ -29,7 +29,7 @@ function cancel() {
 }
 
 function closePopup() {
-  emit('update:isShowRemindPop', false);
+  isShowRemindPop.value = false;
 }
 </script>
 

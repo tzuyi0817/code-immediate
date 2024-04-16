@@ -5,7 +5,7 @@ import { loginUser } from '@/apis/user';
 import toast from '@/utils/toast';
 import LoadingButton from '@/components/LoadingButton.vue';
 
-const emit = defineEmits(['update:isShowLoginPop']);
+const isShowLoginPop = defineModel<boolean>('isShowLoginPop');
 const localAccount = localStorage.getItem('code_account');
 const account = ref(localAccount ?? '');
 const password = ref('');
@@ -77,7 +77,7 @@ function cleanForm() {
 }
 
 function closePopup() {
-  emit('update:isShowLoginPop', false);
+  isShowLoginPop.value = false;
 }
 </script>
 

@@ -5,13 +5,12 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeDrag from '@/components/CodeDrag.vue';
 
 interface Props {
-  isShowConsole: boolean;
   previewWidth: string;
 }
 type ReceiveData = { type: string; data: string }[];
 
 const props = defineProps<Props>();
-const emit = defineEmits(['update:isShowConsole']);
+const isShowConsole = defineModel<boolean>('isShowConsole', { required: true });
 const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref<HTMLDivElement | null>(null);
 const consoleHeight = ref('30vh');
@@ -52,7 +51,7 @@ async function wrapScrollToBottom() {
 
 watch([isCreateProject, codeId], clearConsole);
 watch(
-  () => props.isShowConsole,
+  () => isShowConsole,
   isShow => isShow && wrapScrollToBottom(),
 );
 onMounted(() => window.addEventListener('message', receiveMessage));
@@ -82,7 +81,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         </button>
         <button
           class="btn btn_base h-5"
-          @click="emit('update:isShowConsole', false)"
+          @click="isShowConsole = false"
         >
           X
         </button>
