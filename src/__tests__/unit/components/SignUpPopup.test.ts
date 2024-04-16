@@ -2,12 +2,14 @@ import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import SignUpPopup from '@/components/SignUpPopup.vue';
-import Toast from '@/components/Toast.vue';
+import Toast from '@/components/CodeToast.vue';
 import { useUserStore } from '@/store';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 
 describe('SignUpPopup component', () => {
+  const CONFIRM_PASSWORD_TEXT = 'Confirm Password';
+
   registerFaIcons();
 
   it('renders the correct content', () => {
@@ -16,7 +18,7 @@ describe('SignUpPopup component', () => {
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
     expect(screen.getByLabelText('Account')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
-    expect(screen.getByLabelText('Confirm Password')).toBeInTheDocument();
+    expect(screen.getByLabelText(CONFIRM_PASSWORD_TEXT)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
   });
 
@@ -25,7 +27,7 @@ describe('SignUpPopup component', () => {
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(screen.getByLabelText('Account')).toBeInvalid();
     expect(screen.getByLabelText('Password')).toBeInvalid();
-    expect(screen.getByLabelText('Confirm Password')).toBeInvalid();
+    expect(screen.getByLabelText(CONFIRM_PASSWORD_TEXT)).toBeInvalid();
   });
 
   it('password must be the same as confirmation password', async () => {
@@ -35,7 +37,7 @@ describe('SignUpPopup component', () => {
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), 'root');
     await userEvent.type(screen.getByLabelText('Password'), '123');
-    await userEvent.type(screen.getByLabelText('Confirm Password'), '1234');
+    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), '1234');
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(getByText('password and confirmPassword are not the same')).toBeInTheDocument();
   });
@@ -50,7 +52,7 @@ describe('SignUpPopup component', () => {
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), password);
-    await userEvent.type(screen.getByLabelText('Confirm Password'), password);
+    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), password);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.user).toEqual({ account });
     expect(window.localStorage.getItem('code_token')).toEqual(password);
@@ -68,7 +70,7 @@ describe('SignUpPopup component', () => {
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), password);
-    await userEvent.type(screen.getByLabelText('Confirm Password'), password);
+    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), password);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.isLogin).toBeFalsy();
     expect(getByText('account already exists')).toBeInTheDocument();

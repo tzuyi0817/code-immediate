@@ -13,40 +13,58 @@ interface Props {
   limit?: Record<'min' | 'max', number>;
 }
 
+interface DragTarget {
+  offset: number;
+  drag?: string;
+  type: 'A' | 'B';
+}
+
 const props = withDefaults(defineProps<Props>(), {
   unit: '%',
   limit: () => ({ min: 0, max: 100 }),
 });
 const emit = defineEmits(['update:dragA', 'update:dragB', 'update:dragC']);
-const cursor = computed(() => props.direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize');
-const layout = computed(() => props.direction === 'x' ? 'w-[18px]' : 'min-h-[18px]');
+const cursor = computed(() => (props.direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize'));
+const layout = computed(() => (props.direction === 'x' ? 'w-[18px]' : 'min-h-[18px]'));
 
-const {
-  startDrag,
-} = useDrag(dragCallback);
+const { startDrag } = useDrag(dragCallback);
 
 function dragCallback(offset: DragOffset) {
-  const { dragA, dragB, dragC, direction, unit, typeC, limit: { min, max } } = props;
+  const {
+    dragA,
+    dragB,
+    direction,
+    unit,
+    typeC,
+    limit: { min, max },
+  } = props;
   const offsetA = dragA ? calculateOffset(dragA, offset[direction]) : 50;
   const offsetB = dragB ? calculateOffset(dragB, -offset[direction]) : 50;
 
   if (offsetA <= 0 && typeC === 'previous') {
-    const offsetC = dragC ? calculateOffset(dragC, offset[direction]) : 0;
-    if (offsetC <= 0) return;
-    dragB && emit('update:dragB', `${offsetB}${unit}`);
-    return dragC && emit('update:dragC', `${offsetC}${unit}`);
+    multiDrag(offset[direction], { offset: offsetB, drag: dragB, type: 'B' });
+    return;
   }
   if (offsetB <= 0 && typeC === 'next') {
-    const offsetC = dragC ? calculateOffset(dragC, -offset[direction]) : 0;
-    if (offsetC <= 0) return;
-    dragA && emit('update:dragA', `${offsetA}${unit}`);
-    return dragC && emit('update:dragC', `${offsetC}${unit}`);
+    multiDrag(-offset[direction], { offset: offsetA, drag: dragA, type: 'A' });
   }
   if (offsetA <= min || offsetB <= min) return;
   if (offsetA >= max || offsetB >= max) return;
+  dragA && updateDrag('A', `${offsetA}${unit}`);
+  dragB && updateDrag('B', `${offsetB}${unit}`);
+}
 
-  dragA && emit('update:dragA', `${offsetA}${unit}`);
-  dragB && emit('update:dragB', `${offsetB}${unit}`);
+function multiDrag(offset: number, target: DragTarget) {
+  const { dragC, unit } = props;
+  const offsetC = dragC ? calculateOffset(dragC, offset) : 0;
+
+  if (offsetC <= 0) return;
+  target.drag && updateDrag(target.type, `${target.offset}${unit}`);
+  dragC && updateDrag('C', `${offsetC}${unit}`);
+}
+
+function updateDrag(type: 'A' | 'B' | 'C', value: string) {
+  emit(`update:drag${type}`, value);
 }
 
 function calculateOffset(drag: string, offset: number) {
@@ -69,8 +87,7 @@ function calculateOffset(drag: string, offset: number) {
 
 <style lang="postcss" scoped>
 .code_drag {
-  @apply 
-  select-none
+  @apply select-none
   z-[1]
   border-[1px]
   border-gray-700/60

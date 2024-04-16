@@ -4,8 +4,8 @@ import { useFlagStore } from '@/store';
 import LoadingButton from '@/components/LoadingButton.vue';
 
 interface Props {
-  saveCode: Function;
-  doFun: Function | null;
+  saveCode: () => void;
+  doFun: (() => void) | null;
 }
 
 const isLoading = ref(false);
@@ -34,10 +34,13 @@ function closePopup() {
 </script>
 
 <template>
-  <div class="remind_popup popup" @click.self="closePopup">
+  <div
+    class="remind_popup popup"
+    @click.self="closePopup"
+  >
     <div class="popup_header">
       <h3>Remind</h3>
-      <font-awesome-icon 
+      <font-awesome-icon
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
@@ -52,7 +55,12 @@ function closePopup() {
       </div>
 
       <div class="flex gap-2 justify-end">
-        <button class="btn btn_red text-sm" @click="cancel">cancel</button>
+        <button
+          class="btn btn_red text-sm"
+          @click="cancel"
+        >
+          cancel
+        </button>
         <loading-button
           class="btn btn_yellow w-auto"
           :isLoading="isLoading"

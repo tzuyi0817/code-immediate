@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import LoginPopup from '@/components/LoginPopup.vue';
-import Toast from '@/components/Toast.vue';
+import Toast from '@/components/CodeToast.vue';
 import { useUserStore } from '@/store';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import { mockLogout } from '@/__tests__/__mocks__/user';

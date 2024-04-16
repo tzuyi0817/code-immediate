@@ -15,7 +15,7 @@ async function flashTick() {
   isShowTick.value = false;
 }
 
-watch(isLoading, (isOpen) => !isOpen && flashTick());
+watch(isLoading, isOpen => !isOpen && flashTick());
 </script>
 
 <template>
@@ -23,7 +23,9 @@ watch(isLoading, (isOpen) => !isOpen && flashTick());
     <p
       v-if="isLoading || isShowTick"
       :class="['text-xs', { 'text-red-500': isError }]"
-    >{{ loadingType }}</p>
+    >
+      {{ loadingType }}
+    </p>
 
     <font-awesome-icon
       v-if="isLoading"

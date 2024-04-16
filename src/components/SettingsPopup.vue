@@ -3,7 +3,7 @@ import { ref, reactive, computed, watch, onMounted } from 'vue';
 import algoliasearch from 'algoliasearch';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
-import toast from "@/utils/toast";
+import toast from '@/utils/toast';
 import { BUILT_IN_RESOURCES } from '@/config/template';
 import type { CdnItem } from '@/types/cdn';
 
@@ -20,18 +20,19 @@ const cdnResources = reactive({
 });
 const { VITE_APPLICATION_ID = '', VITE_ADMIN_API_Key = '' } = import.meta.env;
 const client = algoliasearch(VITE_APPLICATION_ID, VITE_ADMIN_API_Key);
-const index = client.initIndex('code-immediate');
-const tabList: { name: SelectName, title: string, description: string }[] = [
+const clientIndex = client.initIndex('code-immediate');
+const tabList: { name: SelectName; title: string; description: string }[] = [
   {
     name: 'CSS',
     title: 'Add External Stylesheets',
-    description: "Any URL's added here will be added as <link>s in order, and before the CSS in the editor."
+    description: "Any URL's added here will be added as <link>s in order, and before the CSS in the editor.",
   },
   {
     name: 'JS',
     title: 'Add External Scripts',
-    description: "Any URL's added here will be added as <script>s in order, and run before the JavaScript in the editor.",
-  }
+    description:
+      "Any URL's added here will be added as <script>s in order, and run before the JavaScript in the editor.",
+  },
 ];
 
 const selectTabItem = computed(() => tabList.find(({ name }) => currentSelect.value === name));
@@ -61,16 +62,16 @@ function addCdn(cdn: string) {
   cdnList.value = [];
   if (resources.includes(cdn)) return;
   resources.push(cdn);
-};
+}
 
 function deleteCdn(index: number) {
   cdnResources[currentSelect.value].splice(index, 1);
 }
 
 function searchCdn(word: string) {
-  if (word === '') return cdnList.value = [];
+  if (word === '') return (cdnList.value = []);
   isSearch.value = true;
-  index
+  clientIndex
     .search(word)
     .then(({ hits }) => {
       cdnList.value = (hits as CdnItem[]).filter(({ fileType }) => fileType === currentSelect.value);
@@ -79,8 +80,7 @@ function searchCdn(word: string) {
     .catch(error => {
       isSearch.value = false;
       toast.showToast(error.message, 'error');
-      if (import.meta.env.MODE !== 'test')
-        throw new Error(error.message, { cause: error });
+      if (import.meta.env.MODE !== 'test') throw new Error(error.message, { cause: error });
     });
 }
 
@@ -94,32 +94,39 @@ function closePopup() {
 
 watch(keyword, keywordHandler);
 onMounted(() => {
-  const { codeContent: { CSS, JS } } = useCodeContentStore();
+  const {
+    codeContent: { CSS, JS },
+  } = useCodeContentStore();
   cdnResources.CSS = [...CSS.resources];
   cdnResources.JS = [...JS.resources];
 });
 </script>
 
 <template>
-  <div class="settings_popup popup" @click.self="closePopup">
+  <div
+    class="settings_popup popup"
+    @click.self="closePopup"
+  >
     <div class="popup_header">
-        <h3>CDN Settings</h3>
-        <font-awesome-icon 
-          icon="fa-solid fa-xmark"
-          title="fa-xmark"
-          class="cursor-pointer"
-          @click="closePopup"
-        />
+      <h3>CDN Settings</h3>
+      <font-awesome-icon
+        icon="fa-solid fa-xmark"
+        title="fa-xmark"
+        class="cursor-pointer"
+        @click="closePopup"
+      />
     </div>
 
     <div class="popup_content">
       <ul class="settings_popup_tab">
-        <li 
+        <li
           v-for="tab in tabList"
           :key="tab.name"
           :class="{ active: currentSelect === tab.name }"
           @click="changeSelect(tab.name)"
-        >{{ tab.name }}</li>
+        >
+          {{ tab.name }}
+        </li>
       </ul>
 
       <div class="settings_popup_content">
@@ -127,7 +134,12 @@ onMounted(() => {
         <section class="text-gray-500 mb-3">{{ selectTabItem?.description }}</section>
 
         <div class="relative">
-          <input type="text" v-model.trim="keyword" class="input px-9" placeholder="Search CDNjs resources" />
+          <input
+            type="text"
+            v-model.trim="keyword"
+            class="input px-9"
+            placeholder="Search CDNjs resources"
+          />
           <font-awesome-icon
             icon="fa-solid fa-magnifying-glass"
             title="fa-magnifying-glass"
@@ -147,7 +159,7 @@ onMounted(() => {
               @click="addCdn(cdn.latest)"
             >
               <p class="flex justify-between mb-1">
-                <span>{{ cdn.name }}</span> 
+                <span>{{ cdn.name }}</span>
                 <span>{{ cdn.version }}</span>
               </p>
               <section class="text-gray-500 text-xs">{{ cdn.description }}</section>
@@ -156,7 +168,11 @@ onMounted(() => {
         </div>
 
         <ul class="py-3">
-          <li v-for="(cdn, index) in cdnResources[currentSelect]" :key="cdn" class="flex items-center justify-between mb-2">
+          <li
+            v-for="(cdn, index) in cdnResources[currentSelect]"
+            :key="cdn"
+            class="flex items-center justify-between mb-2"
+          >
             <input
               type="text"
               class="input_cdn"
@@ -182,11 +198,21 @@ onMounted(() => {
             </div>
           </li>
 
-          <button class="btn btn_yellow" @click="addCdn('')">+ custom resource</button>
+          <button
+            class="btn btn_yellow"
+            @click="addCdn('')"
+          >
+            + custom resource
+          </button>
         </ul>
       </div>
 
-      <button class="btn btn_yellow float-right mt-4 text-sm" @click="setCdn">Confirm</button>
+      <button
+        class="btn btn_yellow float-right mt-4 text-sm"
+        @click="setCdn"
+      >
+        Confirm
+      </button>
     </div>
   </div>
 </template>
@@ -194,14 +220,12 @@ onMounted(() => {
 <style lang="postcss" scoped>
 .settings_popup {
   &_tab {
-    @apply
-    flex
+    @apply flex
     pt-3
     mb-3
     gap-1;
     li {
-      @apply
-      cursor-pointer
+      @apply cursor-pointer
       p-2
       min-w-[45px]
       transition-all
@@ -210,15 +234,13 @@ onMounted(() => {
       hover:bg-yellow-400
       hover:text-white;
       &.active {
-        @apply 
-        bg-yellow-400
+        @apply bg-yellow-400
         text-white;
       }
     }
   }
   &_content {
-    @apply
-    p-3
+    @apply p-3
     overflow-y-auto
     h-[calc(60vh-165px)]
     bg-black/5
@@ -228,8 +250,7 @@ onMounted(() => {
     shadow-lg;
   }
   &_icon {
-    @apply
-    cursor-pointer
+    @apply cursor-pointer
     text-gray-500
     hover:text-yellow-400/80;
   }

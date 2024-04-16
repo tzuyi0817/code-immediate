@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,8 +7,8 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/:id?',
-    name: 'Index',
-    component: () => import('@/pages/Index.vue')
+    name: 'Home',
+    component: () => import('@/pages/HomePage.vue'),
   },
 ];
 

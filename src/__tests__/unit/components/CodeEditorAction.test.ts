@@ -23,7 +23,7 @@ describe('CodeEditorAction Component', async () => {
     expect(screen.getByRole('button', { name: /js/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /result/i })).toBeInTheDocument();
     expect(screen.getByRole('combobox')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /fa\-angle\-down/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa-angle-down/i })).toBeInTheDocument();
   });
 
   it('change to sfc template', async () => {
@@ -56,6 +56,7 @@ describe('CodeEditorAction Component', async () => {
       },
     });
     const selectAction = container.firstChild?.firstChild;
+    const updateCurrentAction = 'update:currentAction';
 
     expect(selectAction).toMatchInlineSnapshot(`
       <div
@@ -67,35 +68,35 @@ describe('CodeEditorAction Component', async () => {
           class="btn_select btn_select-active"
           data-v-12668b5f=""
         >
-          HTML
+           HTML 
         </button>
         <button
           class="btn_select"
           data-v-12668b5f=""
         >
-          CSS
+           CSS 
         </button>
         <button
           class="btn_select"
           data-v-12668b5f=""
         >
-          JS
+           JS 
         </button>
         
         <button
           class="btn_select btn_select-active"
           data-v-12668b5f=""
         >
-          Result
+           Result 
         </button>
       </div>
     `);
     await userEvent.click(screen.getByRole('button', { name: /css/i }));
-    expect(emitted('update:currentAction')[0]).toEqual(['CSS']);
+    expect(emitted(updateCurrentAction)[0]).toEqual(['CSS']);
     await userEvent.click(screen.getByRole('button', { name: /js/i }));
-    expect(emitted('update:currentAction')[1]).toEqual(['JS']);
+    expect(emitted(updateCurrentAction)[1]).toEqual(['JS']);
     await userEvent.click(screen.getByRole('button', { name: /html/i }));
-    expect(emitted('update:currentAction')[2]).toEqual(['HTML']);
+    expect(emitted(updateCurrentAction)[2]).toEqual(['HTML']);
     await userEvent.click(screen.getByRole('button', { name: /result/i }));
     expect(emitted('update:isShowPreview')[0]).toEqual([false]);
   });

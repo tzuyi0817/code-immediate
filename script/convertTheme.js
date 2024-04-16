@@ -7,11 +7,8 @@ const __dirname = dirname(__filename);
 
 (function () {
   try {
-    convertThemeFromDir(
-      resolve(__dirname, './vscodeThemes'),
-      resolve(__dirname, '../public/themes')
-    );
+    convertThemeFromDir(resolve(__dirname, './vscodeThemes'), resolve(__dirname, '../public/themes'));
   } catch (error) {
     throw new Error(error);
   }
-})()
+})();

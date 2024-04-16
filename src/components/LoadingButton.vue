@@ -3,7 +3,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>

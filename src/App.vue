@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import InitLoading from '@/components/InitLoading.vue';
-import Toast from '@/components/Toast.vue';
+import CodeToast from '@/components/CodeToast.vue';
 </script>
 
 <template>
   <router-view />
   <init-loading />
-  <toast />
+  <code-toast />
 </template>
 
 <style></style>

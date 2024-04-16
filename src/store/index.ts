@@ -2,8 +2,4 @@ import useCodeContentStore from '@/store/modules/codeContent';
 import useFlagStore from '@/store/modules/flag';
 import useUserStore from '@/store/modules/user';
 
-export {
-  useCodeContentStore,
-  useFlagStore,
-  useUserStore,
-}
+export { useCodeContentStore, useFlagStore, useUserStore };

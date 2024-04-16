@@ -1,9 +1,11 @@
+export const esModel = 'type="module"';
+
 export const SCRIPT_TYPE_MAP = {
   ES6: '',
   Vue: '',
-  VueSFC: 'type="module"',
+  VueSFC: esModel,
   React: 'type="text/babel"',
   Angular: '',
-  SolidJs: 'type="module"',
-  RxJS: 'type="module"',
+  SolidJs: esModel,
+  RxJS: esModel,
 } as const;

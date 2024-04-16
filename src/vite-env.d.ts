@@ -6,19 +6,21 @@ declare module '*.vue' {
   export default component;
 }
 
+declare module 'monaco-editor/esm/vs/editor/editor.worker' {
+  export function initialize(callback: (ctx: any, createData: any) => any): void;
+}
+
 declare interface Window {
   Haml: any;
   showdown: any;
   pug: any;
   less: any;
-  Sass: any;
+  Sass: {
+    new (): any;
+  };
   stylus: any;
   Babel: any;
   CoffeeScript: any;
   prettier: any;
   prettierPlugins: any;
-}
-
-declare module 'monaco-editor/esm/vs/editor/editor.worker' {
-  export function initialize(callback: (ctx: any, createData: any) => any): void;
 }

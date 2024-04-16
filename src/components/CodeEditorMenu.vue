@@ -59,7 +59,6 @@ async function exportCode() {
   setLoading({ isOpen: true, type: 'Exporting zip' });
   await exportZip({ content, language }, codeTitle);
   setLoading({ isOpen: false, type: 'Export zip finished' });
-
 }
 
 function EmbedFile() {
@@ -73,7 +72,7 @@ function EmbedFile() {
   element.type = 'file';
   element.accept = `.${SUFFIX_MAP[language]}`;
   element.click();
-  element.addEventListener('change', async (event) => {
+  element.addEventListener('change', async event => {
     const code = await readFile(event).catch(() => toast.showToast('Embed file failed', 'error'));
 
     if (code) {
@@ -87,11 +86,21 @@ function EmbedFile() {
 
 <template>
   <div class="code_editor_menu">
-    <button class="btn btn_base h-[26px] w-8 rounded-sm" @click.stop="injectCodeMenu?.toggleMenu(model)">
-      <font-awesome-icon icon="fa-solid fa-angle-down" title="fa-angle-down" class="text-base" />
+    <button
+      class="btn btn_base h-[26px] w-8 rounded-sm"
+      @click.stop="injectCodeMenu?.toggleMenu(model)"
+    >
+      <font-awesome-icon
+        icon="fa-solid fa-angle-down"
+        title="fa-angle-down"
+        class="text-base"
+      />
     </button>
 
-    <ul v-if="injectCodeMenu?.isShowMenuMap[model]" class="code_editor_menu_content animate-popup">
+    <ul
+      v-if="injectCodeMenu?.isShowMenuMap[model]"
+      class="code_editor_menu_content animate-popup"
+    >
       <li @click="formatterCode">Format Code</li>
       <li @click="exportCode">Export Zip</li>
       <li @click="EmbedFile">Embed Local File</li>
@@ -103,8 +112,7 @@ function EmbedFile() {
 .code_editor_menu {
   @apply relative;
   &_content {
-    @apply
-    absolute
+    @apply absolute
     top-10
     right-0
     bg-white
@@ -114,8 +122,7 @@ function EmbedFile() {
     py-2
     z-[3];
     li {
-      @apply
-      px-3
+      @apply px-3
       py-1
       select-none
       whitespace-nowrap

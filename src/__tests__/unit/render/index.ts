@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import LoadingButton from '@/components/LoadingButton.vue';
 
 interface RenderComponentOptions extends RenderOptions {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   provide?: Record<any, any>;
 }
 
@@ -27,5 +28,5 @@ export function renderComponent(testComponent: Component, options?: RenderCompon
 }
 
 export function renderLoadingButton() {
-  return renderComponent(LoadingButton, { props: { isLoading: false }});
+  return renderComponent(LoadingButton, { props: { isLoading: false } });
 }

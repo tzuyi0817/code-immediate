@@ -14,11 +14,11 @@ const totalPage = ref(0);
 const isLoading = ref(false);
 const isDeleting = ref(false);
 const deleteId = ref('');
-const LazyIframe  = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
+const LazyIframe = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
 
 async function getProjects() {
   isLoading.value = true;
-  const { resultMap } = await getCodes(page.value).catch(() => isLoading.value = false);
+  const { resultMap } = await getCodes(page.value).catch(() => (isLoading.value = false));
   const { codeList, totalPage: total } = resultMap;
 
   projects.value = codeList;
@@ -46,7 +46,7 @@ async function deleteProject(id: string) {
   if (isDeleting.value) return;
   deleteId.value = id;
   isDeleting.value = true;
-  const { status, message } = await deleteCode(id).catch(() => isLoading.value = false);
+  const { status, message } = await deleteCode(id).catch(() => (isLoading.value = false));
   toast.showToast(message, status);
   isDeleting.value = false;
   getProjects();
@@ -66,10 +66,13 @@ onMounted(getProjects);
 </script>
 
 <template>
-  <div class="projects_popup popup" @click.self="closePopup">
+  <div
+    class="projects_popup popup"
+    @click.self="closePopup"
+  >
     <div class="popup_header max-w-5xl">
       <h3>Projects</h3>
-      <font-awesome-icon 
+      <font-awesome-icon
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
@@ -78,14 +81,24 @@ onMounted(getProjects);
     </div>
 
     <div class="popup_content max-w-5xl max-h-[65vh]">
-      <ul v-if="isLoading" class="projects_popup_list animate-pulse">
-        <li v-for="num in 6" :key="num" class="projects_popup_card bg-gray-300">
+      <ul
+        v-if="isLoading"
+        class="projects_popup_list animate-pulse"
+      >
+        <li
+          v-for="num in 6"
+          :key="num"
+          class="projects_popup_card bg-gray-300"
+        >
           <div class="h-[150px] bg-slate-200"></div>
           <p class="rounded mt-2 p-3 bg-slate-200"></p>
         </li>
       </ul>
 
-      <ul v-else class="projects_popup_list">
+      <ul
+        v-else
+        class="projects_popup_list"
+      >
         <li
           v-for="project in projects"
           :key="project.id"
@@ -127,7 +140,11 @@ onMounted(getProjects);
           :isLoading="isLoading"
           @click="goPage(-1)"
         >
-          <font-awesome-icon icon="fa-solid fa-arrow-left" class="mr-2" /> Prev
+          <font-awesome-icon
+            icon="fa-solid fa-arrow-left"
+            class="mr-2"
+          />
+          Prev
         </loading-button>
         <loading-button
           v-show="page < totalPage"
@@ -135,7 +152,11 @@ onMounted(getProjects);
           :isLoading="isLoading"
           @click="goPage(1)"
         >
-          Next <font-awesome-icon icon="fa-solid fa-arrow-right" class="ml-2" />
+          Next
+          <font-awesome-icon
+            icon="fa-solid fa-arrow-right"
+            class="ml-2"
+          />
         </loading-button>
       </div>
     </div>
@@ -145,8 +166,7 @@ onMounted(getProjects);
 <style lang="postcss" scoped>
 .projects_popup {
   &_list {
-    @apply
-    grid
+    @apply grid
     grid-cols-1
     lg:grid-cols-3
     overflow-y-auto
@@ -159,8 +179,7 @@ onMounted(getProjects);
     px-2;
   }
   &_card {
-    @apply
-    rounded
+    @apply rounded
     border-[1px]
     border-transparent
     text-center
@@ -177,7 +196,7 @@ onMounted(getProjects);
     hover:border-gray-300
     hover:shadow-lg
     hover:text-black/70
-    hover:scale-[103%]
+    hover:scale-[103%];
   }
 }
 </style>

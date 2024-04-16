@@ -1,4 +1,4 @@
-import { ref, nextTick } from 'vue'; 
+import { ref, nextTick } from 'vue';
 import { screen, fireEvent, waitFor } from '@testing-library/vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
@@ -8,24 +8,26 @@ import { loadedParseMap } from '@/utils/loadParse';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodePreview component', () => {
+  const codePreviewText = 'code preview';
+
   registerFaIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(CodePreview, ({ provide: { iframe: ref(null) } }));
-    expect(screen.getByTitle('code preview')).toBeInTheDocument();
+    renderComponent(CodePreview, { provide: { iframe: ref(null) } });
+    expect(screen.getByTitle(codePreviewText)).toBeInTheDocument();
   });
 
   it('preview the correct content', async () => {
     const codeContentStore = useCodeContentStore();
 
     renderComponent(CodeLoading);
-    renderComponent(CodePreview, ({ provide: { iframe: ref(null) } }));
+    renderComponent(CodePreview, { provide: { iframe: ref(null) } });
     await nextTick();
     codeContentStore.setCodeContent({ type: 'HTML', code: '<h1>Hello World!<h1>' });
-    fireEvent.load(screen.getByTitle('code preview'));
+    fireEvent.load(screen.getByTitle(codePreviewText));
     await waitFor(() => {
       expect(screen.getByText('Process code finished')).toBeInTheDocument();
-      expect(screen.getByTitle('code preview')).toMatchSnapshot();
+      expect(screen.getByTitle(codePreviewText)).toMatchSnapshot();
     });
   });
 
@@ -35,7 +37,7 @@ describe('CodePreview component', () => {
     loadedParseMap.set('markdown', true);
     codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
     renderComponent(CodeLoading);
-    renderComponent(CodePreview, ({ provide: { iframe: ref(null) } }));
+    renderComponent(CodePreview, { provide: { iframe: ref(null) } });
     expect(await screen.findByText('Process code error')).toBeInTheDocument();
     loadedParseMap.delete('markdown');
   });

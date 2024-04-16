@@ -1,6 +1,7 @@
-import { isArray, isObject } from "@/utils/checkType";
+import { isArray, isObject } from '@/utils/checkType';
 
-export function debounce(fun: Function, delay = 500) {
+export function debounce(fun: unknown, delay = 500) {
+  if (typeof fun !== 'function') throw new Error('The first argument must be a function');
   let timer: NodeJS.Timeout | null = null;
 
   return function (this: unknown, ...args: unknown[]) {
@@ -9,10 +10,11 @@ export function debounce(fun: Function, delay = 500) {
       fun.apply(this, args);
       timer = null;
     }, delay);
-  }
+  };
 }
 
-export function throttle(fun: Function, delay = 500) {
+export function throttle(fun: unknown, delay = 500) {
+  if (typeof fun !== 'function') throw new Error('The first argument must be a function');
   let timeStamp = 0;
 
   return function (this: unknown, ...args: unknown[]) {
@@ -20,14 +22,14 @@ export function throttle(fun: Function, delay = 500) {
     if (now - timeStamp <= delay) return;
     fun.apply(this, args);
     timeStamp = now;
-  }
+  };
 }
 
 export function sleep(delay = 500) {
   return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-export function deepClone<T extends Record<any, any>>(obj: T, hash = new WeakMap()): T {
+export function deepClone<T extends object>(obj: T, hash = new WeakMap()): T {
   if (obj instanceof Date || obj instanceof RegExp) return obj;
   if (hash.has(obj)) return hash.get(obj);
 

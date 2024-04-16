@@ -2,7 +2,7 @@ import { waitFor, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import ProjectsPopup from '@/components/ProjectsPopup.vue';
-import Toast from '@/components/Toast.vue';
+import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 import { renderComponent } from '@/__tests__/unit/render';
@@ -13,14 +13,14 @@ describe('ProjectsPopup Component', () => {
   it('renders the correct content', async () => {
     renderComponent(ProjectsPopup);
     expect(screen.getByRole('heading', { name: /projects/i })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /fa\-xmark/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /fa-xmark/i })).toBeInTheDocument();
     expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
     expect(screen.getByText(/gsap timeline/i)).toBeInTheDocument();
     expect(screen.getByText('Gsap ScrollTrigger')).toBeInTheDocument();
     expect(screen.getByText(/gsap scrolltrigger multiple/i)).toBeInTheDocument();
     expect(screen.getByText(/vanilla tilt/i)).toBeInTheDocument();
     expect(screen.getByText(/pdf sign/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('img', { name: /fa\-trash/i })).toHaveLength(6);
+    expect(screen.getAllByRole('img', { name: /fa-trash/i })).toHaveLength(6);
     expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
   });
 
@@ -63,7 +63,7 @@ describe('ProjectsPopup Component', () => {
     const li = (await screen.findByText(projectName)).closest('li');
 
     if (!li) return;
-    const trashSvg = within(li).getByRole('img', { name: /fa\-trash/i });
+    const trashSvg = within(li).getByRole('img', { name: /fa-trash/i });
 
     expect(trashSvg).toBeInTheDocument();
     await userEvent.click(trashSvg);
@@ -75,7 +75,7 @@ describe('ProjectsPopup Component', () => {
     /* go next page **/
     await userEvent.click(await screen.findByRole('button', { name: /next/i }));
     expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /fa\-trash/i })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: /fa-trash/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /prev/i })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /next/i })).not.toBeInTheDocument();
     /* go previous page **/

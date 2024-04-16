@@ -25,12 +25,7 @@ const resizeObserver = new ResizeObserver(entries => {
   });
 });
 
-const {
-  monacoEditor,
-  createEditor,
-  updateEditorModel,
-  updateEditorValue,
-} = useMonacoEditor();
+const { monacoEditor, createEditor, updateEditorModel, updateEditorValue } = useMonacoEditor();
 
 function initEditor() {
   createEditor(codeEditor.value, props.model);
@@ -38,12 +33,12 @@ function initEditor() {
   resizeObserver.observe(codeEditor.value.parentNode);
 }
 
-watch([language, codeTemplate], ([language]) => {
-  updateEditorModel(content.value, language);
+watch([language, codeTemplate], ([lang]) => {
+  updateEditorModel(content.value, lang);
 });
 
-watch(isFormatter, (isFormatter) => {
-  if (!isFormatter) return;
+watch(isFormatter, isFormat => {
+  if (!isFormat) return;
   const { setLoading, setFormatter } = useFlagStore();
   updateEditorValue(content.value);
   setLoading({ isOpen: false, type: 'Code formatter finished' });
@@ -60,8 +55,8 @@ watch([isCreateProject, isCodeLoading], async ([isCreate, isLoading]) => {
   setCreateProjectFlag(false);
 });
 
-watch(isEmbed, async (isEmbed) => {
-  if (!isEmbed) return;
+watch(isEmbed, async isEmb => {
+  if (!isEmb) return;
   const { setEmbedFlag } = useFlagStore();
   updateEditorValue(content.value);
   setEmbedFlag({ model: props.model, isEmbed: false });
@@ -75,10 +70,17 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="code_editor">
-    <div ref="codeEditor" title="codeEditor" class="w-full h-full"></div>
-    <div v-if="isCodeLoading" class="code_editor_loading">
+    <div
+      ref="codeEditor"
+      title="codeEditor"
+      class="w-full h-full"
+    ></div>
+    <div
+      v-if="isCodeLoading"
+      class="code_editor_loading"
+    >
       <font-awesome-icon
-        icon="fa-solid fa-spinner" 
+        icon="fa-solid fa-spinner"
         class="animate-spin text-yellow-400 text-2xl"
       />
     </div>
@@ -87,8 +89,7 @@ onBeforeUnmount(() => {
 
 <style lang="postcss">
 .code_editor {
-  @apply
-  relative
+  @apply relative
   w-full
   bg-[#1e1e1e]
   border-b-2
@@ -98,8 +99,7 @@ onBeforeUnmount(() => {
     @apply hidden;
   }
   &_loading {
-    @apply
-    absolute
+    @apply absolute
     top-0
     left-0
     w-full

@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 import { deepClone } from '@/utils/common';
 import type { User } from '@/types/user';
 
@@ -9,7 +9,7 @@ const defaultState = {
 export default defineStore('code_immediate_user', {
   state: () => deepClone(defaultState),
   getters: {
-    isLogin: (state) => {
+    isLogin: state => {
       return Object.hasOwn(state.user, 'account');
     },
   },
@@ -20,8 +20,6 @@ export default defineStore('code_immediate_user', {
   },
   persist: {
     storage: localStorage,
-    paths: [
-      'user',
-    ],
+    paths: ['user'],
   },
 });

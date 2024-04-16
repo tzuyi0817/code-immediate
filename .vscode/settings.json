@@ -27,6 +27,7 @@
     "postcss",
     "onigasm",
     "Delivr",
-    "importmap"
+    "importmap",
+    "sonarjs"
   ]
 }

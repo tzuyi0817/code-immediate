@@ -1,6 +1,6 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
-import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
+import { SCRIPT_TYPE_MAP, esModel } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
 import type {
@@ -11,9 +11,10 @@ import type {
   CssLanguages,
   JsLanguages,
 } from '@/types/codeContent';
+import type { Sass, Showdown } from '@/types/language';
 
-let sass: any = null;
-let showdown: any = null;
+let sass: Sass | null = null;
+let showdown: Showdown | null = null;
 
 export function compile(params: CompileParams): Promise<CodeContent> {
   const { html, css, js, codeTemplate } = params;
@@ -25,7 +26,7 @@ export function compile(params: CompileParams): Promise<CodeContent> {
     Promise.all([htmlPromise, cssPromise, jsPromise])
       .then(([htmlCode, cssCode, jsCode]) => {
         const scriptType = SCRIPT_TYPE_MAP[codeTemplate] ?? '';
-        const isESM = scriptType === 'type="module"';
+        const isESM = scriptType === esModel;
         const { code, scripts = '' } = parseImport(jsCode, isESM);
 
         resolve({
@@ -46,7 +47,7 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
     },
     Markdown() {
       if (!showdown) showdown = new self.showdown.Converter();
-      return showdown.makeHtml(htmlContent);
+      return showdown?.makeHtml(htmlContent);
     },
     Slim() {},
     Pug() {
@@ -124,7 +125,7 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
 function compileScss(cssContent: string, indentedSyntax = false): Promise<string> {
   return new Promise(resolve => {
     if (!sass) sass = new self.Sass();
-    sass.compile(cssContent, { indentedSyntax }, ({ text }: { text: string }) => resolve(text));
+    sass?.compile(cssContent, { indentedSyntax }, ({ text }: { text: string }) => resolve(text));
   });
 }
 

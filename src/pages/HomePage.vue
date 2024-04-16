@@ -11,11 +11,7 @@ import CodeEditorTab from '@/components/CodeEditorTab.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
-import {
-  HTML_LANGUAGE_MAP,
-  CSS_LANGUAGE_MAP,
-  JS_LANGUAGE_MAP,
-} from '@/config/language';
+import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
@@ -53,9 +49,9 @@ function closeInitLoading() {
   setInitLoading(false);
 }
 
-watch(codeId, (id) => router.push({ params: { id } }));
+watch(codeId, id => router.push({ params: { id } }));
 getCode(route.params.id as string);
-useCodeContentStore().setCodeId(route.params.id as string ?? 0);
+useCodeContentStore().setCodeId((route.params.id as string) ?? 0);
 onMounted(closeInitLoading);
 </script>
 
@@ -63,27 +59,30 @@ onMounted(closeInitLoading);
   <code-header />
 
   <div :class="{ 'lg:flex': isSFC }">
-    <div :class="[
-      'code_wrap bg-black',
-      isSFC ? `${wrapHeight} lg:h-[calc(100vh-88px)]` : `${wrapHeight} dragHeight`,
-    ]">
+    <div :class="['code_wrap bg-black', isSFC ? `${wrapHeight} lg:h-[calc(100vh-88px)]` : `${wrapHeight} dragHeight`]">
       <code-editor-action
         v-model:isShowPreview="isShowPreview"
         v-model:currentAction="currentAction"
       />
 
-      <div v-show="!isSFC" class="flex h-full lg:h-[calc(100%-18px)] overflow-hidden">
+      <div
+        v-show="!isSFC"
+        class="flex h-full lg:h-[calc(100%-18px)] overflow-hidden"
+      >
         <div class="code_wrap_hidden w-[18px]"></div>
-        <div 
-          :class="['code_wrap_html', { 'code_wrap_hidden': currentAction !== 'HTML' }]" 
+        <div
+          :class="['code_wrap_html', { code_wrap_hidden: currentAction !== 'HTML' }]"
           @click="toggleMenu('HTML', false)"
         >
           <code-editor-tab
             :languageMap="HTML_LANGUAGE_MAP"
-            model="HTML" 
+            model="HTML"
             :width="offsetHtmlWrap"
           />
-          <code-editor class="h-[calc(100%-40px)]" model="HTML" />
+          <code-editor
+            class="h-[calc(100%-40px)]"
+            model="HTML"
+          />
         </div>
 
         <code-drag
@@ -96,7 +95,7 @@ onMounted(closeInitLoading);
         />
 
         <div
-          :class="['code_wrap_css', { 'code_wrap_hidden': currentAction !== 'CSS' }]"
+          :class="['code_wrap_css', { code_wrap_hidden: currentAction !== 'CSS' }]"
           @click="toggleMenu('CSS', false)"
         >
           <code-editor-tab
@@ -104,7 +103,10 @@ onMounted(closeInitLoading);
             model="CSS"
             :width="offsetCssWrap"
           />
-          <code-editor class="h-[calc(100%-40px)]" model="CSS" />
+          <code-editor
+            class="h-[calc(100%-40px)]"
+            model="CSS"
+          />
         </div>
 
         <code-drag
@@ -117,7 +119,7 @@ onMounted(closeInitLoading);
         />
 
         <div
-          :class="['code_wrap_js', { 'code_wrap_hidden': currentAction !== 'JS' }]"
+          :class="['code_wrap_js', { code_wrap_hidden: currentAction !== 'JS' }]"
           @click="toggleMenu('JS', false)"
         >
           <code-editor-tab
@@ -125,7 +127,10 @@ onMounted(closeInitLoading);
             model="JS"
             :width="offsetJsWrap"
           />
-          <code-editor class="h-[calc(100%-40px)]" model="JS" />
+          <code-editor
+            class="h-[calc(100%-40px)]"
+            model="JS"
+          />
         </div>
       </div>
 
@@ -139,10 +144,17 @@ onMounted(closeInitLoading);
         :limit="{ min: 20, max: 80 }"
       />
 
-      <div v-show="isSFC" @click="toggleMenu('VUE', false)" class="h-full flex">
+      <div
+        v-show="isSFC"
+        @click="toggleMenu('VUE', false)"
+        class="h-full flex"
+      >
         <div class="code_wrap_vue flex-1">
           <code-editor-tab model="VUE" />
-          <code-editor class="h-[calc(100%-40px)]" model="VUE" />
+          <code-editor
+            class="h-[calc(100%-40px)]"
+            model="VUE"
+          />
         </div>
         <code-drag
           class="code_wrap_hidden h-full"
@@ -157,11 +169,7 @@ onMounted(closeInitLoading);
 
     <code-preview
       v-show="isShowPreview"
-      :class="[
-        'w-full',
-        'h-[calc(60vh-88px)]',
-        isSFC ? 'lg:h-[calc(100vh-88px)] preview_width' : 'preview_height'
-      ]"
+      :class="['w-full', 'h-[calc(60vh-88px)]', isSFC ? 'lg:h-[calc(100vh-88px)] preview_width' : 'preview_height']"
     />
   </div>
   <code-footer :previewWidth="previewWidth" />

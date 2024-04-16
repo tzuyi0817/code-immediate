@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import registerFaIcons from '@/utils/registerFaIcons';
 import CodeFooter from '@/components/CodeFooter.vue';
-import Toast from '@/components/Toast.vue';
+import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore } from '@/store';
 import { renderComponent } from '@/__tests__/unit/render';
 
@@ -15,7 +15,7 @@ describe('CodeFooter Component', () => {
       props: { previewWidth: '33.3vw' },
     });
     expect(screen.getByRole('button', { name: /console/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /github\-link/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /github-link/i })).toBeInTheDocument();
   });
 
   it('share button render and interact', async () => {
@@ -35,14 +35,14 @@ describe('CodeFooter Component', () => {
         writeText: mockedWriteText,
       },
     });
-    expect(screen.getByRole('img', { name: /fa\-share/i })).toBeInTheDocument();
-    await userEvent.click(screen.getByRole('img', { name: /fa\-share/i }));
+    expect(screen.getByRole('img', { name: /fa-share/i })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('img', { name: /fa-share/i }));
     expect(mockedWriteText).toHaveBeenCalledTimes(1);
     expect(mockedWriteText).toHaveBeenCalledWith(location.href);
     expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
     /* document.execCommand **/
     document.execCommand = mockedWriteText;
-    await userEvent.click(screen.getByRole('img', { name: /fa\-share/i }));
+    await userEvent.click(screen.getByRole('img', { name: /fa-share/i }));
     expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
     vi.resetAllMocks();
   });
@@ -52,7 +52,7 @@ describe('CodeFooter Component', () => {
       provide: { iframe: null },
       props: { previewWidth: '33.3vw' },
     });
-    expect(screen.getByRole('link', { name: /github\-link/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /github-link/i })).toHaveAttribute(
       'href',
       'https://github.com/tzuyi0817/code-immediate',
     );

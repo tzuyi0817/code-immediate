@@ -20,7 +20,7 @@ describe('LanguageSelect component', () => {
       props: { languageMap, model: 'HTML' },
     });
     expect(screen.getByRole('combobox')).toBeInTheDocument();
-    expect((<HTMLSelectElement>screen.getByRole('combobox')).value).toEqual(languages[0])
+    expect((<HTMLSelectElement>screen.getByRole('combobox')).value).toEqual(languages[0]);
     expect(screen.getByText(languages[0])).toBeInTheDocument();
   });
 

@@ -21,7 +21,7 @@ const isShowLoginPop = ref(false);
 const isShowSignUpPop = ref(false);
 const isShowProjectsPop = ref(false);
 const isShowRemindPop = ref(false);
-const doFun = ref<Function | null>(null);
+const doFun = ref<(() => void) | null>(null);
 const SettingsPopup = defineAsyncComponent(() => import('@/components/SettingsPopup.vue'));
 const TemplatePopup = defineAsyncComponent(() => import('@/components/TemplatePopup.vue'));
 const LoginPopup = defineAsyncComponent(() => import('@/components/LoginPopup.vue'));
@@ -93,7 +93,7 @@ function newProject() {
   title.value = DEFAULT_TITLE;
 }
 
-function openRemindPop(fun: Function) {
+function openRemindPop(fun: () => void) {
   doFun.value = fun;
   isShowRemindPop.value = true;
 }

@@ -51,10 +51,10 @@ function loginGithub() {
     const searchParams = new URLSearchParams(search);
     const { setUser } = useUserStore();
     const token = searchParams.get('token') ?? '';
-    const account = searchParams.get('account') ?? '';
+    const githubAccount = searchParams.get('account') ?? '';
 
     closeAuthWindow();
-    setUser({ account });
+    setUser({ account: githubAccount });
     localStorage.setItem('code_token', token);
     toast.showToast('login success', 'success');
     closePopup();

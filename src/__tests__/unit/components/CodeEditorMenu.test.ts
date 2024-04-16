@@ -7,6 +7,8 @@ import { sleep } from '@/utils/common';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeEditorMenu Component', async () => {
+  const formatText = 'Format Code';
+
   registerFaIcons();
   vi.mock('@/utils/exportZip', () => ({ default: vi.fn() }));
 
@@ -18,12 +20,12 @@ describe('CodeEditorMenu Component', async () => {
           isShowMenuMap: { HTML: false, CSS: false, JS: false, VUE: false },
           toggleMenu: () => {},
         },
-      }
+      },
     });
-    expect(screen.getByRole('button', { name: /fa\-angle\-down/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa-angle-down/i })).toBeInTheDocument();
   });
 
-  it('show menu', async () => { 
+  it('show menu', async () => {
     const toggleMenu = vi.fn();
 
     renderComponent(CodeEditorMenu, {
@@ -35,9 +37,9 @@ describe('CodeEditorMenu Component', async () => {
         },
       },
     });
-    await userEvent.click(screen.getByRole('button', { name: /fa\-angle\-down/i }));
+    await userEvent.click(screen.getByRole('button', { name: /fa-angle-down/i }));
     expect(toggleMenu).toHaveBeenCalled();
-    expect(screen.getByText('Format Code')).toBeInTheDocument();
+    expect(screen.getByText(formatText)).toBeInTheDocument();
     expect(screen.getByText('Export Zip')).toBeInTheDocument();
     expect(screen.getByText('Embed Local File')).toBeInTheDocument();
   });
@@ -58,7 +60,7 @@ describe('CodeEditorMenu Component', async () => {
       window.prettier = {
         format: vi.fn(() => 'Hello World!'),
       };
-      await userEvent.click(screen.getByText('Format Code'));
+      await userEvent.click(screen.getByText(formatText));
       expect(toggleMenu).toHaveBeenCalled();
       expect(useCodeContentStore().codeContent.HTML.content).toBe('Hello World!');
       window.prettier = void 0;
@@ -74,7 +76,7 @@ describe('CodeEditorMenu Component', async () => {
           },
         },
       });
-      await userEvent.click(screen.getByText('Format Code'));
+      await userEvent.click(screen.getByText(formatText));
       await sleep();
       expect(useFlagStore().loadingType).toBe('Code formatter error');
     });
@@ -89,7 +91,7 @@ describe('CodeEditorMenu Component', async () => {
           },
         },
       });
-      await userEvent.click(screen.getByText('Format Code'));
+      await userEvent.click(screen.getByText(formatText));
       await sleep();
       expect(useFlagStore().loadingType).toBe("This syntax isn't supported error");
     });
@@ -127,5 +129,5 @@ describe('CodeEditorMenu Component', async () => {
     });
     await userEvent.click(screen.getByText('Embed Local File'));
     expect(toggleMenu).toHaveBeenCalled();
-  })
+  });
 });

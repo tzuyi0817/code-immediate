@@ -14,7 +14,7 @@ export function createHtml({ html, css, js, cssResources, jsResources, importMap
 
 function createLinkHtml(cssResources: CreateHtmlParams['cssResources']) {
   return cssResources.reduce((html: string, resource: string) => {
-    return `${html}<link href="${resource}" rel="stylesheet">\n`;
+    return `${html}<link href="${resource}" rel="stylesheet">\n\t`;
   }, '');
 }
 
@@ -28,6 +28,6 @@ function createImportMapHtml(importMap: CreateHtmlParams['importMap']) {
 
 function createScriptHtml(jsResources: CreateHtmlParams['jsResources']) {
   return jsResources.reduce((html: string, resource: string) => {
-    return `${html}<script src="${resource}"></script>\n`;
+    return `${html}<script src="${resource}"></script>\n\t`;
   }, '');
 }

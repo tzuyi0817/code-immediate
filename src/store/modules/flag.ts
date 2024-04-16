@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 import type { CodeModel } from '@/types/codeContent';
 
 const defaultState = {
@@ -26,7 +26,7 @@ const defaultState = {
 export default defineStore('code_immediate_flag', {
   state: () => ({ ...defaultState }),
   getters: {
-    isFormatter: (state) => {
+    isFormatter: state => {
       const { HTML, CSS, JS, VUE } = state.formatterMap;
       return HTML || CSS || JS || VUE;
     },
@@ -35,11 +35,11 @@ export default defineStore('code_immediate_flag', {
     setInitLoading(isLoading: boolean) {
       this.isInitLoading = isLoading;
     },
-    setLoading({ type, isOpen }: { type: string, isOpen: boolean }) {
+    setLoading({ type, isOpen }: { type: string; isOpen: boolean }) {
       this.loadingType = type;
       this.isLoading = isOpen;
     },
-    setFormatter({ model, isFormatter }: { model: CodeModel, isFormatter: boolean }) {
+    setFormatter({ model, isFormatter }: { model: CodeModel; isFormatter: boolean }) {
       this.formatterMap[model] = isFormatter;
     },
     setDragFlag(isStartDrag: boolean) {
@@ -54,8 +54,8 @@ export default defineStore('code_immediate_flag', {
     setChangeCodeFlag(isChange: boolean) {
       this.isChangeCode = isChange;
     },
-    setEmbedFlag({ model, isEmbed }: { model: CodeModel, isEmbed: boolean }) {
+    setEmbedFlag({ model, isEmbed }: { model: CodeModel; isEmbed: boolean }) {
       this.EmbedMap[model] = isEmbed;
-    }
+    },
   },
 });

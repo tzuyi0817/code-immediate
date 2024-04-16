@@ -13,7 +13,7 @@ describe('TemplatePopup component', () => {
     renderComponent(TemplatePopup);
     expect(screen.getByRole('heading', { name: /templates/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
-    
+
     for (const { name, src, version } of TEMPLATE_LIST) {
       expect(screen.getByText(name)).toBeInTheDocument();
       expect(screen.getByAltText(name)).toHaveAttribute('src', `file://${src}`);

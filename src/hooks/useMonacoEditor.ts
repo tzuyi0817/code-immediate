@@ -33,7 +33,8 @@ export default function useMonacoEditor() {
     highlightSemantic(monacoEditor.editor);
     monacoEditor.editor.onDidChangeModelContent(
       debounce(() => {
-        const code = monacoEditor.editor?.getValue()!;
+        if (!monacoEditor.editor) return;
+        const code = monacoEditor.editor.getValue()!;
         const type = model;
 
         setCodeContent({ type, code });
@@ -49,6 +50,7 @@ export default function useMonacoEditor() {
   }
 
   function highlightSemantic(editor: monaco.editor.IStandaloneCodeEditor) {
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const theme = (editor as any)._themeService._theme;
 
     theme.getTokenStyleMetadata = (type: string, modifiers: string[]) => {

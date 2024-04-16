@@ -88,7 +88,7 @@ function setupVueLanguage() {
 
 function createWebWorker<T extends object>(
   language: string,
-  tsconfig: Record<string, any> = {},
+  tsconfig: Record<string, unknown> = {},
   dependencies: Record<string, string> = {},
 ) {
   return editor.createWebWorker<T>({

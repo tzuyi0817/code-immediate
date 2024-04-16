@@ -31,7 +31,11 @@ const isRotate = computed(() => +props.width.replace('%', '') <= 13);
 <template>
   <div class="code_editor_tab">
     <div :class="['code_editor_tab_left', { rotate: isRotate }]">
-      <img :src="`templateIcon/${icon.name}`" alt="" :width="icon.width" />
+      <img
+        :src="`templateIcon/${icon.name}`"
+        alt=""
+        :width="icon.width"
+      />
       {{ model }}
     </div>
 
@@ -48,8 +52,7 @@ const isRotate = computed(() => +props.width.replace('%', '') <= 13);
 
 <style lang="postcss" scoped>
 .code_editor_tab {
-  @apply
-  h-10
+  @apply h-10
   pr-1
   hidden
   items-center
@@ -60,8 +63,7 @@ const isRotate = computed(() => +props.width.replace('%', '') <= 13);
   select-none
   lg:flex;
   &_left {
-    @apply
-    bg-[#1e1e1e]
+    @apply bg-[#1e1e1e]
     text-gray-400
     font-bold
     px-3
@@ -74,15 +76,13 @@ const isRotate = computed(() => +props.width.replace('%', '') <= 13);
     flex
     gap-1;
     &.rotate {
-      @apply
-      rotate-90
+      @apply rotate-90
       origin-top-left
       scale-[0.55];
     }
   }
   &_right {
-    @apply
-    flex
+    @apply flex
     gap-1;
   }
 }
