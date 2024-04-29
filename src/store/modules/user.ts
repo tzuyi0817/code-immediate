@@ -2,8 +2,12 @@ import { defineStore } from 'pinia';
 import { deepClone } from '@/utils/common';
 import type { User } from '@/types/user';
 
-const defaultState = {
-  user: {} as User,
+interface UserState {
+  user: Partial<User>;
+}
+
+const defaultState: UserState = {
+  user: {},
 };
 
 export default defineStore('code_immediate_user', {
@@ -14,7 +18,7 @@ export default defineStore('code_immediate_user', {
     },
   },
   actions: {
-    setUser(user: User) {
+    setUser(user: Partial<User>) {
       this.user = user;
     },
   },

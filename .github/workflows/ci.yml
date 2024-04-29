@@ -7,6 +7,8 @@ on:
       - 'src/**'
       - 'pnpm-lock.yaml'
       - '.github/workflows/**'
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   CI:
@@ -17,7 +19,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-    
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
@@ -37,7 +39,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: Setup node_modules cache
         id: dependencies-cache
         uses: actions/cache@v4

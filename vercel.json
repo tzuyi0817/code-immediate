@@ -20,9 +20,9 @@
       "source": "/editor.worker.29be4084.js",
       "destination": "/assets/editor.worker.29be4084.js"
     },
-    { 
+    {
       "source": "/(.*)",
-      "destination": "/" 
+      "destination": "/"
     }
   ]
 }

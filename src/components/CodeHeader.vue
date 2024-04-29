@@ -33,14 +33,15 @@ const { codeTitle } = storeToRefs(useCodeContentStore());
 
 async function logout() {
   isLoading.value = true;
-  const { status, message } = await logoutUser().catch(() => (isLoading.value = false));
+  const { status, message } = await logoutUser().finally(() => {
+    isLoading.value = false;
+  });
   const { setUser } = useUserStore();
 
   setUser({});
   newProject();
   localStorage.removeItem('code_token');
   toast.showToast(message, status);
-  isLoading.value = false;
 }
 
 function blurTitle() {
