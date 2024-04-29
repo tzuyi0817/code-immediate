@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import { ref, reactive, computed, watch, onMounted } from 'vue';
-import algoliasearch from 'algoliasearch';
+import { ref, reactive, computed, onMounted } from 'vue';
+import axios, { type AxiosResponse } from 'axios';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
 import toast from '@/utils/toast';
 import { BUILT_IN_RESOURCES } from '@/config/template';
-import type { CdnItem } from '@/types/cdn';
+import type { CdnItem, CdnJsResponse } from '@/types/cdn';
 
 type SelectName = 'CSS' | 'JS';
+type CdnResourceMap = Record<SelectName, CdnItem['latest'][]>;
+
+interface TabItem {
+  name: SelectName;
+  title: string;
+  description: string;
+}
 
 const isShowSettingsPop = defineModel<boolean>('isShowSettingsPop');
 const currentSelect = ref<SelectName>('CSS');
 const keyword = ref('');
 const cdnList = ref<CdnItem[]>([]);
 const isSearch = ref(false);
-const cdnResources = reactive({
-  CSS: [] as CdnItem['latest'][],
-  JS: [] as CdnItem['latest'][],
-});
-const { VITE_APPLICATION_ID = '', VITE_ADMIN_API_Key = '' } = import.meta.env;
-const client = algoliasearch(VITE_APPLICATION_ID, VITE_ADMIN_API_Key);
-const clientIndex = client.initIndex('code-immediate');
-const tabList: { name: SelectName; title: string; description: string }[] = [
+const cdnResources = reactive<CdnResourceMap>({ CSS: [], JS: [] });
+const tabList: TabItem[] = [
   {
     name: 'CSS',
     title: 'Add External Stylesheets',
@@ -70,11 +71,22 @@ function deleteCdn(index: number) {
 
 function searchCdn(word: string) {
   if (word === '') return (cdnList.value = []);
+  const { VITE_CDN_API_URL } = import.meta.env;
+
   isSearch.value = true;
-  clientIndex
-    .search(word)
-    .then(({ hits }) => {
-      cdnList.value = (hits as CdnItem[]).filter(({ fileType }) => fileType === currentSelect.value);
+  axios
+    .get<CdnItem, AxiosResponse<CdnJsResponse>>(VITE_CDN_API_URL, {
+      params: {
+        search: word,
+        search_fields: 'name',
+        fields: 'description,fileType,filename,latest,name,objectID,version',
+      },
+    })
+    .then(({ data }) => {
+      const { results } = data;
+      const selectFileType = currentSelect.value.toLowerCase();
+
+      cdnList.value = results.filter(({ fileType }) => fileType === selectFileType);
       isSearch.value = false;
     })
     .catch(error => {
@@ -92,7 +104,6 @@ function closePopup() {
   isShowSettingsPop.value = false;
 }
 
-watch(keyword, keywordHandler);
 onMounted(() => {
   const {
     codeContent: { CSS, JS },
@@ -139,6 +150,7 @@ onMounted(() => {
             v-model.trim="keyword"
             class="input px-9"
             placeholder="Search CDNjs resources"
+            @input="keywordHandler(keyword)"
           />
           <font-awesome-icon
             icon="fa-solid fa-magnifying-glass"

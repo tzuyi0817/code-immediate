@@ -6,12 +6,17 @@ export interface CdnItem {
   name: string;
   objectID: string;
   version: string;
-  _highlightResult?: {};
-};
+}
 
 export type CdnModel = 'CSS' | 'JS';
 
 export interface CdnSourceMap {
-  variables: { local: string, imported: string }[];
+  variables: { local: string; imported: string }[];
   module: string;
+}
+
+export interface CdnJsResponse {
+  available: number;
+  results: CdnItem[];
+  total: number;
 }

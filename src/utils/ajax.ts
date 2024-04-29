@@ -2,12 +2,11 @@ import axios from 'axios';
 import toast from '@/utils/toast';
 import { useCodeContentStore, useUserStore } from '@/store';
 
-const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-});
+const { VITE_API_URL } = import.meta.env;
+const axiosInstance = axios.create({ baseURL: VITE_API_URL });
 
 axiosInstance.interceptors.request.use(
-  (config) => {
+  config => {
     const token = localStorage.getItem('code_token');
 
     if (token && config.headers) {
@@ -15,7 +14,7 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  error => Promise.reject(error)
+  error => Promise.reject(error),
 );
 
 axiosInstance.interceptors.response.use(
@@ -32,7 +31,7 @@ axiosInstance.interceptors.response.use(
       toast.showToast(data?.message ?? error.message, 'error');
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;
