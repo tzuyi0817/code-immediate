@@ -1,17 +1,14 @@
-name: CI-Pipeline
+name: Deploy to vercel
 
 on:
-  push:
+  workflow_run:
+    workflows: [CI-Pipeline]
     branches: [main]
-    paths:
-      - 'src/**'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/**'
-  pull_request:
-    types: [opened, synchronize, reopened]
+    types:
+      - completed
 
 jobs:
-  CI:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,5 +51,15 @@ jobs:
         if: steps.dependencies-cache.outputs.cache-hit != 'true'
         run: pnpm install
 
-      - name: Run unit test
-        run: pnpm test:unit
+      - name: Build
+        run: pnpm build
+
+      - name: Deploy
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-args: '--prod'
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          working-directory: dist
