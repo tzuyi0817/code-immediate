@@ -1,4 +1,7 @@
 {
+  "github": {
+    "enabled": false
+  },
   "rewrites": [
     {
       "source": "/css.worker.a66442f2.js",
