@@ -1,55 +1,20 @@
 name: Deploy to vercel
 
 on:
-  workflow_run:
-    workflows: [CI-Pipeline]
+  push:
     branches: [main]
-    types:
-      - completed
+    paths:
+      - 'src/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/**'
+      - 'package.json'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.15.5
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Setup node_modules cache
-        id: dependencies-cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            **/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-node-modules-
-
-      - name: Install Dependencies
-        if: steps.dependencies-cache.outputs.cache-hit != 'true'
-        run: pnpm install
+      - name: CI
+        uses: './.github/workflows/ci.yml'
 
       - name: Build
         run: pnpm build
