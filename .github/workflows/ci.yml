@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup environment
-        uses: './setup.yml'
+        uses: '../.github/workflows/setup.yml'
 
       - name: Run unit test
         run: pnpm test:unit
