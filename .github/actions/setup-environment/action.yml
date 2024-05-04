@@ -42,4 +42,5 @@ runs:
 
     - name: install Dependencies
       if: steps.dependencies-cache.outputs.cache-hit != 'true'
+      shell: bash
       run: pnpm install
