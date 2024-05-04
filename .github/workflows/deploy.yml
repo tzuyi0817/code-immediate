@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: setup environment
-        uses: './.github/actions/setup.yml'
+        uses: './.github/actions/setup-environment'
 
       - name: build
         run: pnpm build
