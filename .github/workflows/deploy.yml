@@ -6,7 +6,7 @@ on:
     paths:
       - 'src/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/**'
+      - '.github/**'
       - 'package.json'
 
 jobs:
