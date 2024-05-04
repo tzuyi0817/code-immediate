@@ -10,11 +10,15 @@ on:
       - 'package.json'
 
 jobs:
+  CI:
+    uses: './.github/workflows/ci.yml'
+
   deploy:
+    needs: CI
     runs-on: ubuntu-latest
     steps:
-      - name: CI
-        uses: '../.github/workflows/ci.yml'
+      - name: Setup environment
+        uses: './.github/actions/setup.yml'
 
       - name: Build
         run: pnpm build

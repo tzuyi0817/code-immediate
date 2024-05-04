@@ -5,13 +5,14 @@ on:
     types: [opened, synchronize, reopened]
 
   workflow_call:
+  workflow_dispatch:
 
 jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
       - name: Setup environment
-        uses: '../.github/workflows/setup.yml'
+        uses: './.github/actions/setup.yml'
 
       - name: Run unit test
         run: pnpm test:unit
