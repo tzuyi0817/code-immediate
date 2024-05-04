@@ -17,13 +17,14 @@ jobs:
     needs: CI
     runs-on: ubuntu-latest
     steps:
-      - name: Setup environment
+      - uses: actions/checkout@v4
+      - name: setup environment
         uses: './.github/actions/setup.yml'
 
-      - name: Build
+      - name: build
         run: pnpm build
 
-      - name: Deploy
+      - name: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}

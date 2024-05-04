@@ -8,24 +8,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Node.js
+      - name: install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install pnpm
+      - name: install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 9
           run_install: false
 
-      - name: Get pnpm store directory
+      - name: get pnpm store directory
         id: pnpm-cache
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: Setup pnpm cache
+      - name: setup pnpm cache
         uses: actions/cache@v4
         with:
           path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Setup node_modules cache
+      - name: setup node_modules cache
         id: dependencies-cache
         uses: actions/cache@v4
         with:
@@ -43,6 +43,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
-      - name: Install Dependencies
+      - name: install Dependencies
         if: steps.dependencies-cache.outputs.cache-hit != 'true'
         run: pnpm install

@@ -11,8 +11,9 @@ jobs:
   CI:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup environment
+      - uses: actions/checkout@v4
+      - name: setup environment
         uses: './.github/actions/setup.yml'
 
-      - name: Run unit test
+      - name: run unit test
         run: pnpm test:unit
