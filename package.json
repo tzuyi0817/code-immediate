@@ -60,7 +60,7 @@
     "autoprefixer": "^10.4.8",
     "eslint": "^9.0.0",
     "eslint-plugin-security": "^3.0.0",
-    "eslint-plugin-sonarjs": "^0.25.0",
+    "eslint-plugin-sonarjs": "^1.0.2",
     "eslint-plugin-testing-library": "^6.2.0",
     "eslint-plugin-vue": "^9.22.0",
     "fs-extra": "^11.0.0",
