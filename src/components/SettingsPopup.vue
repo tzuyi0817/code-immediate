@@ -90,9 +90,11 @@ function searchCdn(word: string) {
       isSearch.value = false;
     })
     .catch(error => {
+      const message = error.response?.data?.message || error.message;
+
       isSearch.value = false;
-      toast.showToast(error.message, 'error');
-      if (import.meta.env.MODE !== 'test') throw new Error(error.message, { cause: error });
+      toast.showToast(message, 'error');
+      if (import.meta.env.MODE !== 'test') throw new Error(message, { cause: error });
     });
 }
 

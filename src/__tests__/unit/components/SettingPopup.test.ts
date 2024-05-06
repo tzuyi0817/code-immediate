@@ -66,12 +66,12 @@ describe('SettingPopup component', () => {
     ).toBeInTheDocument();
   });
 
-  it('algolia search error', async () => {
+  it('cdnjs search error', async () => {
     renderComponent(SettingsPopup);
     renderComponent(Toast);
-    await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'algolia');
+    await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'cdnjs');
     expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
-    expect(await screen.findByText('algolia search error')).toBeInTheDocument();
+    expect(await screen.findByText('cdnjs search error')).toBeInTheDocument();
     expect(screen.queryByTitle(SPINNER)).not.toBeInTheDocument();
   });
 

@@ -1,19 +1,19 @@
 import { http, HttpResponse } from 'msw';
 
-const searchUrl = /https:\/\/.*algolia.*\/1\/indexes\/code-immediate\/query/;
-const mockAlgoliaApi = {
-  search: http.all(searchUrl, async ({ request }) => {
-    const { query } = (await request.json()) as { query: string };
+const mockCdnApi = {
+  search: http.get('*/libraries', async ({ request }) => {
+    const search = new URL(request.url).searchParams.get('search');
 
-    if (query === 'algolia') {
-      return new HttpResponse('algolia search error', { status: 400 });
+    if (search === 'cdnjs') {
+      console.log('cdnjs search error');
+      return HttpResponse.json({ message: 'cdnjs search error' }, { status: 400 });
     }
     return HttpResponse.json({
-      hits: [
+      results: [
         {
           description:
             'Responsive jQuery slider, featuring modular architecture, CSS3 animations, touch swipe, animated layers, retina, lazy loading and much more.',
-          fileType: 'CSS',
+          fileType: 'css',
           filename: 'css/slider-pro.min.css',
           latest: 'https://cdnjs.cloudflare.com/ajax/libs/slider-pro/1.6.0/css/slider-pro.min.css',
           name: 'slider-pro',
@@ -23,7 +23,7 @@ const mockAlgoliaApi = {
         {
           description:
             'Easy to use CSS Colors in your project with simple class you can colorize your text or background with the class of color name.',
-          fileType: 'CSS',
+          fileType: 'css',
           filename: 's3-colors.min.css',
           latest: 'https://cdnjs.cloudflare.com/ajax/libs/s3colors/1.0/s3-colors.min.css',
           name: 's3colors',
@@ -35,4 +35,4 @@ const mockAlgoliaApi = {
   }),
 };
 
-export default mockAlgoliaApi;
+export default mockCdnApi;
