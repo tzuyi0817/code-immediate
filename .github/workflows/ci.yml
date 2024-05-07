@@ -16,6 +16,6 @@ jobs:
         uses: './.github/actions/setup-environment'
 
       - name: run unit test
-        run: pnpm test:unit
         env:
           VITE_CDN_API_URL: ${{ secrets.VITE_CDN_API_URL }}
+        run: pnpm test:unit

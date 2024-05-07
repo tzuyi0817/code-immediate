@@ -5,7 +5,6 @@ const mockCdnApi = {
     const search = new URL(request.url).searchParams.get('search');
 
     if (search === 'cdnjs') {
-      console.log('cdnjs search error');
       return HttpResponse.json({ message: 'cdnjs search error' }, { status: 400 });
     }
     return HttpResponse.json({

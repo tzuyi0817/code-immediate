@@ -4,6 +4,7 @@ import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import globals from 'globals';
 import pluginVue from 'eslint-plugin-vue';
+import pluginSonarjs from 'eslint-plugin-sonarjs';
 import pluginSecurity from 'eslint-plugin-security';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -18,7 +19,7 @@ export default [
   js.configs.recommended,
   ...compat.extends('@vue/eslint-config-typescript/recommended'),
   ...compat.extends('@vue/eslint-config-prettier/skip-formatting'),
-  ...compat.extends('plugin:sonarjs/recommended'),
+  pluginSonarjs.configs.recommended,
   pluginSecurity.configs.recommended,
   { files: ['**/*.js', '**/*./ts', '**/*.vue'] },
   {
@@ -55,16 +56,6 @@ export default [
       eqeqeq: 'error',
       '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '_' }],
-      // Waiting for eslint-plugin-sonarjs to support eslint flat pattern
-      'sonarjs/no-gratuitous-expressions': 'off',
-      'sonarjs/no-empty-collection': 'off',
-      'sonarjs/no-unused-collection': 'off',
-      'security/detect-child-process': 'off',
-      'sonarjs/no-use-of-empty-return-value': 'off',
-      'sonarjs/no-extra-arguments': 'off',
-      'sonarjs/no-redundant-jump': 'off',
-      'sonarjs/no-one-iteration-loop': 'off',
-      'sonarjs/prefer-immediate-return': 'off',
     },
   },
   {

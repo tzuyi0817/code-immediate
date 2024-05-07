@@ -72,7 +72,7 @@ function deleteCdn(index: number) {
 function searchCdn(word: string) {
   if (word === '') return (cdnList.value = []);
   const { VITE_CDN_API_URL } = import.meta.env;
-
+  console.log({ VITE_CDN_API_URL });
   isSearch.value = true;
   axios
     .get<CdnItem, AxiosResponse<CdnJsResponse>>(VITE_CDN_API_URL, {
