@@ -12,6 +12,8 @@ on:
 jobs:
   CI:
     uses: './.github/workflows/ci.yml'
+    secrets:
+      VITE_CDN_API_URL: ${{ secrets.VITE_CDN_API_URL }}
 
   deploy:
     needs: CI
