@@ -15,7 +15,12 @@ jobs:
       - name: setup environment
         uses: './.github/actions/setup-environment'
 
-      - name: run unit test
+      - name: echo env
+        run: echo "VITE_CDN_API_URL=$VITE_CDN_API_URL" >> .env
         env:
           VITE_CDN_API_URL: ${{ secrets.VITE_CDN_API_URL }}
+
+      - name: run unit test
         run: pnpm test:unit
+        env:
+          VITE_CDN_API_URL: ${{ secrets.VITE_CDN_API_URL }}
