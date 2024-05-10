@@ -1,9 +1,6 @@
 name: CI-Pipeline
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
   workflow_call:
     secrets:
       VITE_CDN_API_URL:
