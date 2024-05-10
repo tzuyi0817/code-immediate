@@ -5,8 +5,12 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.PROJECT_ID }}
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
 
 jobs:
   CI:
