@@ -34,4 +34,26 @@ jobs:
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: deploy project artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > deploy.txt
+          echo "deploymentUrl=$(cat deploy.txt)" >> $GITHUB_OUTPUT
+
+  comment:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: comment URL to PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Deployed at ${{ env.DEPLOYMENT_URL }}"
+            })
+        env:
+          DEPLOYMENT_URL: ${{ needs.deploy.outputs.deploymentUrl }}
