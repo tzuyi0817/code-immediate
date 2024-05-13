@@ -18,6 +18,10 @@ export default mergeConfig(
           replacement: __dirname + '/node_modules/monaco-editor/esm/vs/editor/editor.api',
         },
       ],
+      coverage: {
+        provider: 'v8',
+        include: ['!src/main.ts', 'src/**/*.ts', 'src/**/*.vue'],
+      },
     },
   }) as UserConfig,
 );
