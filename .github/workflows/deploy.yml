@@ -1,4 +1,4 @@
-name: Deploy to Vercel
+name: Deploy to Production
 
 env:
   VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
@@ -21,7 +21,7 @@ jobs:
   deploy:
     needs: CI
     runs-on: ubuntu-latest
-    environment: production
+    environment: Production
     steps:
       - uses: actions/checkout@v4
       - name: install pnpm

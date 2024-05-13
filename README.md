@@ -2,7 +2,8 @@
 
 This is a code online editing preview tool, similar to `codepen`.
 
-![CI](https://github.com/tzuyi0817/code-immediate/actions/workflows/ci.yml/badge.svg)
+![preview](https://github.com/tzuyi0817/code-immediate/actions/workflows/preview.yml/badge.svg)
+![deploy](https://github.com/tzuyi0817/code-immediate/actions/workflows/deploy.yml/badge.svg)
 
 ![image](./public/cover.png)
 
