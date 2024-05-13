@@ -48,4 +48,5 @@ axiosInstance.interceptors.response.use(
 export const get: RequestMethod = axiosInstance.get;
 export const post: RequestMethod = axiosInstance.post;
 export const put: RequestMethod = axiosInstance.put;
+export const del: RequestMethod = axiosInstance.delete;
 export default axiosInstance;

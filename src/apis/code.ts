@@ -1,17 +1,21 @@
-import ajax from '@/utils/ajax';
+import { get, post, put, del } from '@/utils/ajax';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/loadParse';
 import type { CodePayload } from '@/types/codeContent';
+import type { CodeResponse, CodeListResponse } from '@/types/response';
 
 export function getCodes(page: number) {
-  return ajax.get(`/code?page=${page}`);
+  return get<CodeListResponse>(`/code?page=${page}`);
 }
 
 export async function getCode(codeId: string) {
   if (!codeId) return;
   const { setCodeLoading } = useFlagStore();
   setCodeLoading(true);
-  const { resultMap } = await ajax.get(`/code/${codeId}`).catch(() => setCodeLoading(false));
+  const { resultMap } = await get<CodeResponse>(`/code/${codeId}`).catch(() => {
+    setCodeLoading(false);
+    return { resultMap: null };
+  });
 
   if (resultMap) {
     const { setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
@@ -26,13 +30,13 @@ export async function getCode(codeId: string) {
 }
 
 export function postCode(data: CodePayload) {
-  return ajax.post('/code', { codeContent: JSON.stringify(data) });
+  return post<CodeResponse>('/code', { codeContent: JSON.stringify(data) });
 }
 
 export function putCode(codeId: string, data: CodePayload) {
-  return ajax.put(`/code/${codeId}`, { codeContent: JSON.stringify(data) });
+  return put<null>(`/code/${codeId}`, { codeContent: JSON.stringify(data) });
 }
 
 export function deleteCode(codeId: string) {
-  return ajax.delete(`/code/${codeId}`);
+  return del<null>(`/code/${codeId}`);
 }

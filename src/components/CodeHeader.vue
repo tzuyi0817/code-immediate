@@ -68,13 +68,12 @@ async function saveCode() {
   const api = codeId ? putCode(codeId, data) : postCode(data);
 
   isLoading.value = true;
-  const { status, message, resultMap } = await api.catch(() => (isLoading.value = false));
+  const { status, message, resultMap } = await api.finally(() => (isLoading.value = false));
   const { setChangeCodeFlag } = useFlagStore();
 
   resultMap && setCodeId(resultMap.code._id);
   setChangeCodeFlag(false);
   toast.showToast(message, status);
-  isLoading.value = false;
 }
 
 function newProject() {

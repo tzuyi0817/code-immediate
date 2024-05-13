@@ -19,12 +19,13 @@ const LazyIframe = defineAsyncComponent(() => import('@/components/LazyIframe.vu
 
 async function getProjects() {
   isLoading.value = true;
-  const { resultMap } = await getCodes(page.value).catch(() => (isLoading.value = false));
+  const { resultMap } = await getCodes(page.value).finally(() => {
+    isLoading.value = false;
+  });
   const { codeList, totalPage: total } = resultMap;
 
   projects.value = codeList;
   totalPage.value = total;
-  isLoading.value = false;
 }
 
 async function selectProject(project: CodeProject) {
@@ -47,9 +48,10 @@ async function deleteProject(id: string) {
   if (isDeleting.value) return;
   deleteId.value = id;
   isDeleting.value = true;
-  const { status, message } = await deleteCode(id).catch(() => (isLoading.value = false));
+  const { status, message } = await deleteCode(id).finally(() => {
+    isDeleting.value = false;
+  });
   toast.showToast(message, status);
-  isDeleting.value = false;
   getProjects();
 }
 

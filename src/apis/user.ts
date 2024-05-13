@@ -1,5 +1,6 @@
 import { post } from '@/utils/ajax';
-import type { UserResponse, LoginPayload, RegisterPayload } from '@/types/user';
+import type { LoginPayload, RegisterPayload } from '@/types/user';
+import type { UserResponse } from '@/types/response';
 
 export function loginUser(data: LoginPayload) {
   return post<UserResponse>('/login', data);
