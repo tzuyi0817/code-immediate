@@ -50,15 +50,18 @@ const message = ref('Hello Vue!');
 }
 </style>`;
 
-export const REACT_JS = `const rootDom = document.getElementById('root');
-const root = ReactDOM.createRoot(rootDom);
-const { useState } = React;
+export const REACT_JS = `import React, { useState } from 'react';
+import { createRoot } from 'react-dom/client';
+
+const rootDom = document.getElementById('root');
+const root = createRoot(rootDom);
 
 function App(props) {
   const [message, setMessage] = useState('Hello React!');
 
   function inputHandler(event) {
     const { value } = event.target;
+
     setMessage(value);
   }
 

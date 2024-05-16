@@ -17,10 +17,10 @@ import { deepClone } from '@/utils/common';
 import type { CodeTemplate, CodeTemplateMap } from '@/types/codeContent';
 
 export const VERSION = {
-  REACT: '18.2.0',
+  REACT: '18.3.1',
   VUE: '3.4.21',
   ANGULAR: '1.8.3',
-  SOLID_JS: '1.7.7',
+  SOLID_JS: '1.8.17',
   RXJS: '7.8.1',
   ES_MODULE_SHIMS: '1.8.3',
 } as const;
@@ -99,7 +99,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
     JS: {
       language: 'JavaScript',
       content: REACT_JS,
-      resources: [`lib/react@${VERSION.REACT}.js`, `lib/react-dom@${VERSION.REACT}.js`, 'parses/babel.js'],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
@@ -169,13 +169,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
 };
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
-export const BUILT_IN_RESOURCES = new Set([
-  `lib/vue@${VERSION.VUE}.global.js`,
-  `lib/react@${VERSION.REACT}.js`,
-  `lib/react-dom@${VERSION.REACT}.js`,
-  'parses/babel.js',
-  `lib/angular@${VERSION.ANGULAR}.js`,
-]);
+export const BUILT_IN_RESOURCES = new Set([`lib/vue@${VERSION.VUE}.global.js`, `lib/angular@${VERSION.ANGULAR}.js`]);
 
 export const TEMPLATE_LIST = [
   { name: 'ES6', src: '/templateIcon/es6.png', version: '' },

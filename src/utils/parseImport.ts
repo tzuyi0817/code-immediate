@@ -18,6 +18,7 @@ export function parseImport(jsCode: string, isESM = false) {
   const imports: CdnSourceMap[] = [];
   const { code } = window.Babel.transform(jsCode, {
     plugins: [[getImports, { imports }]],
+    presets: ['react'],
   });
   const { statements, scripts } = transformImports(imports, isESM);
 

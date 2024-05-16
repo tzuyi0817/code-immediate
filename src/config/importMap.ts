@@ -6,7 +6,13 @@ export const IMPORT_MAP = {
   VueSFC: {
     imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
   },
-  React: null,
+  React: {
+    imports: {
+      react: `./lib/react@${VERSION.REACT}.js`,
+      'react-dom': `./lib/react-dom@${VERSION.REACT}.js`,
+      'react-dom/client': `./lib/react-dom@${VERSION.REACT}.client.js`,
+    },
+  },
   Angular: null,
   SolidJs: {
     imports: {
@@ -23,6 +29,9 @@ export const IMPORT_MAP = {
 } as const;
 
 export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([
+  'react',
+  'react-dom',
+  'react-dom/client',
   'solid-js',
   'solid-js/web',
   'solid-js/h',
