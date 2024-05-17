@@ -59,7 +59,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
     JS: {
       language: 'JavaScript',
       content: VUE_JS,
-      resources: [`lib/vue@${VERSION.VUE}.global.js`],
+      resources: [],
     },
     VUE: {
       language: 'Vue',
@@ -169,7 +169,7 @@ export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
 };
 
 export const DEFAULT_TEMPLATE_MAP = deepClone(TEMPLATE_MAP);
-export const BUILT_IN_RESOURCES = new Set([`lib/vue@${VERSION.VUE}.global.js`, `lib/angular@${VERSION.ANGULAR}.js`]);
+export const BUILT_IN_RESOURCES = new Set([`lib/angular@${VERSION.ANGULAR}.js`]);
 
 export const TEMPLATE_LIST = [
   { name: 'ES6', src: '/templateIcon/es6.png', version: '' },

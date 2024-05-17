@@ -2,7 +2,9 @@ import { VERSION } from './template';
 
 export const IMPORT_MAP = {
   ES6: null,
-  Vue: null,
+  Vue: {
+    imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
+  },
   VueSFC: {
     imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
   },
@@ -22,13 +24,14 @@ export const IMPORT_MAP = {
   },
   RxJS: {
     imports: {
-      rxjs: 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs.min.js',
-      'rxjs/operators': 'https://unpkg.com/@esm-bundle/rxjs/esm/es2015/rxjs-operators.min.js',
+      rxjs: `./lib/rxjs@${VERSION.RXJS}.js`,
+      'rxjs/operators': `./lib/rxjs@${VERSION.RXJS}.operators.js`,
     },
   },
 } as const;
 
 export const IMPORT_MAP_BUILD_IN_SOURCES = new Set([
+  'vue',
   'react',
   'react-dom',
   'react-dom/client',

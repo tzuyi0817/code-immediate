@@ -15,7 +15,7 @@ export const VUE_CSS = `#app {
   overflow-x: auto;
 }`;
 
-export const VUE_JS = `const { createApp, ref } = Vue;
+export const VUE_JS = `import { createApp, ref } from 'vue';
 
 createApp({
   setup() {

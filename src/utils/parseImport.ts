@@ -13,19 +13,24 @@ interface PathNode {
   remove: () => void;
 }
 
+interface ImportOptions {
+  imports: CdnSourceMap[];
+  isESM: boolean;
+}
+
 export function parseImport(jsCode: string, isESM = false) {
   if (!/\bimport\b/.test(jsCode)) return { code: jsCode };
   const imports: CdnSourceMap[] = [];
   const { code } = window.Babel.transform(jsCode, {
-    plugins: [[getImports, { imports }]],
-    presets: ['react'],
+    plugins: [[getImports, { imports, isESM }]],
+    presets: isESM ? ['react'] : ['env', 'react'],
   });
   const { statements, scripts } = transformImports(imports, isESM);
 
   return { code: statements + code, scripts };
 }
 
-function getImports(code: string, { imports }: { imports: CdnSourceMap[] }) {
+function getImports(code: string, { imports, isESM }: ImportOptions) {
   return {
     visitor: {
       ImportDeclaration(path: PathNode) {
@@ -33,7 +38,7 @@ function getImports(code: string, { imports }: { imports: CdnSourceMap[] }) {
           node: { source, specifiers },
         } = path;
 
-        if (IMPORT_MAP_BUILD_IN_SOURCES.has(source.value)) return;
+        if (isESM && IMPORT_MAP_BUILD_IN_SOURCES.has(source.value)) return;
         if (source.value.startsWith('https://')) return;
         imports.push({
           variables: specifiers.map(({ local, imported }) => ({
