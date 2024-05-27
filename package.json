@@ -5,6 +5,7 @@
   "description": "A code online editing preview tool, similar to codepen",
   "type": "module",
   "license": "MIT",
+  "packageManager": "pnpm@9.1.1",
   "repository": {},
   "keywords": [
     "vue3",
