@@ -5,9 +5,8 @@ import { setActivePinia, createPinia } from 'pinia';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import LoadingButton from '@/components/LoadingButton.vue';
 
-interface RenderComponentOptions extends RenderOptions {
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  provide?: Record<any, any>;
+interface RenderComponentOptions extends RenderOptions<unknown> {
+  provide?: Record<PropertyKey, unknown>;
 }
 
 const pinia = createPinia();
