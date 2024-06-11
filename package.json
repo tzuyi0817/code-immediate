@@ -5,7 +5,7 @@
   "description": "A code online editing preview tool, similar to codepen",
   "type": "module",
   "license": "MIT",
-  "packageManager": "pnpm@9.1.4",
+  "packageManager": "pnpm@9.3.0",
   "repository": {},
   "keywords": [
     "vue3",
@@ -39,17 +39,17 @@
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.3"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
-    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/user-event": "^14.5.2",
     "@testing-library/vue": "^8.1.0",
     "@types/file-saver": "^2.0.7",
     "@types/loadjs": "^4.0.4",
-    "@types/node": "^20.14.0",
+    "@types/node": "^20.14.2",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitest/coverage-v8": "^1.6.0",
     "@volar/cdn": "~1.11.1",
@@ -65,7 +65,7 @@
     "eslint-plugin-testing-library": "^6.2.2",
     "eslint-plugin-vue": "^9.26.0",
     "fs-extra": "^11.2.0",
-    "globals": "^15.3.0",
+    "globals": "^15.4.0",
     "jsdom": "^24.1.0",
     "msw": "^2.3.1",
     "parse-package-name": "^1.0.0",
@@ -76,15 +76,15 @@
     "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-visualizer": "^5.12.0",
-    "tailwindcss": "^3.4.3",
+    "tailwindcss": "^3.4.4",
     "typescript": "^5.4.5",
-    "vite": "^5.2.12",
+    "vite": "^5.2.13",
     "vite-plugin-monaco-editor": "^1.1.0",
     "vite-plugin-node-polyfills": "^0.22.0",
     "vitest": "^1.6.0",
     "vitest-canvas-mock": "^0.3.3",
     "vscode-theme-to-monaco-theme-node": "^1.0.0",
-    "vue-tsc": "^2.0.19"
+    "vue-tsc": "^2.0.21"
   },
   "browserslist": [
     "> 1%",
