@@ -1,36 +1,45 @@
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import type * as monaco from 'monaco-editor';
-import typescript from 'typescript';
-import { createJsDelivrFs, createJsDelivrUriResolver, decorateServiceEnvironment } from '@volar/cdn';
-import { resolveConfig } from '@vue/language-service';
-import { createLanguageHost, createLanguageService, createServiceEnvironment } from '@volar/monaco/worker';
-import { importTsFromCdn } from '@/utils/cdn';
+import { URI } from 'vscode-uri';
+import {
+  getVueLanguageServicePlugins,
+  createVueLanguagePlugin,
+  resolveVueCompilerOptions,
+} from '@vue/language-service';
+import {
+  activateAutomaticTypeAcquisition,
+  createTypeScriptWorkerService,
+  type LanguageServiceEnvironment,
+} from '@volar/monaco/worker';
+import * as ts from 'typescript';
 import type { CreateData } from '@/utils/monacoEditor';
 
-let ts: typeof typescript | null = null;
+self.onmessage = () => {
+  worker.initialize((ctx: monaco.worker.IWorkerContext, { tsconfig }: CreateData) => {
+    const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions ?? {}, '');
+    const vueCompilerOptions = resolveVueCompilerOptions(tsconfig.vueCompilerOptions ?? {});
+    const uriToFileName = (uri: URI) => uri.path;
+    const env: LanguageServiceEnvironment = { workspaceFolders: [URI.parse('file:///')] };
+    const uriConverter = {
+      asUri: (fileName: string) => URI.file(fileName),
+      asFileName: uriToFileName,
+    };
+    const getProjectVersion = () =>
+      tsconfig.vueCompilerOptions?.target ? `${tsconfig.vueCompilerOptions.target}` : '';
+    const isRootFile = () => true;
 
-self.onmessage = async event => {
-  if (event.data === 'initializing') {
-    ts = await importTsFromCdn();
-    self.postMessage('ready');
-    return;
-  }
+    activateAutomaticTypeAcquisition(env, { asFileName: uriToFileName });
 
-  worker.initialize((ctx: monaco.worker.IWorkerContext, { tsconfig, dependencies }: CreateData) => {
-    if (!ts) return;
-    const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions || {}, '');
-    const env = createServiceEnvironment();
-    const host = createLanguageHost(ctx.getMirrorModels, env, '/src', compilerOptions);
-    const jsDelivrFs = createJsDelivrFs();
-    const jsDelivrUriResolver = createJsDelivrUriResolver('/node_modules', dependencies);
-
-    decorateServiceEnvironment(env, jsDelivrUriResolver, jsDelivrFs);
-
-    return createLanguageService(
-      { typescript: ts },
+    return createTypeScriptWorkerService({
+      typescript: ts,
+      compilerOptions,
+      workerContext: ctx,
       env,
-      resolveConfig(ts, {}, compilerOptions, tsconfig.vueCompilerOptions || {}),
-      host,
-    );
+      uriConverter,
+      languagePlugins: [
+        createVueLanguagePlugin(ts, uriToFileName, getProjectVersion, isRootFile, compilerOptions, vueCompilerOptions),
+      ],
+      servicePlugins: getVueLanguageServicePlugins(ts, () => vueCompilerOptions),
+    });
   });
 };

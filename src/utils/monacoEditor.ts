@@ -89,9 +89,9 @@ function setupVueLanguage() {
     const languageId = ['vue'];
     const getSyncUris = () => [Uri.parse('file:///demo.vue')];
 
-    volar.editor.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
-    volar.editor.activateAutoInsertion(worker, languageId, getSyncUris, editor);
-    await volar.languages.registerProvides(worker, languageId, getSyncUris, languages);
+    volar.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
+    volar.activateAutoInsertion(worker, languageId, getSyncUris, editor);
+    await volar.registerProviders(worker, languageId, getSyncUris, languages);
   });
 }
 
