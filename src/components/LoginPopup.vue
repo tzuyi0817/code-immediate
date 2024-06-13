@@ -24,8 +24,8 @@ async function login() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    localStorage.setItem('code_token', token);
-    localStorage.setItem('code_account', account.value);
+    window.localStorage.setItem('code_token', token);
+    window.localStorage.setItem('code_account', account.value);
     toast.showToast(message, status);
     closePopup();
   } catch {
@@ -55,7 +55,7 @@ function loginGithub() {
 
     closeAuthWindow();
     setUser({ account: githubAccount });
-    localStorage.setItem('code_token', token);
+    window.localStorage.setItem('code_token', token);
     toast.showToast('login success', 'success');
     closePopup();
   };

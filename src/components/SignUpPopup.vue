@@ -29,7 +29,7 @@ async function register() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    localStorage.setItem('code_token', token);
+    window.localStorage.setItem('code_token', token);
     toast.showToast(message, status);
     closePopup();
   } catch {

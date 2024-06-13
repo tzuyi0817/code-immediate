@@ -1,8 +1,10 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
+import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP, esModel } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
+import { devDependencies } from '../../package.json';
 import type {
   CodeContent,
   CodeCompile,
@@ -15,6 +17,7 @@ import type { Sass, Showdown } from '@/types/language';
 
 let sass: Sass | null = null;
 let showdown: Showdown | null = null;
+let ts: typeof typescript | null = null;
 
 export function compile(params: CompileParams): Promise<CodeContent> {
   const { html, css, js, codeTemplate } = params;
@@ -102,7 +105,8 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
       return code;
     },
     async TypeScript() {
-      const { ModuleKind, JsxEmit, transpileModule } = await import('typescript');
+      if (!ts) ts = await importTsFromCdn();
+      const { ModuleKind, JsxEmit, transpileModule } = ts;
       const { outputText } = transpileModule(jsContent, {
         reportDiagnostics: true,
         compilerOptions: {
@@ -138,4 +142,16 @@ function catchCompile({ language, compile: compileCode, content }: CodeCompile):
   } catch (error) {
     return Promise.reject(error);
   }
+}
+
+export async function importTsFromCdn(version = devDependencies.typescript.replace('^', '')) {
+  const _module = globalThis.module;
+  const cdnUrl = `https://cdn.jsdelivr.net/npm/typescript@${version}/lib/typescript.js`;
+
+  globalThis.module = { exports: {} } as NodeModule;
+  await import(cdnUrl);
+
+  const tsModule = globalThis.module.exports;
+  globalThis.module = _module;
+  return tsModule as typeof typescript;
 }

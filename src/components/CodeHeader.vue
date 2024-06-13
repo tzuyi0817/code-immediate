@@ -40,7 +40,7 @@ async function logout() {
 
   setUser({});
   newProject();
-  localStorage.removeItem('code_token');
+  window.localStorage.removeItem('code_token');
   toast.showToast(message, status);
 }
 
