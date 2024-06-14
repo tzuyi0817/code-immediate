@@ -1,6 +1,6 @@
 # code immediate
 
-This is a code online editing preview tool, similar to `codepen`.
+This is an online code editing and preview tool, similar to `CodePen`.
 
 ![preview](https://github.com/tzuyi0817/code-immediate/actions/workflows/preview.yml/badge.svg)
 ![deploy](https://github.com/tzuyi0817/code-immediate/actions/workflows/deploy.yml/badge.svg)
@@ -11,7 +11,7 @@ This is a code online editing preview tool, similar to `codepen`.
 
 [o] Built-in many frontend templates  
 [o] Support multiple preprocessing languages  
-[o] Support `vue3 sfc`  
+[o] Support `Vue 3 SFC`  
 [o] Support for save code  
 [o] Built-in support for using ES module syntax on browsers using [unpkg](https://unpkg.com/), [esbuild](https://esbuild.vercel.app) and [importmap](https://github.com/WICG/import-maps)  
 [o] Support code formatting  
@@ -24,11 +24,19 @@ This is a code online editing preview tool, similar to `codepen`.
 
 ## Development
 
-Clone this repository and install dependencies by running `pnpm`, then:
+To get started with development, clone this repository and install dependencies using `pnpm`:
+
+```sh
+git clone https://github.com/tzuyi0817/code-immediate.git
+cd code-immediate
+pnpm install
+```
+
+Then, you can use the following commands:
 
 - `pnpm dev`: Run in development mode
-- `pnpm build`: Build in production mode
-- `pnpm preview`: Run preview
+- `pnpm build`: Build for production
+- `pnpm preview`: Run a local server to preview the production build
 
 ## Built-in frontend framework
 
@@ -41,19 +49,19 @@ Clone this repository and install dependencies by running `pnpm`, then:
 
 ## Support ES module syntax
 
-Currently supports using `ESM` in `JavaScript`, `TypeScript`, `CoffeeScript`, etc. mode, by default, if you directly import as follows：
+Currently, ESM can be used in `JavaScript`, `TypeScript`, `CoffeeScript`, etc. By default, if you directly import a module like this:
 
 ```js
 import moment from 'moment';
 ```
 
-It will be converted into `script` and placed in `html head`:
+It will be converted into a `script` tag and placed in the `html` head:
 
 ```html
 <script src="https://esbuild.vercel.app/moment@latest?format=iife"></script>
 ```
 
-In the case of `script type="module"` (ex: `vue3 sfc` or `solidJs`), it will be converted into:
+In the case of `script type="module"` (e.g., `Vue3 SFC` or `SolidJs`), it will be converted into:
 
 ```js
 import moment from 'https://unpkg.com/moment?module';
@@ -67,20 +75,14 @@ import moment from 'https://unpkg.com/moment?module';
 | CSS      | Less, SCSS, Sass, Stylus, PostCSS           |
 | JS       | Babel, TypeScript, CoffeeScript, LiveScript |
 
-## Use Technology
+## Technologies Used
 
-- vue3
-- pinia
-- typescript
-- tailwindcss
-- vite
-- monaco editor
-- loadjs
-- jszip
-- file-saver
-- vitest
-- @testing-library
-- msw
+- Frontend: vue3, typescript, tailwindcss, pinia
+- Environment construction: vite, eslint, prettier
+- Code editor: monaco editor
+- File load: loadjs
+- ZIP Handling: jszip, file-saver
+- Test: vitest, @testing-library, msw
 
 ## License
 
