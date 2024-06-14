@@ -18,11 +18,11 @@ import type { CodeTemplate, CodeTemplateMap } from '@/types/codeContent';
 
 export const VERSION = {
   REACT: '18.3.1',
-  VUE: '3.4.21',
+  VUE: '3.4.27',
   ANGULAR: '1.8.3',
   SOLID_JS: '1.8.17',
   RXJS: '7.8.1',
-  ES_MODULE_SHIMS: '1.8.3',
+  ES_MODULE_SHIMS: '1.10.0',
 } as const;
 
 export const TEMPLATE_MAP: Record<CodeTemplate, CodeTemplateMap> = {
