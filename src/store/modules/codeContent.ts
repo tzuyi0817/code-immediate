@@ -72,10 +72,4 @@ export default defineStore('code_immediate_content', {
       this.codeTitle = title;
     },
   },
-  persist: {
-    storage: localStorage,
-    paths: [
-      // 'codeId',
-    ],
-  },
 });

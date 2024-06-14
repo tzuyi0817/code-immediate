@@ -4,7 +4,7 @@ import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP, esModel } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
-import { devDependencies } from '../../package.json';
+import { importTsFromCdn } from '@/utils/cdn';
 import type {
   CodeContent,
   CodeCompile,
@@ -142,16 +142,4 @@ function catchCompile({ language, compile: compileCode, content }: CodeCompile):
   } catch (error) {
     return Promise.reject(error);
   }
-}
-
-export async function importTsFromCdn(version = devDependencies.typescript.replace('^', '')) {
-  const _module = globalThis.module;
-  const cdnUrl = `https://cdn.jsdelivr.net/npm/typescript@${version}/lib/typescript.js`;
-
-  globalThis.module = { exports: {} } as NodeModule;
-  await import(cdnUrl);
-
-  const tsModule = globalThis.module.exports;
-  globalThis.module = _module;
-  return tsModule as typeof typescript;
 }

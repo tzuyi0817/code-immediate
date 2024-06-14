@@ -37,12 +37,12 @@ export interface CreateData {
 
 export async function initMonacoEditor() {
   window.MonacoEnvironment = {
-    getWorker(_: string, label: string) {
+    async getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
-      if (label === 'vue') return new VueWorker();
+      if (label === 'vue') return await initializeWorker(new VueWorker());
       return new EditorWorker();
     },
   };
@@ -51,6 +51,15 @@ export async function initMonacoEditor() {
 
   editor.defineTheme('vs-code-theme-converted', theme);
   setupCustomLanguage();
+}
+
+async function initializeWorker(worker: Worker) {
+  const initialize = new Promise<Worker>(resolve => {
+    worker.onmessage = () => resolve(worker);
+    worker.postMessage('initializing');
+  });
+
+  return await initialize;
 }
 
 function setupCustomLanguage() {
