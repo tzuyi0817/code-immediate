@@ -8,11 +8,14 @@ import {
 import { createTypeScriptWorkerService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
 import { createNpmFileSystem } from '@volar/jsdelivr';
 import { URI } from 'vscode-uri';
-import * as ts from 'typescript';
+import { getTsConstructor } from '@/utils/cdn';
 import type { CreateData } from '@/utils/monacoEditor';
 
-self.onmessage = message => {
+let ts: typeof import('typescript');
+
+self.onmessage = async message => {
   if (message.data === 'initializing') {
+    ts = await getTsConstructor();
     self.postMessage('loading finished');
     return;
   }
