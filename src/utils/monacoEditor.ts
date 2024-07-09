@@ -84,7 +84,9 @@ function setupVueLanguage() {
     if (IS_TEST_MODE) return;
     const worker = createWebWorker<LanguageService>('vue', {
       ...TSCONFIG,
-      vueCompilerOptions: { target: VERSION.VUE },
+      vueCompilerOptions: {
+        target: VERSION.VUE,
+      },
     });
     const languageId = ['vue'];
     const getSyncUris = () => [Uri.parse('file:///demo.vue')];

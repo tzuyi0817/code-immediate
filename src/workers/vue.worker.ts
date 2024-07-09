@@ -1,45 +1,62 @@
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import type * as monaco from 'monaco-editor';
-import { URI } from 'vscode-uri';
 import {
-  getVueLanguageServicePlugins,
+  getFullLanguageServicePlugins,
   createVueLanguagePlugin,
   resolveVueCompilerOptions,
 } from '@vue/language-service';
-import {
-  activateAutomaticTypeAcquisition,
-  createTypeScriptWorkerService,
-  type LanguageServiceEnvironment,
-} from '@volar/monaco/worker';
+import { createTypeScriptWorkerService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
+import { createNpmFileSystem } from '@volar/jsdelivr';
+import { URI } from 'vscode-uri';
 import * as ts from 'typescript';
 import type { CreateData } from '@/utils/monacoEditor';
 
-self.onmessage = () => {
-  worker.initialize((ctx: monaco.worker.IWorkerContext, { tsconfig }: CreateData) => {
-    const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions ?? {}, '');
-    const vueCompilerOptions = resolveVueCompilerOptions(tsconfig.vueCompilerOptions ?? {});
-    const uriToFileName = (uri: URI) => uri.path;
-    const env: LanguageServiceEnvironment = { workspaceFolders: [URI.parse('file:///')] };
-    const uriConverter = {
-      asUri: (fileName: string) => URI.file(fileName),
-      asFileName: uriToFileName,
-    };
-    const getProjectVersion = () =>
-      tsconfig.vueCompilerOptions?.target ? `${tsconfig.vueCompilerOptions.target}` : '';
-    const isRootFile = () => true;
+self.onmessage = message => {
+  if (message.data === 'initializing') {
+    self.postMessage('loading finished');
+    return;
+  }
 
-    activateAutomaticTypeAcquisition(env, { asFileName: uriToFileName });
+  worker.initialize((ctx: monaco.worker.IWorkerContext, { tsconfig, dependencies }: CreateData) => {
+    const asFileName = (uri: URI) => uri.path;
+    const asUri = (fileName: string) => URI.file(fileName);
+    const getCdnPath = (uri: URI) => {
+      if (uri.scheme !== 'file') return;
+      if (uri.path === '/node_modules') return '';
+      if (uri.path.startsWith('/node_modules/')) {
+        return uri.path.slice('/node_modules/'.length);
+      }
+    };
+
+    const getPackageVersion = (packageName: string) => dependencies[packageName];
+    const env: LanguageServiceEnvironment = {
+      workspaceFolders: [asUri('/')],
+      fs: createNpmFileSystem(getCdnPath, getPackageVersion),
+    };
+
+    const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions ?? {}, '');
+    const getProjectVersion = () => '';
+    const isRootFile = (fileName: string) => {
+      const uri = asUri(fileName);
+      const models = ctx.getMirrorModels();
+
+      return models.some(model => model.uri.toString() === uri.toString());
+    };
+    const vueCompilerOptions = resolveVueCompilerOptions(tsconfig.vueCompilerOptions ?? {});
 
     return createTypeScriptWorkerService({
       typescript: ts,
       compilerOptions,
       workerContext: ctx,
       env,
-      uriConverter,
+      uriConverter: { asUri, asFileName },
       languagePlugins: [
-        createVueLanguagePlugin(ts, uriToFileName, getProjectVersion, isRootFile, compilerOptions, vueCompilerOptions),
+        createVueLanguagePlugin(ts, asFileName, getProjectVersion, isRootFile, compilerOptions, vueCompilerOptions),
       ],
-      servicePlugins: getVueLanguageServicePlugins(ts, () => vueCompilerOptions),
+      languageServicePlugins: getFullLanguageServicePlugins(ts),
+      setup: ({ project }) => {
+        project.vue = { compilerOptions: vueCompilerOptions };
+      },
     });
   });
 };
