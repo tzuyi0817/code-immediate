@@ -63,7 +63,7 @@ export default function useMonacoEditor() {
           return { foreground: 11 };
         case 'variable':
         case 'property':
-          return { foreground: _readonly ? 21 : 9 };
+          return { foreground: _readonly ? 19 : 9 };
         default:
           return { foreground: 0 };
       }

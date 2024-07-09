@@ -4,7 +4,7 @@ import typescript from 'typescript';
 import { SCRIPT_TYPE_MAP, esModel } from '@/config/scriptType';
 import { IMPORT_MAP } from '@/config/importMap';
 import { parseImport } from '@/utils/parseImport';
-import { importTsFromCdn } from '@/utils/cdn';
+import { getTsConstructor } from '@/utils/cdn';
 import type {
   CodeContent,
   CodeCompile,
@@ -105,7 +105,7 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
       return code;
     },
     async TypeScript() {
-      if (!ts) ts = await importTsFromCdn();
+      ts = await getTsConstructor();
       const { ModuleKind, JsxEmit, transpileModule } = ts;
       const { outputText } = transpileModule(jsContent, {
         reportDiagnostics: true,

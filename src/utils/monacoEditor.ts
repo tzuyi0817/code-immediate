@@ -84,14 +84,16 @@ function setupVueLanguage() {
     if (IS_TEST_MODE) return;
     const worker = createWebWorker<LanguageService>('vue', {
       ...TSCONFIG,
-      vueCompilerOptions: { target: VERSION.VUE },
+      vueCompilerOptions: {
+        target: VERSION.VUE,
+      },
     });
     const languageId = ['vue'];
     const getSyncUris = () => [Uri.parse('file:///demo.vue')];
 
-    volar.editor.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
-    volar.editor.activateAutoInsertion(worker, languageId, getSyncUris, editor);
-    await volar.languages.registerProvides(worker, languageId, getSyncUris, languages);
+    volar.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
+    volar.activateAutoInsertion(worker, languageId, getSyncUris, editor);
+    await volar.registerProviders(worker, languageId, getSyncUris, languages);
   });
 }
 

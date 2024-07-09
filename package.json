@@ -52,11 +52,11 @@
     "@types/node": "^20.14.10",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitest/coverage-v8": "^1.6.0",
-    "@volar/cdn": "~1.11.1",
-    "@volar/monaco": "~1.11.1",
+    "@volar/jsdelivr": "2.4.0-alpha.12",
+    "@volar/monaco": "2.4.0-alpha.12",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
-    "@vue/language-service": "1.9.0-alpha.3",
+    "@vue/language-service": "2.0.26-alpha.2",
     "@vue/vue3-jest": "^29.2.6",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.6.0",
@@ -84,6 +84,7 @@
     "vitest": "^1.6.0",
     "vitest-canvas-mock": "^0.3.3",
     "vscode-theme-to-monaco-theme-node": "^1.0.0",
+    "vscode-uri": "^3.0.8",
     "vue-tsc": "^2.0.26"
   },
   "browserslist": [

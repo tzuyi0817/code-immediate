@@ -30,6 +30,7 @@
     "onigasm",
     "Delivr",
     "importmap",
-    "sonarjs"
+    "sonarjs",
+    "jsdelivr"
   ]
 }
