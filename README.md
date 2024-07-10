@@ -64,7 +64,7 @@ It will be converted into a `script` tag and placed in the `html` head:
 In the case of `script type="module"` (e.g., `Vue3 SFC` or `SolidJs`), it will be converted into:
 
 ```js
-import moment from 'https://unpkg.com/moment?module';
+import moment from 'https://cdn.jsdelivr.net/npm/moment/+esm';
 ```
 
 ## Support Languages

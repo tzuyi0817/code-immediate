@@ -9,6 +9,7 @@ import {
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
 import { IMPORT_MAP } from '@/config/importMap';
+import { utoa } from '@/utils/common';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
 import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/codeContent';
@@ -107,7 +108,8 @@ async function compileJs(
   };
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
-    map.imports[source] = `https://unpkg.com/${source}?module`;
+    map.imports[source] = `https://cdn.jsdelivr.net/npm/${source}/+esm`;
+
     return map;
   }, defaultImportMap);
 
@@ -160,13 +162,16 @@ async function transformSfc(
   if (template?.map) {
     template.code = `${template.code}\n${sourceMappingURL(template.map)}`;
   }
+
   if (scriptBlock.map) {
     const { lang, map, content } = scriptBlock;
     const language = VUE_LANGUAGE_MAP.js[lang as keyof typeof VUE_LANGUAGE_MAP.js];
     const code = await transformJs(content, language);
     scriptBlock.content = `${code}\n${sourceMappingURL(map)}`;
   }
+
   revokeBlobURL();
+
   return {
     renderScript: `
       import __sfc__ from '${getBlobURL(scriptBlock.content, 'script')}';
@@ -193,5 +198,7 @@ function revokeBlobURL() {
 }
 
 function sourceMappingURL(map: RawSourceMap) {
-  return `//# sourceMappingURL=data:application/json;base64,${self.btoa(JSON.stringify(map))}`;
+  const code = JSON.stringify(map);
+
+  return `//# sourceMappingURL=data:application/json;base64,${utoa(code)}`;
 }

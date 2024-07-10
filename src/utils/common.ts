@@ -1,3 +1,4 @@
+import { strFromU8, strToU8, zlibSync } from 'fflate';
 import { isArray, isObject } from '@/utils/checkType';
 
 export function debounce(fun: unknown, delay = 500) {
@@ -42,4 +43,12 @@ export function deepClone<T extends object>(obj: T, hash = new WeakMap()): T {
     clone[key] = isObject(value) ? deepClone(value, hash) : value;
   });
   return clone;
+}
+
+export function utoa(str: string) {
+  const buffer = strToU8(str);
+  const compressed = zlibSync(buffer, { level: 9 });
+  const binary = strFromU8(compressed, true);
+
+  return btoa(binary);
 }

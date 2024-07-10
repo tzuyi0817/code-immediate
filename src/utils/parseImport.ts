@@ -65,7 +65,7 @@ function transformImports(imports: CdnSourceMap[], isESM: boolean) {
         const defaultImported = variables.find(({ imported }) => imported === 'default')?.local;
         const imported = [defaultImported, locals].filter(Boolean);
 
-        statements += `\nimport ${imported.join(', ')} from 'https://unpkg.com/${module}?module'\n`;
+        statements += `\nimport ${imported.join(', ')} from 'https://cdn.jsdelivr.net/npm/${module}/+esm'\n`;
       } else {
         const { version, path } = parsePackage(module);
         const moduleName = `__module_${index}`;
