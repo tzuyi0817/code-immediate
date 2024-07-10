@@ -101,6 +101,7 @@ export const GRAMMAR_SCOPE_NAME_MAP = {
   'source.graphql': 'GraphQL.tmLanguage',
   'source.js.jsx': 'JavaScript (JSX).tmLanguage',
   'source.toml': 'TOML.tmLanguage',
+  'source.json5': 'json5.tmLanguage.json',
 } as const;
 
 export type GrammarScope = keyof typeof GRAMMAR_SCOPE_NAME_MAP;

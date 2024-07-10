@@ -19,11 +19,11 @@ const currentAction = ref<Exclude<CodeModel, 'VUE'>>('HTML');
 const iframe = ref(null);
 const codeWrapHeight = ref('40vh');
 const previewHeight = ref('60vh');
-const previewWidth = ref('66.7vw');
+const previewWidth = ref('55vw');
 const offsetHtmlWrap = ref('33.3%');
 const offsetCssWrap = ref('33.3%');
 const offsetJsWrap = ref('33.3%');
-const offsetVueWrap = ref('33.3vw');
+const offsetVueWrap = ref('45vw');
 const isShowMenuMap = reactive({
   HTML: false,
   CSS: false,
