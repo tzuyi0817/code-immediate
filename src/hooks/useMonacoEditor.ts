@@ -1,7 +1,8 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import themeDark from 'shiki/themes/dark-plus.mjs';
 import { debounce, sleep } from '@/utils/common';
-import { registry } from '@/utils/monacoEditor';
+import { registry } from '@/monaco';
 import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
@@ -20,8 +21,8 @@ export default function useMonacoEditor() {
         enabled: false,
       },
       wordWrap: 'on',
-      theme: 'vs-code-theme-converted',
-      fontSize: 14,
+      theme: themeDark.name,
+      fontSize: 13,
       fontFamily: 'MonoLisa, monospace',
       contextmenu: false,
       fixedOverflowWidgets: true,
@@ -53,6 +54,7 @@ export default function useMonacoEditor() {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const theme = (editor as any)._themeService._theme;
 
+    theme.semanticHighlighting = true;
     theme.getTokenStyleMetadata = (type: string, modifiers: string[]) => {
       const _readonly = modifiers.includes('readonly');
       switch (type) {
@@ -84,7 +86,7 @@ export default function useMonacoEditor() {
     if (cacheModel) model.setValue(code);
     monacoEditor.editor.setModel(model);
     if (oldModel !== cacheModel) oldModel?.dispose();
-    if (import.meta.env.MODE === 'test') return;
+    if (import.meta.env.MODE === 'test' || language === 'vue') return;
     await sleep();
     await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor);
   }

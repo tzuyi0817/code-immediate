@@ -1,6 +1,6 @@
 import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
-import { editor, languages, Uri } from 'monaco-editor';
+import * as monaco from 'monaco-editor';
 import * as volar from '@volar/monaco';
 import type { LanguageService, VueCompilerOptions } from '@vue/language-service';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
@@ -47,9 +47,9 @@ export async function initMonacoEditor() {
     },
   };
   await loadWASM(`${BASE_URL}onigasm/onigasm.wasm`);
-  const theme = await (await fetch('themes/themes.json')).json();
+  const { registerShikiTheme } = await import('./highlight');
 
-  editor.defineTheme('vs-code-theme-converted', theme);
+  registerShikiTheme();
   setupCustomLanguage();
 }
 
@@ -63,24 +63,24 @@ async function initializeWorker(worker: Worker) {
 }
 
 function setupCustomLanguage() {
-  languages.register({ id: 'haml', extensions: ['.haml'] });
-  languages.register({ id: 'sass', extensions: ['.sass'] });
-  languages.register({ id: 'stylus', extensions: ['.styl'] });
-  languages.register({ id: 'postcss', extensions: ['.postcss'] });
-  languages.register({ id: 'livescript', extensions: ['.mlx'] });
+  monaco.languages.register({ id: 'haml', extensions: ['.haml'] });
+  monaco.languages.register({ id: 'sass', extensions: ['.sass'] });
+  monaco.languages.register({ id: 'stylus', extensions: ['.styl'] });
+  monaco.languages.register({ id: 'postcss', extensions: ['.postcss'] });
+  monaco.languages.register({ id: 'livescript', extensions: ['.mlx'] });
   setupVueLanguage();
 }
 
 export function setupTestEnvironmentLanguage() {
-  languages.register({ id: 'html' });
-  languages.register({ id: 'markdown' });
+  monaco.languages.register({ id: 'html' });
+  monaco.languages.register({ id: 'markdown' });
   setupCustomLanguage();
 }
 
-function setupVueLanguage() {
-  languages.register({ id: 'vue', extensions: ['.vue'] });
-  languages.setLanguageConfiguration('vue', vueConfiguration);
-  languages.onLanguage('vue', async () => {
+async function setupVueLanguage() {
+  monaco.languages.register({ id: 'vue', extensions: ['.vue'] });
+  monaco.languages.setLanguageConfiguration('vue', vueConfiguration);
+  monaco.languages.onLanguage('vue', async () => {
     if (IS_TEST_MODE) return;
     const worker = createWebWorker<LanguageService>('vue', {
       ...TSCONFIG,
@@ -89,11 +89,11 @@ function setupVueLanguage() {
       },
     });
     const languageId = ['vue'];
-    const getSyncUris = () => [Uri.parse('file:///demo.vue')];
+    const getSyncUris = () => [monaco.Uri.parse('file:///demo.vue')];
 
-    volar.activateMarkers(worker, languageId, 'vue', getSyncUris, editor);
-    volar.activateAutoInsertion(worker, languageId, getSyncUris, editor);
-    await volar.registerProviders(worker, languageId, getSyncUris, languages);
+    volar.activateMarkers(worker, languageId, 'vue', getSyncUris, monaco.editor);
+    volar.activateAutoInsertion(worker, languageId, getSyncUris, monaco.editor);
+    await volar.registerProviders(worker, languageId, getSyncUris, monaco.languages);
   });
 }
 
@@ -102,7 +102,7 @@ function createWebWorker<T extends object>(
   tsconfig: Record<string, unknown> = {},
   dependencies: Record<string, string> = {},
 ) {
-  return editor.createWebWorker<T>({
+  return monaco.editor.createWebWorker<T>({
     moduleId: `vs/language/${language}/${language}.worker`,
     label: language,
     createData: {

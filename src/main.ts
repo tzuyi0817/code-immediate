@@ -3,7 +3,7 @@ import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import registerFaIcons from '@/utils/registerFaIcons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { initMonacoEditor } from '@/utils/monacoEditor';
+import { initMonacoEditor } from '@/monaco';
 import { loadParse } from '@/utils/loadParse';
 import { initTemplate } from '@/config/template';
 import '@/style/index.css';

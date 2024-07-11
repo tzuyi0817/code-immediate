@@ -105,7 +105,7 @@ export const vueConfiguration: languages.LanguageConfiguration = {
   ],
   indentationRules: {
     increaseIndentPattern:
-      /<(?!\?|(?:area|base|br|col|frame|hr|html|img|input|keygen|link|menuitem|meta|param|source|track|wbr|script|style)\b|[^>]*\/>)([-_\.A-Za-z0-9]+)(?=\s|>)\b[^>]*>(?!\s*\()(?!.*<\/\1>)|<!--(?!.*-->)|\{[^}"']*$/i,
+      /<(?!\?|area\b|base\b|br\b|col\b|frame\b|hr\b|html\b|img\b|input\b|keygen\b|link\b|menuitem\b|meta\b|param\b|source\b|track\b|wbr\b|script\b|style\b|[^>]*\/>)([-_.A-Za-z0-9]+)(?=\s|>)[^>]*>(?!\s*\()(?!.*<\/\1>)|<!--(?!.*-->)|\{[^}"']*$/,
     decreaseIndentPattern: /^\s*(<\/(?!html)[-_\.A-Za-z0-9]+\b[^>]*>|-->|\})/,
   },
 };

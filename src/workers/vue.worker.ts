@@ -9,7 +9,7 @@ import { createTypeScriptWorkerService, type LanguageServiceEnvironment } from '
 import { createNpmFileSystem } from '@volar/jsdelivr';
 import { URI } from 'vscode-uri';
 import { getTsConstructor } from '@/utils/cdn';
-import type { CreateData } from '@/utils/monacoEditor';
+import type { CreateData } from '@/monaco';
 
 let ts: typeof import('typescript');
 

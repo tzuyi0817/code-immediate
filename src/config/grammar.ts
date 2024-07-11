@@ -13,7 +13,6 @@ export const GRAMMARS_MAP = new Map([
   ['typescript', 'source.ts'],
   ['coffeescript', 'source.coffee'],
   ['livescript', 'source.livescript'],
-  ['vue', 'source.vue'],
 ]);
 
 export const COMMON_GRAMMARS_MAP = {
@@ -97,11 +96,9 @@ export const GRAMMAR_SCOPE_NAME_MAP = {
   'source.cpp.embedded.macro': 'cpp.embedded.macro.tmLanguage.json',
   'source.glsl': 'GLSL.tmLanguage',
   'source.applescript': 'applescript.tmLanguage.json',
-  'source.vue': 'vue.tmLanguage.json',
   'source.graphql': 'GraphQL.tmLanguage',
   'source.js.jsx': 'JavaScript (JSX).tmLanguage',
   'source.toml': 'TOML.tmLanguage',
-  'source.json5': 'json5.tmLanguage.json',
 } as const;
 
 export type GrammarScope = keyof typeof GRAMMAR_SCOPE_NAME_MAP;

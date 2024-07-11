@@ -32,6 +32,8 @@
     "importmap",
     "sonarjs",
     "jsdelivr",
-    "utoa"
+    "utoa",
+    "shiki",
+    "shikijs"
   ]
 }
