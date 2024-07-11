@@ -9,8 +9,10 @@ import toast from '@/utils/toast';
 import { deepClone } from '@/utils/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 
+const { user, isLogin } = storeToRefs(useUserStore());
+const { codeTitle } = storeToRefs(useCodeContentStore());
 const DEFAULT_TITLE = 'Untitled';
-const title = ref(DEFAULT_TITLE);
+const title = ref(codeTitle.value || DEFAULT_TITLE);
 const titleInput = ref<HTMLInputElement | null>(null);
 const isLoading = ref(false);
 const isShowEditTitle = ref(false);
@@ -28,8 +30,6 @@ const LoginPopup = defineAsyncComponent(() => import('@/components/LoginPopup.vu
 const SignUpPopup = defineAsyncComponent(() => import('@/components/SignUpPopup.vue'));
 const ProjectsPopup = defineAsyncComponent(() => import('@/components/ProjectsPopup.vue'));
 const RemindPopup = defineAsyncComponent(() => import('@/components/RemindPopup.vue'));
-const { user, isLogin } = storeToRefs(useUserStore());
-const { codeTitle } = storeToRefs(useCodeContentStore());
 
 async function logout() {
   isLoading.value = true;
@@ -131,7 +131,9 @@ function closeMenuList() {
   isShowMenuList.value = false;
 }
 
-watch(codeTitle, projectTitle => (title.value = projectTitle));
+watch(codeTitle, projectTitle => {
+  title.value = projectTitle;
+});
 </script>
 
 <template>

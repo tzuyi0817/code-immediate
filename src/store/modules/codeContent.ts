@@ -37,6 +37,7 @@ const defaultState: CodeContentStore = {
 };
 
 type CodeMap = Partial<typeof defaultState.codeContent>;
+
 interface ContentAction<T> {
   type: T;
   code?: string;
@@ -71,5 +72,9 @@ export default defineStore('code_immediate_content', {
     setCodeTitle(title: string) {
       this.codeTitle = title;
     },
+  },
+  persist: {
+    storage: localStorage,
+    paths: ['codeContent', 'codeTemplate', 'codeTitle'],
   },
 });

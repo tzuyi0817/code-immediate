@@ -109,7 +109,7 @@ onMounted(getProjects);
           @click="selectProject(project)"
         >
           <Suspense>
-            <Lazy-Iframe :project="project" />
+            <lazy-iframe :project="project" />
           </Suspense>
           <div class="rounded pt-3 px-3 flex justify-between">
             <p>{{ project.title }}</p>

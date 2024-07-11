@@ -183,5 +183,6 @@ export const TEMPLATE_LIST = [
 
 export function initTemplate() {
   const { codeContent, codeTemplate } = useCodeContentStore();
+
   TEMPLATE_MAP[codeTemplate] = codeContent;
 }
