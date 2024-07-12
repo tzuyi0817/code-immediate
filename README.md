@@ -13,7 +13,7 @@ This is an online code editing and preview tool, similar to `CodePen`.
 [o] Support multiple preprocessing languages  
 [o] Support `Vue 3 SFC`  
 [o] Support for save code  
-[o] Built-in support for using ES module syntax on browsers using [unpkg](https://unpkg.com/), [esbuild](https://esbuild.vercel.app) and [importmap](https://github.com/WICG/import-maps)  
+[o] Built-in support for using ES module syntax on browsers using [jsdelivr](https://cdn.jsdelivr.net), [esbuild](https://esbuild.vercel.app) and [importmap](https://github.com/WICG/import-maps)  
 [o] Support code formatting  
 [o] Support setting [CDNjs](https://cdnjs.com/) for use  
 [o] Support github third-party login  

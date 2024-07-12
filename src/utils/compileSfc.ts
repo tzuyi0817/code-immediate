@@ -26,7 +26,7 @@ import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap
 //   file?: string;
 // }
 
-const COMP_IDENTIFIER = `__sfc__`;
+const COMP_IDENTIFIER = '__sfc__';
 
 export function compileSfc(content: CompileParams): Promise<CodeContent> {
   const { vue } = content;
@@ -90,6 +90,7 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
 async function compileHtml(content: string, lang?: string) {
   const language = VUE_LANGUAGE_MAP.html[lang as keyof typeof VUE_LANGUAGE_MAP.html];
   const source = HTML_LANGUAGE_MAP[language as HtmlLanguages];
+
   source && (await loadParse(source));
   return await transformHtml(content, language);
 }

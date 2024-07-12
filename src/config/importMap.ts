@@ -6,7 +6,9 @@ export const IMPORT_MAP = {
     imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
   },
   VueSFC: {
-    imports: { vue: `./lib/vue@${VERSION.VUE}.esm-browser.js` },
+    imports: {
+      vue: `./lib/vue@${VERSION.VUE}.esm-browser.js`,
+    },
   },
   React: {
     imports: {
