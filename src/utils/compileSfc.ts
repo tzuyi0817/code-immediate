@@ -7,6 +7,7 @@ import {
   SFCTemplateCompileOptions,
   type CompilerOptions,
 } from 'vue/compiler-sfc';
+import hashId from 'hash-sum';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
 import { IMPORT_MAP } from '@/config/importMap';
@@ -25,9 +26,6 @@ import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap
 //   file?: string;
 // }
 
-type BlobURLType = 'render' | 'template';
-
-const blobURLMap = new Map<BlobURLType, string>();
 const COMP_IDENTIFIER = `__sfc__`;
 
 export function compileSfc(content: CompileParams): Promise<CodeContent> {
@@ -57,7 +55,7 @@ function parseSfc(content: string, filename = 'src/App.vue'): Promise<CodeConten
 
 async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent> {
   const { styles, filename, slotted, template, script } = descriptor;
-  const scopeId = `data-v-${Date.now().toString().slice(-6)}`;
+  const scopeId = hashId(filename);
   const isScoped = styles.some(style => style.scoped);
   const isTS = script?.lang === 'ts';
   const expressionPlugins: CompilerOptions['expressionPlugins'] = isTS ? ['typescript'] : [];
@@ -80,7 +78,8 @@ async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent
         resolve({
           html: '<div id="app"></div>',
           css,
-          js: js.code,
+          js: '',
+          modules: js.modules,
           importMap: js.importMap,
         });
       })
@@ -102,11 +101,9 @@ async function compileJs(
 ) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
-  const renderUrl = getBlobURL(renderScript, 'render');
   const defaultImportMap: ImportMap = {
     imports: {
       ...IMPORT_MAP.VueSFC.imports,
-      [scopeId]: renderUrl,
     },
   };
   const importMap = Object.values(imports).reduce((map, { source }) => {
@@ -117,11 +114,21 @@ async function compileJs(
   }, defaultImportMap);
 
   return {
-    code: `
+    modules: `
+      <script ${scriptType}>
+        ${renderScript}
+      </script>
       <script ${scriptType}>
         import { createApp } from 'vue';
-        import app from '${scopeId}';
-        createApp(app).mount('#app'); 
+
+        const AppComponent = __modules__['${descriptor.filename}'].default;
+        const app = createApp(AppComponent);
+
+        if (!app.config.hasOwnProperty('unwrapInjectedRef')) {
+          app.config.unwrapInjectedRef = true;
+        }
+        app.errorHandler = error => console.error(error);
+        app.mount('#app'); 
       </script>
     `,
     importMap,
@@ -159,7 +166,19 @@ async function transformSfc(
     id: scopeId,
     genDefaultAs: COMP_IDENTIFIER,
     inlineTemplate: true,
+    fs: {
+      fileExists(file: string) {
+        if (file.startsWith('/')) file = file.slice(1);
+        return false;
+      },
+      readFile(file: string) {
+        if (file.startsWith('/')) file = file.slice(1);
+        return '';
+      },
+    },
     templateOptions: {
+      ssr: false,
+      ssrCssVars: descriptor.cssVars,
       compilerOptions: {
         expressionPlugins: compilerOptions?.expressionPlugins,
       },
@@ -178,30 +197,20 @@ async function transformSfc(
   const language = VUE_LANGUAGE_MAP.js[lang as keyof typeof VUE_LANGUAGE_MAP.js];
   const code = await transformJs(content, language);
 
-  scriptBlock.content = `${code}`;
-  revokeBlobURL();
+  scriptBlock.content = code;
 
   return {
     renderScript: `
+      const __module__ = __modules__['${filename}'] = { [Symbol.toStringTag]: 'Module' };
+
       ${scriptBlock.content}
       ${COMP_IDENTIFIER}.__file = '${filename}';
-      ${COMP_IDENTIFIER}.__scopeId = '${scopeId}';
-      export default ${COMP_IDENTIFIER};
+      ${COMP_IDENTIFIER}.__scopeId = 'data-v-${scopeId}';
+
+      __module__.default = ${COMP_IDENTIFIER};
     `,
     imports: scriptBlock.imports ?? {},
   };
-}
-
-function getBlobURL(jsCode: string, type: BlobURLType) {
-  const blob = new Blob([jsCode], { type: 'text/javascript' });
-  const blobURL = URL.createObjectURL(blob);
-
-  blobURLMap.set(type, blobURL);
-  return blobURL;
-}
-
-function revokeBlobURL() {
-  blobURLMap.forEach(blobURL => URL.revokeObjectURL(blobURL));
 }
 
 // function sourceMappingURL(map: RawSourceMap) {

@@ -73,7 +73,8 @@ async function runCode() {
       '*',
     );
     setLoading({ isOpen: false, type: 'Process code error' });
-    if (import.meta.env.MODE !== 'test') throw new Error(message, { cause: isErrorConstructor ? error : void 0 });
+    if (import.meta.env.MODE === 'test') return;
+    throw new Error(message, { cause: isErrorConstructor ? error : void 0 });
   }
 }
 

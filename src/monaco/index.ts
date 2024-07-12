@@ -49,8 +49,8 @@ export async function initMonacoEditor() {
   await loadWASM(`${BASE_URL}onigasm/onigasm.wasm`);
   const { registerShikiTheme } = await import('./highlight');
 
-  registerShikiTheme();
   setupCustomLanguage();
+  await registerShikiTheme();
 }
 
 async function initializeWorker(worker: Worker) {

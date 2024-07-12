@@ -4,34 +4,34 @@ export interface CodeContent {
   js: string;
   vue?: string;
   importMap: ImportMap | null;
+  modules?: string;
 }
 
 export interface CompileParams {
   html: {
     language: HtmlLanguages;
     content: string;
-  },
+  };
   css: {
     language: CssLanguages;
     content: string;
     resources: string[];
-  },
+  };
   js: {
     language: JsLanguages;
     content: string;
     resources: string[];
-  },
+  };
   vue: {
     language: 'Vue';
     content: string;
-  },
-  codeTemplate: CodeTemplate
+  };
+  codeTemplate: CodeTemplate;
 }
 
 export interface CreateHtmlParams extends CodeContent {
   cssResources: string[];
   jsResources: string[];
-  importMap: ImportMap | null;
 }
 
 export type CodeModel = 'HTML' | 'CSS' | 'JS' | 'VUE';
@@ -39,12 +39,12 @@ export type CodeTemplate = 'ES6' | 'Vue' | 'VueSFC' | 'React' | 'Angular' | 'Sol
 export type ImportMap = Record<'imports', Record<string, string>>;
 export type HtmlLanguages = 'HTML' | 'Haml' | 'Markdown' | 'Pug';
 export type CssLanguages = 'CSS' | 'Less' | 'SCSS' | 'Sass' | 'Stylus' | 'PostCSS';
-export type JsLanguages =  'JavaScript' |'Babel' | 'TypeScript' | 'CoffeeScript' | 'LiveScript';
+export type JsLanguages = 'JavaScript' | 'Babel' | 'TypeScript' | 'CoffeeScript' | 'LiveScript';
 export type Languages = HtmlLanguages | CssLanguages | JsLanguages | 'Vue';
 
 export interface CodeCompile {
   language: Languages;
-  compile: Record<string, Function>
+  compile: Record<string, Function>;
   content: string;
 }
 

@@ -2,10 +2,11 @@ import srcdoc from '@/assets/srcdoc.html?raw';
 import { VERSION } from '@/config/template';
 import type { CreateHtmlParams } from '@/types/codeContent';
 
-export function createHtml({ html, css, js, cssResources, jsResources, importMap }: CreateHtmlParams) {
+export function createHtml({ html, css, js, cssResources, jsResources, importMap, modules = '' }: CreateHtmlParams) {
   return srcdoc
     .replace(/<!-- LINK-HTML -->/, createLinkHtml(cssResources))
     .replace(/<!-- IMPORT-MAP -->/, createImportMapHtml(importMap))
+    .replace(/<!-- MODULES -->/, modules)
     .replace(/<!-- SCRIPT-HTML -->/, createScriptHtml(jsResources))
     .replace(/<!-- STYLE-HTML -->/, `<style type="text/css">${css}</style>`)
     .replace(/<!-- PREVIEW-BODY-HTML -->/, html)

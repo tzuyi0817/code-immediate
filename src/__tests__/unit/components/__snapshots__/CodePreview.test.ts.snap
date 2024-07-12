@@ -16,6 +16,10 @@ exports[`CodePreview component > preview the correct content 1`] = `
       src="message/index.js"
     ></script>
     
+    <script type="module">
+      window.__modules__ = {};
+    </script>
+    
     
     <style>
       body {
