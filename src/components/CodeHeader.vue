@@ -140,9 +140,9 @@ watch(codeTitle, projectTitle => {
   <header class="code_header">
     <div class="code_header_left">
       <img
-        src="/icon.jpg"
-        class="w-7 h-7 invert basis-7 shrink-0"
-        alt=""
+        src="/logo.png"
+        class="w-10 h-10 basis-10 shrink-0"
+        alt="logo"
       />
       <div class="w-[calc(100%-36px)]">
         <div class="font-bold flex items-center gap-1 w-full">

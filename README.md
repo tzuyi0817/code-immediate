@@ -1,9 +1,20 @@
-# code immediate
+<p align="center">
+  <img src="./public/logo.png" height="150">
+</p>
 
-This is an online code editing and preview tool, similar to `CodePen`.
+<h1 align="center">Code Immediate</h1>
 
-![preview](https://github.com/tzuyi0817/code-immediate/actions/workflows/preview.yml/badge.svg)
-![deploy](https://github.com/tzuyi0817/code-immediate/actions/workflows/deploy.yml/badge.svg)
+<p align="center">
+  This is an online code editing and preview tool, similar to <code>CodePen</code>.
+</p>
+
+<div align="center">
+  <img src="https://github.com/tzuyi0817/code-immediate/actions/workflows/preview.yml/badge.svg">
+  <img src="https://github.com/tzuyi0817/code-immediate/actions/workflows/deploy.yml/badge.svg">
+</div>
+
+<br>
+<br>
 
 ![image](./public/cover.png)
 
