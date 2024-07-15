@@ -141,7 +141,7 @@ watch(codeTitle, projectTitle => {
     <div class="code_header_left">
       <img
         src="/logo.png"
-        class="w-10 h-10 basis-10 shrink-0"
+        class="w-10 basis-10 shrink-0"
         alt="logo"
       />
       <div class="w-[calc(100%-36px)]">
