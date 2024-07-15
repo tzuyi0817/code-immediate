@@ -4,7 +4,13 @@
       const value = Reflect.get(...arguments);
 
       return function (...args) {
+        const [message] = args;
+
+        if (message.includes('You are running a development build of Vue')) return;
+        if (message.includes('You are running the esm-bundler build of Vue')) return;
+
         const data = args.reduce((result, arg) => result + `${formatMessage(arg)} `, '');
+
         postMessageToParent({ type: prop, data });
         return value.apply(target, args);
       }

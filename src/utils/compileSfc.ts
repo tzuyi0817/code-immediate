@@ -109,6 +109,7 @@ async function compileJs(
   };
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
+
     map.imports[source] = `https://cdn.jsdelivr.net/npm/${source}/+esm`;
 
     return map;

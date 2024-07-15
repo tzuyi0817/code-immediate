@@ -12,6 +12,7 @@ import CodeEditor from '@/components/CodeEditor.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
+import { isString } from '@/utils/checkType';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
@@ -40,6 +41,8 @@ const wrapHeight = computed(() => {
 provide('iframe', iframe);
 provide('codeMenu', { isShowMenuMap, toggleMenu });
 
+selectProject();
+
 function toggleMenu(model: CodeModel, isOpen?: boolean) {
   isShowMenuMap[model] = isOpen ?? !isShowMenuMap[model];
 }
@@ -49,9 +52,17 @@ function closeInitLoading() {
   setInitLoading(false);
 }
 
-watch(codeId, id => router.push({ params: { id } }));
-getCode(route.params.id as string);
-useCodeContentStore().setCodeId((route.params.id as string) ?? 0);
+function selectProject() {
+  const { id } = route.params;
+
+  if (!id || !isString(id)) return;
+  const { setCodeId } = useCodeContentStore();
+
+  getCode(id);
+  setCodeId(id);
+}
+
+watch(codeId, id => router.push({ params: { id } }), { immediate: true });
 onMounted(closeInitLoading);
 </script>
 
