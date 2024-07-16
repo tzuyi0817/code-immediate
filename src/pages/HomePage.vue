@@ -55,7 +55,8 @@ function closeInitLoading() {
 function selectProject() {
   const { id } = route.params;
 
-  if (!id || !isString(id)) return;
+  if (!id || !isString(id) || id === codeId.value) return;
+
   const { setCodeId } = useCodeContentStore();
 
   getCode(id);

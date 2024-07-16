@@ -14,6 +14,7 @@ import { IMPORT_MAP } from '@/config/importMap';
 // import { utoa } from '@/utils/common';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
 import { loadParse } from '@/utils/loadParse';
+import { transformToJsdelivr } from '@/utils/cdn';
 import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/codeContent';
 
 // interface RawSourceMap {
@@ -110,7 +111,7 @@ async function compileJs(
   const importMap = Object.values(imports).reduce((map, { source }) => {
     if (source === 'vue') return map;
 
-    map.imports[source] = `https://cdn.jsdelivr.net/npm/${source}/+esm`;
+    map.imports[source] = transformToJsdelivr(source);
 
     return map;
   }, defaultImportMap);
@@ -146,6 +147,7 @@ function compileCss(styles: SFCStyleBlock[]): Promise<string> {
     const { content, lang } = style;
     const language = VUE_LANGUAGE_MAP.css[lang as keyof typeof VUE_LANGUAGE_MAP.css];
     const source = CSS_LANGUAGE_MAP[language];
+
     result.push(parseCss(source, content, language));
     return result;
   }, []);

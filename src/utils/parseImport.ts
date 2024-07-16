@@ -1,4 +1,5 @@
 import { parse as parsePackage } from 'parse-package-name';
+import { transformToJsdelivr, transformToEsbuild } from '@/utils/cdn';
 import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/importMap';
 import type { CdnSourceMap } from '@/types/cdn';
 
@@ -30,7 +31,7 @@ export function parseImport(jsCode: string, isESM = false) {
   return { code: statements + code, scripts };
 }
 
-function getImports(code: string, { imports, isESM }: ImportOptions) {
+function getImports(_code: string, { imports, isESM }: ImportOptions) {
   return {
     visitor: {
       ImportDeclaration(path: PathNode) {
@@ -39,7 +40,7 @@ function getImports(code: string, { imports, isESM }: ImportOptions) {
         } = path;
 
         if (isESM && IMPORT_MAP_BUILD_IN_SOURCES.has(source.value)) return;
-        if (source.value.startsWith('https://')) return;
+
         imports.push({
           variables: specifiers.map(({ local, imported }) => ({
             local: local.name,
@@ -65,14 +66,14 @@ function transformImports(imports: CdnSourceMap[], isESM: boolean) {
         const defaultImported = variables.find(({ imported }) => imported === 'default')?.local;
         const imported = [defaultImported, locals].filter(Boolean);
 
-        statements += `\nimport ${imported.join(', ')} from 'https://cdn.jsdelivr.net/npm/${module}/+esm'\n`;
+        statements += `\nimport ${imported.join(', ')} from '${transformToJsdelivr(module)}'\n`;
       } else {
         const { version, path } = parsePackage(module);
         const moduleName = `__module_${index}`;
 
         variables.forEach(({ local, imported }) => {
           statements += `const ${local} = ${moduleName}.${imported};\n`;
-          scripts += `\n<script src="https://esbuild.vercel.app/${module}@${version}${path}?format=iife&globalName=${moduleName}"></script>`;
+          scripts += `\n<script src="${transformToEsbuild(module, version, path, moduleName)}"></script>`;
         });
       }
       return { statements, scripts };
