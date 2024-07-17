@@ -2,7 +2,7 @@
   "name": "code-immediate",
   "private": true,
   "version": "0.0.0",
-  "description": "A code online editing preview tool, similar to codepen",
+  "description": "A code online editing preview tool, similar to code pen",
   "type": "module",
   "license": "MIT",
   "packageManager": "pnpm@9.5.0",

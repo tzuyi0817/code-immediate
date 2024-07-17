@@ -1,11 +1,11 @@
 import {
   parse,
   compileScript,
-  // compileTemplate,
+  compileTemplate,
   SFCDescriptor,
   SFCStyleBlock,
-  SFCTemplateCompileOptions,
   type CompilerOptions,
+  type BindingMetadata,
 } from 'vue/compiler-sfc';
 import hashId from 'hash-sum';
 import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
@@ -54,35 +54,16 @@ function parseSfc(content: string, filename = 'src/App.vue'): Promise<CodeConten
   });
 }
 
-async function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent> {
-  const { styles, filename, slotted, template, script } = descriptor;
+function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent> {
+  const { styles, filename } = descriptor;
   const scopeId = hashId(filename);
-  const isScoped = styles.some(style => style.scoped);
-  const isTS = script?.lang === 'ts';
-  const expressionPlugins: CompilerOptions['expressionPlugins'] = isTS ? ['typescript'] : [];
-  const compileTemplateOptions: SFCTemplateCompileOptions = {
-    source: template ? await compileHtml(template.content, template?.lang) : '',
-    filename,
-    id: scopeId,
-    scoped: isScoped,
-    slotted,
-    ast: template?.ast,
-    compilerOptions: {
-      scopeId: isScoped ? scopeId : undefined,
-      expressionPlugins,
-    },
-  };
 
   return new Promise((resolve, reject) => {
-    Promise.all([compileCss(styles), compileJs(descriptor, scopeId, compileTemplateOptions)])
-      .then(([css, js]) => {
-        resolve({
-          html: '<div id="app"></div>',
-          css,
-          js: '',
-          modules: js.modules,
-          importMap: js.importMap,
-        });
+    const html = '<div id="app"></div>';
+
+    Promise.all([compileCss(styles), compileJs(descriptor, scopeId)])
+      .then(([css, { modules, importMap }]) => {
+        resolve({ html, css, js: '', modules, importMap });
       })
       .catch(reject);
   });
@@ -96,13 +77,9 @@ async function compileHtml(content: string, lang?: string) {
   return await transformHtml(content, language);
 }
 
-async function compileJs(
-  descriptor: SFCDescriptor,
-  scopeId: string,
-  compileTemplateOptions: SFCTemplateCompileOptions,
-) {
+async function compileJs(descriptor: SFCDescriptor, scopeId: string) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
-  const { renderScript, imports } = await transformSfc(descriptor, scopeId, compileTemplateOptions);
+  const { renderModules, imports } = await transformSfc(descriptor, scopeId);
   const defaultImportMap: ImportMap = {
     imports: {
       ...IMPORT_MAP.VueSFC.imports,
@@ -118,9 +95,7 @@ async function compileJs(
 
   return {
     modules: `
-      <script ${scriptType}>
-        ${renderScript}
-      </script>
+      ${renderModules}
       <script ${scriptType}>
         import { createApp } from 'vue';
 
@@ -161,17 +136,45 @@ function compileCss(styles: SFCStyleBlock[]): Promise<string> {
   });
 }
 
-async function transformSfc(
-  descriptor: SFCDescriptor,
-  scopeId: string,
-  compileTemplateOptions: SFCTemplateCompileOptions,
-) {
-  const { filename } = descriptor;
-  const { compilerOptions } = compileTemplateOptions;
+async function transformSfc(descriptor: SFCDescriptor, scopeId: string) {
+  const { filename, script } = descriptor;
+  const isTS = script?.lang === 'ts';
+  const expressionPlugins: CompilerOptions['expressionPlugins'] = isTS ? ['typescript'] : [];
+  const compilerOptions = {
+    expressionPlugins,
+  };
+
+  const scriptBlock = await doCompileScript(descriptor, scopeId, compilerOptions);
+  const templateResults = await doCompileTemplate(descriptor, scopeId, compilerOptions, scriptBlock.bindings);
+
+  return {
+    renderModules: `
+      <script type="module">
+        const __module__ = __modules__.render = { [Symbol.toStringTag]: 'Module' };
+
+        ${templateResults.code}
+
+        __module__.default = render;
+      </script>
+      <script type="module">
+        const __module__ = __modules__['${filename}'] = { [Symbol.toStringTag]: 'Module' };
+
+        ${scriptBlock.content}
+        ${COMP_IDENTIFIER}.render = __modules__.render.default;
+        ${COMP_IDENTIFIER}.__file = '${filename}';
+        ${COMP_IDENTIFIER}.__scopeId = 'data-v-${scopeId}';
+
+        __module__.default = ${COMP_IDENTIFIER};
+      </script>
+    `,
+    imports: scriptBlock.imports ?? {},
+  };
+}
+
+async function doCompileScript(descriptor: SFCDescriptor, scopeId: string, compilerOptions: CompilerOptions) {
   const scriptBlock = compileScript(descriptor, {
     id: scopeId,
     genDefaultAs: COMP_IDENTIFIER,
-    inlineTemplate: true,
     fs: {
       fileExists(file: string) {
         if (file.startsWith('/')) file = file.slice(1);
@@ -186,37 +189,44 @@ async function transformSfc(
       ssr: false,
       ssrCssVars: descriptor.cssVars,
       compilerOptions: {
-        expressionPlugins: compilerOptions?.expressionPlugins,
+        expressionPlugins: compilerOptions.expressionPlugins,
       },
     },
   });
 
-  // const template = compileTemplate({
-  //   ...compileTemplateOptions,
-  //   compilerOptions: {
-  //     ...compileTemplateOptions.compilerOptions,
-  //     bindingMetadata: scriptBlock.bindings,
-  //   },
-  // });
-
   const { lang, content } = scriptBlock;
   const language = VUE_LANGUAGE_MAP.js[lang as keyof typeof VUE_LANGUAGE_MAP.js];
-  const code = await transformJs(content, language);
 
-  scriptBlock.content = code;
+  scriptBlock.content = await transformJs(content, language);
 
-  return {
-    renderScript: `
-      const __module__ = __modules__['${filename}'] = { [Symbol.toStringTag]: 'Module' };
+  return scriptBlock;
+}
 
-      ${scriptBlock.content}
-      ${COMP_IDENTIFIER}.__file = '${filename}';
-      ${COMP_IDENTIFIER}.__scopeId = 'data-v-${scopeId}';
+async function doCompileTemplate(
+  descriptor: SFCDescriptor,
+  scopeId: string,
+  compilerOptions: CompilerOptions,
+  bindingMetadata?: BindingMetadata,
+) {
+  const { filename, template, slotted, styles } = descriptor;
+  const templateResults = compileTemplate({
+    source: template ? await compileHtml(template.content, template?.lang) : '',
+    filename,
+    id: scopeId,
+    scoped: styles.some(style => style.scoped),
+    slotted,
+    isProd: false,
+    ssr: false,
+    ssrCssVars: descriptor.cssVars,
+    compilerOptions: {
+      ...compilerOptions,
+      bindingMetadata,
+    },
+  });
 
-      __module__.default = ${COMP_IDENTIFIER};
-    `,
-    imports: scriptBlock.imports ?? {},
-  };
+  templateResults.code = templateResults.code.replace(/export (function) render/, '$1 render');
+
+  return templateResults;
 }
 
 // function sourceMappingURL(map: RawSourceMap) {

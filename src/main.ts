@@ -5,6 +5,7 @@ import registerFaIcons from '@/utils/registerFaIcons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { initMonacoEditor } from '@/monaco';
 import { loadParse } from '@/utils/loadParse';
+import { getTsConstructor } from '@/utils/cdn';
 import { initTemplate } from '@/config/template';
 import '@/style/index.css';
 import '@/style/tailwind.css';
@@ -22,7 +23,7 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 
 (async function init() {
   loadParse('babel');
-  await initMonacoEditor();
+  await Promise.all([initMonacoEditor(), getTsConstructor()]);
   initTemplate();
   app.mount('#app');
 })();

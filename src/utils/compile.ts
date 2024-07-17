@@ -35,7 +35,7 @@ export function compile(params: CompileParams): Promise<CodeContent> {
         resolve({
           html: htmlCode,
           css: cssCode,
-          js: `${scripts}\n<script ${scriptType}>\n${code}\n</script>`,
+          js: scripts + code ? `\n<script ${scriptType}>\n${code}\n</script>` : '',
           importMap: IMPORT_MAP[codeTemplate],
         });
       })
