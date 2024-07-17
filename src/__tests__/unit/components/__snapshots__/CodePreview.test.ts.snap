@@ -32,9 +32,6 @@ exports[`CodePreview component > preview the correct content 1`] = `
   <body>
     <h1>Hello World!<h1>
     
-<script >
-
-</script>
   </body>
 </html>
 "
