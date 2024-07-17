@@ -141,7 +141,7 @@ async function compileJs(
 function compileCss(styles: SFCStyleBlock[]): Promise<string> {
   const parseCss = async (source: string, code: string, language: CssLanguages) => {
     source && (await loadParse(source));
-    return await transformCss(code, language);
+    return transformCss(code, language);
   };
   const css = styles.reduce((result: Promise<string>[], style) => {
     const { content, lang } = style;
@@ -154,7 +154,9 @@ function compileCss(styles: SFCStyleBlock[]): Promise<string> {
 
   return new Promise((resolve, reject) => {
     Promise.all(css)
-      .then((...args) => resolve(args.join('\r\n')))
+      .then((...args) => {
+        resolve(args.join('\r\n'));
+      })
       .catch(reject);
   });
 }

@@ -50,7 +50,7 @@ async function transformSrcdoc(project: CodeProject) {
 <template>
   <iframe
     :srcdoc="srcdoc"
-    sandbox=""
+    sandbox="allow-scripts"
     :title="`${project.id}-lazy-iframe`"
     frameborder="0"
     loading="lazy"

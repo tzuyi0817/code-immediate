@@ -48,14 +48,17 @@ async function deleteProject(id: string) {
   if (isDeleting.value) return;
   deleteId.value = id;
   isDeleting.value = true;
+
   const { status, message } = await deleteCode(id).finally(() => {
     isDeleting.value = false;
   });
+
   toast.showToast(message, status);
-  getProjects();
+  projects.value.length > 1 ? getProjects() : goPage(-1);
 }
 
 function goPage(offset: number) {
+  if (page.value + offset < 1) return;
   page.value += offset;
   projects.value = [];
   getProjects();
@@ -131,7 +134,7 @@ onMounted(getProjects);
         <img
           v-if="!projects.length"
           src="/templateIcon/images.jfif"
-          alt=""
+          alt="Empty Projects"
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
       </ul>
