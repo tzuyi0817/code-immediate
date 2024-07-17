@@ -55,7 +55,6 @@ async function transformSrcdoc(project: CodeProject) {
     frameborder="0"
     loading="lazy"
     scrolling="no"
-    class="w-full pointer-events-none rounded overflow-hidden bg-white border-gray-300 border-[1px] drop-shadow"
     tabindex="-1"
   ></iframe>
 </template>

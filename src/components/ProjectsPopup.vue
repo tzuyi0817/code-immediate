@@ -30,7 +30,9 @@ async function getProjects() {
 
 async function selectProject(project: CodeProject) {
   const { setCodeLoading, isChangeCode } = useFlagStore();
+
   if (isChangeCode) return emit('openRemindPop', () => selectProject(project));
+
   const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
   const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
 
@@ -111,9 +113,18 @@ onMounted(getProjects);
           class="projects_popup_card bg-black/5"
           @click="selectProject(project)"
         >
-          <Suspense>
-            <lazy-iframe :project="project" />
-          </Suspense>
+          <div class="projects_popup_card_content">
+            <Suspense>
+              <lazy-iframe :project="project" />
+              <template #fallback>
+                <font-awesome-icon
+                  icon="fa-solid fa-spinner"
+                  class="animate-spin text-yellow-400 text-2xl block"
+                />
+              </template>
+            </Suspense>
+          </div>
+
           <div class="rounded pt-3 px-3 flex justify-between">
             <p>{{ project.title }}</p>
             <font-awesome-icon
@@ -197,12 +208,28 @@ onMounted(getProjects);
     duration-500
     font-bold
     overflow-visible
+    flex
+    flex-col
     hover:bg-yellow-300
     hover:drop-shadow-xl
     hover:border-gray-300
     hover:shadow-lg
     hover:text-black/70
     hover:scale-[103%];
+    &_content {
+      @apply w-full
+      pointer-events-none
+      rounded
+      overflow-hidden
+      bg-white
+      border-gray-300
+      border
+      drop-shadow
+      flex-1
+      flex
+      justify-center
+      items-center;
+    }
   }
 }
 </style>

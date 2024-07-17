@@ -12,6 +12,7 @@ export default function useMonacoEditor() {
   const { setChangeCodeFlag } = useFlagStore();
   const monacoEditor = {
     editor: null as monaco.editor.IStandaloneCodeEditor | null,
+    isFocus: false,
   };
 
   function createEditor(DOM: HTMLElement, model: CodeModel) {
@@ -39,15 +40,18 @@ export default function useMonacoEditor() {
         const type = model;
 
         setCodeContent({ type, code });
+        if (!monacoEditor.isFocus) return;
         setChangeCodeFlag(true);
       }, 1500),
     );
 
-    monacoEditor.editor.onDidBlurEditorText(
-      debounce(() => {
-        console.log('onDidBlurEditorText');
-      }),
-    );
+    monacoEditor.editor.onDidFocusEditorText(() => {
+      monacoEditor.isFocus = true;
+    });
+
+    monacoEditor.editor.onDidBlurEditorText(() => {
+      monacoEditor.isFocus = false;
+    });
   }
 
   function highlightSemantic(editor: monaco.editor.IStandaloneCodeEditor) {

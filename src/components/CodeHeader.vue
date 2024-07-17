@@ -78,7 +78,9 @@ async function saveCode() {
 
 function newProject() {
   const { setCreateProjectFlag, setLoading, isChangeCode } = useFlagStore();
+
   if (isChangeCode) return openRemindPop(newProject);
+
   const { setCodeMap, setCodeTemplate, setCodeTitle, setCodeId } = useCodeContentStore();
   const defaultTemplate = deepClone(DEFAULT_TEMPLATE_MAP);
 
