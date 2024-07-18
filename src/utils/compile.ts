@@ -50,7 +50,7 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
     },
     Markdown() {
       if (!showdown) showdown = new self.showdown.Converter();
-      return showdown?.makeHtml(htmlContent);
+      return showdown?.makeHtml(htmlContent.replace(/\n\s+#/g, '\n#'));
     },
     Slim() {},
     Pug() {

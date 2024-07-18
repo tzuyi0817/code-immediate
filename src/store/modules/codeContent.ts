@@ -75,6 +75,6 @@ export default defineStore('code_immediate_content', {
   },
   persist: {
     storage: localStorage,
-    paths: ['codeContent', 'codeTemplate', 'codeTitle', 'codeId'],
+    paths: ['codeContent', 'codeTemplate', 'codeTitle'],
   },
 });

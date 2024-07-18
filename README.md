@@ -23,6 +23,9 @@
 [o] Built-in many frontend templates  
 [o] Support multiple preprocessing languages  
 [o] Support `Vue 3 SFC`  
+[o] `Vue 3 SFC script` language is support `js` and `ts`  
+[o] `Vue 3 SFC template` language is support `html`, `haml`, `markdown` and `pug`  
+[o] `Vue 3 SFC style` language is support `css`, `less`, `scss`, `sass`, `stylus` and `postcss`  
 [o] Support for save code  
 [o] Built-in support for using ES module syntax on browsers using [jsdelivr](https://cdn.jsdelivr.net), [esbuild](https://esbuild.vercel.app) and [importmap](https://github.com/WICG/import-maps)  
 [o] Support code formatting  
@@ -31,7 +34,7 @@
 [o] Support export `zip`  
 [o] Support embedded mode for easy use in documentation sites, making documentation examples easier  
 [o] Support sharing code URL to others to view  
-[x] Support multiple layouts to switch
+[o] Support console results to facilitate coding
 
 ## Development
 
@@ -97,4 +100,4 @@ import moment from 'https://cdn.jsdelivr.net/npm/moment/+esm';
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+This project is licensed under the [MIT](./LICENSE) License.
