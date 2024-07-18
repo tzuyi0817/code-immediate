@@ -34,10 +34,11 @@ function implementJs(event: Event) {
 
 function receiveMessage(event: MessageEvent) {
   const { data } = event;
+  const { type } = data;
 
-  if (data.type === undefined) return;
-  if (data.type === 'error') {
-    toast.showToast(data.message, 'error');
+  if (type === undefined) return;
+  if (type === 'error' || type === 'warn') {
+    toast.showToast(data.message, type);
   }
   consoleCode.push(data);
   wrapScrollToBottom();
@@ -110,6 +111,11 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         <pre
           v-else-if="type === 'log'"
           class="code_console_message log"
+          v-html="html"
+        ></pre>
+        <pre
+          v-else-if="type === 'warn'"
+          class="code_console_message warn"
           v-html="html"
         ></pre>
         <pre
@@ -202,6 +208,9 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     }
     &.error {
       @apply bg-red-700/40;
+    }
+    &.warn {
+      @apply bg-yellow-300/20 text-yellow-200;
     }
     .html {
       .symbol {

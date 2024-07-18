@@ -51,7 +51,7 @@
     const isHtmlElement = /^html.*element/.test(originType);
     const messageType = isHtmlElement ? 'html' : originType;
     const messageTypeMap = {
-      string: () => `<span class="${messageType}">"${message}"</span>`,
+      string: () => `<span class="${messageType}">${message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>`,
       null: () => '<span class="atom">null<span>',
       undefined: () => '<span class="atom">undefined</span>',
       boolean: () => `<span class="atom">${message}</span>`,
