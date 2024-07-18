@@ -5,8 +5,8 @@ const { msg, status, isShowToast } = toast;
 </script>
 
 <template>
-  <div :class="['toast', { 'toast-show': isShowToast }, status === 'success' ? 'bg-green-600' : 'bg-red-600']">
-    {{ msg }}
+  <div :class="['toast', { 'toast-show': isShowToast }, status]">
+    <pre>{{ msg }}</pre>
   </div>
 </template>
 
@@ -18,15 +18,29 @@ const { msg, status, isShowToast } = toast;
   top-5
   translate-x-full
   transition-all
-  p-[10px]
-  rounded-[5px]
-  text-white
+  py-3
+  px-5
+  border-2
+  bg-[#292218]/90
+  whitespace-pre-wrap
+  rounded-md
   text-sm
   text-center
   font-semibold
+  drop-shadow
+  duration-300
   pointer-events-none;
   &-show {
     @apply -translate-x-3;
+  }
+  &.success {
+    @apply border-green-600 text-green-400;
+  }
+  &.error {
+    @apply border-red-600 text-red-400;
+  }
+  &.warn {
+    @apply border-yellow-600 text-yellow-400;
   }
 }
 </style>

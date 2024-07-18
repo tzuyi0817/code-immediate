@@ -4,14 +4,14 @@
       const value = Reflect.get(...arguments);
 
       return function (...args) {
-        const [message] = args;
+        const message = args.join(' ');
 
         if (message.includes('You are running a development build of Vue')) return;
         if (message.includes('You are running the esm-bundler build of Vue')) return;
 
-        const data = args.reduce((result, arg) => result + `${formatMessage(arg)} `, '');
+        const html = args.reduce((result, arg) => result + `${formatMessage(arg)} `, '');
 
-        postMessageToParent({ type: prop, data });
+        postMessageToParent({ type: prop, html, message });
         return value.apply(target, args);
       }
     },
@@ -29,7 +29,7 @@
   self.addEventListener('message', ({ data: { value, type } }) => {
     const typeMap = {
       command() {
-        postMessageToParent({ type: 'echo', data: value });
+        postMessageToParent({ type: 'echo', html: value, message: value });
         try {
           console.log(Function(`"use strict";return ${value}`)());
         } catch (error) {
@@ -42,8 +42,8 @@
     typeMap[type]();
   });
 
-  function postMessageToParent({ type, data }) {
-    self.parent.postMessage({ type, data });
+  function postMessageToParent(data) {
+    self.parent.postMessage(data);
   }
 
   function formatMessage(message, deep = 0) {

@@ -3,11 +3,12 @@ import { ref, reactive, inject, Ref, watch, onMounted, onBeforeUnmount, nextTick
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeDrag from '@/components/CodeDrag.vue';
+import toast from '@/utils/toast';
 
 interface Props {
   previewWidth: string;
 }
-type ReceiveData = { type: string; data: string }[];
+type ReceiveData = { type: string; html: string; message: string }[];
 
 const props = defineProps<Props>();
 const isShowConsole = defineModel<boolean>('isShowConsole', { required: true });
@@ -19,21 +20,25 @@ const { isSFC, codeId } = storeToRefs(useCodeContentStore());
 const { isCreateProject } = storeToRefs(useFlagStore());
 
 function implementJs(event: Event) {
-  const { value } = event.target as HTMLTextAreaElement;
+  const target = event.target as HTMLTextAreaElement;
 
   iframe?.value.contentWindow?.postMessage(
     {
       type: 'command',
-      value: value.trim(),
+      value: target.value.trim(),
     },
     '*',
   );
-  (event.target as HTMLTextAreaElement).value = '';
+  target.value = '';
 }
 
 function receiveMessage(event: MessageEvent) {
   const { data } = event;
-  if (data.type === void 0) return;
+
+  if (data.type === undefined) return;
+  if (data.type === 'error') {
+    toast.showToast(data.message, 'error');
+  }
   consoleCode.push(data);
   wrapScrollToBottom();
 }
@@ -45,6 +50,7 @@ function clearConsole() {
 async function wrapScrollToBottom() {
   await nextTick();
   const scroller = codeWrap.value;
+
   if (!scroller) return;
   scroller.scrollTop = scroller.scrollHeight;
 }
@@ -93,28 +99,28 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
       ref="codeWrap"
     >
       <template
-        v-for="({ type, data }, index) in consoleCode"
+        v-for="({ type, html }, index) in consoleCode"
         :key="index"
       >
         <pre
           v-if="type === 'echo'"
           class="code_console_message echo"
-          >{{ data }}</pre
+          >{{ html }}</pre
         >
         <pre
           v-else-if="type === 'log'"
           class="code_console_message log"
-          v-html="data"
+          v-html="html"
         ></pre>
         <pre
           v-else-if="type === 'error'"
           class="code_console_message error"
-          v-html="data"
+          v-html="html"
         ></pre>
         <pre
           v-else
           class="code_console_message"
-          v-html="data"
+          v-html="html"
         ></pre>
       </template>
     </div>
@@ -126,7 +132,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         class="text-xs rotate-[270deg] text-gray-300 px-2"
       />
       <textarea
-        class="flex-1 bg-transparent text-gray-300 focus:outline-none text-sm"
+        class="flex-1 bg-transparent text-gray-300 focus:outline-none text-sm font-mono"
         rows="1"
         @keydown.enter.prevent="implementJs"
       ></textarea>
@@ -136,10 +142,8 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
 <style lang="postcss">
 .code_console {
-  @apply absolute
-  h-[calc(60vh-88px)]
-  right-0
-  bottom-8;
+  @apply absolute h-[calc(60vh-88px)] right-0 bottom-8;
+
   &.drag_height {
     @media (min-width: 1024px) {
       height: v-bind(consoleHeight);
@@ -215,11 +219,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     }
   }
   &_command {
-    @apply bg-black/80
-    flex
-    items-center
-    px-2
-    h-8;
+    @apply bg-black/80 flex items-center px-2 h-8 shadow-md;
   }
 }
 </style>

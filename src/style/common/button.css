@@ -1,8 +1,8 @@
 @import 'tailwindcss/components';
 
 @layer components {
-  button:active {
-    @apply translate-y-[2px];
+  button:active:enabled {
+    @apply scale-90;
   }
 
   button:disabled {

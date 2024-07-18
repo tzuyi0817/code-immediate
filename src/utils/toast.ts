@@ -1,11 +1,13 @@
 import { ref } from 'vue';
+import { sleep } from '@/utils/common';
 
 export default {
   msg: ref(''),
   status: ref('success'),
   isShowToast: ref(false),
   timer: null as NodeJS.Timeout | null,
-  showToast(msg: string, status: string, time = 1800) {
+  duration: 300,
+  showToast(msg: string, status: 'success' | 'error' | 'warn', time = 1800) {
     this.timer && clearTimeout(this.timer);
     this.msg.value = msg;
     this.status.value = status;
@@ -15,10 +17,11 @@ export default {
       this.closeToast();
     }, time);
   },
-  closeToast() {
+  async closeToast() {
     this.timer && clearTimeout(this.timer);
     this.timer = null;
-    this.msg.value = '';
     this.isShowToast.value = false;
+    await sleep(this.duration);
+    this.msg.value = '';
   },
 };
