@@ -14,7 +14,7 @@ describe('Toast Component', () => {
     const toastDom = screen.getByText(message);
 
     expect(toastDom).toBeInTheDocument();
-    expect(toastDom).toHaveClass('toast-show');
+    expect(toastDom.parentElement).toHaveClass('toast-show');
   });
 
   it('close toast', async () => {
@@ -27,7 +27,7 @@ describe('Toast Component', () => {
 
     toast.closeToast();
     await nextTick();
-    expect(toastDom).not.toHaveClass('toast-show');
+    expect(toastDom.parentElement).not.toHaveClass('toast-show');
   });
 
   describe('toast background color', () => {
@@ -37,14 +37,14 @@ describe('Toast Component', () => {
       renderComponent(Toast);
       toast.showToast(message, 'success');
       await nextTick();
-      expect(screen.getByText(message)).toHaveClass('bg-green-600');
+      expect(screen.getByText(message).parentElement).toHaveClass('success');
     });
 
     it('error toast', async () => {
       renderComponent(Toast);
       toast.showToast(message, 'error');
       await nextTick();
-      expect(screen.getByText(message)).toHaveClass('bg-red-600');
+      expect(screen.getByText(message).parentElement).toHaveClass('error');
     });
   });
 });

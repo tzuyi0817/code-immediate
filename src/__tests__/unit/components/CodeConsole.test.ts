@@ -44,7 +44,7 @@ describe('CodeConsole component', () => {
       fireEvent(
         window,
         new MessageEvent('message', {
-          data: { type: 'echo', data: 'echo' },
+          data: { type: 'echo', html: 'echo', message: 'echo' },
           origin: '*',
         }),
       );
@@ -59,7 +59,7 @@ describe('CodeConsole component', () => {
       fireEvent(
         window,
         new MessageEvent('message', {
-          data: { type: 'log', data: '<span class="number">123456789</span>' },
+          data: { type: 'log', html: '<span class="number">123456789</span>' },
           origin: '*',
         }),
       );
@@ -74,7 +74,7 @@ describe('CodeConsole component', () => {
       fireEvent(
         window,
         new MessageEvent('message', {
-          data: { type: 'error', data: 'receive error message' },
+          data: { type: 'error', html: 'receive error message' },
           origin: '*',
         }),
       );
@@ -89,7 +89,7 @@ describe('CodeConsole component', () => {
       fireEvent(
         window,
         new MessageEvent('message', {
-          data: { type: 'dir', data: 'another message' },
+          data: { type: 'dir', html: 'another message' },
           origin: '*',
         }),
       );
@@ -107,7 +107,7 @@ describe('CodeConsole component', () => {
   });
 
   it('clear console message', async () => {
-    const data = 'echo-message';
+    const html = 'echo-message';
 
     renderComponent(CodeConsole, {
       provide: { iframe: ref(null) },
@@ -116,12 +116,12 @@ describe('CodeConsole component', () => {
     fireEvent(
       window,
       new MessageEvent('message', {
-        data: { type: 'echo', data },
+        data: { type: 'echo', html },
         origin: '*',
       }),
     );
-    expect(await screen.findByText(data)).toBeInTheDocument();
+    expect(await screen.findByText(html)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.queryByText(data)).not.toBeInTheDocument();
+    expect(screen.queryByText(html)).not.toBeInTheDocument();
   });
 });
