@@ -14,6 +14,7 @@ const props = defineProps<Props>();
 const selected = computed(() => {
   const { codeContent } = useCodeContentStore();
   const { model } = props;
+
   return codeContent[model].language;
 });
 
@@ -38,6 +39,8 @@ async function changeLanguage(event: Event) {
       v-for="(_, language) in languageMap"
       :value="language"
       :key="language"
-    >{{ language }}</option>
+    >
+      {{ language }}
+    </option>
   </select>
 </template>

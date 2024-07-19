@@ -8,7 +8,7 @@ const axiosInstance = axios.create({ baseURL: VITE_API_URL });
 export interface ResponseResult<T = unknown> {
   message: string;
   resultMap: T;
-  status: string;
+  status: 'success' | 'error';
 }
 
 interface RequestMethod {

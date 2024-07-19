@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
+import { storeToRefs } from 'pinia';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
+import { useCodeContentStore } from '@/store';
+import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
+import { SUFFIX_MAP } from '@/config/suffix';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
 const currentAction = defineModel<CodeModel>('currentAction', { required: true });
+const { codeContent } = storeToRefs(useCodeContentStore());
+
 const languageMap = computed(() => {
   const map = {
     HTML: HTML_LANGUAGE_MAP,
@@ -29,7 +34,8 @@ function updateAction(action: CodeModel) {
         v-if="currentAction === 'VUE'"
         :class="['btn_select', 'btn_select-active']"
       >
-        VUE
+        <span class="small-screen">VUE</span>
+        <span class="large-screen">App.vue</span>
       </button>
 
       <template v-else>
@@ -37,19 +43,22 @@ function updateAction(action: CodeModel) {
           :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
           @click="updateAction('HTML')"
         >
-          HTML
+          <span class="small-screen">HTML</span>
+          <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.HTML.language]}` }}</span>
         </button>
         <button
           :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
           @click="updateAction('CSS')"
         >
-          CSS
+          <span class="small-screen">CSS</span>
+          <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.CSS.language]}` }}</span>
         </button>
         <button
           :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
           @click="updateAction('JS')"
         >
-          JS
+          <span class="small-screen">JS</span>
+          <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.JS.language]}` }}</span>
         </button>
       </template>
 
@@ -92,6 +101,12 @@ function updateAction(action: CodeModel) {
   &_right {
     @apply flex
     gap-1;
+  }
+  .small-screen {
+    @apply lg:hidden;
+  }
+  .large-screen {
+    @apply hidden lg:flex;
   }
 }
 </style>

@@ -1,6 +1,10 @@
 @import 'tailwindcss/components';
 
 @layer components {
+  button {
+    @apply outline-none;
+  }
+
   button:active:enabled {
     @apply scale-90;
   }
@@ -64,17 +68,18 @@
   }
 
   .btn_select {
-    @apply text-white
+    @apply text-gray-300
     font-mono
-    bg-secondary/70
     text-xs
+    border-b-2
+    border-transparent
     px-3
-    py-2
+    py-1.5
     transition-all
     cursor-pointer
-    hover:brightness-125;
+    hover:brightness-110;
     &-active {
-      @apply bg-secondary;
+      @apply border-yellow-400 text-yellow-400;
     }
   }
 }

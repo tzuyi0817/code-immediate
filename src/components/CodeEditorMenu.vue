@@ -120,7 +120,7 @@ function EmbedFile() {
     text-xs
     transition-all
     py-2
-    z-[3];
+    z-[15];
     li {
       @apply px-3
       py-1

@@ -81,39 +81,27 @@ onMounted(closeInitLoading);
 
       <div
         v-show="!isSFC"
-        class="flex h-full"
+        class="code_wrap_editor flex"
       >
         <div :class="['code_wrap_code', { hidden: currentAction !== 'HTML' }]">
-          <code-editor
-            class="code_wrap_editor"
-            model="HTML"
-          />
+          <code-editor model="HTML" />
         </div>
 
         <div :class="['code_wrap_code', { hidden: currentAction !== 'CSS' }]">
-          <code-editor
-            class="code_wrap_editor"
-            model="CSS"
-          />
+          <code-editor model="CSS" />
         </div>
 
         <div :class="['code_wrap_code', { hidden: currentAction !== 'JS' }]">
-          <code-editor
-            class="code_wrap_editor"
-            model="JS"
-          />
+          <code-editor model="JS" />
         </div>
       </div>
 
       <div
         v-show="isSFC"
-        class="h-full flex"
+        class="code_wrap_editor flex"
       >
         <div class="code_wrap_code">
-          <code-editor
-            class="code_wrap_editor"
-            model="VUE"
-          />
+          <code-editor model="VUE" />
         </div>
       </div>
     </div>

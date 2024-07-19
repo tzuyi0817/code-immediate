@@ -2,22 +2,20 @@
 
 @layer components {
   .popup {
-    @apply 
-    fixed
+    @apply fixed
     top-0
     left-0
     flex
     flex-col
     items-center
     justify-center
-    z-10
+    z-20
     animate-popup
     drop-shadow-lg
     w-full
     h-full;
     &_header {
-      @apply
-      flex
+      @apply flex
       w-[90%]
       max-w-xl
       justify-between
@@ -27,8 +25,7 @@
       rounded-t-md;
     }
     &_content {
-      @apply
-      px-4
+      @apply px-4
       pb-4
       w-[90%]
       max-w-xl
