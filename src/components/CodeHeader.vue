@@ -375,7 +375,7 @@ watch(codeTitle, projectTitle => {
     bg-white
     py-2
     w-44
-    z-[4]
+    z-[16]
     text-gray-600
     lg:hidden;
     li {

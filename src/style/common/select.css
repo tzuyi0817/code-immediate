@@ -1,30 +1,78 @@
 @import 'tailwindcss/components';
 
 @layer components {
-  select:active {
-    @apply translate-y-[1px];
-  }
-
   .select {
-    @apply
+    @apply relative
+    select-none
+    font-mono
     text-xs
-    p-[2px]
+    p-1.5
+    flex
+    justify-center
+    items-center
+    gap-1
     cursor-pointer
-    hover:brightness-125
-    rounded-sm;
+    hover:brightness-110
+    rounded-sm
+    outline-none
+    transition-all
+    active:scale-90;
+
+    &:hover {
+      .select-icon {
+        @apply text-yellow-400;
+      }
+    }
+
+    &-label {
+      @apply text-yellow-400;
+    }
+
+    &-icon {
+      @apply text-white transition-transform;
+
+      &.open {
+        @apply rotate-180;
+      }
+    }
+
+    &-options {
+      @apply absolute
+      font-mono
+      text-xs
+      p-2
+      z-[15]
+      text-white
+      bg-[#242424]
+      top-full
+      left-1/2
+      -translate-x-1/2
+      translate-y-1
+      cursor-pointer
+      w-fit
+      border
+      border-gray-600
+      outline-none
+      rounded
+      scale-y-0
+      origin-top
+      transition-all;
+
+      &.open {
+        @apply scale-y-100;
+      }
+
+      li {
+        @apply py-2 px-4 hover:text-yellow-400 hover:bg-white/10 transition-colors;
+        &.selected {
+          @apply text-yellow-400;
+        }
+      }
+    }
   }
 
   .select_base {
-    @apply
-    text-white
+    @apply text-white
     bg-secondary;
-  }
-
-  .select_border {
-    @apply
-    border-white
-    border-[1px]
-    bg-black/90
-    text-white;
   }
 }

@@ -17,7 +17,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "lint:fix": "pnpm run lint --fix .",
-    "ts-check": "bash -c vue-tsc --noEmit",
+    "typecheck": "bash -c vue-tsc --noEmit",
     "test:unit": "vitest --coverage",
     "preview": "vite preview",
     "prepare": "husky"
