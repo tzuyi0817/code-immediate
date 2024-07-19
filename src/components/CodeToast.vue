@@ -25,7 +25,6 @@ const { msg, status, isShowToast } = toast;
   whitespace-pre-wrap
   rounded-md
   text-sm
-  text-center
   font-semibold
   drop-shadow
   duration-300

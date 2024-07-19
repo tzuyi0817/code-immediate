@@ -65,10 +65,12 @@
 
   .btn_select {
     @apply text-white
+    font-mono
     bg-secondary/70
     text-xs
     px-3
     py-2
+    transition-all
     cursor-pointer
     hover:brightness-125;
     &-active {

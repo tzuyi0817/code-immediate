@@ -1,27 +1,23 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import type { CodeModel } from '@/types/codeContent';
 
-type Action = Exclude<CodeModel, 'VUE'>;
-
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
-const currentAction = defineModel<Action>('currentAction', { required: true });
-const { isSFC } = storeToRefs(useCodeContentStore());
+const currentAction = defineModel<CodeModel>('currentAction', { required: true });
 const languageMap = computed(() => {
   const map = {
     HTML: HTML_LANGUAGE_MAP,
     CSS: CSS_LANGUAGE_MAP,
     JS: JS_LANGUAGE_MAP,
+    VUE: {},
   } as const;
   return map[currentAction.value];
 });
 
-function updateAction(action: Action) {
+function updateAction(action: CodeModel) {
   currentAction.value = action;
 }
 </script>
@@ -30,7 +26,7 @@ function updateAction(action: Action) {
   <div class="code_editor_action">
     <div class="code_editor_action_left">
       <button
-        v-if="isSFC"
+        v-if="currentAction === 'VUE'"
         :class="['btn_select', 'btn_select-active']"
       >
         VUE
@@ -58,7 +54,7 @@ function updateAction(action: Action) {
       </template>
 
       <button
-        :class="['btn_select', { 'btn_select-active': isShowPreview }]"
+        :class="['btn_select lg:hidden', { 'btn_select-active': isShowPreview }]"
         @click="isShowPreview = !isShowPreview"
       >
         Result
@@ -67,7 +63,7 @@ function updateAction(action: Action) {
 
     <div class="code_editor_action_right">
       <language-select
-        v-if="!isSFC"
+        v-if="currentAction !== 'VUE'"
         :languageMap="languageMap"
         :model="currentAction"
       />
@@ -86,8 +82,7 @@ function updateAction(action: Action) {
   justify-between
   border-b-2
   border-gray-700/60
-  bg-black
-  lg:hidden;
+  bg-black;
   &_left {
     @apply flex
     gap-[2px]

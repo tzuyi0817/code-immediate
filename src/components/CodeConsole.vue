@@ -16,7 +16,7 @@ const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref<HTMLDivElement | null>(null);
 const consoleHeight = ref('30vh');
 const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
-const { isSFC, codeId } = storeToRefs(useCodeContentStore());
+const { codeId } = storeToRefs(useCodeContentStore());
 const { isCreateProject } = storeToRefs(useFlagStore());
 
 function implementJs(event: Event) {
@@ -67,7 +67,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
 <template>
   <div
-    :class="['code_console w-full drag_height', { preview_width: isSFC }]"
+    class="code_console w-full drag_height preview_width"
     v-show="isShowConsole"
   >
     <code-drag
@@ -150,14 +150,14 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 .code_console {
   @apply absolute h-[calc(60vh-88px)] right-0 bottom-8;
 
-  &.drag_height {
-    @media (min-width: 1024px) {
-      height: v-bind(consoleHeight);
-    }
-  }
   &.preview_width {
     @media (min-width: 1024px) {
       width: calc(v-bind('props.previewWidth') - 18px);
+    }
+  }
+  &.drag_height {
+    @media (min-width: 1024px) {
+      height: v-bind(consoleHeight);
     }
   }
   &_header {
