@@ -20,7 +20,7 @@ describe('LanguageSelect component', () => {
       props: { languageMap, model: 'HTML' },
     });
     expect(screen.getByRole('combobox')).toBeInTheDocument();
-    expect((<HTMLSelectElement>screen.getByRole('combobox')).value).toEqual(languages[0]);
+    expect(screen.getByRole('combobox')).toHaveTextContent(languages[0]);
     expect(screen.getByText(languages[0])).toBeInTheDocument();
   });
 
@@ -31,9 +31,11 @@ describe('LanguageSelect component', () => {
     renderComponent(LanguageSelect, {
       props: { languageMap, model: 'HTML' },
     });
-    await userEvent.selectOptions(screen.getByRole('combobox'), selectLanguage);
-    expect((<HTMLSelectElement>screen.getByRole('combobox')).value).toEqual(selectLanguage);
+    await userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('listbox')).toBeInTheDocument();
+    expect(screen.getAllByRole('option')).toHaveLength(languages.length);
+    await userEvent.click(screen.getByText(selectLanguage));
+    expect(screen.getByRole('combobox')).toHaveTextContent(selectLanguage);
     expect(codeContentStore.codeContent.HTML.language).toEqual(selectLanguage);
-    expect(screen.getByText(selectLanguage)).toBeInTheDocument();
   });
 });
