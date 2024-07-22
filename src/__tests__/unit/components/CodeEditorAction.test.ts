@@ -10,12 +10,6 @@ describe('CodeEditorAction Component', async () => {
   it('renders the correct content', async () => {
     renderComponent(CodeEditorAction, {
       props: { isShowPreview: true, currentAction: 'HTML' },
-      provide: {
-        codeMenu: {
-          isShowMenuMap: { HTML: false, CSS: false, JS: false, VUE: false },
-          toggleMenu: () => {},
-        },
-      },
     });
     expect(screen.getByRole('button', { name: /index.html/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /index.css/i })).toBeInTheDocument();
@@ -28,12 +22,6 @@ describe('CodeEditorAction Component', async () => {
   it('change to sfc template', async () => {
     renderComponent(CodeEditorAction, {
       props: { isShowPreview: true, currentAction: 'VUE' },
-      provide: {
-        codeMenu: {
-          isShowMenuMap: { HTML: false, CSS: false, JS: false, VUE: false },
-          toggleMenu: () => {},
-        },
-      },
     });
     expect(screen.getByRole('button', { name: /app.vue/i })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /index.html/i })).not.toBeInTheDocument();
@@ -45,12 +33,6 @@ describe('CodeEditorAction Component', async () => {
   it('change select action', async () => {
     const { container, emitted } = renderComponent(CodeEditorAction, {
       props: { isShowPreview: true, currentAction: 'HTML' },
-      provide: {
-        codeMenu: {
-          isShowMenuMap: { HTML: false, CSS: false, JS: false, VUE: false },
-          toggleMenu: () => {},
-        },
-      },
     });
     const selectAction = container.firstChild?.firstChild;
     const updateCurrentAction = 'update:currentAction';

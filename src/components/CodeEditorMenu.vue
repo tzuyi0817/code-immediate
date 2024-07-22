@@ -59,7 +59,7 @@ async function exportCode() {
   setLoading({ isOpen: false, type: 'Export zip finished' });
 }
 
-function EmbedFile() {
+function embedFile() {
   const { codeContent, setCodeContent } = useCodeContentStore();
   const { setEmbedFlag } = useFlagStore();
   const { model } = props;
@@ -80,8 +80,8 @@ function EmbedFile() {
 
   element.type = 'file';
   element.accept = `.${SUFFIX_MAP[language]}`;
-  element.click();
   element.addEventListener('change', onChangeFile);
+  element.click();
   toggleMenu();
 }
 
@@ -109,7 +109,7 @@ function toggleMenu(isShow = !isShowMenu.value) {
     >
       <li @click="formatterCode">Format Code</li>
       <li @click="exportCode">Export Zip</li>
-      <li @click="EmbedFile">Embed Local File</li>
+      <li @click="embedFile">Embed Local File</li>
     </ul>
   </div>
 </template>

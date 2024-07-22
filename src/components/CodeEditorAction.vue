@@ -40,19 +40,19 @@ function onBlur() {
   implementCloseEvent();
 }
 
-function onWindowClick() {
+function onWindow() {
   window.addEventListener('click', implementCloseEvent);
   window.addEventListener('blur', onBlur);
 }
 
-function unWindowClick() {
+function unWindow() {
   window.removeEventListener('click', implementCloseEvent);
   window.removeEventListener('blur', onBlur);
   closeEvents.clear();
 }
 
-onMounted(onWindowClick);
-onBeforeUnmount(unWindowClick);
+onMounted(onWindow);
+onBeforeUnmount(unWindow);
 </script>
 
 <template>
