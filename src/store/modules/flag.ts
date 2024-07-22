@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import type { CodeModel } from '@/types/codeContent';
 
 const defaultState = {
-  isInitLoading: true,
   isLoading: false,
   loadingType: '',
   isStartDrag: false,
@@ -32,9 +31,6 @@ export default defineStore('code_immediate_flag', {
     },
   },
   actions: {
-    setInitLoading(isLoading: boolean) {
-      this.isInitLoading = isLoading;
-    },
     setLoading({ type, isOpen }: { type: string; isOpen: boolean }) {
       this.loadingType = type;
       this.isLoading = isOpen;

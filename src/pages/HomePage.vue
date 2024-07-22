@@ -2,7 +2,7 @@
 import { ref, computed, provide, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore, useFlagStore } from '@/store';
+import { useCodeContentStore } from '@/store';
 import { getCode } from '@/apis/code';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
@@ -32,8 +32,10 @@ provide('iframe', iframe);
 selectProject();
 
 function closeInitLoading() {
-  const { setInitLoading } = useFlagStore();
-  setInitLoading(false);
+  const loadingBox = document.getElementById('init-loading');
+
+  if (!loadingBox) return;
+  loadingBox.style.display = 'none';
 }
 
 function selectProject() {
