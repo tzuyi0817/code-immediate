@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject } from 'vue';
+import { ref } from 'vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
 import { SUFFIX_MAP } from '@/config/suffix';
@@ -13,13 +13,11 @@ interface Props {
   model: CodeModel;
 }
 
-interface InjectCodeMenu {
-  isShowMenuMap: Record<CodeModel, boolean>;
-  toggleMenu: (model: CodeModel) => void;
-}
-
 const props = defineProps<Props>();
-const injectCodeMenu = inject<InjectCodeMenu>('codeMenu');
+const emit = defineEmits(['add-close-event']);
+const isShowMenu = ref(false);
+
+emit('add-close-event', toggleMenu);
 
 async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
@@ -29,7 +27,7 @@ async function formatterCode() {
   const parser = PRETTIER_MAP[language];
 
   setLoading({ isOpen: true, type: 'Code formatter' });
-  injectCodeMenu?.toggleMenu(model);
+  toggleMenu();
   if (!parser) {
     await sleep();
     return setLoading({ isOpen: false, type: "This syntax isn't supported error" });
@@ -55,7 +53,7 @@ async function exportCode() {
   const { model } = props;
   const { content, language } = codeContent[model];
 
-  injectCodeMenu?.toggleMenu(model);
+  toggleMenu();
   setLoading({ isOpen: true, type: 'Exporting zip' });
   await exportZip({ content, language }, codeTitle);
   setLoading({ isOpen: false, type: 'Export zip finished' });
@@ -68,19 +66,27 @@ function EmbedFile() {
   const { language } = codeContent[model];
   let element: HTMLInputElement | null = document.createElement('input');
 
-  injectCodeMenu?.toggleMenu(model);
-  element.type = 'file';
-  element.accept = `.${SUFFIX_MAP[language]}`;
-  element.click();
-  element.addEventListener('change', async event => {
+  const onChangeFile = async (event: Event) => {
     const code = await readFile(event).catch(() => toast.showToast('Embed file failed', 'error'));
 
     if (code) {
       setCodeContent({ type: model, code });
       setEmbedFlag({ model, isEmbed: true });
     }
+    if (!element) return;
+    element.removeEventListener('change', onChangeFile);
     element = null;
-  });
+  };
+
+  element.type = 'file';
+  element.accept = `.${SUFFIX_MAP[language]}`;
+  element.click();
+  element.addEventListener('change', onChangeFile);
+  toggleMenu();
+}
+
+function toggleMenu(isShow = !isShowMenu.value) {
+  isShowMenu.value = isShow;
 }
 </script>
 
@@ -88,7 +94,7 @@ function EmbedFile() {
   <div class="code_editor_menu">
     <button
       class="btn btn_base h-[26px] w-8 rounded-sm"
-      @click.stop="injectCodeMenu?.toggleMenu(model)"
+      @click.stop="() => toggleMenu()"
     >
       <font-awesome-icon
         icon="fa-solid fa-angle-down"
@@ -98,7 +104,7 @@ function EmbedFile() {
     </button>
 
     <ul
-      v-if="injectCodeMenu?.isShowMenuMap[model]"
+      v-if="isShowMenu"
       class="code_editor_menu_content animate-popup"
     >
       <li @click="formatterCode">Format Code</li>

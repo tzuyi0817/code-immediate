@@ -11,8 +11,11 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const isOpen = ref(false);
+const emit = defineEmits(['add-close-event']);
+const isOpenSelect = ref(false);
 const isShowOptions = ref(false);
+
+emit('add-close-event', toggleDropdown);
 
 const selected = computed(() => {
   const { codeContent } = useCodeContentStore();
@@ -21,21 +24,19 @@ const selected = computed(() => {
   return codeContent[model].language;
 });
 
-async function toggleDropdown() {
-  const status = !isOpen.value;
-
-  if (status) {
-    isOpen.value = status;
+async function toggleDropdown(isOpen = !isOpenSelect.value) {
+  if (isOpen) {
+    isOpenSelect.value = isOpen;
 
     requestAnimationFrame(() => {
-      isShowOptions.value = status;
+      isShowOptions.value = isOpen;
     });
     return;
   }
-  isShowOptions.value = status;
+  isShowOptions.value = isOpen;
 
   await sleep(150);
-  isOpen.value = status;
+  isOpenSelect.value = isOpen;
 }
 
 async function changeLanguage(language: string) {
@@ -49,7 +50,7 @@ async function changeLanguage(language: string) {
 
 function handleKeydown(event: KeyboardEvent) {
   if (event.key === 'Escape') {
-    isOpen.value = false;
+    isOpenSelect.value = false;
   }
 }
 </script>
@@ -58,9 +59,9 @@ function handleKeydown(event: KeyboardEvent) {
   <div class="language-select relative">
     <div
       class="select w-full h-full"
-      @click.stop="toggleDropdown"
+      @click.stop="() => toggleDropdown()"
       @keydown="handleKeydown"
-      :aria-expanded="isOpen"
+      :aria-expanded="isOpenSelect"
       role="combobox"
       aria-haspopup="listbox"
       aria-owns="language-select-listbox"
@@ -76,7 +77,7 @@ function handleKeydown(event: KeyboardEvent) {
     </div>
 
     <ul
-      v-if="isOpen"
+      v-if="isOpenSelect"
       :class="['select-options', { open: isShowOptions }]"
       id="language-select-listbox"
       role="listbox"

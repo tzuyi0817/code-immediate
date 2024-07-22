@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, computed, provide, watch, onMounted } from 'vue';
+import { ref, computed, provide, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -18,7 +18,6 @@ const currentAction = ref<CodeModel>('HTML');
 const iframe = ref(null);
 const previewWidth = ref('55vw');
 const offsetCodeWrap = ref('45vw');
-const isShowMenuMap = reactive({ HTML: false, CSS: false, JS: false, VUE: false });
 const { isSFC, codeId } = storeToRefs(useCodeContentStore());
 const router = useRouter();
 const route = useRoute();
@@ -29,13 +28,8 @@ const wrapHeight = computed(() => {
 });
 
 provide('iframe', iframe);
-provide('codeMenu', { isShowMenuMap, toggleMenu });
 
 selectProject();
-
-function toggleMenu(model: CodeModel, isOpen?: boolean) {
-  isShowMenuMap[model] = isOpen ?? !isShowMenuMap[model];
-}
 
 function closeInitLoading() {
   const { setInitLoading } = useFlagStore();
@@ -70,10 +64,7 @@ onMounted(closeInitLoading);
   <code-header />
 
   <div class="lg:flex">
-    <div
-      :class="['code_wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]"
-      @click="toggleMenu(currentAction, false)"
-    >
+    <div :class="['code_wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
       <code-editor-action
         v-model:isShowPreview="isShowPreview"
         v-model:currentAction="currentAction"

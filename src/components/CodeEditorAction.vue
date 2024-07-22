@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
@@ -11,6 +11,7 @@ import type { CodeModel } from '@/types/codeContent';
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
 const currentAction = defineModel<CodeModel>('currentAction', { required: true });
 const { codeContent } = storeToRefs(useCodeContentStore());
+const closeEvents: Set<(isClose: boolean) => void> = new Set();
 
 const languageMap = computed(() => {
   const map = {
@@ -25,6 +26,33 @@ const languageMap = computed(() => {
 function updateAction(action: CodeModel) {
   currentAction.value = action;
 }
+
+function addCloseEvent(event: (isClose: boolean) => void) {
+  closeEvents.add(event);
+}
+
+function implementCloseEvent() {
+  closeEvents.forEach(event => event(false));
+}
+
+function onBlur() {
+  if (document.activeElement?.tagName !== 'IFRAME') return;
+  implementCloseEvent();
+}
+
+function onWindowClick() {
+  window.addEventListener('click', implementCloseEvent);
+  window.addEventListener('blur', onBlur);
+}
+
+function unWindowClick() {
+  window.removeEventListener('click', implementCloseEvent);
+  window.removeEventListener('blur', onBlur);
+  closeEvents.clear();
+}
+
+onMounted(onWindowClick);
+onBeforeUnmount(unWindowClick);
 </script>
 
 <template>
@@ -75,8 +103,12 @@ function updateAction(action: CodeModel) {
         v-if="currentAction !== 'VUE'"
         :languageMap="languageMap"
         :model="currentAction"
+        @add-close-event="addCloseEvent"
       />
-      <code-editor-menu :model="currentAction" />
+      <code-editor-menu
+        :model="currentAction"
+        @add-close-event="addCloseEvent"
+      />
     </div>
   </div>
 </template>
