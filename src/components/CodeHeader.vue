@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, watch } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import CodeFeature from '@/components/CodeFeature.vue';
 import { useUserStore, useCodeContentStore } from '@/store';
@@ -7,25 +7,29 @@ import { useUserStore, useCodeContentStore } from '@/store';
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
 const DEFAULT_TITLE = 'Untitled';
-const title = ref(codeTitle.value || DEFAULT_TITLE);
 const titleInput = ref<HTMLInputElement | null>(null);
 const isShowEditTitle = ref(false);
 
+function setupTitle() {
+  if (codeTitle.value) return;
+  codeTitle.value = DEFAULT_TITLE;
+}
+
 function blurTitle() {
   isShowEditTitle.value = false;
-  if (title.value === '') title.value = DEFAULT_TITLE;
+  setupTitle();
 }
 
 async function openTitle() {
   isShowEditTitle.value = true;
-  if (title.value === DEFAULT_TITLE) title.value = '';
+  if (codeTitle.value === DEFAULT_TITLE) {
+    codeTitle.value = '';
+  }
   await nextTick();
   titleInput.value?.focus();
 }
 
-watch(codeTitle, projectTitle => {
-  title.value = projectTitle;
-});
+onMounted(setupTitle);
 </script>
 
 <template>
@@ -43,11 +47,11 @@ watch(codeTitle, projectTitle => {
             type="text"
             ref="titleInput"
             class="w-full bg-black text-white focus:outline-none"
-            v-model="title"
+            v-model="codeTitle"
             @blur="blurTitle"
           />
           <template v-else>
-            <p class="max-w-[calc(100%-16px)] text_ellipsis">{{ title }}</p>
+            <p class="max-w-[calc(100%-16px)] text_ellipsis">{{ codeTitle }}</p>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
               title="fa-pen-fancy"
@@ -63,7 +67,7 @@ watch(codeTitle, projectTitle => {
     </div>
 
     <code-feature
-      v-model:title="title"
+      v-model:title="codeTitle"
       :default-title="DEFAULT_TITLE"
     />
   </header>

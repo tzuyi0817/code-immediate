@@ -74,7 +74,7 @@ function createNewProject() {
 
   if (isChangeCode) return openRemindPop(createNewProject);
 
-  const { setCodeMap, setCodeTemplate, setCodeTitle, setCodeId } = useCodeContentStore();
+  const { setCodeMap, setCodeTemplate, setCodeId } = useCodeContentStore();
   const defaultTemplate = deepClone(DEFAULT_TEMPLATE_MAP);
 
   setLoading({ isOpen: true, type: 'Create new project' });
@@ -82,7 +82,6 @@ function createNewProject() {
   Object.assign(TEMPLATE_MAP, defaultTemplate);
   setCodeMap(defaultTemplate.ES6);
   setCodeTemplate('ES6');
-  setCodeTitle(props.defaultTitle);
   setCodeId('');
   title.value = props.defaultTitle;
 }

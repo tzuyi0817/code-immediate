@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import LoadingButton from '@/components/LoadingButton.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCodes, deleteCode } from '@/apis/code';
@@ -15,6 +16,8 @@ const totalPage = ref(0);
 const isLoading = ref(false);
 const isDeleting = ref(false);
 const deleteId = ref('');
+const route = useRoute();
+const router = useRouter();
 const LazyIframe = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
 
 async function getProjects() {
@@ -57,6 +60,8 @@ async function deleteProject(id: string) {
 
   toast.showToast(message, status);
   projects.value.length > 1 ? getProjects() : goPage(-1);
+  if (id !== route.params.id) return;
+  router.replace({ params: { id: '' } });
 }
 
 function goPage(offset: number) {
