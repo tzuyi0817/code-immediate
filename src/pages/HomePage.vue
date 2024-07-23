@@ -14,14 +14,15 @@ import { isString } from '@/utils/checkType';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
-const currentAction = ref<CodeModel>('HTML');
 const iframe = ref(null);
 const previewWidth = ref('55vw');
 const offsetCodeWrap = ref('45vw');
-const { isSFC, codeId } = storeToRefs(useCodeContentStore());
+const { isSFC, codeId, currentModel } = storeToRefs(useCodeContentStore());
 const router = useRouter();
 const route = useRoute();
-let previousAction: CodeModel = 'HTML';
+let previousModel: CodeModel = 'HTML';
+
+if (isSFC.value) currentModel.value = 'VUE';
 
 const wrapHeight = computed(() => {
   return isShowPreview.value ? 'h-[40vh]' : 'h-[calc(100vh-88px)]';
@@ -49,15 +50,18 @@ function selectProject() {
   setCodeId(id);
 }
 
-function setCurrentAction(isVueSfc: boolean) {
-  if (isVueSfc) {
-    previousAction = currentAction.value;
+function setCurrentModel(isVueSfc: boolean) {
+  if (!isVueSfc) {
+    currentModel.value = previousModel;
+    return;
   }
-  currentAction.value = isVueSfc ? 'VUE' : previousAction;
+  if (currentModel.value === 'VUE') return;
+  previousModel = currentModel.value;
+  currentModel.value = 'VUE';
 }
 
 watch(codeId, id => router.push({ params: { id } }), { immediate: true });
-watch(isSFC, setCurrentAction, { immediate: true });
+watch(isSFC, setCurrentModel);
 
 onMounted(closeInitLoading);
 </script>
@@ -69,22 +73,22 @@ onMounted(closeInitLoading);
     <div :class="['code_wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
       <code-editor-action
         v-model:isShowPreview="isShowPreview"
-        v-model:currentAction="currentAction"
+        v-model:currentModel="currentModel"
       />
 
       <div
         v-show="!isSFC"
         class="code_wrap_editor flex"
       >
-        <div :class="['code_wrap_code', { hidden: currentAction !== 'HTML' }]">
+        <div :class="['code_wrap_code', { hidden: currentModel !== 'HTML' }]">
           <code-editor model="HTML" />
         </div>
 
-        <div :class="['code_wrap_code', { hidden: currentAction !== 'CSS' }]">
+        <div :class="['code_wrap_code', { hidden: currentModel !== 'CSS' }]">
           <code-editor model="CSS" />
         </div>
 
-        <div :class="['code_wrap_code', { hidden: currentAction !== 'JS' }]">
+        <div :class="['code_wrap_code', { hidden: currentModel !== 'JS' }]">
           <code-editor model="JS" />
         </div>
       </div>

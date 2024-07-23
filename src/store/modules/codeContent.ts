@@ -8,6 +8,7 @@ interface CodeContentStore {
   codeTemplate: CodeTemplate;
   codeId: string;
   codeTitle: string;
+  currentModel: CodeModel;
 }
 
 const defaultState: CodeContentStore = {
@@ -34,6 +35,7 @@ const defaultState: CodeContentStore = {
   codeTemplate: 'ES6',
   codeId: '',
   codeTitle: '',
+  currentModel: 'HTML',
 };
 
 type CodeMap = Partial<typeof defaultState.codeContent>;
@@ -75,6 +77,6 @@ export default defineStore('code_immediate_content', {
   },
   persist: {
     storage: localStorage,
-    paths: ['codeContent', 'codeTemplate', 'codeTitle'],
+    paths: ['codeContent', 'codeTemplate', 'codeTitle', 'currentModel'],
   },
 });

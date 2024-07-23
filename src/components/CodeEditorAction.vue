@@ -9,7 +9,7 @@ import { SUFFIX_MAP } from '@/config/suffix';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
-const currentAction = defineModel<CodeModel>('currentAction', { required: true });
+const currentModel = defineModel<CodeModel>('currentModel', { required: true });
 const { codeContent } = storeToRefs(useCodeContentStore());
 const closeEvents: Set<(isClose: boolean) => void> = new Set();
 
@@ -20,11 +20,11 @@ const languageMap = computed(() => {
     JS: JS_LANGUAGE_MAP,
     VUE: {},
   } as const;
-  return map[currentAction.value];
+  return map[currentModel.value];
 });
 
-function updateAction(action: CodeModel) {
-  currentAction.value = action;
+function updateModel(action: CodeModel) {
+  currentModel.value = action;
 }
 
 function addCloseEvent(event: (isClose: boolean) => void) {
@@ -59,7 +59,7 @@ onBeforeUnmount(unWindow);
   <div class="code_editor_action">
     <div class="code_editor_action_left">
       <button
-        v-if="currentAction === 'VUE'"
+        v-if="currentModel === 'VUE'"
         :class="['btn_select', 'btn_select-active']"
       >
         <span class="small-screen">VUE</span>
@@ -68,22 +68,22 @@ onBeforeUnmount(unWindow);
 
       <template v-else>
         <button
-          :class="['btn_select', { 'btn_select-active': currentAction === 'HTML' }]"
-          @click="updateAction('HTML')"
+          :class="['btn_select', { 'btn_select-active': currentModel === 'HTML' }]"
+          @click="updateModel('HTML')"
         >
           <span class="small-screen">HTML</span>
           <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.HTML.language]}` }}</span>
         </button>
         <button
-          :class="['btn_select', { 'btn_select-active': currentAction === 'CSS' }]"
-          @click="updateAction('CSS')"
+          :class="['btn_select', { 'btn_select-active': currentModel === 'CSS' }]"
+          @click="updateModel('CSS')"
         >
           <span class="small-screen">CSS</span>
           <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.CSS.language]}` }}</span>
         </button>
         <button
-          :class="['btn_select', { 'btn_select-active': currentAction === 'JS' }]"
-          @click="updateAction('JS')"
+          :class="['btn_select', { 'btn_select-active': currentModel === 'JS' }]"
+          @click="updateModel('JS')"
         >
           <span class="small-screen">JS</span>
           <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.JS.language]}` }}</span>
@@ -100,13 +100,13 @@ onBeforeUnmount(unWindow);
 
     <div class="code_editor_action_right">
       <language-select
-        v-if="currentAction !== 'VUE'"
+        v-if="currentModel !== 'VUE'"
         :languageMap="languageMap"
-        :model="currentAction"
+        :model="currentModel"
         @add-close-event="addCloseEvent"
       />
       <code-editor-menu
-        :model="currentAction"
+        :model="currentModel"
         @add-close-event="addCloseEvent"
       />
     </div>
