@@ -1,6 +1,7 @@
 import { get, post, put, del } from '@/utils/ajax';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/loadParse';
+import { setupTemplate } from '@/config/template';
 import type { CodePayload } from '@/types/codeContent';
 import type { CodeResponse, CodeListResponse } from '@/types/response';
 
@@ -25,6 +26,7 @@ export async function getCode(codeId: string) {
     setCodeMap({ HTML, CSS, JS, VUE });
     setCodeTemplate(codeTemplate);
     setCodeTitle(title);
+    setupTemplate();
   }
   setCodeLoading(false);
 }

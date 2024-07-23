@@ -181,8 +181,10 @@ export const TEMPLATE_LIST = [
   { name: 'RxJS', src: '/templateIcon/rxjs.png', version: `v${VERSION.RXJS}` },
 ] as const;
 
-export function initTemplate() {
+export function setupTemplate() {
   const { codeContent, codeTemplate } = useCodeContentStore();
+  const defaultTemplateMap = deepClone(DEFAULT_TEMPLATE_MAP);
 
+  Object.assign(TEMPLATE_MAP, defaultTemplateMap);
   TEMPLATE_MAP[codeTemplate] = codeContent;
 }

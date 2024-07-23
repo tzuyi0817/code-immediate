@@ -6,6 +6,7 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCodes, deleteCode } from '@/apis/code';
 import toast from '@/utils/toast';
 import { loadParseSources } from '@/utils/loadParse';
+import { setupTemplate } from '@/config/template';
 import type { CodeProject } from '@/types/codeContent';
 
 const emit = defineEmits(['openRemindPop']);
@@ -45,6 +46,7 @@ async function selectProject(project: CodeProject) {
   setCodeTitle(title);
   setCodeMap({ HTML, CSS, JS, VUE });
   setCodeTemplate(codeTemplate);
+  setupTemplate();
   closePopup();
   setCodeLoading(false);
 }
