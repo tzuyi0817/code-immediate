@@ -44,6 +44,6 @@ watch(isLoading, isOpen => !isOpen && flashTick());
 
 <style lang="postcss" scoped>
 .code_loading {
-  @apply flex text-yellow-400 gap-2;
+  @apply flex text-yellow-400 gap-2 font-mono;
 }
 </style>

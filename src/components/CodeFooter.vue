@@ -1,36 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
-import toast from '@/utils/toast';
 
 interface Props {
   previewWidth: string;
 }
 
 defineProps<Props>();
-const { codeId } = storeToRefs(useCodeContentStore());
+
 const isShowConsole = ref(false);
 
 function toggleConsole() {
   isShowConsole.value = !isShowConsole.value;
-}
-
-async function shareLink() {
-  if (document.execCommand) {
-    const textField = document.createElement('textarea');
-
-    textField.innerText = location.href;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
-  } else {
-    await navigator.clipboard.writeText(location.href);
-  }
-  toast.showToast('Copied URL to clipboard!', 'success');
 }
 </script>
 
@@ -53,23 +35,6 @@ async function shareLink() {
 
     <section class="code_footer_section">
       <code-loading />
-      <a
-        href="https://github.com/tzuyi0817/code-immediate"
-        class="flex items-center"
-        title="github-link"
-      >
-        <font-awesome-icon
-          icon="fa-brands fa-github"
-          class="code_footer_icon text-2xl"
-        />
-      </a>
-      <font-awesome-icon
-        v-if="codeId"
-        icon="fa-solid fa-share"
-        class="code_footer_icon text-xl"
-        title="fa-share"
-        @click="shareLink"
-      />
     </section>
 
     <code-console
@@ -93,9 +58,6 @@ async function shareLink() {
   z-[3];
   &_section {
     @apply flex items-center gap-3;
-  }
-  &_icon {
-    @apply text-[#666] transition-colors cursor-pointer hover:text-white;
   }
 }
 </style>

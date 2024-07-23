@@ -39,7 +39,7 @@ function closePopup() {
     </div>
 
     <div class="popup_content">
-      <ul>
+      <ul class="mt-2 h-full overflow-y-auto">
         <li
           v-for="template in TEMPLATE_LIST"
           :key="template.name"
@@ -64,7 +64,8 @@ function closePopup() {
 <style lang="postcss" scoped>
 .template_popup {
   &_icon {
-    @apply mx-3
+    @apply mx-1
+    lg:mx-3
     w-14
     h-14;
   }

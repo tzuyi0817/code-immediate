@@ -1,0 +1,7 @@
+@import 'tailwindcss/components';
+
+@layer components {
+  .svg-icon {
+    @apply text-[#666] transition-[colors_transform] cursor-pointer hover:text-white active:scale-90;
+  }
+}
