@@ -161,55 +161,67 @@ onBeforeUnmount(unWindow);
     </button>
 
     <span
-      class="code-feature-template"
+      class="code-feature-template code-feature-tip"
+      data-tip="Select template"
       @click="toggleTemplatePop"
     >
       {{ codeTemplate }}
     </span>
 
-    <font-awesome-icon
-      :icon="`fa-solid ${isLoading ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
+    <span
+      :class="['svg-icon text-lg hidden lg:flex code-feature-tip', { 'animate-spin cursor-not-allowed': isLoading }]"
+      data-tip="Save code"
       title="fa-cloud-arrow-up"
-      :class="['svg-icon text-lg hidden lg:block', { 'animate-spin cursor-not-allowed': isLoading }]"
       @click="saveCode"
-    />
+    >
+      <font-awesome-icon :icon="`fa-solid ${isLoading ? 'fa-spinner' : 'fa-cloud-arrow-up'}`" />
+    </span>
 
-    <font-awesome-icon
-      icon="fa-solid fa-gear"
+    <span
+      class="svg-icon text-lg hidden lg:flex code-feature-tip"
+      data-tip="Open setting popup"
       title="fa-gear"
-      class="svg-icon text-lg hidden lg:block"
       @click="toggleSettingsPop"
-    />
+    >
+      <font-awesome-icon icon="fa-solid fa-gear" />
+    </span>
 
-    <font-awesome-icon
-      icon="fa-solid fa-file-circle-plus"
+    <span
+      class="svg-icon text-lg hidden lg:flex code-feature-tip"
+      data-tip="Create new project"
       title="fa-file-circle-plus"
-      class="svg-icon text-lg hidden lg:block"
       @click="createNewProject"
-    />
+    >
+      <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
+    </span>
 
-    <font-awesome-icon
+    <span
       v-if="isLogin"
-      icon="fa-solid fa-sheet-plastic"
+      class="svg-icon text-xl hidden lg:flex code-feature-tip"
+      data-tip="Open projects popup"
       title="fa-sheet-plastic"
-      class="svg-icon text-xl hidden lg:block"
       @click="toggleProjectsPop"
-    />
+    >
+      <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
+    </span>
 
-    <font-awesome-icon
+    <span
       v-if="codeId"
-      icon="fa-solid fa-share"
-      class="svg-icon text-xl hidden lg:block"
+      class="svg-icon text-xl hidden lg:flex code-feature-tip"
+      data-tip="Share link"
       title="fa-share"
       @click="shareLink"
-    />
+    >
+      <font-awesome-icon icon="fa-solid fa-share" />
+    </span>
 
     <a
       href="https://github.com/tzuyi0817/code-immediate"
       target="_blank"
       rel="noopener noreferrer"
-      class="hidden items-center lg:flex"
+      class="code-feature-tip hidden items-center lg:flex"
       title="github-link"
+      data-tip="GitHub"
     >
       <font-awesome-icon
         icon="fa-brands fa-github"
@@ -302,6 +314,30 @@ onBeforeUnmount(unWindow);
     px-1.5
     hover:brightness-110
     active:scale-90;
+  }
+  &-tip {
+    @apply relative after:opacity-0 after:transition-opacity;
+    &:hover {
+      @apply after:absolute
+      after:opacity-100
+      after:whitespace-nowrap
+      after:top-full
+      after:left-1/2
+      after:-translate-x-1/2
+      after:translate-y-2
+      after:px-2
+      after:py-1
+      after:bg-[#666]
+      after:border
+      after:border-gray-600
+      after:shadow-md
+      after:text-white
+      after:rounded-md
+      after:text-xs
+      after:font-mono
+      after:font-normal
+      after:content-[attr(data-tip)];
+    }
   }
 }
 </style>
