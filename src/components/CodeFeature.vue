@@ -171,48 +171,58 @@ onBeforeUnmount(unWindow);
     <span
       :class="['svg-icon text-lg hidden lg:flex code-feature-tip', { 'animate-spin cursor-not-allowed': isLoading }]"
       data-tip="Save code"
-      title="fa-cloud-arrow-up"
       @click="saveCode"
     >
-      <font-awesome-icon :icon="`fa-solid ${isLoading ? 'fa-spinner' : 'fa-cloud-arrow-up'}`" />
+      <font-awesome-icon
+        title="fa-cloud-arrow-up"
+        :icon="`fa-solid ${isLoading ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
+      />
     </span>
 
     <span
       class="svg-icon text-lg hidden lg:flex code-feature-tip"
       data-tip="Open setting popup"
-      title="fa-gear"
       @click="toggleSettingsPop"
     >
-      <font-awesome-icon icon="fa-solid fa-gear" />
+      <font-awesome-icon
+        title="fa-gear"
+        icon="fa-solid fa-gear"
+      />
     </span>
 
     <span
       class="svg-icon text-lg hidden lg:flex code-feature-tip"
       data-tip="Create new project"
-      title="fa-file-circle-plus"
       @click="createNewProject"
     >
-      <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
+      <font-awesome-icon
+        title="fa-file-circle-plus"
+        icon="fa-solid fa-file-circle-plus"
+      />
     </span>
 
     <span
       v-if="isLogin"
       class="svg-icon text-xl hidden lg:flex code-feature-tip"
       data-tip="Open projects popup"
-      title="fa-sheet-plastic"
       @click="toggleProjectsPop"
     >
-      <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
+      <font-awesome-icon
+        title="fa-sheet-plastic"
+        icon="fa-solid fa-sheet-plastic"
+      />
     </span>
 
     <span
       v-if="codeId"
       class="svg-icon text-xl hidden lg:flex code-feature-tip"
       data-tip="Share link"
-      title="fa-share"
       @click="shareLink"
     >
-      <font-awesome-icon icon="fa-solid fa-share" />
+      <font-awesome-icon
+        title="fa-share"
+        icon="fa-solid fa-share"
+      />
     </span>
 
     <a
@@ -220,11 +230,11 @@ onBeforeUnmount(unWindow);
       target="_blank"
       rel="noopener noreferrer"
       class="code-feature-tip hidden items-center lg:flex"
-      title="github-link"
       data-tip="GitHub"
     >
       <font-awesome-icon
         icon="fa-brands fa-github"
+        title="fa-github"
         class="svg-icon text-[20px]"
       />
     </a>

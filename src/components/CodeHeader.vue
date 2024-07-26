@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick, onMounted } from 'vue';
+import { ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import CodeFeature from '@/components/CodeFeature.vue';
 import { useUserStore, useCodeContentStore } from '@/store';
@@ -9,6 +9,8 @@ const { codeTitle } = storeToRefs(useCodeContentStore());
 const DEFAULT_TITLE = 'Untitled';
 const titleInput = ref<HTMLInputElement | null>(null);
 const isShowEditTitle = ref(false);
+
+setupTitle();
 
 function setupTitle() {
   if (codeTitle.value) return;
@@ -28,8 +30,6 @@ async function openTitle() {
   await nextTick();
   titleInput.value?.focus();
 }
-
-onMounted(setupTitle);
 </script>
 
 <template>
