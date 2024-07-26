@@ -25,12 +25,6 @@ function toggleConsole() {
       >
         Console
       </button>
-
-      <!-- <select class="select select_base">
-        <option value="1">1.0x</option>
-        <option value="0.5">0.5x</option>
-        <option value="0.25">0.25x</option>
-      </select> -->
     </section>
 
     <section class="code_footer_section">

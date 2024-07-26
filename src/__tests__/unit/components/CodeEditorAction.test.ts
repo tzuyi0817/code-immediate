@@ -5,12 +5,13 @@ import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeEditorAction Component', async () => {
+  const props = { isShowPreview: true, currentModel: 'HTML' };
+
   registerFaIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(CodeEditorAction, {
-      props: { isShowPreview: true, currentAction: 'HTML' },
-    });
+    renderComponent(CodeEditorAction, { props });
+
     expect(screen.getByRole('button', { name: /index.html/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /index.css/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /index.js/i })).toBeInTheDocument();
@@ -20,9 +21,8 @@ describe('CodeEditorAction Component', async () => {
   });
 
   it('change to sfc template', async () => {
-    renderComponent(CodeEditorAction, {
-      props: { isShowPreview: true, currentAction: 'VUE' },
-    });
+    renderComponent(CodeEditorAction, { props: { ...props, currentModel: 'VUE' } });
+
     expect(screen.getByRole('button', { name: /app.vue/i })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /index.html/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /index.css/i })).not.toBeInTheDocument();
@@ -31,11 +31,9 @@ describe('CodeEditorAction Component', async () => {
   });
 
   it('change select action', async () => {
-    const { container, emitted } = renderComponent(CodeEditorAction, {
-      props: { isShowPreview: true, currentAction: 'HTML' },
-    });
+    const { container, emitted } = renderComponent(CodeEditorAction, { props });
     const selectAction = container.firstChild?.firstChild;
-    const updateCurrentAction = 'update:currentAction';
+    const updateCurrentModel = 'update:currentModel';
 
     expect(selectAction).toMatchInlineSnapshot(`
       <div
@@ -103,12 +101,16 @@ describe('CodeEditorAction Component', async () => {
         </button>
       </div>
     `);
+
     await userEvent.click(screen.getByRole('button', { name: /index.css/i }));
-    expect(emitted(updateCurrentAction)[0]).toEqual(['CSS']);
+    expect(emitted(updateCurrentModel)[0]).toEqual(['CSS']);
+
     await userEvent.click(screen.getByRole('button', { name: /index.js/i }));
-    expect(emitted(updateCurrentAction)[1]).toEqual(['JS']);
+    expect(emitted(updateCurrentModel)[1]).toEqual(['JS']);
+
     await userEvent.click(screen.getByRole('button', { name: /index.html/i }));
-    expect(emitted(updateCurrentAction)[2]).toEqual(['HTML']);
+    expect(emitted(updateCurrentModel)[2]).toEqual(['HTML']);
+
     await userEvent.click(screen.getByRole('button', { name: /result/i }));
     expect(emitted('update:isShowPreview')[0]).toEqual([false]);
   });

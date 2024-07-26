@@ -3,10 +3,10 @@ import { ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import CodeFeature from '@/components/CodeFeature.vue';
 import { useUserStore, useCodeContentStore } from '@/store';
+import { DEFAULT_TITLE } from '@/config/common';
 
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
-const DEFAULT_TITLE = 'Untitled';
 const titleInput = ref<HTMLInputElement | null>(null);
 const isShowEditTitle = ref(false);
 
