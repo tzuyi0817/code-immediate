@@ -12,10 +12,8 @@ interface RenderComponentOptions extends RenderOptions<unknown> {
 }
 
 const pinia = createPinia();
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes,
-});
+
+export const router = createRouter({ history: createMemoryHistory(), routes });
 
 setActivePinia(pinia);
 

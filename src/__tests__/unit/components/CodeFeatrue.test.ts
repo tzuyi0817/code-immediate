@@ -16,7 +16,7 @@ describe('CodeFeature Component', () => {
   it('renders the correct content', () => {
     renderComponent(CodeFeature, { props });
 
-    expect(screen.getByRole('img', { name: /fa-bars-staggered/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fa-bars-staggered/i })).toBeInTheDocument();
     expect(screen.getByText('ES6')).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /fa-cloud-arrow-up/i })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /fa-gear/i })).toBeInTheDocument();

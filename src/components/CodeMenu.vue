@@ -11,44 +11,29 @@ defineEmits(['save-code', 'toggle-settings-pop', 'toggle-projects-pop', 'create-
 <template>
   <ul class="code-menu animate-popup">
     <li @click="$emit('save-code')">
-      <font-awesome-icon
-        icon="fa-solid fa-cloud-arrow-up"
-        title="fa-cloud-arrow-up"
-      />
+      <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" />
       Save
     </li>
     <li @click="$emit('toggle-settings-pop')">
-      <font-awesome-icon
-        icon="fa-solid fa-gear"
-        title="fa-gear"
-      />
+      <font-awesome-icon icon="fa-solid fa-gear" />
       Settings
     </li>
     <li
       v-if="isLogin"
       @click="$emit('toggle-projects-pop')"
     >
-      <font-awesome-icon
-        icon="fa-solid fa-sheet-plastic"
-        title="fa-sheet-plastic"
-      />
+      <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
       Projects
     </li>
     <li @click="$emit('create-new-project')">
-      <font-awesome-icon
-        icon="fa-solid fa-file-circle-plus"
-        title="fa-solid fa-file-circle-plus"
-      />
+      <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
       New Project
     </li>
     <li
       v-if="codeId"
       @click="$emit('share-link')"
     >
-      <font-awesome-icon
-        icon="fa-solid fa-share"
-        title="fa-share"
-      />
+      <font-awesome-icon icon="fa-solid fa-share" />
       Share
     </li>
     <li>
@@ -56,9 +41,11 @@ defineEmits(['save-code', 'toggle-settings-pop', 'toggle-projects-pop', 'create-
         href="https://github.com/tzuyi0817/code-immediate"
         target="_blank"
         rel="noopener noreferrer"
-        title="github-link"
       >
-        <font-awesome-icon icon="fa-brands fa-github" />
+        <font-awesome-icon
+          icon="fa-brands fa-github"
+          title="fa-github"
+        />
         Github
       </a>
     </li>
