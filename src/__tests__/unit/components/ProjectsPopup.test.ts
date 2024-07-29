@@ -5,7 +5,7 @@ import ProjectsPopup from '@/components/ProjectsPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
-import { renderComponent } from '@/__tests__/unit/render';
+import { renderComponent, router } from '@/__tests__/unit/render';
 
 describe('ProjectsPopup Component', () => {
   registerFaIcons();
@@ -57,17 +57,22 @@ describe('ProjectsPopup Component', () => {
   });
 
   it('delete project', async () => {
-    const projectName = 'gsap example';
     renderComponent(ProjectsPopup);
     renderComponent(Toast);
+
+    const projectName = 'gsap example';
+    const id = '6361d5461292968b0f28f39f';
     const li = (await screen.findByText(projectName)).closest('li');
 
     if (!li) return;
     const trashSvg = within(li).getByRole('img', { name: /fa-trash/i });
 
     expect(trashSvg).toBeInTheDocument();
+    router.push({ name: 'Home', params: { id } });
+    await router.isReady();
     await userEvent.click(trashSvg);
     expect(screen.getByText('successfully deleted')).toBeInTheDocument();
+    expect(router.currentRoute.value.params.id).toEqual('');
   });
 
   it('go project page', async () => {

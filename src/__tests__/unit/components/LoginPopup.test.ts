@@ -62,4 +62,17 @@ describe('LoginPopup component', () => {
     expect(screen.getByLabelText('Password')).toHaveTextContent('');
     expect(getByText('Not authorized')).toBeInTheDocument();
   });
+
+  it('login with github', async () => {
+    renderComponent(LoginPopup);
+
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+    const { screenX, screenLeft, screen: windowScreen, innerHeight } = window;
+    const { VITE_API_URL } = import.meta.env;
+    const left = (screenX ?? screenLeft ?? 0) + (windowScreen.width - 500) / 2;
+    const windowFeatures = `left=${left},top=${innerHeight * 0.5 - 250},width=500,height=500`;
+
+    await userEvent.click(screen.getByRole('button', { name: /log in with github/i }));
+    expect(openSpy).toBeCalledWith(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
+  });
 });

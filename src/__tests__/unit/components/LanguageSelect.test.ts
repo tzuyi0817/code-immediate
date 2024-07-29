@@ -1,8 +1,9 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import { useCodeContentStore } from '@/store';
+import registerFaIcons from '@/utils/registerFaIcons';
+import { sleep } from '@/utils/common';
 import { HTML_LANGUAGE_MAP } from '@/config/language';
 import { renderComponent } from '@/__tests__/unit/render';
 
@@ -40,5 +41,7 @@ describe('LanguageSelect component', () => {
     await userEvent.click(screen.getByText(selectLanguage));
     expect(screen.getByRole('combobox')).toHaveTextContent(selectLanguage);
     expect(codeContentStore.codeContent.HTML.language).toEqual(selectLanguage);
+    await sleep(150);
+    expect(screen.queryByRole('listbox')).not.toBeInTheDocument();
   });
 });

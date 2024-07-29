@@ -47,12 +47,6 @@ async function changeLanguage(language: string) {
   setCodeLanguage({ type: model, language: language as Languages });
   toggleDropdown();
 }
-
-function handleKeydown(event: KeyboardEvent) {
-  if (event.key === 'Escape') {
-    isOpenSelect.value = false;
-  }
-}
 </script>
 
 <template>
@@ -60,7 +54,6 @@ function handleKeydown(event: KeyboardEvent) {
     <div
       class="select w-full h-full"
       @click.stop="() => toggleDropdown()"
-      @keydown="handleKeydown"
       :aria-expanded="isOpenSelect"
       role="combobox"
       aria-haspopup="listbox"
@@ -81,7 +74,6 @@ function handleKeydown(event: KeyboardEvent) {
       :class="['select-options', { open: isShowOptions }]"
       id="language-select-listbox"
       role="listbox"
-      @keydown="handleKeydown"
     >
       <li
         v-for="(_, language) in languageMap"

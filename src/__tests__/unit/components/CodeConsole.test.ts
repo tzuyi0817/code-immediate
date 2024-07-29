@@ -3,17 +3,30 @@ import { screen, fireEvent } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodePreview from '@/components/CodePreview.vue';
+import Toast from '@/components/CodeToast.vue';
 import registerFaIcons from '@/utils/registerFaIcons';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeConsole component', () => {
+  const renderOptions = {
+    provide: { iframe: ref(null) },
+    props: { isShowConsole: true, previewWidth: '66.7vw' },
+  };
+
+  const sendMessage = (type: string | undefined, html: string) => {
+    const messageEvent = new MessageEvent('message', {
+      data: { type, html },
+      origin: '*',
+    });
+
+    fireEvent(window, messageEvent);
+  };
+
   registerFaIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeConsole, {
-      provide: { iframe: ref(null) },
-      props: { isShowConsole: true, previewWidth: '66.7vw' },
-    });
+    renderComponent(CodeConsole, renderOptions);
+
     expect(screen.getByText('Console')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /x/i })).toBeInTheDocument();
@@ -22,13 +35,9 @@ describe('CodeConsole component', () => {
   });
 
   it('implement command', async () => {
-    const iframe = ref(null);
+    renderComponent(CodeConsole, renderOptions);
+    renderComponent(CodePreview, { provide: renderOptions.provide });
 
-    renderComponent(CodeConsole, {
-      provide: { iframe },
-      props: { isShowConsole: true, previewWidth: '66.7vw' },
-    });
-    renderComponent(CodePreview, { provide: { iframe } });
     const commandLine = screen.getByRole('textbox');
 
     await userEvent.type(commandLine, 'console.log(123)');
@@ -37,91 +46,72 @@ describe('CodeConsole component', () => {
 
   describe('receive message', () => {
     it('echo message', async () => {
-      renderComponent(CodeConsole, {
-        provide: { iframe: ref(null) },
-        props: { isShowConsole: true, previewWidth: '66.7vw' },
-      });
-      fireEvent(
-        window,
-        new MessageEvent('message', {
-          data: { type: 'echo', html: 'echo', message: 'echo' },
-          origin: '*',
-        }),
-      );
+      renderComponent(CodeConsole, renderOptions);
+
+      sendMessage('echo', 'echo');
       expect(await screen.findByText('echo')).toBeInTheDocument();
     });
 
     it('log message', async () => {
-      renderComponent(CodeConsole, {
-        provide: { iframe: ref(null) },
-        props: { isShowConsole: true, previewWidth: '66.7vw' },
-      });
-      fireEvent(
-        window,
-        new MessageEvent('message', {
-          data: { type: 'log', html: '<span class="number">123456789</span>' },
-          origin: '*',
-        }),
-      );
+      renderComponent(CodeConsole, renderOptions);
+
+      sendMessage('log', '<span class="number">123456789</span>');
       expect(await screen.findByText('123456789')).toBeInTheDocument();
     });
 
+    it('warn message', async () => {
+      renderComponent(CodeConsole, renderOptions);
+
+      const message = 'receive warn message';
+      const { getByText, container } = renderComponent(Toast);
+
+      sendMessage('warn', message);
+      expect(await screen.findByText(message)).toBeInTheDocument();
+      expect(getByText(message)).toBeInTheDocument();
+      if (!container.firstElementChild) return;
+      expect(container.firstElementChild.classList.contains('warn')).toBe(true);
+    });
+
     it('error message', async () => {
-      renderComponent(CodeConsole, {
-        provide: { iframe: ref(null) },
-        props: { isShowConsole: true, previewWidth: '66.7vw' },
-      });
-      fireEvent(
-        window,
-        new MessageEvent('message', {
-          data: { type: 'error', html: 'receive error message' },
-          origin: '*',
-        }),
-      );
+      renderComponent(CodeConsole, renderOptions);
+
+      const message = 'receive error message';
+      const { getByText, container } = renderComponent(Toast);
+
+      sendMessage('error', message);
       expect(await screen.findByText('receive error message')).toBeInTheDocument();
+      expect(getByText(message)).toBeInTheDocument();
+      if (!container.firstElementChild) return;
+      expect(container.firstElementChild.classList.contains('error')).toBe(true);
     });
 
     it('another type message', async () => {
-      renderComponent(CodeConsole, {
-        provide: { iframe: ref(null) },
-        props: { isShowConsole: true, previewWidth: '66.7vw' },
-      });
-      fireEvent(
-        window,
-        new MessageEvent('message', {
-          data: { type: 'dir', html: 'another message' },
-          origin: '*',
-        }),
-      );
-      expect(await screen.findByText('another message')).toBeInTheDocument();
+      renderComponent(CodeConsole, renderOptions);
+
+      const message = 'another message';
+
+      sendMessage('dir', message);
+      expect(await screen.findByText(message)).toBeInTheDocument();
     });
 
     it('no message for type', () => {
-      renderComponent(CodeConsole, {
-        provide: { iframe: ref(null) },
-        props: { isShowConsole: true, previewWidth: '66.7vw' },
-      });
-      fireEvent(window, new MessageEvent('message', { data: 'no message', origin: '*' }));
+      renderComponent(CodeConsole, renderOptions);
+
+      const message = 'no message';
+
+      sendMessage(undefined, message);
       expect(screen.queryByText('no message')).not.toBeInTheDocument();
     });
   });
 
   it('clear console message', async () => {
-    const html = 'echo-message';
+    renderComponent(CodeConsole, renderOptions);
 
-    renderComponent(CodeConsole, {
-      provide: { iframe: ref(null) },
-      props: { isShowConsole: true, previewWidth: '66.7vw' },
-    });
-    fireEvent(
-      window,
-      new MessageEvent('message', {
-        data: { type: 'echo', html },
-        origin: '*',
-      }),
-    );
-    expect(await screen.findByText(html)).toBeInTheDocument();
+    const message = 'echo-message';
+
+    sendMessage('echo', message);
+    expect(await screen.findByText(message)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.queryByText(html)).not.toBeInTheDocument();
+    expect(screen.queryByText(message)).not.toBeInTheDocument();
   });
 });
