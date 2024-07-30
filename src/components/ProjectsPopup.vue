@@ -157,7 +157,7 @@ onMounted(getProjects);
         />
       </ul>
 
-      <div class="flex justify-center gap-2 mt-3">
+      <div class="flex justify-center gap-2 mt-3 h-9">
         <loading-button
           v-show="page !== 1"
           class="btn btn_yellow w-auto"

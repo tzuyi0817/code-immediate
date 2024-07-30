@@ -72,8 +72,8 @@ onBeforeUnmount(() => {
   <div class="code_editor">
     <div
       ref="codeEditor"
-      title="codeEditor"
       class="w-full h-full"
+      aria-label="code-editor"
     ></div>
     <div
       v-if="isCodeLoading"

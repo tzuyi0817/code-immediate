@@ -9,6 +9,8 @@ interface CodeContentStore {
   codeId: string;
   codeTitle: string;
   currentModel: CodeModel;
+  offsetCodeWrap: string;
+  previewWidth: string;
 }
 
 const defaultState: CodeContentStore = {
@@ -36,6 +38,8 @@ const defaultState: CodeContentStore = {
   codeId: '',
   codeTitle: '',
   currentModel: 'HTML',
+  offsetCodeWrap: '45vw',
+  previewWidth: '55vw',
 };
 
 type CodeMap = Partial<typeof defaultState.codeContent>;
@@ -77,6 +81,6 @@ export default defineStore('code_immediate_content', {
   },
   persist: {
     storage: localStorage,
-    paths: ['codeContent', 'codeTemplate', 'codeTitle', 'currentModel'],
+    paths: ['codeContent', 'codeTemplate', 'codeTitle', 'currentModel', 'offsetCodeWrap', 'previewWidth'],
   },
 });

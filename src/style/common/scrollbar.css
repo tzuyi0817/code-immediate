@@ -2,14 +2,14 @@
 
 @layer components {
   ::-webkit-scrollbar {
-    @apply w-1 h-1 lg:w-2 lg:h-2;
+    @apply w-1 h-1 lg:w-1.5 lg:h-1.5;
   }
- 
+
   ::-webkit-scrollbar-track {
-    @apply rounded-xl bg-gray-200;
+    @apply rounded-xl bg-gray-500/20;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply rounded-xl bg-gray-400;
+    @apply rounded-xl bg-gray-500/40 cursor-pointer transition-colors hover:bg-gray-500/50;
   }
 }

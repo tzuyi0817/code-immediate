@@ -57,10 +57,7 @@ async function wrapScrollToBottom() {
 }
 
 watch([isCreateProject, codeId], clearConsole);
-watch(
-  () => isShowConsole,
-  isShow => isShow && wrapScrollToBottom(),
-);
+watch(isShowConsole, wrapScrollToBottom);
 onMounted(() => window.addEventListener('message', receiveMessage));
 onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 </script>

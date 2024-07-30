@@ -15,9 +15,7 @@ import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
 const iframe = ref(null);
-const previewWidth = ref('55vw');
-const offsetCodeWrap = ref('45vw');
-const { isSFC, codeId, currentModel } = storeToRefs(useCodeContentStore());
+const { isSFC, codeId, currentModel, previewWidth, offsetCodeWrap } = storeToRefs(useCodeContentStore());
 const router = useRouter();
 const route = useRoute();
 let previousModel: CodeModel = 'HTML';

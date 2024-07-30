@@ -23,6 +23,9 @@
       bg-yellow-400
       p-3
       rounded-t-md;
+      svg {
+        @apply text-base transition-[colors_transform] hover:text-gray-600 active:scale-90;
+      }
     }
     &_content {
       @apply px-4

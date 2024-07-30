@@ -61,6 +61,7 @@ export default function useMonacoEditor() {
     theme.semanticHighlighting = true;
     theme.getTokenStyleMetadata = (type: string, modifiers: string[]) => {
       const _readonly = modifiers.includes('readonly');
+
       switch (type) {
         case 'function':
         case 'method':

@@ -13,8 +13,9 @@ describe('CodeEditor Component', async () => {
 
   it('renders the editor', async () => {
     renderComponent(CodeEditor, { props: { model: 'HTML' } });
-    expect(screen.getByTitle('codeEditor')).toBeInTheDocument();
-    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('html');
+
+    expect(screen.getByLabelText(/code-editor/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/code-editor/).dataset.modeId).toMatch('html');
   });
 
   it('change to markdown language', async () => {
@@ -23,13 +24,13 @@ describe('CodeEditor Component', async () => {
     renderComponent(CodeEditor, { props: { model: 'HTML' } });
     codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
     await nextTick();
-    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('markdown');
+    expect(screen.getByLabelText(/code-editor/).dataset.modeId).toMatch('markdown');
     codeContentStore.setCodeTemplate('Vue');
   });
 
   it('render vue template editor', async () => {
     renderComponent(CodeEditor, { props: { model: 'VUE' } });
-    expect(screen.getByTitle('codeEditor').dataset.modeId).toMatch('vue');
+    expect(screen.getByLabelText(/code-editor/).dataset.modeId).toMatch('vue');
   });
 
   it('formatter editor', async () => {
