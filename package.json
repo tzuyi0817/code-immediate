@@ -76,7 +76,7 @@
     "postcss": "^8.4.39",
     "postcss-import": "^16.1.0",
     "postcss-nested": "^6.0.1",
-    "postcss-nesting": "^12.1.5",
+    "postcss-nesting": "^13.0.0",
     "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-visualizer": "^5.12.0",
