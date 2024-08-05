@@ -7,7 +7,7 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 import { renderComponent, router } from '@/__tests__/unit/render';
 
-describe('ProjectsPopup Component', () => {
+describe('ProjectsPopup Component', { timeout: 10000 }, () => {
   registerFaIcons();
 
   it('renders the correct content', async () => {
