@@ -1,9 +1,8 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { registerIcons } from '@/utils/registerIcons';
 import { initMonacoEditor } from '@/monaco';
+import fontAwesomeIconPlugin from '@/plugins/fontAwesomeIcon';
 import { loadParse } from '@/utils/loadParse';
 import { getTsConstructor } from '@/utils/cdn';
 import '@/style/index.css';
@@ -14,11 +13,10 @@ import router from '@/router';
 const pinia = createPinia();
 const app = createApp(App);
 
-registerIcons();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 app.use(router);
-app.component('font-awesome-icon', FontAwesomeIcon);
+app.use(fontAwesomeIconPlugin);
 
 (async function init() {
   loadParse('babel');
