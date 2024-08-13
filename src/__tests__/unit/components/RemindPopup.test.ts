@@ -1,12 +1,12 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import RemindPopup from '@/components/RemindPopup.vue';
 import { useFlagStore } from '@/store';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('RemindPopup component', () => {
-  registerFaIcons();
+  registerIcons();
   afterEach(() => {
     vi.restoreAllMocks();
   });

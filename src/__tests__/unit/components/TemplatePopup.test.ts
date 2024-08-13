@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('TemplatePopup component', () => {
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(TemplatePopup);

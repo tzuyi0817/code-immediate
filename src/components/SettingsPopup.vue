@@ -3,7 +3,7 @@ import { ref, reactive, computed, onMounted } from 'vue';
 import axios, { type AxiosResponse } from 'axios';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 import { BUILT_IN_RESOURCES } from '@/config/template';
 import type { CdnItem, CdnJsResponse } from '@/types/cdn';
 
@@ -144,12 +144,14 @@ onMounted(() => {
 
       <div class="settings_popup_content">
         <h3>{{ selectTabItem?.title }}</h3>
-        <section class="text-gray-500 mb-3">{{ selectTabItem?.description }}</section>
+        <section class="text-gray-500 mb-3">
+          {{ selectTabItem?.description }}
+        </section>
 
         <div class="relative">
           <input
-            type="text"
             v-model.trim="keyword"
+            type="text"
             class="input px-9"
             placeholder="Search CDNjs resources"
             @input="keywordHandler(keyword)"
@@ -176,7 +178,9 @@ onMounted(() => {
                 <span>{{ cdn.name }}</span>
                 <span>{{ cdn.version }}</span>
               </p>
-              <section class="text-gray-500 text-xs">{{ cdn.description }}</section>
+              <section class="text-gray-500 text-xs">
+                {{ cdn.description }}
+              </section>
             </li>
           </ul>
         </div>
@@ -188,9 +192,9 @@ onMounted(() => {
             class="flex items-center justify-between mb-2"
           >
             <input
+              v-model.trim.lazy="cdnResources[currentSelect][index]"
               type="text"
               class="input_cdn"
-              v-model.trim.lazy="cdnResources[currentSelect][index]"
               placeholder="https://cdnjs.cloudflare.com/ajax/libs/customresource"
               :disabled="BUILT_IN_RESOURCES.has(cdn)"
             />

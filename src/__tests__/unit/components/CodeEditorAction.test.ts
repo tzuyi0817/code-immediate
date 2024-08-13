@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeEditorAction Component', async () => {
   const props = { isShowPreview: true, currentModel: 'HTML' };
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', async () => {
     renderComponent(CodeEditorAction, { props });
@@ -30,14 +30,16 @@ describe('CodeEditorAction Component', async () => {
     expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
 
-  it('change select action', async () => {
-    const { container, emitted } = renderComponent(CodeEditorAction, { props });
-    const selectAction = container.firstChild?.firstChild;
+  it('change editor model', async () => {
+    const { emitted } = renderComponent(CodeEditorAction, { props });
     const updateCurrentModel = 'update:currentModel';
+    const modelSelectContainer = screen.getByTestId('editor model select');
 
-    expect(selectAction).toMatchInlineSnapshot(`
+    expect(modelSelectContainer).toBeInTheDocument();
+    expect(modelSelectContainer).toMatchInlineSnapshot(`
       <div
         class="code_editor_action_left"
+        data-testid="editor model select"
         data-v-12668b5f=""
       >
         

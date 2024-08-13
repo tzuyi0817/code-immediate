@@ -1,4 +1,4 @@
-function readFile(event: Event): Promise<string | null> {
+export function readFile(event: Event): Promise<string | null> {
   return new Promise((resolve, reject) => {
     const target = event.target as HTMLInputElement;
     const { files } = target;
@@ -11,5 +11,3 @@ function readFile(event: Event): Promise<string | null> {
     reader.readAsText(file);
   });
 }
-
-export default readFile;

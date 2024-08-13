@@ -6,7 +6,7 @@ import LoadingButton from '@/components/LoadingButton.vue';
 import CodeMenu from '@/components/CodeMenu.vue';
 import { logoutUser } from '@/apis/user';
 import { postCode, putCode } from '@/apis/code';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 import { deepClone } from '@/utils/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 
@@ -242,8 +242,8 @@ onBeforeUnmount(unWindow);
     <loading-button
       v-if="isLogin"
       class="btn_red w-auto text-xs"
+      :is-loading="isLoading"
       @click="logout"
-      :isLoading="isLoading"
     >
       LOGOUT
     </loading-button>
@@ -280,7 +280,7 @@ onBeforeUnmount(unWindow);
   <projects-popup
     v-if="isShowProjectsPop"
     v-model:isShowProjectsPop="isShowProjectsPop"
-    @openRemindPop="openRemindPop"
+    @open-remind-pop="openRemindPop"
   />
   <settings-popup
     v-if="isShowSettingsPop"
@@ -301,8 +301,8 @@ onBeforeUnmount(unWindow);
   <remind-popup
     v-if="isShowRemindPop"
     v-model:isShowRemindPop="isShowRemindPop"
-    :saveCode="saveCode"
-    :doFun="doFun"
+    :save-code="saveCode"
+    :do-fun="doFun"
   />
 </template>
 

@@ -1,7 +1,7 @@
 import { useFlagStore } from '@/store';
 import type { DragOffset } from '@/types/drag';
 
-export default function useDrag(dragCallback: (offset: DragOffset) => void) {
+export function useDrag(dragCallback: (offset: DragOffset) => void) {
   const flagStore = useFlagStore();
   const drag = {
     screenWidth: 0,

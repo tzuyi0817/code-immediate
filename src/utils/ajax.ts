@@ -1,5 +1,5 @@
 import axios, { type AxiosRequestConfig } from 'axios';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 import { useCodeContentStore, useUserStore } from '@/store';
 
 const { VITE_API_URL } = import.meta.env;
@@ -49,4 +49,3 @@ export const get: RequestMethod = axiosInstance.get;
 export const post: RequestMethod = axiosInstance.post;
 export const put: RequestMethod = axiosInstance.put;
 export const del: RequestMethod = axiosInstance.delete;
-export default axiosInstance;

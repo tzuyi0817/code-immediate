@@ -3,7 +3,7 @@ import { ref, reactive, inject, Ref, watch, onMounted, onBeforeUnmount, nextTick
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeDrag from '@/components/CodeDrag.vue';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 
 interface Props {
   previewWidth: string;
@@ -64,17 +64,19 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
 <template>
   <div
-    class="code_console w-full drag_height preview_width"
     v-show="isShowConsole"
+    class="code_console w-full drag_height preview_width"
   >
     <code-drag
+      v-model:dragB="consoleHeight"
       class="code_console_header"
       direction="y"
-      v-model:dragB="consoleHeight"
       unit="vh"
       :limit="{ min: 8, max: 80 }"
     >
-      <p class="text-gray-400 text-sm font-bold">Console</p>
+      <p class="text-gray-400 text-sm font-bold">
+        Console
+      </p>
 
       <div class="flex gap-1">
         <button
@@ -93,8 +95,8 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     </code-drag>
 
     <div
-      class="code_console_wrap"
       ref="codeWrap"
+      class="code_console_wrap"
     >
       <template
         v-for="({ type, html }, index) in consoleCode"
@@ -103,8 +105,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         <pre
           v-if="type === 'echo'"
           class="code_console_message echo"
-          >{{ html }}</pre
-        >
+        >{{ html }}</pre>
         <pre
           v-else-if="type === 'log'"
           class="code_console_message log"

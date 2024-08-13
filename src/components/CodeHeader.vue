@@ -44,14 +44,16 @@ async function openTitle() {
         <div class="font-bold flex items-center gap-1 w-full">
           <input
             v-if="isShowEditTitle"
-            type="text"
             ref="titleInput"
-            class="w-full bg-black text-white focus:outline-none"
             v-model="codeTitle"
+            type="text"
+            class="w-full bg-black text-white focus:outline-none"
             @blur="blurTitle"
           />
           <template v-else>
-            <p class="max-w-[calc(100%-16px)] text_ellipsis">{{ codeTitle }}</p>
+            <p class="max-w-[calc(100%-16px)] text_ellipsis">
+              {{ codeTitle }}
+            </p>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
               title="fa-pen-fancy"

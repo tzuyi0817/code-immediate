@@ -1,6 +1,6 @@
-import { convertThemeFromDir } from 'vscode-theme-to-monaco-theme-node';
 import { fileURLToPath } from 'url';
 import { resolve, dirname } from 'path';
+import { convertThemeFromDir } from 'vscode-theme-to-monaco-theme-node';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
@@ -9,8 +9,8 @@ import { renderComponent } from '@/__tests__/unit/render';
 describe('CodeEditorMenu Component', async () => {
   const formatText = 'Format Code';
 
-  registerFaIcons();
-  vi.mock('@/utils/exportZip', () => ({ default: vi.fn() }));
+  registerIcons();
+  vi.mock('@/utils/exportZip', () => ({ exportZip: vi.fn() }));
 
   it('renders the correct content', async () => {
     renderComponent(CodeEditorMenu, {
@@ -69,7 +69,7 @@ describe('CodeEditorMenu Component', async () => {
   });
 
   it('export code', async () => {
-    const exportZip = await import('@/utils/exportZip');
+    const module = await import('@/utils/exportZip');
 
     renderComponent(CodeEditorMenu, {
       props: { model: 'HTML' },
@@ -77,7 +77,7 @@ describe('CodeEditorMenu Component', async () => {
 
     await userEvent.click(screen.getByRole('button', { name: /fa-angle-down/i }));
     await userEvent.click(screen.getByText('Export Zip'));
-    expect(exportZip.default).toHaveBeenCalled();
+    expect(module.exportZip).toHaveBeenCalled();
   });
 
   it('embed local file', async () => {

@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeMenu from '@/components/CodeMenu.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeMenu Component', () => {
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', async () => {
     renderComponent(CodeMenu, { props: { isLogin: false, codeId: '' } });
@@ -34,19 +34,19 @@ describe('CodeMenu Component', () => {
     const { emitted } = renderComponent(CodeMenu, { props: { isLogin: true, codeId: '123' } });
 
     await userEvent.click(screen.getByText(/save/i));
-    expect(emitted()).toHaveProperty('save-code');
+    expect(emitted()).toHaveProperty('saveCode');
 
     await userEvent.click(screen.getByText(/settings/i));
-    expect(emitted()).toHaveProperty('toggle-settings-pop');
+    expect(emitted()).toHaveProperty('toggleSettingsPop');
 
     await userEvent.click(screen.getByText(/projects/i));
-    expect(emitted()).toHaveProperty('toggle-projects-pop');
+    expect(emitted()).toHaveProperty('toggleProjectsPop');
 
     await userEvent.click(screen.getByText(/new project/i));
-    expect(emitted()).toHaveProperty('create-new-project');
+    expect(emitted()).toHaveProperty('createNewProject');
 
     await userEvent.click(screen.getByText(/share/i));
-    expect(emitted()).toHaveProperty('share-link');
+    expect(emitted()).toHaveProperty('shareLink');
   });
 
   it('check github link', async () => {

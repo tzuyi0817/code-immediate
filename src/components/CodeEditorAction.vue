@@ -57,7 +57,10 @@ onBeforeUnmount(unWindow);
 
 <template>
   <div class="code_editor_action">
-    <div class="code_editor_action_left">
+    <div
+      class="code_editor_action_left"
+      data-testid="editor model select"
+    >
       <button
         v-if="currentModel === 'VUE'"
         :class="['btn_select', 'btn_select-active']"
@@ -101,7 +104,7 @@ onBeforeUnmount(unWindow);
     <div class="code_editor_action_right">
       <language-select
         v-if="currentModel !== 'VUE'"
-        :languageMap="languageMap"
+        :language-map="languageMap"
         :model="currentModel"
         @add-close-event="addCloseEvent"
       />

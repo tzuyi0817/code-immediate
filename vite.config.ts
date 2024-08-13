@@ -1,6 +1,6 @@
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig, splitVendorChunkPlugin, type UserConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import { fileURLToPath, URL } from 'node:url';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';

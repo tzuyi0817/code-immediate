@@ -5,33 +5,33 @@ interface Props {
 }
 
 defineProps<Props>();
-defineEmits(['save-code', 'toggle-settings-pop', 'toggle-projects-pop', 'create-new-project', 'share-link']);
+defineEmits(['saveCode', 'toggleSettingsPop', 'toggleProjectsPop', 'createNewProject', 'shareLink']);
 </script>
 
 <template>
   <ul class="code-menu animate-popup">
-    <li @click="$emit('save-code')">
+    <li @click="$emit('saveCode')">
       <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" />
       Save
     </li>
-    <li @click="$emit('toggle-settings-pop')">
+    <li @click="$emit('toggleSettingsPop')">
       <font-awesome-icon icon="fa-solid fa-gear" />
       Settings
     </li>
     <li
       v-if="isLogin"
-      @click="$emit('toggle-projects-pop')"
+      @click="$emit('toggleProjectsPop')"
     >
       <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
       Projects
     </li>
-    <li @click="$emit('create-new-project')">
+    <li @click="$emit('createNewProject')">
       <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
       New Project
     </li>
     <li
       v-if="codeId"
-      @click="$emit('share-link')"
+      @click="$emit('shareLink')"
     >
       <font-awesome-icon icon="fa-solid fa-share" />
       Share

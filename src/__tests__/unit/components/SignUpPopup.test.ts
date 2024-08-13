@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import SignUpPopup from '@/components/SignUpPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useUserStore } from '@/store';
@@ -10,7 +10,7 @@ import { mockLogout } from '@/__tests__/__mocks__/user';
 describe('SignUpPopup component', () => {
   const CONFIRM_PASSWORD_TEXT = 'Confirm Password';
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(SignUpPopup);
@@ -31,7 +31,7 @@ describe('SignUpPopup component', () => {
   });
 
   it('password must be the same as confirmation password', async () => {
-    const { getByText } = render(Toast);
+    render(Toast);
 
     renderComponent(SignUpPopup);
     renderLoadingButton();
@@ -39,15 +39,15 @@ describe('SignUpPopup component', () => {
     await userEvent.type(screen.getByLabelText('Password'), '123');
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), '1234');
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
-    expect(getByText('password and confirmPassword are not the same')).toBeInTheDocument();
+    expect(screen.getByText('password and confirmPassword are not the same')).toBeInTheDocument();
   });
 
   it('signup success', async () => {
     const account = 'root';
     const password = '123456789';
     const userStore = useUserStore();
-    const { getByText } = render(Toast);
 
+    render(Toast);
     renderComponent(SignUpPopup);
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
@@ -56,15 +56,15 @@ describe('SignUpPopup component', () => {
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.user).toEqual({ account });
     expect(window.localStorage.getItem('code_token')).toEqual(password);
-    expect(getByText('signup success')).toBeInTheDocument();
+    expect(screen.getByText('signup success')).toBeInTheDocument();
   });
 
   it('signup error', async () => {
     const account = 'root';
     const password = '12345678';
     const userStore = useUserStore();
-    const { getByText } = render(Toast);
 
+    render(Toast);
     mockLogout();
     renderComponent(SignUpPopup);
     renderLoadingButton();
@@ -73,6 +73,6 @@ describe('SignUpPopup component', () => {
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), password);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.isLogin).toBeFalsy();
-    expect(getByText('account already exists')).toBeInTheDocument();
+    expect(screen.getByText('account already exists')).toBeInTheDocument();
   });
 });

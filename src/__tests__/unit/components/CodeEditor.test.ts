@@ -1,6 +1,6 @@
 import { nextTick } from 'vue';
 import { screen } from '@testing-library/vue';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -8,7 +8,7 @@ import { setupTestEnvironmentLanguage } from '@/monaco';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeEditor Component', async () => {
-  registerFaIcons();
+  registerIcons();
   setupTestEnvironmentLanguage();
 
   it('renders the editor', async () => {

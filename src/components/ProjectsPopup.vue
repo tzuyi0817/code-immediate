@@ -4,7 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import LoadingButton from '@/components/LoadingButton.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCodes, deleteCode } from '@/apis/code';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 import { loadParseSources } from '@/utils/loadParse';
 import { setupTemplate } from '@/config/template';
 import type { CodeProject } from '@/types/codeContent';
@@ -117,6 +117,7 @@ onMounted(getProjects);
         <li
           v-for="project in projects"
           :key="project.id"
+          :data-testid="project.id"
           class="projects_popup_card bg-black/5"
           @click="selectProject(project)"
         >
@@ -161,7 +162,7 @@ onMounted(getProjects);
         <loading-button
           v-show="page !== 1"
           class="btn btn_yellow w-auto"
-          :isLoading="isLoading"
+          :is-loading="isLoading"
           @click="goPage(-1)"
         >
           <font-awesome-icon
@@ -173,7 +174,7 @@ onMounted(getProjects);
         <loading-button
           v-show="page < totalPage"
           class="btn btn_yellow w-auto"
-          :isLoading="isLoading"
+          :is-loading="isLoading"
           @click="goPage(1)"
         >
           Next

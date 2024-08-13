@@ -7,7 +7,7 @@ import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
 
-export default function useMonacoEditor() {
+export function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();
   const { setChangeCodeFlag } = useFlagStore();
   const monacoEditor = {
@@ -55,7 +55,6 @@ export default function useMonacoEditor() {
   }
 
   function highlightSemantic(editor: monaco.editor.IStandaloneCodeEditor) {
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const theme = (editor as any)._themeService._theme;
 
     theme.semanticHighlighting = true;

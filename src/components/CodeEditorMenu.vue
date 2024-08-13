@@ -4,9 +4,9 @@ import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
 import { SUFFIX_MAP } from '@/config/suffix';
 import { sleep } from '@/utils/common';
-import exportZip from '@/utils/exportZip';
-import readFile from '@/utils/readFile';
-import toast from '@/utils/toast';
+import { exportZip } from '@/utils/exportZip';
+import { readFile } from '@/utils/readFile';
+import { toast } from '@/utils/toast';
 import type { CodeModel } from '@/types/codeContent';
 
 interface Props {
@@ -14,10 +14,10 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits(['add-close-event']);
+const emit = defineEmits(['addCloseEvent']);
 const isShowMenu = ref(false);
 
-emit('add-close-event', toggleMenu);
+emit('addCloseEvent', toggleMenu);
 
 async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
@@ -107,9 +107,15 @@ function toggleMenu(isShow = !isShowMenu.value) {
       v-if="isShowMenu"
       class="code_editor_menu_content animate-popup"
     >
-      <li @click="formatterCode">Format Code</li>
-      <li @click="exportCode">Export Zip</li>
-      <li @click="embedFile">Embed Local File</li>
+      <li @click="formatterCode">
+        Format Code
+      </li>
+      <li @click="exportCode">
+        Export Zip
+      </li>
+      <li @click="embedFile">
+        Embed Local File
+      </li>
     </ul>
   </div>
 </template>

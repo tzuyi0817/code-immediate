@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useUserStore } from '@/store';
 import { registerUser } from '@/apis/user';
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 import LoadingButton from '@/components/LoadingButton.vue';
 
 const isShowSignUpPop = defineModel<boolean>('isShowSignUpPop');
@@ -70,8 +70,8 @@ function closePopup() {
           <label class="label">
             <p>Account</p>
             <input
-              type="text"
               v-model.trim="account"
+              type="text"
               class="input"
               required
             />
@@ -80,8 +80,8 @@ function closePopup() {
           <label class="label">
             <p>Password</p>
             <input
-              type="password"
               v-model.trim="password"
+              type="password"
               class="input"
               required
             />
@@ -90,8 +90,8 @@ function closePopup() {
           <label class="label">
             <p>Confirm Password</p>
             <input
-              type="password"
               v-model.trim="confirmPassword"
+              type="password"
               class="input"
               required
             />
@@ -99,9 +99,10 @@ function closePopup() {
 
           <loading-button
             class="btn_yellow w-full mt-6"
-            :isLoading="isLoading"
-            >Sign up</loading-button
+            :is-loading="isLoading"
           >
+            Sign up
+          </loading-button>
         </form>
       </div>
     </div>

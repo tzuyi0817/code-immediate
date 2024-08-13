@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import toast from '@/utils/toast';
+import { toast } from '@/utils/toast';
 
 const { msg, status, isShowToast } = toast;
 </script>
 
 <template>
-  <div :class="['toast', { 'toast-show': isShowToast }, status]">
+  <div
+    :class="['toast', { 'toast-show': isShowToast }, status]"
+    role="alert"
+  >
     <pre>{{ msg }}</pre>
   </div>
 </template>

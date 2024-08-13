@@ -21,7 +21,7 @@ import {
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
 
-export default function registerIcons() {
+export function registerIcons() {
   library.add(
     faPenFancy,
     faAngleDown,

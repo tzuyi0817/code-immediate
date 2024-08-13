@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
-import useMonacoEditor from '@/hooks/useMonacoEditor';
+import { useMonacoEditor } from '@/hooks/useMonacoEditor';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import type { CodeModel } from '@/types/codeContent';

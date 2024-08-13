@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import registerFaIcons from '@/utils/registerFaIcons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { registerIcons } from '@/utils/registerIcons';
 import { initMonacoEditor } from '@/monaco';
 import { loadParse } from '@/utils/loadParse';
 import { getTsConstructor } from '@/utils/cdn';
@@ -14,7 +14,7 @@ import router from '@/router';
 const pinia = createPinia();
 const app = createApp(App);
 
-registerFaIcons();
+registerIcons();
 pinia.use(piniaPluginPersistedstate);
 app.use(pinia);
 app.use(router);

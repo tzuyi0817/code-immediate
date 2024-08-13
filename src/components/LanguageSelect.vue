@@ -11,11 +11,11 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emit = defineEmits(['add-close-event']);
+const emit = defineEmits(['addCloseEvent']);
 const isOpenSelect = ref(false);
 const isShowOptions = ref(false);
 
-emit('add-close-event', toggleDropdown);
+emit('addCloseEvent', toggleDropdown);
 
 const selected = computed(() => {
   const { codeContent } = useCodeContentStore();
@@ -53,12 +53,12 @@ async function changeLanguage(language: string) {
   <div class="language-select relative">
     <div
       class="select w-full h-full"
-      @click.stop="() => toggleDropdown()"
       :aria-expanded="isOpenSelect"
       role="combobox"
       aria-haspopup="listbox"
       aria-owns="language-select-listbox"
       tabindex="0"
+      @click.stop="() => toggleDropdown()"
     >
       <span class="select-label">{{ selected }}</span>
 
@@ -71,8 +71,8 @@ async function changeLanguage(language: string) {
 
     <ul
       v-if="isOpenSelect"
-      :class="['select-options', { open: isShowOptions }]"
       id="language-select-listbox"
+      :class="['select-options', { open: isShowOptions }]"
       role="listbox"
     >
       <li

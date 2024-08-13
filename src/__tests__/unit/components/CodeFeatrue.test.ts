@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeFeature from '@/components/CodeFeature.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
@@ -11,7 +11,7 @@ import { DEFAULT_TITLE } from '@/config/common';
 describe('CodeFeature Component', () => {
   const props = { defaultTitle: DEFAULT_TITLE, title: DEFAULT_TITLE };
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(CodeFeature, { props });
@@ -66,7 +66,7 @@ describe('CodeFeature Component', () => {
       mockLogin();
       renderComponent(CodeFeature, { props });
 
-      userEvent.click(screen.getByRole('img', { name: /fa-sheet-plastic/i }));
+      await userEvent.click(screen.getByRole('img', { name: /fa-sheet-plastic/i }));
       expect(await screen.findByRole('heading', { name: /projects/i })).toBeInTheDocument();
       mockLogout();
     });
@@ -120,9 +120,9 @@ describe('CodeFeature Component', () => {
   it('share button render and interact', async () => {
     const codeContentStore = useCodeContentStore();
     const codeId = '123';
-    const { getByText } = render(Toast);
     const mockedWriteText = vi.fn();
 
+    render(Toast);
     codeContentStore.setCodeId(codeId);
     renderComponent(CodeFeature, { props });
 
@@ -136,14 +136,14 @@ describe('CodeFeature Component', () => {
     await userEvent.click(screen.getByRole('img', { name: /fa-share/i }));
     expect(mockedWriteText).toHaveBeenCalledTimes(1);
     expect(mockedWriteText).toHaveBeenCalledWith(location.href);
-    expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
+    expect(screen.getByText('Copied URL to clipboard!')).toBeInTheDocument();
 
     /* document.execCommand **/
     document.execCommand = mockedWriteText;
     await userEvent.click(screen.getByRole('img', { name: /fa-share/i }));
     expect(mockedWriteText).toHaveBeenCalledTimes(2);
     expect(mockedWriteText).toHaveBeenCalledWith('copy');
-    expect(getByText('Copied URL to clipboard!')).toBeInTheDocument();
+    expect(screen.getByText('Copied URL to clipboard!')).toBeInTheDocument();
     vi.resetAllMocks();
   });
 
@@ -154,9 +154,9 @@ describe('CodeFeature Component', () => {
   });
 
   it('logout', async () => {
-    const { getByText } = render(Toast);
     const userStore = useUserStore();
 
+    render(Toast);
     renderComponent(CodeFeature, { props });
     renderLoadingButton();
     mockLogin();
@@ -167,6 +167,6 @@ describe('CodeFeature Component', () => {
     await userEvent.click(logoutButton);
     expect(userStore.isLogin).toBeFalsy();
     expect(window.localStorage.getItem('code_token')).toBeNull();
-    expect(getByText('successfully logout')).toBeInTheDocument();
+    expect(screen.getByText('successfully logout')).toBeInTheDocument();
   });
 });

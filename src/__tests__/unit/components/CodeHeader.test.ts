@@ -1,13 +1,13 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeHeader from '@/components/CodeHeader.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 import { mockLogin } from '@/__tests__/__mocks__/user';
 import { DEFAULT_TITLE } from '@/config/common';
 
 describe('CodeHeader Component', () => {
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(CodeHeader);

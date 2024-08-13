@@ -1,6 +1,6 @@
 import { waitFor, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import ProjectsPopup from '@/components/ProjectsPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -8,7 +8,10 @@ import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 import { renderComponent, router } from '@/__tests__/unit/render';
 
 describe('ProjectsPopup Component', { timeout: 10000 }, () => {
-  registerFaIcons();
+  const page = '1';
+  const { id, title, HTML, CSS, JS, codeTemplate } = CODES_RESPONSE_RESULT_MAP[page].codeList[0];
+
+  registerIcons();
 
   it('renders the correct content', async () => {
     renderComponent(ProjectsPopup);
@@ -27,7 +30,6 @@ describe('ProjectsPopup Component', { timeout: 10000 }, () => {
   describe('select project', () => {
     it('not change code', async () => {
       const codeContentStore = useCodeContentStore();
-      const { id, title, HTML, CSS, JS, codeTemplate } = CODES_RESPONSE_RESULT_MAP['1'].codeList[0];
       let iframe: HTMLElement | null = null;
 
       renderComponent(ProjectsPopup);
@@ -49,7 +51,7 @@ describe('ProjectsPopup Component', { timeout: 10000 }, () => {
       const { emitted } = renderComponent(ProjectsPopup);
       const iframe = await screen.findByText('gsap example');
 
-      userEvent.click(iframe);
+      await userEvent.click(iframe);
       await waitFor(() => {
         expect(emitted('openRemindPop')).toBeTruthy();
       });
@@ -60,9 +62,7 @@ describe('ProjectsPopup Component', { timeout: 10000 }, () => {
     renderComponent(ProjectsPopup);
     renderComponent(Toast);
 
-    const projectName = 'gsap example';
-    const id = '6361d5461292968b0f28f39f';
-    const li = (await screen.findByText(projectName)).closest('li');
+    const li = await screen.findByTestId(id);
 
     if (!li) return;
     const trashSvg = within(li).getByRole('img', { name: /fa-trash/i });

@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
-import { mergeConfig, defineConfig, type UserConfig } from 'vitest/config';
 import { fileURLToPath, URL } from 'node:url';
+import { mergeConfig, defineConfig, type UserConfig } from 'vitest/config';
 import viteConfig from './vite.config';
 
 export default mergeConfig(
@@ -15,7 +15,7 @@ export default mergeConfig(
       alias: [
         {
           find: /^monaco-editor$/,
-          replacement: __dirname + '/node_modules/monaco-editor/esm/vs/editor/editor.api',
+          replacement: `${__dirname}/node_modules/monaco-editor/esm/vs/editor/editor.api`,
         },
       ],
       coverage: {

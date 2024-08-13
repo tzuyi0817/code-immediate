@@ -63,7 +63,7 @@ function closePopup() {
         </button>
         <loading-button
           class="btn btn_yellow w-auto"
-          :isLoading="isLoading"
+          :is-loading="isLoading"
           @click="confirm"
         >
           confirm

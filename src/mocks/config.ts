@@ -1,3 +1,9 @@
+const mockResources = [
+  'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/TextPlugin.min.js',
+];
+
 export const CODES_RESPONSE_RESULT_MAP = {
   1: {
     codeList: [
@@ -20,11 +26,7 @@ export const CODES_RESPONSE_RESULT_MAP = {
           language: 'JavaScript',
           content:
             "gsap.registerPlugin(ScrollTrigger, TextPlugin);\ngsap.fromTo(\n  '.cursor',\n  0,\n  { visibility: 'hidden' },\n  {\n    visibility: 'visible',\n    yoyo: true,\n    repeat: -1,\n    repeatDelay: 0.3,\n  }\n);\ngsap.to('.box', { x: 100, duration: 1 });\ngsap.to('.box', { y: 100, duration: 1, delay: 1 });\ngsap.from('.box2', { x: 200, opacity: 0, duration: 1 });\ngsap.fromTo(\n  '.box3',\n  { autoAlpha: 0.3 },\n  { autoAlpha: 1, duration: 1, repeat: - 1 },\n);\n\ngsap.to('.loop', {\n  xPercent: '-50',\n  ease: 'none',\n  duration: 10,\n  repeat: -1,\n});\n",
-          resources: [
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/TextPlugin.min.js',
-          ],
+          resources: mockResources,
         },
         VUE: {
           language: 'Vue',
@@ -51,11 +53,7 @@ export const CODES_RESPONSE_RESULT_MAP = {
           language: 'JavaScript',
           content:
             "const timeline = gsap.timeline();\r\n\r\ntimeline\r\n  .to('.box', { x: 100, duration: 1 })\r\n  .to('.box', { y: 100, duration: 1 })\r\n  .to('.box2', { x: 100, duration: 1}, '<');",
-          resources: [
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/TextPlugin.min.js',
-          ],
+          resources: mockResources,
         },
         VUE: {
           language: 'Vue',
@@ -83,11 +81,7 @@ export const CODES_RESPONSE_RESULT_MAP = {
           language: 'JavaScript',
           content:
             "// gsap.registerPlugin(ScrollTrigger, TextPlugin);\r\n\r\nconst scrollTrigger = gsap.timeline({\r\n  scrollTrigger: {\r\n    trigger: '.section',\r\n    // markers: true,\r\n    pin: true,\r\n    scrub: true,\r\n  },\r\n});\r\n\r\nscrollTrigger\r\n  .to('.gate-left-1', { yPercent: '-100' })\r\n  .to('.gate-right-1', { yPercent: '100' }, '<')\r\n  .to('.gate-left-2', { yPercent: '-100' })\r\n  .to('.gate-right-2', { yPercent: '100' }, '<')",
-          resources: [
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/TextPlugin.min.js',
-          ],
+          resources: mockResources,
         },
         VUE: {
           language: 'Vue',
@@ -115,11 +109,7 @@ export const CODES_RESPONSE_RESULT_MAP = {
           language: 'JavaScript',
           content:
             "gsap.registerPlugin(ScrollTrigger, TextPlugin);\r\ngsap.utils.toArray('.wrap').forEach(wrap => {\r\n  ScrollTrigger.create({\r\n    trigger: wrap,\r\n    // markers: true,\r\n    onEnter() {\r\n      animated(wrap)\r\n    },\r\n    onLeave() {\r\n      hide(wrap)\r\n    },\r\n    onEnterBack() {\r\n      animated(wrap)\r\n    },\r\n  })\r\n});\r\n\r\ngsap.utils.toArray('.text').forEach((text, index) => {\r\n  gsap.to(text, {\r\n    text: `這是測試 GSAP${index} !!!!!!!!!!!!!`,\r\n    duration: 1.5,\r\n    scrollTrigger: {\r\n      trigger: text,\r\n      toggleActions: 'play pause resume reset',\r\n    },\r\n  })\r\n});\r\n\r\ngsap.fromTo(\r\n  '.cursor',\r\n  0,\r\n  { visibility: 'hidden'},\r\n  { \r\n    visibility: 'visible',\r\n    yoyo: true,\r\n    repeat: -1,\r\n    repeatDelay: 0.3,\r\n  },\r\n);\r\n\r\nfunction animated(element) {\r\n  const x = element.classList.contains('right') ? 200 : -200;\r\n\r\n  element.style.transform = `translate(${x}px, 0px)`;\r\n  gsap.fromTo(\r\n    element,\r\n    { x, y: 0, opacity: 0, visibility: 'hidden' },\r\n    {\r\n      x: 0,\r\n      y: 0,\r\n      duration: 1,\r\n      delay: 0.2,\r\n      visibility: 'visible',\r\n      opacity: 1,\r\n      ease: 'expo',\r\n      overwrite: 'auto',\r\n    }\r\n  )\r\n}\r\n\r\nfunction hide(element) {\r\n  gsap.set(element, { opacity: 0, visibility: 'hidden' });\r\n}",
-          resources: [
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js',
-            'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/TextPlugin.min.js',
-          ],
+          resources: mockResources,
         },
         VUE: {
           language: 'Vue',

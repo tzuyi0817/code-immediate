@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import CodeFooter from '@/components/CodeFooter.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 
@@ -8,7 +8,7 @@ describe('CodeFooter Component', () => {
   const provide = { iframe: null };
   const props = { previewWidth: '33.3vw' };
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(CodeFooter, { provide, props });

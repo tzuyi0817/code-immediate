@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-const mockCdnApi = {
+export const mockCdnApi = {
   search: http.get('*/libraries', async ({ request }) => {
     const search = new URL(request.url).searchParams.get('search');
 
@@ -33,5 +33,3 @@ const mockCdnApi = {
     });
   }),
 };
-
-export default mockCdnApi;

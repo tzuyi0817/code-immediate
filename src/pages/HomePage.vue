@@ -102,10 +102,10 @@ onMounted(closeInitLoading);
     </div>
 
     <code-drag
-      class="code_wrap_hidden h-[calc(100vh-88px)]"
-      direction="x"
       v-model:dragA="offsetCodeWrap"
       v-model:dragB="previewWidth"
+      class="code_wrap_hidden h-[calc(100vh-88px)]"
+      direction="x"
       unit="vw"
       :limit="{ min: 20, max: 80 }"
     />
@@ -115,7 +115,7 @@ onMounted(closeInitLoading);
       class="w-full h-[calc(60vh-88px)] lg:h-[calc(100vh-88px)] preview_width"
     />
   </div>
-  <code-footer :previewWidth="previewWidth" />
+  <code-footer :preview-width="previewWidth" />
 </template>
 
 <style lang="postcss" scoped>

@@ -2,7 +2,7 @@ import { ref, nextTick } from 'vue';
 import { screen, fireEvent, waitFor } from '@testing-library/vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import { useCodeContentStore } from '@/store';
 import { loadedParseMap } from '@/utils/loadParse';
 import { renderComponent } from '@/__tests__/unit/render';
@@ -10,7 +10,7 @@ import { renderComponent } from '@/__tests__/unit/render';
 describe('CodePreview component', () => {
   const codePreviewText = 'code preview';
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', async () => {
     renderComponent(CodePreview, { provide: { iframe: ref(null) } });
@@ -24,11 +24,11 @@ describe('CodePreview component', () => {
     renderComponent(CodePreview, { provide: { iframe: ref(null) } });
     await nextTick();
     codeContentStore.setCodeContent({ type: 'HTML', code: '<h1>Hello World!<h1>' });
-    fireEvent.load(screen.getByTitle(codePreviewText));
+    await fireEvent.load(screen.getByTitle(codePreviewText));
     await waitFor(() => {
       expect(screen.getByText('Process code finished')).toBeInTheDocument();
-      expect(screen.getByTitle(codePreviewText)).toMatchSnapshot();
     });
+    expect(screen.getByTitle(codePreviewText)).toMatchSnapshot();
   });
 
   it('catch preview compile error', async () => {

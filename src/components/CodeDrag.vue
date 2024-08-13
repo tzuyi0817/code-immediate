@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import useDrag from '@/hooks/useDrag';
+import { useDrag } from '@/hooks/useDrag';
 import type { DragOffset } from '@/types/drag';
 
 interface Props {

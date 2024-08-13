@@ -1,6 +1,6 @@
 import { screen, fireEvent } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import SettingsPopup from '@/components/SettingsPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore } from '@/store';
@@ -10,7 +10,7 @@ describe('SettingPopup component', () => {
   const TEST_CDN_URL = 'https://cdnjs.cloudflare.com/ajax/libs/customresource';
   const SPINNER = 'fa-spinner';
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(SettingsPopup);

@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import Toast from '@/components/CodeToast.vue';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeConsole component', () => {
@@ -13,16 +13,16 @@ describe('CodeConsole component', () => {
     props: { isShowConsole: true, previewWidth: '66.7vw' },
   };
 
-  const sendMessage = (type: string | undefined, html: string) => {
+  const sendMessage = async (type: string | undefined, html: string) => {
     const messageEvent = new MessageEvent('message', {
       data: { type, html },
       origin: '*',
     });
 
-    fireEvent(window, messageEvent);
+    await fireEvent(window, messageEvent);
   };
 
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(CodeConsole, renderOptions);
@@ -48,14 +48,14 @@ describe('CodeConsole component', () => {
     it('echo message', async () => {
       renderComponent(CodeConsole, renderOptions);
 
-      sendMessage('echo', 'echo');
+      await sendMessage('echo', 'echo');
       expect(await screen.findByText('echo')).toBeInTheDocument();
     });
 
     it('log message', async () => {
       renderComponent(CodeConsole, renderOptions);
 
-      sendMessage('log', '<span class="number">123456789</span>');
+      await sendMessage('log', '<span class="number">123456789</span>');
       expect(await screen.findByText('123456789')).toBeInTheDocument();
     });
 
@@ -63,26 +63,22 @@ describe('CodeConsole component', () => {
       renderComponent(CodeConsole, renderOptions);
 
       const message = 'receive warn message';
-      const { getByText, container } = renderComponent(Toast);
 
-      sendMessage('warn', message);
+      renderComponent(Toast);
+      await sendMessage('warn', message);
       expect(await screen.findByText(message)).toBeInTheDocument();
-      expect(getByText(message)).toBeInTheDocument();
-      if (!container.firstElementChild) return;
-      expect(container.firstElementChild.classList.contains('warn')).toBe(true);
+      expect(screen.getByRole('alert').classList.contains('warn')).toBe(true);
     });
 
     it('error message', async () => {
       renderComponent(CodeConsole, renderOptions);
 
       const message = 'receive error message';
-      const { getByText, container } = renderComponent(Toast);
 
-      sendMessage('error', message);
-      expect(await screen.findByText('receive error message')).toBeInTheDocument();
-      expect(getByText(message)).toBeInTheDocument();
-      if (!container.firstElementChild) return;
-      expect(container.firstElementChild.classList.contains('error')).toBe(true);
+      renderComponent(Toast);
+      await sendMessage('error', message);
+      expect(await screen.findByText(message)).toBeInTheDocument();
+      expect(screen.getByRole('alert').classList.contains('error')).toBe(true);
     });
 
     it('another type message', async () => {
@@ -90,16 +86,16 @@ describe('CodeConsole component', () => {
 
       const message = 'another message';
 
-      sendMessage('dir', message);
+      await sendMessage('dir', message);
       expect(await screen.findByText(message)).toBeInTheDocument();
     });
 
-    it('no message for type', () => {
+    it('no message for type', async () => {
       renderComponent(CodeConsole, renderOptions);
 
       const message = 'no message';
 
-      sendMessage(undefined, message);
+      await sendMessage(undefined, message);
       expect(screen.queryByText('no message')).not.toBeInTheDocument();
     });
   });
@@ -109,7 +105,7 @@ describe('CodeConsole component', () => {
 
     const message = 'echo-message';
 
-    sendMessage('echo', message);
+    await sendMessage('echo', message);
     expect(await screen.findByText(message)).toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: /clear/i }));
     expect(screen.queryByText(message)).not.toBeInTheDocument();

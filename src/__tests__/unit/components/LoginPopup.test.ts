@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import registerFaIcons from '@/utils/registerFaIcons';
+import { registerIcons } from '@/utils/registerIcons';
 import LoginPopup from '@/components/LoginPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useUserStore } from '@/store';
@@ -8,7 +8,7 @@ import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 
 describe('LoginPopup component', () => {
-  registerFaIcons();
+  registerIcons();
 
   it('renders the correct content', () => {
     renderComponent(LoginPopup);
@@ -31,8 +31,8 @@ describe('LoginPopup component', () => {
     const account = 'root';
     const password = '123456789';
     const userStore = useUserStore();
-    const { getByText } = render(Toast);
 
+    render(Toast);
     renderComponent(LoginPopup);
     renderLoadingButton();
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
@@ -42,15 +42,15 @@ describe('LoginPopup component', () => {
     expect(userStore.user).toEqual({ account });
     expect(window.localStorage.getItem('code_token')).toEqual(password);
     expect(window.localStorage.getItem('code_account')).toEqual(account);
-    expect(getByText('login success')).toBeInTheDocument();
+    expect(screen.getByText('login success')).toBeInTheDocument();
   });
 
   it('login error', async () => {
     const account = 'root';
     const password = '12345678';
     const userStore = useUserStore();
-    const { getByText } = render(Toast);
 
+    render(Toast);
     mockLogout();
     renderComponent(LoginPopup);
     renderLoadingButton();
@@ -60,7 +60,7 @@ describe('LoginPopup component', () => {
     expect(userStore.isLogin).toBeFalsy();
     expect(screen.getByLabelText('Account')).toHaveTextContent('');
     expect(screen.getByLabelText('Password')).toHaveTextContent('');
-    expect(getByText('Not authorized')).toBeInTheDocument();
+    expect(screen.getByText('Not authorized')).toBeInTheDocument();
   });
 
   it('login with github', async () => {

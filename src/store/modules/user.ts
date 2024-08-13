@@ -10,7 +10,7 @@ const defaultState: UserState = {
   user: {},
 };
 
-export default defineStore('code_immediate_user', {
+export const useUserStore = defineStore('code_immediate_user', {
   state: () => deepClone(defaultState),
   getters: {
     isLogin: state => {

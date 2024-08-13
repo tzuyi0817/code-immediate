@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import type { LoginPayload, RegisterPayload } from '@/types/user';
 
-const mockUserApi = {
+export const mockUserApi = {
   loginUser: http.post('*/login', async ({ request }) => {
     const { account, password } = (await request.json()) as LoginPayload;
     const isAuthenticated = account === 'root' && password === '123456789';
@@ -39,5 +39,3 @@ const mockUserApi = {
     });
   }),
 };
-
-export default mockUserApi;
