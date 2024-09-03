@@ -13,5 +13,3 @@ export function mockLogout() {
   userStore.setUser({});
   expect(userStore.isLogin).toBeFalsy();
 }
-
-

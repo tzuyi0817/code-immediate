@@ -1,10 +1,6 @@
 import loadjs from 'loadjs';
 import { useFlagStore } from '@/store';
-import {
-  HTML_LANGUAGE_MAP,
-  CSS_LANGUAGE_MAP,
-  JS_LANGUAGE_MAP,
-} from '@/config/language';
+import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import type { CodeBase } from '@/types/codeContent';
 
 export const loadedParseMap = new Map([
@@ -32,10 +28,11 @@ export async function loadParseSource(language: string, languageMap: Record<stri
   const source = languageMap[language];
 
   setLoading({ isOpen: true, type: 'Loading parse source' });
-  source && await loadParse(source).catch(error => {
-    setLoading({ isOpen: false, type: 'Loading parse source error' });
-    throw error;
-  });
+  source &&
+    (await loadParse(source).catch(error => {
+      setLoading({ isOpen: false, type: 'Loading parse source error' });
+      throw error;
+    }));
   setLoading({ isOpen: false, type: 'Loading parse source finished' });
 }
 

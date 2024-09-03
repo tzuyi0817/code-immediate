@@ -107,15 +107,9 @@ function toggleMenu(isShow = !isShowMenu.value) {
       v-if="isShowMenu"
       class="code_editor_menu_content animate-popup"
     >
-      <li @click="formatterCode">
-        Format Code
-      </li>
-      <li @click="exportCode">
-        Export Zip
-      </li>
-      <li @click="embedFile">
-        Embed Local File
-      </li>
+      <li @click="formatterCode">Format Code</li>
+      <li @click="exportCode">Export Zip</li>
+      <li @click="embedFile">Embed Local File</li>
     </ul>
   </div>
 </template>

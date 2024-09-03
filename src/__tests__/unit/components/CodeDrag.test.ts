@@ -5,7 +5,7 @@ import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeDrag component', () => {
   it('renders the correct content', () => {
-    renderComponent(CodeDrag, { props: { direction: 'x' }});
+    renderComponent(CodeDrag, { props: { direction: 'x' } });
 
     expect(screen.getByTitle('drag')).toBeInTheDocument();
   });
@@ -18,7 +18,7 @@ describe('CodeDrag component', () => {
         dragB: '33.3%',
         dragC: '33.3%',
         typeC: 'next',
-      }
+      },
     });
     const drag = screen.getByTitle('drag');
     const flagStore = useFlagStore();
@@ -38,7 +38,7 @@ describe('CodeDrag component', () => {
         dragB: '33.3%',
         dragC: '33.3%',
         typeC: 'previous',
-      }
+      },
     });
     const drag = screen.getByTitle('drag');
     const flagStore = useFlagStore();
@@ -57,7 +57,7 @@ describe('CodeDrag component', () => {
         dragA: '30vw',
         dragB: '30vw',
         unit: 'vw',
-      }
+      },
     });
     const drag = screen.getByTitle('drag');
     const flagStore = useFlagStore();
@@ -75,7 +75,7 @@ describe('CodeDrag component', () => {
         direction: 'y',
         dragB: '30vh',
         unit: 'vh',
-      }
+      },
     });
     const drag = screen.getByTitle('drag');
     const flagStore = useFlagStore();
