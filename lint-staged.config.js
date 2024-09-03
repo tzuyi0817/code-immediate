@@ -1,4 +1,4 @@
 export default {
-  '*.{ts,vue}': () => 'pnpm type-check',
-  '*.{ts,js,vue}': ['pnpm lint'],
+  '*.{ts,vue}': () => 'pnpm typecheck',
+  '*.{ts,js,vue}': () => 'pnpm lint',
 };
