@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import type * as monaco from 'monaco-editor';
 import {

@@ -90,9 +90,11 @@ async function setupVueLanguage() {
     });
     const languageId = ['vue'];
     const getSyncUris = () => [monaco.Uri.parse('file:///demo.vue')];
-
+    // @ts-ignore
     volar.activateMarkers(worker, languageId, 'vue', getSyncUris, monaco.editor);
+    // @ts-ignore
     volar.activateAutoInsertion(worker, languageId, getSyncUris, monaco.editor);
+    // @ts-ignore
     await volar.registerProviders(worker, languageId, getSyncUris, monaco.languages);
   });
 }
