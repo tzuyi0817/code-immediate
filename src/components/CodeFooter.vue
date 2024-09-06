@@ -32,7 +32,7 @@ function toggleConsole() {
     </section>
 
     <code-console
-      v-model:isShowConsole="isShowConsole"
+      v-model:is-show-console="isShowConsole"
       :preview-width="previewWidth"
     />
   </div>

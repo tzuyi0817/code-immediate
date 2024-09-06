@@ -4,7 +4,7 @@ import type { LoginPayload, RegisterPayload } from '@/types/user';
 export const mockUserApi = {
   loginUser: http.post('*/login', async ({ request }) => {
     const { account, password } = (await request.json()) as LoginPayload;
-    const isAuthenticated = account === 'root' && password === '123456789';
+    const isAuthenticated = account === 'FAKE_ACCOUNT' && password === 'FAKE_PASSWORD';
 
     if (!isAuthenticated) {
       return HttpResponse.json({ message: 'Not authorized' }, { status: 403 });
@@ -19,7 +19,7 @@ export const mockUserApi = {
   }),
   registerUser: http.post('*/register', async ({ request }) => {
     const { account, password } = (await request.json()) as RegisterPayload;
-    const isAuthenticated = account === 'root' && password === '123456789';
+    const isAuthenticated = account === 'FAKE_ACCOUNT' && password === 'FAKE_PASSWORD';
 
     if (!isAuthenticated) {
       return HttpResponse.json({ message: 'account already exists' }, { status: 400 });

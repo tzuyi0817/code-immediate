@@ -60,12 +60,16 @@ function loginGithub() {
     closePopup();
   };
   timer = setInterval(() => {
-    authWindow?.closed && closeAuthWindow();
+    if (authWindow?.closed) {
+      closeAuthWindow();
+    }
     authWindow?.opener.postMessage(authWindow?.location.search, location.origin);
   }, 300);
 
   function closeAuthWindow() {
-    timer && clearInterval(timer);
+    if (timer) {
+      clearInterval(timer);
+    }
     authWindow?.close();
     authWindow = null;
     window.onmessage = null;

@@ -50,8 +50,8 @@ function dragCallback(offset: DragOffset) {
   }
   if (offsetA <= min || offsetB <= min) return;
   if (offsetA >= max || offsetB >= max) return;
-  dragA && updateDrag('A', `${offsetA}${unit}`);
-  dragB && updateDrag('B', `${offsetB}${unit}`);
+  if (dragA) updateDrag('A', `${offsetA}${unit}`);
+  if (dragB) updateDrag('B', `${offsetB}${unit}`);
 }
 
 function multiDrag(offset: number, target: DragTarget) {
@@ -59,8 +59,8 @@ function multiDrag(offset: number, target: DragTarget) {
   const offsetC = dragC ? calculateOffset(dragC, offset) : 0;
 
   if (offsetC <= 0) return;
-  target.drag && updateDrag(target.type, `${target.offset}${unit}`);
-  dragC && updateDrag('C', `${offsetC}${unit}`);
+  if (target.drag) updateDrag(target.type, `${target.offset}${unit}`);
+  if (dragC) updateDrag('C', `${offsetC}${unit}`);
 }
 
 function updateDrag(type: 'A' | 'B' | 'C', value: string) {

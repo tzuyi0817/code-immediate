@@ -1,12 +1,14 @@
 import { strFromU8, strToU8, zlibSync } from 'fflate';
 import { isArray, isObject } from '@/utils/checkType';
 
-export function debounce(fun: unknown, delay = 500) {
+export function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(fun: T, delay = 500) {
   if (typeof fun !== 'function') throw new Error('The first argument must be a function');
   let timer: NodeJS.Timeout | null = null;
 
-  return function (this: unknown, ...args: unknown[]) {
-    timer && clearTimeout(timer);
+  return function (this: void, ...args: Parameters<T>) {
+    if (timer) {
+      clearTimeout(timer);
+    }
     timer = setTimeout(() => {
       fun.apply(this, args);
       timer = null;
@@ -14,12 +16,13 @@ export function debounce(fun: unknown, delay = 500) {
   };
 }
 
-export function throttle(fun: unknown, delay = 500) {
+export function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(fun: T, delay = 500) {
   if (typeof fun !== 'function') throw new Error('The first argument must be a function');
   let timeStamp = 0;
 
-  return function (this: unknown, ...args: unknown[]) {
+  return function (this: void, ...args: Parameters<T>) {
     const now = Date.now();
+
     if (now - timeStamp <= delay) return;
     fun.apply(this, args);
     timeStamp = now;

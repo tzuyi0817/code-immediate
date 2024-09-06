@@ -70,7 +70,10 @@ function deleteCdn(index: number) {
 }
 
 function searchCdn(word: string) {
-  if (word === '') return (cdnList.value = []);
+  if (word === '') {
+    cdnList.value = [];
+    return;
+  }
   const { VITE_CDN_API_URL } = import.meta.env;
 
   isSearch.value = true;

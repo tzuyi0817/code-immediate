@@ -70,8 +70,8 @@ onMounted(closeInitLoading);
   <div class="lg:flex">
     <div :class="['code_wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
       <code-editor-action
-        v-model:isShowPreview="isShowPreview"
-        v-model:currentModel="currentModel"
+        v-model:is-show-preview="isShowPreview"
+        v-model:current-model="currentModel"
       />
 
       <div
@@ -102,8 +102,8 @@ onMounted(closeInitLoading);
     </div>
 
     <code-drag
-      v-model:dragA="offsetCodeWrap"
-      v-model:dragB="previewWidth"
+      v-model:drag-a="offsetCodeWrap"
+      v-model:drag-b="previewWidth"
       class="code_wrap_hidden h-[calc(100vh-88px)]"
       direction="x"
       unit="vw"

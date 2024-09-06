@@ -64,7 +64,9 @@ async function saveCode() {
   const { status, message, resultMap } = await api.finally(() => (isLoading.value = false));
   const { setChangeCodeFlag } = useFlagStore();
 
-  resultMap && setCodeId(resultMap.code._id);
+  if (resultMap) {
+    setCodeId(resultMap.code._id);
+  }
   setChangeCodeFlag(false);
   toast.showToast(message, status);
 }
@@ -279,28 +281,28 @@ onBeforeUnmount(unWindow);
 
   <projects-popup
     v-if="isShowProjectsPop"
-    v-model:isShowProjectsPop="isShowProjectsPop"
+    v-model:is-show-projects-pop="isShowProjectsPop"
     @open-remind-pop="openRemindPop"
   />
   <settings-popup
     v-if="isShowSettingsPop"
-    v-model:isShowSettingsPop="isShowSettingsPop"
+    v-model:is-show-settings-pop="isShowSettingsPop"
   />
   <template-popup
     v-if="isShowTemplatePop"
-    v-model:isShowTemplatePop="isShowTemplatePop"
+    v-model:is-show-template-pop="isShowTemplatePop"
   />
   <login-popup
     v-if="isShowLoginPop"
-    v-model:isShowLoginPop="isShowLoginPop"
+    v-model:is-show-login-pop="isShowLoginPop"
   />
   <sign-up-popup
     v-if="isShowSignUpPop"
-    v-model:isShowSignUpPop="isShowSignUpPop"
+    v-model:is-show-sign-up-pop="isShowSignUpPop"
   />
   <remind-popup
     v-if="isShowRemindPop"
-    v-model:isShowRemindPop="isShowRemindPop"
+    v-model:is-show-remind-pop="isShowRemindPop"
     :save-code="saveCode"
     :do-fun="doFun"
   />

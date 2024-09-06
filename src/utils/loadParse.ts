@@ -28,11 +28,13 @@ export async function loadParseSource(language: string, languageMap: Record<stri
   const source = languageMap[language];
 
   setLoading({ isOpen: true, type: 'Loading parse source' });
-  source &&
-    (await loadParse(source).catch(error => {
+
+  if (source) {
+    await loadParse(source).catch(error => {
       setLoading({ isOpen: false, type: 'Loading parse source error' });
       throw error;
-    }));
+    });
+  }
   setLoading({ isOpen: false, type: 'Loading parse source finished' });
 }
 

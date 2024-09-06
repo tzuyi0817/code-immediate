@@ -87,7 +87,8 @@ function initLoadParseSource() {
 watch(
   codeContent,
   () => {
-    !isFormatter.value && runCode();
+    if (isFormatter.value) return;
+    runCode();
   },
   { deep: true },
 );

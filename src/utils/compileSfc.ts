@@ -73,7 +73,9 @@ async function compileHtml(content: string, lang?: string) {
   const language = VUE_LANGUAGE_MAP.html[lang as keyof typeof VUE_LANGUAGE_MAP.html];
   const source = HTML_LANGUAGE_MAP[language as HtmlLanguages];
 
-  source && (await loadParse(source));
+  if (source) {
+    await loadParse(source);
+  }
   return await transformHtml(content, language);
 }
 
@@ -115,7 +117,9 @@ async function compileJs(descriptor: SFCDescriptor, scopeId: string) {
 
 function compileCss(styles: SFCStyleBlock[]): Promise<string> {
   const parseCss = async (source: string, code: string, language: CssLanguages) => {
-    source && (await loadParse(source));
+    if (source) {
+      await loadParse(source);
+    }
     return transformCss(code, language);
   };
   const css = styles.reduce((result: Promise<string>[], style) => {
@@ -175,16 +179,16 @@ async function doCompileScript(descriptor: SFCDescriptor, scopeId: string, compi
   const scriptBlock = compileScript(descriptor, {
     id: scopeId,
     genDefaultAs: COMP_IDENTIFIER,
-    fs: {
-      fileExists(file: string) {
-        if (file.startsWith('/')) file = file.slice(1);
-        return false;
-      },
-      readFile(file: string) {
-        if (file.startsWith('/')) file = file.slice(1);
-        return '';
-      },
-    },
+    // fs: {
+    //   fileExists(file: string) {
+    //     if (file.startsWith('/')) file = file.slice(1);
+    //     return false;
+    //   },
+    //   readFile(file: string) {
+    //     if (file.startsWith('/')) file = file.slice(1);
+    //     return '';
+    //   },
+    // },
     templateOptions: {
       ssr: false,
       ssrCssVars: descriptor.cssVars,

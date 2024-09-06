@@ -43,25 +43,25 @@ describe('SignUpPopup component', () => {
   });
 
   it('signup success', async () => {
-    const account = 'root';
-    const password = '123456789';
+    const account = 'FAKE_ACCOUNT';
+    const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
     render(Toast);
     renderComponent(SignUpPopup);
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
-    await userEvent.type(screen.getByLabelText('Password'), password);
-    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), password);
+    await userEvent.type(screen.getByLabelText('Password'), fakePassword);
+    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.user).toEqual({ account });
-    expect(window.localStorage.getItem('code_token')).toEqual(password);
+    expect(window.localStorage.getItem('code_token')).toEqual(fakePassword);
     expect(screen.getByText('signup success')).toBeInTheDocument();
   });
 
   it('signup error', async () => {
-    const account = 'root';
-    const password = '12345678';
+    const account = 'FAKE_ACCOUNT';
+    const fakePassword = 'PASSWORD';
     const userStore = useUserStore();
 
     render(Toast);
@@ -69,8 +69,8 @@ describe('SignUpPopup component', () => {
     renderComponent(SignUpPopup);
     renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
-    await userEvent.type(screen.getByLabelText('Password'), password);
-    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), password);
+    await userEvent.type(screen.getByLabelText('Password'), fakePassword);
+    await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.isLogin).toBeFalsy();
     expect(screen.getByText('account already exists')).toBeInTheDocument();

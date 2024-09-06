@@ -68,7 +68,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     class="code_console w-full drag_height preview_width"
   >
     <code-drag
-      v-model:dragB="consoleHeight"
+      v-model:drag-b="consoleHeight"
       class="code_console_header"
       direction="y"
       unit="vh"

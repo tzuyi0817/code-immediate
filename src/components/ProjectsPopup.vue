@@ -61,7 +61,13 @@ async function deleteProject(id: string) {
   });
 
   toast.showToast(message, status);
-  projects.value.length > 1 ? getProjects() : goPage(-1);
+
+  if (projects.value.length > 1) {
+    getProjects();
+  } else {
+    goPage(-1);
+  }
+
   if (id !== route.params.id) return;
   router.replace({ params: { id: '' } });
 }
