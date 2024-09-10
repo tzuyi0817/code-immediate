@@ -8,10 +8,17 @@
   This is an online code editing and preview tool, similar to <code>CodePen</code>.
 </p>
 
-<div align="center">
-  <img src="https://github.com/tzuyi0817/code-immediate/actions/workflows/preview.yml/badge.svg">
-  <img src="https://github.com/tzuyi0817/code-immediate/actions/workflows/deploy.yml/badge.svg">
-</div>
+<p align="center">
+  <a href="https://github.com/tzuyi0817/code-immediate/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/tzuyi0817/pdf-signature?color=%23facc15" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://code-immediate.vercel.app">
+    <img src="https://img.shields.io/badge/code--immediate-demo-%23facc15?style=for-the-badge" />
+  </a>
+</p>
 
 <br>
 <br>
