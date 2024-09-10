@@ -20,6 +20,7 @@ app.use(fontAwesomeIconPlugin);
 
 (async function init() {
   loadParse('babel');
-  await Promise.all([initMonacoEditor(), getTsConstructor()]);
+  getTsConstructor();
+  await initMonacoEditor();
   app.mount('#app');
 })();
