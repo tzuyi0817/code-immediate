@@ -6,7 +6,7 @@ import {
   createVueLanguagePlugin,
   resolveVueCompilerOptions,
 } from '@vue/language-service';
-import { createTypeScriptWorkerService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
+import { createTypeScriptWorkerLanguageService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
 import { createNpmFileSystem } from '@volar/jsdelivr';
 import { URI } from 'vscode-uri';
 import { getTsConstructor } from '@/utils/cdn';
@@ -39,24 +39,15 @@ self.onmessage = async message => {
     };
 
     const { options: compilerOptions } = ts.convertCompilerOptionsFromJson(tsconfig?.compilerOptions ?? {}, '');
-    const getProjectVersion = () => '';
-    const isRootFile = (fileName: string) => {
-      const uri = asUri(fileName);
-      const models = ctx.getMirrorModels();
-
-      return models.some(model => model.uri.toString() === uri.toString());
-    };
     const vueCompilerOptions = resolveVueCompilerOptions(tsconfig.vueCompilerOptions ?? {});
 
-    return createTypeScriptWorkerService({
+    return createTypeScriptWorkerLanguageService({
       typescript: ts,
       compilerOptions,
       workerContext: ctx,
       env,
       uriConverter: { asUri, asFileName },
-      languagePlugins: [
-        createVueLanguagePlugin(ts, asFileName, getProjectVersion, isRootFile, compilerOptions, vueCompilerOptions),
-      ],
+      languagePlugins: [createVueLanguagePlugin(ts, compilerOptions, vueCompilerOptions, asFileName)],
       languageServicePlugins: getFullLanguageServicePlugins(ts),
       setup: ({ project }) => {
         project.vue = { compilerOptions: vueCompilerOptions };

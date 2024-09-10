@@ -2,7 +2,8 @@ import { loadWASM } from 'onigasm';
 import { Registry } from 'monaco-textmate';
 import * as monaco from 'monaco-editor';
 import * as volar from '@volar/monaco';
-import type { LanguageService, VueCompilerOptions } from '@vue/language-service';
+import type { VueCompilerOptions } from '@vue/language-service';
+import type { WorkerLanguageService } from '@volar/monaco/worker';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
@@ -82,7 +83,7 @@ async function setupVueLanguage() {
   monaco.languages.setLanguageConfiguration('vue', vueConfiguration);
   monaco.languages.onLanguage('vue', async () => {
     if (IS_TEST_MODE) return;
-    const worker = createWebWorker<LanguageService>('vue', {
+    const worker = createWebWorker<WorkerLanguageService>('vue', {
       ...TSCONFIG,
       vueCompilerOptions: {
         target: VERSION.VUE,
@@ -90,11 +91,9 @@ async function setupVueLanguage() {
     });
     const languageId = ['vue'];
     const getSyncUris = () => [monaco.Uri.parse('file:///demo.vue')];
-    // @ts-ignore
+
     volar.activateMarkers(worker, languageId, 'vue', getSyncUris, monaco.editor);
-    // @ts-ignore
     volar.activateAutoInsertion(worker, languageId, getSyncUris, monaco.editor);
-    // @ts-ignore
     await volar.registerProviders(worker, languageId, getSyncUris, monaco.languages);
   });
 }
