@@ -81,6 +81,6 @@ export const useCodeContentStore = defineStore('code_immediate_content', {
   },
   persist: {
     storage: localStorage,
-    paths: ['codeContent', 'codeTemplate', 'codeTitle', 'currentModel', 'offsetCodeWrap', 'previewWidth'],
+    pick: ['codeContent', 'codeTemplate', 'codeTitle', 'currentModel', 'offsetCodeWrap', 'previewWidth'],
   },
 });

@@ -24,6 +24,6 @@ export const useUserStore = defineStore('code_immediate_user', {
   },
   persist: {
     storage: localStorage,
-    paths: ['user'],
+    pick: ['user'],
   },
 });
