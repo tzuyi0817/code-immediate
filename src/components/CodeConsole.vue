@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, reactive, inject, Ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { ref, reactive, inject, Ref, watch, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import CodeDrag from '@/components/CodeDrag.vue';
@@ -13,16 +13,16 @@ type ReceiveData = { type: string; html: string; message: string }[];
 const { previewWidth } = defineProps<Props>();
 const isShowConsole = defineModel<boolean>('isShowConsole', { required: true });
 const consoleCode = reactive<ReceiveData>([]);
-const codeWrap = ref<HTMLDivElement | null>(null);
+const codeWrapRef = useTemplateRef<HTMLDivElement>('codeWrap');
 const consoleHeight = ref('30vh');
-const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
+const iframeRef: Ref<HTMLIFrameElement> | undefined = inject('iframeRef');
 const { codeId } = storeToRefs(useCodeContentStore());
 const { isCreateProject } = storeToRefs(useFlagStore());
 
 function implementJs(event: Event) {
   const target = event.target as HTMLTextAreaElement;
 
-  iframe?.value.contentWindow?.postMessage(
+  iframeRef?.value.contentWindow?.postMessage(
     {
       type: 'command',
       value: target.value.trim(),
@@ -50,7 +50,7 @@ function clearConsole() {
 
 async function wrapScrollToBottom() {
   await nextTick();
-  const scroller = codeWrap.value;
+  const scroller = codeWrapRef.value;
 
   if (!scroller) return;
   scroller.scrollTop = scroller.scrollHeight;

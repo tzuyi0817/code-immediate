@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { computed, watch, useTemplateRef, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useMonacoEditor } from '@/hooks/useMonacoEditor';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { model } = defineProps<Props>();
-const codeEditor = ref();
+const codeEditorRef = useTemplateRef<HTMLDivElement>('codeEditor');
 const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());
 const { isCreateProject, isCodeLoading } = storeToRefs(useFlagStore());
 const language = computed(() => codeContent.value[model].language);
@@ -28,9 +28,16 @@ const resizeObserver = new ResizeObserver(entries => {
 const { monacoEditor, createEditor, updateEditorModel, updateEditorValue } = useMonacoEditor();
 
 function initEditor() {
-  createEditor(codeEditor.value, model);
+  if (!codeEditorRef.value) return;
+
+  createEditor(codeEditorRef.value, model);
   updateEditorModel(content.value, language.value);
-  resizeObserver.observe(codeEditor.value.parentNode);
+
+  const parentNode = codeEditorRef.value.parentNode as HTMLElement;
+
+  if (!parentNode) return;
+
+  resizeObserver.observe(parentNode);
 }
 
 watch([language, codeTemplate], ([lang]) => {
@@ -64,7 +71,11 @@ watch(isEmbed, async isEmb => {
 
 onMounted(initEditor);
 onBeforeUnmount(() => {
-  resizeObserver.unobserve(codeEditor.value.parentNode);
+  const parentNode = codeEditorRef.value?.parentNode as HTMLElement;
+
+  if (!parentNode) return;
+
+  resizeObserver.unobserve(parentNode);
 });
 </script>
 

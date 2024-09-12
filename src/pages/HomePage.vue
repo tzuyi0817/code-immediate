@@ -14,7 +14,7 @@ import { isString } from '@/utils/checkType';
 import type { CodeModel } from '@/types/codeContent';
 
 const isShowPreview = ref(true);
-const iframe = ref(null);
+const iframeRef = ref<HTMLIFrameElement | null>(null);
 const { isSFC, codeId, currentModel, previewWidth, offsetCodeWrap } = storeToRefs(useCodeContentStore());
 const router = useRouter();
 const route = useRoute();
@@ -26,7 +26,7 @@ const wrapHeight = computed(() => {
   return isShowPreview.value ? 'h-[40vh]' : 'h-[calc(100vh-88px)]';
 });
 
-provide('iframe', iframe);
+provide('iframeRef', iframeRef);
 
 selectProject();
 

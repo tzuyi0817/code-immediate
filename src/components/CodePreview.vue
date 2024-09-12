@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, inject, Ref, onMounted } from 'vue';
+import { ref, watch, inject, onMounted, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { createHtml } from '@/utils/createHtml';
@@ -8,7 +8,7 @@ import { compile } from '@/utils/compile';
 import { compileSfc } from '@/utils/compileSfc';
 
 const srcdoc = ref('');
-const iframe: Ref<HTMLIFrameElement> | undefined = inject('iframe');
+const iframeRef: Ref<HTMLIFrameElement> | undefined = inject('iframeRef');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());
 const { isFormatter, isStartDrag } = storeToRefs(useFlagStore());
 const sandboxAttribute = [
@@ -65,7 +65,7 @@ async function runCode() {
     const isErrorConstructor = error instanceof Error;
     const message = isErrorConstructor ? error.message : String(error);
 
-    iframe?.value?.contentWindow?.postMessage?.(
+    iframeRef?.value?.contentWindow?.postMessage?.(
       {
         type: 'throwError',
         value: message,
@@ -99,7 +99,7 @@ onMounted(initLoadParseSource);
 <template>
   <div class="code_preview">
     <iframe
-      ref="iframe"
+      ref="iframeRef"
       title="code preview"
       :sandbox="sandboxAttribute"
       :class="['h-full w-full', { 'pointer-events-none': isStartDrag }]"

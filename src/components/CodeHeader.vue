@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, useTemplateRef } from 'vue';
 import { storeToRefs } from 'pinia';
 import CodeFeature from '@/components/CodeFeature.vue';
 import { useUserStore, useCodeContentStore } from '@/store';
@@ -7,7 +7,7 @@ import { DEFAULT_TITLE } from '@/config/common';
 
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
-const titleInput = ref<HTMLInputElement | null>(null);
+const titleInputRef = useTemplateRef<HTMLInputElement>('titleInput');
 const isShowEditTitle = ref(false);
 
 setupTitle();
@@ -24,11 +24,13 @@ function blurTitle() {
 
 async function openTitle() {
   isShowEditTitle.value = true;
+
   if (codeTitle.value === DEFAULT_TITLE) {
     codeTitle.value = '';
   }
+
   await nextTick();
-  titleInput.value?.focus();
+  titleInputRef.value?.focus();
 }
 </script>
 
