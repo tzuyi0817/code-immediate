@@ -14,7 +14,7 @@ interface Props {
   defaultTitle: string;
 }
 
-const props = defineProps<Props>();
+const { defaultTitle } = defineProps<Props>();
 const title = defineModel<string>('title', { required: true });
 const { isLogin } = storeToRefs(useUserStore());
 const { codeId, codeTemplate } = storeToRefs(useCodeContentStore());
@@ -85,7 +85,7 @@ function createNewProject() {
   setCodeMap(defaultTemplate.ES6);
   setCodeTemplate('ES6');
   setCodeId('');
-  title.value = props.defaultTitle;
+  title.value = defaultTitle;
 }
 
 function openRemindPop(fun: () => void) {

@@ -9,11 +9,10 @@ interface Props {
 }
 
 const isLoading = ref(false);
-const props = defineProps<Props>();
+const { saveCode, doFun } = defineProps<Props>();
 const isShowRemindPop = defineModel<boolean>('isShowRemindPop');
 
 async function confirm() {
-  const { saveCode, doFun } = props;
   isLoading.value = true;
   await saveCode();
   isLoading.value = false;
@@ -25,7 +24,7 @@ function cancel() {
   const { setChangeCodeFlag } = useFlagStore();
   closePopup();
   setChangeCodeFlag(false);
-  props.doFun?.();
+  doFun?.();
 }
 
 function closePopup() {

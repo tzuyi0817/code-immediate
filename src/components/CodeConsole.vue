@@ -10,7 +10,7 @@ interface Props {
 }
 type ReceiveData = { type: string; html: string; message: string }[];
 
-const props = defineProps<Props>();
+const { previewWidth } = defineProps<Props>();
 const isShowConsole = defineModel<boolean>('isShowConsole', { required: true });
 const consoleCode = reactive<ReceiveData>([]);
 const codeWrap = ref<HTMLDivElement | null>(null);
@@ -149,7 +149,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
   &.preview_width {
     @media (min-width: 1024px) {
-      width: calc(v-bind('props.previewWidth') - 18px);
+      width: calc(v-bind('previewWidth') - 18px);
     }
   }
   &.drag_height {

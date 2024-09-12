@@ -10,7 +10,7 @@ interface Props {
   model: CodeModel;
 }
 
-const props = defineProps<Props>();
+const { languageMap, model } = defineProps<Props>();
 const emit = defineEmits(['addCloseEvent']);
 const isOpenSelect = ref(false);
 const isShowOptions = ref(false);
@@ -19,7 +19,6 @@ emit('addCloseEvent', toggleDropdown);
 
 const selected = computed(() => {
   const { codeContent } = useCodeContentStore();
-  const { model } = props;
 
   return codeContent[model].language;
 });
@@ -41,9 +40,8 @@ async function toggleDropdown(isOpen = !isOpenSelect.value) {
 
 async function changeLanguage(language: string) {
   const { setCodeLanguage } = useCodeContentStore();
-  const { model } = props;
 
-  await loadParseSource(language, props.languageMap);
+  await loadParseSource(language, languageMap);
   setCodeLanguage({ type: model, language: language as Languages });
   toggleDropdown();
 }

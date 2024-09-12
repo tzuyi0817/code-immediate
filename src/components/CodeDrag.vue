@@ -19,25 +19,14 @@ interface DragTarget {
   type: 'A' | 'B';
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  unit: '%',
-  limit: () => ({ min: 0, max: 100 }),
-});
+const { direction, dragA, dragB, dragC, unit = '%', typeC, limit = { min: 0, max: 100 } } = defineProps<Props>();
 const emit = defineEmits(['update:dragA', 'update:dragB', 'update:dragC']);
-const cursor = computed(() => (props.direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize'));
-const layout = computed(() => (props.direction === 'x' ? 'w-[18px]' : 'min-h-[18px]'));
+const cursor = computed(() => (direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize'));
+const layout = computed(() => (direction === 'x' ? 'w-[18px]' : 'min-h-[18px]'));
 
 const { startDrag } = useDrag(dragCallback);
 
 function dragCallback(offset: DragOffset) {
-  const {
-    dragA,
-    dragB,
-    direction,
-    unit,
-    typeC,
-    limit: { min, max },
-  } = props;
   const offsetA = dragA ? calculateOffset(dragA, offset[direction]) : 50;
   const offsetB = dragB ? calculateOffset(dragB, -offset[direction]) : 50;
 
@@ -48,14 +37,13 @@ function dragCallback(offset: DragOffset) {
   if (offsetB <= 0 && typeC === 'next') {
     multiDrag(-offset[direction], { offset: offsetA, drag: dragA, type: 'A' });
   }
-  if (offsetA <= min || offsetB <= min) return;
-  if (offsetA >= max || offsetB >= max) return;
+  if (offsetA <= limit.min || offsetB <= limit.min) return;
+  if (offsetA >= limit.max || offsetB >= limit.max) return;
   if (dragA) updateDrag('A', `${offsetA}${unit}`);
   if (dragB) updateDrag('B', `${offsetB}${unit}`);
 }
 
 function multiDrag(offset: number, target: DragTarget) {
-  const { dragC, unit } = props;
   const offsetC = dragC ? calculateOffset(dragC, offset) : 0;
 
   if (offsetC <= 0) return;
@@ -68,7 +56,6 @@ function updateDrag(type: 'A' | 'B' | 'C', value: string) {
 }
 
 function calculateOffset(drag: string, offset: number) {
-  const { unit } = props;
   const result = (+drag.slice(0, -unit.length) / 100 + offset) * 100;
 
   return isNaN(result) ? 0 : result;

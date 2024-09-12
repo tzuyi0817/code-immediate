@@ -9,11 +9,11 @@ interface Props {
   project: CodeProject;
 }
 
-const props = defineProps<Props>();
-const srcdoc = await transformSrcdoc(props.project);
+const { project } = defineProps<Props>();
+const srcdoc = await transformSrcdoc(project);
 
-async function transformSrcdoc(project: CodeProject) {
-  const { CSS, HTML, JS, VUE, codeTemplate } = project;
+async function transformSrcdoc(codeProject: CodeProject) {
+  const { CSS, HTML, JS, VUE, codeTemplate } = codeProject;
   const compileFun = VUE.content ? compileSfc : compile;
 
   await loadParseSources({ HTML, CSS, JS });

@@ -13,7 +13,7 @@ interface Props {
   model: CodeModel;
 }
 
-const props = defineProps<Props>();
+const { model } = defineProps<Props>();
 const emit = defineEmits(['addCloseEvent']);
 const isShowMenu = ref(false);
 
@@ -22,7 +22,6 @@ emit('addCloseEvent', toggleMenu);
 async function formatterCode() {
   const { codeContent, setCodeContent } = useCodeContentStore();
   const { setFormatter, setLoading } = useFlagStore();
-  const { model } = props;
   const { content, language } = codeContent[model] ?? {};
   const parser = PRETTIER_MAP[language];
 
@@ -50,7 +49,6 @@ async function formatterCode() {
 async function exportCode() {
   const { codeContent, codeTitle } = useCodeContentStore();
   const { setLoading } = useFlagStore();
-  const { model } = props;
   const { content, language } = codeContent[model];
 
   toggleMenu();
@@ -62,7 +60,6 @@ async function exportCode() {
 function embedFile() {
   const { codeContent, setCodeContent } = useCodeContentStore();
   const { setEmbedFlag } = useFlagStore();
-  const { model } = props;
   const { language } = codeContent[model];
   let element: HTMLInputElement | null = document.createElement('input');
 

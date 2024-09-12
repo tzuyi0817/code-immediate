@@ -10,14 +10,14 @@ interface Props {
   model: CodeModel;
 }
 
-const props = defineProps<Props>();
+const { model } = defineProps<Props>();
 const codeEditor = ref();
 const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());
 const { isCreateProject, isCodeLoading } = storeToRefs(useFlagStore());
-const language = computed(() => codeContent.value[props.model].language);
-const content = computed(() => codeContent.value[props.model].content);
-const isFormatter = computed(() => useFlagStore().formatterMap[props.model]);
-const isEmbed = computed(() => useFlagStore().EmbedMap[props.model]);
+const language = computed(() => codeContent.value[model].language);
+const content = computed(() => codeContent.value[model].content);
+const isFormatter = computed(() => useFlagStore().formatterMap[model]);
+const isEmbed = computed(() => useFlagStore().EmbedMap[model]);
 const resizeObserver = new ResizeObserver(entries => {
   entries.forEach(({ contentRect: { height, width } }) => {
     if (height === 0 || width === 0) return;
@@ -28,7 +28,7 @@ const resizeObserver = new ResizeObserver(entries => {
 const { monacoEditor, createEditor, updateEditorModel, updateEditorValue } = useMonacoEditor();
 
 function initEditor() {
-  createEditor(codeEditor.value, props.model);
+  createEditor(codeEditor.value, model);
   updateEditorModel(content.value, language.value);
   resizeObserver.observe(codeEditor.value.parentNode);
 }
@@ -42,7 +42,7 @@ watch(isFormatter, isFormat => {
   const { setLoading, setFormatter } = useFlagStore();
   updateEditorValue(content.value);
   setLoading({ isOpen: false, type: 'Code formatter finished' });
-  setFormatter({ model: props.model, isFormatter: false });
+  setFormatter({ model, isFormatter: false });
 });
 
 watch([isCreateProject, isCodeLoading], async ([isCreate, isLoading]) => {
@@ -59,7 +59,7 @@ watch(isEmbed, async isEmb => {
   if (!isEmb) return;
   const { setEmbedFlag } = useFlagStore();
   updateEditorValue(content.value);
-  setEmbedFlag({ model: props.model, isEmbed: false });
+  setEmbedFlag({ model, isEmbed: false });
 });
 
 onMounted(initEditor);
