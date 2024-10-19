@@ -63,7 +63,16 @@
         gap: 100px;
         justify-content: center;
         align-items: center;
-        background-color: #242424;
+        background: #242424;
+        background-image: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 50%),
+          linear-gradient(135deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%),
+          linear-gradient(45deg, rgba(255, 255, 255, 0.03) 25%, transparent 25%);
+        background-size:
+          100% 100%,
+          4px 4px,
+          4px 4px;
+        background-repeat: no-repeat, repeat, repeat;
+        z-index: 9999;
       }
 
       #init-loading-logo {
