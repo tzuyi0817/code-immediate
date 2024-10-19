@@ -8,6 +8,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'index.html'
       - 'src/**'
       - 'pnpm-lock.yaml'
       - 'package.json'
