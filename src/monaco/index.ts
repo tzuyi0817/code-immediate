@@ -14,7 +14,7 @@ import { vueConfiguration } from '@/config/language-configuration/vue';
 import { VERSION } from '@/config/template';
 import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/config/grammar';
 
-const IS_TEST_MODE = import.meta.env.MODE === 'test';
+export const IS_TEST_MODE = import.meta.env.MODE === 'test';
 const BASE_URL = IS_TEST_MODE ? 'http://localhost:3000/' : '';
 const TSCONFIG = {
   compilerOptions: {
