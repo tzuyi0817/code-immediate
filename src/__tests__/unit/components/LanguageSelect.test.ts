@@ -13,7 +13,7 @@ describe('LanguageSelect component', () => {
 
   registerIcons();
 
-  vi.mock('@/utils/loadParse', () => {
+  vi.mock('@/utils/load-parse', () => {
     return {
       loadParseSource: vi.fn(),
     };

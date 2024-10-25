@@ -10,7 +10,7 @@ describe('CodeEditorMenu Component', async () => {
   const formatText = 'Format Code';
 
   registerIcons();
-  vi.mock('@/utils/exportZip', () => ({ exportZip: vi.fn() }));
+  vi.mock('@/utils/export-zip', () => ({ exportZip: vi.fn() }));
 
   it('renders the correct content', async () => {
     renderComponent(CodeEditorMenu, {
