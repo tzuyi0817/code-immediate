@@ -2,7 +2,8 @@ import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import themeDark from 'shiki/themes/dark-plus.mjs';
 import { debounce, sleep } from '@/utils/common';
-import { registry } from '@/monaco';
+import { registry, IS_TEST_MODE } from '@/monaco';
+import { SHIKI_HIGHLIGHT_LANG } from '@/monaco/highlight';
 import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import type { CodeModel } from '@/types/codeContent';
@@ -85,18 +86,32 @@ export function useMonacoEditor() {
     const cacheModel = monaco.editor.getModel(uri);
     const languageType = COMMON_GRAMMARS_MAP[language as keyof typeof COMMON_GRAMMARS_MAP] ?? language;
     const model = cacheModel ?? monaco.editor.createModel(code, languageType, uri);
-    const grammars = new Map([[languageType, GRAMMARS_MAP.get(languageType)!]]);
 
-    if (cacheModel) model.setValue(code);
+    if (cacheModel) {
+      model.setValue(code);
+    }
     monacoEditor.editor.setModel(model);
-    if (oldModel !== cacheModel) oldModel?.dispose();
-    if (import.meta.env.MODE === 'test' || language === 'vue') return;
-    await sleep();
-    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor);
+
+    if (oldModel !== cacheModel) {
+      oldModel?.dispose();
+    }
+    await wireEditorGrammars(languageType);
   }
 
   function updateEditorValue(code: string) {
     monacoEditor.editor?.getModel()?.setValue(code);
+  }
+
+  async function wireEditorGrammars(languageType: string) {
+    if (!monacoEditor.editor) return;
+    if (IS_TEST_MODE || SHIKI_HIGHLIGHT_LANG.has(languageType)) return;
+    const grammar = GRAMMARS_MAP.get(languageType);
+
+    if (!grammar) return;
+    const grammars = new Map([[languageType, grammar]]);
+
+    await sleep();
+    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor);
   }
 
   return {
