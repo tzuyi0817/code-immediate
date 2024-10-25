@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import CodeFooter from '@/components/CodeFooter.vue';
 import { renderComponent } from '@/__tests__/unit/render';
 

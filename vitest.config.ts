@@ -11,7 +11,7 @@ export default mergeConfig(
       environment: 'jsdom',
       include: ['src/__tests__/unit/**/*.test.ts'],
       root: fileURLToPath(new URL('./', import.meta.url)),
-      setupFiles: ['src/__tests__/setup/unitTest.ts'],
+      setupFiles: ['src/__tests__/setup/unit-test.ts'],
       alias: [
         {
           find: /^monaco-editor$/,

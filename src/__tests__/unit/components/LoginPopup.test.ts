@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import LoginPopup from '@/components/LoginPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useUserStore } from '@/store';

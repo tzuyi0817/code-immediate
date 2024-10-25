@@ -11,10 +11,10 @@ import {
   RXJS_HTML,
   RXJS_JS,
   RXJS_CSS,
-} from '@/config/defaultContent';
+} from '@/config/default-content';
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
-import type { CodeTemplate, CodeTemplateMap } from '@/types/codeContent';
+import type { CodeTemplate, CodeTemplateMap } from '@/types/code-content';
 
 export const VERSION = {
   REACT: '18.3.1',

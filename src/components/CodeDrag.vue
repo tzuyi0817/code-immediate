@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useDrag } from '@/hooks/useDrag';
+import { useDrag } from '@/hooks/use-drag';
 import type { DragOffset } from '@/types/drag';
 
 interface Props {
@@ -58,7 +58,7 @@ function updateDrag(type: 'A' | 'B' | 'C', value: string) {
 function calculateOffset(drag: string, offset: number) {
   const result = (+drag.slice(0, -unit.length) / 100 + offset) * 100;
 
-  return isNaN(result) ? 0 : result;
+  return Number.isNaN(result) ? 0 : result;
 }
 </script>
 

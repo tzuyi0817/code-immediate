@@ -2,10 +2,10 @@
 import { ref, watch, inject, onMounted, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { createHtml } from '@/utils/createHtml';
-import { loadParseSources } from '@/utils/loadParse';
+import { createHtml } from '@/utils/create-html';
+import { loadParseSources } from '@/utils/load-parse';
 import { compile } from '@/utils/compile';
-import { compileSfc } from '@/utils/compileSfc';
+import { compileSfc } from '@/utils/compile-sfc';
 
 const srcdoc = ref('');
 const iframeRef: Ref<HTMLIFrameElement> | undefined = inject('iframeRef');

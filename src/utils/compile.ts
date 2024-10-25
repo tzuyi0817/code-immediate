@@ -1,9 +1,9 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import typescript from 'typescript';
-import { SCRIPT_TYPE_MAP, esModel } from '@/config/scriptType';
-import { IMPORT_MAP } from '@/config/importMap';
-import { parseImport } from '@/utils/parseImport';
+import { SCRIPT_TYPE_MAP, esModel } from '@/config/script-type';
+import { IMPORT_MAP } from '@/config/import-map';
+import { parseImport } from '@/utils/parse-import';
 import { getTsConstructor } from '@/utils/cdn';
 import type {
   CodeContent,
@@ -12,7 +12,7 @@ import type {
   HtmlLanguages,
   CssLanguages,
   JsLanguages,
-} from '@/types/codeContent';
+} from '@/types/code-content';
 import type { Sass, Showdown } from '@/types/language';
 
 let sass: Sass | null = null;
@@ -50,7 +50,7 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
     },
     Markdown() {
       if (!showdown) showdown = new self.showdown.Converter();
-      return showdown?.makeHtml(htmlContent.replace(/\n[ \t]+#/g, '\n#'));
+      return showdown?.makeHtml(htmlContent.replaceAll(/\n[ \t]+#/g, '\n#'));
     },
     Slim() {},
     Pug() {

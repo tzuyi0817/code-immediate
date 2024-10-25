@@ -1,6 +1,6 @@
 import { parse as parsePackage } from 'parse-package-name';
 import { transformToJsdelivr, transformToEsbuild } from '@/utils/cdn';
-import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/importMap';
+import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/import-map';
 import type { CdnSourceMap } from '@/types/cdn';
 
 interface PathNode {

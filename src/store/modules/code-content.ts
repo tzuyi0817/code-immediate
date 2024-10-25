@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { deepClone } from '@/utils/common';
-import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/codeContent';
+import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/code-content';
 import type { CdnModel } from '@/types/cdn';
 
 interface CodeContentStore {

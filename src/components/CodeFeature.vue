@@ -125,8 +125,8 @@ async function shareLink() {
   if (document.execCommand) {
     const textField = document.createElement('textarea');
 
-    textField.innerText = location.href;
-    document.body.appendChild(textField);
+    textField.textContent = location.href;
+    document.body.append(textField);
     textField.select();
     document.execCommand('copy');
     textField.remove();

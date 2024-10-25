@@ -6,7 +6,7 @@ import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import { useCodeContentStore } from '@/store';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import { SUFFIX_MAP } from '@/config/suffix';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel } from '@/types/code-content';
 
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });
 const currentModel = defineModel<CodeModel>('currentModel', { required: true });

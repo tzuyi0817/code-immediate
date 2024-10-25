@@ -46,19 +46,8 @@ function loginGithub() {
   let timer: NodeJS.Timeout | null = null;
 
   authWindow.focus();
-  window.onmessage = ({ data: search }) => {
-    if (!search || typeof search !== 'string') return;
-    const searchParams = new URLSearchParams(search);
-    const { setUser } = useUserStore();
-    const token = searchParams.get('token') ?? '';
-    const githubAccount = searchParams.get('account') ?? '';
+  window.addEventListener('message', onMessage);
 
-    closeAuthWindow();
-    setUser({ account: githubAccount });
-    window.localStorage.setItem('code_token', token);
-    toast.showToast('login success', 'success');
-    closePopup();
-  };
   timer = setInterval(() => {
     if (authWindow?.closed) {
       closeAuthWindow();
@@ -72,7 +61,24 @@ function loginGithub() {
     }
     authWindow?.close();
     authWindow = null;
-    window.onmessage = null;
+    window.removeEventListener('message', onMessage);
+  }
+
+  function onMessage(event: MessageEvent<any>) {
+    const { data: search } = event;
+
+    if (!search || typeof search !== 'string') return;
+
+    const searchParams = new URLSearchParams(search);
+    const { setUser } = useUserStore();
+    const token = searchParams.get('token') ?? '';
+    const githubAccount = searchParams.get('account') ?? '';
+
+    closeAuthWindow();
+    setUser({ account: githubAccount });
+    window.localStorage.setItem('code_token', token);
+    toast.showToast('login success', 'success');
+    closePopup();
   }
 }
 

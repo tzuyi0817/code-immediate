@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/vue';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import CodeLoading from '@/components/CodeLoading.vue';
 import { useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';

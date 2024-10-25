@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import TemplatePopup from '@/components/TemplatePopup.vue';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';

@@ -1,4 +1,4 @@
-import type { CodeTemplateMap, CodeTemplate, CodeProject } from './codeContent';
+import type { CodeTemplateMap, CodeTemplate, CodeProject } from './code-content';
 
 export interface UserResponse {
   token: string;

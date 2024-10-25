@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel } from '@/types/code-content';
 
 const defaultState = {
   isLoading: false,

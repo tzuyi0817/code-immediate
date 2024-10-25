@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import Toast from '@/components/CodeToast.vue';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeConsole component', () => {

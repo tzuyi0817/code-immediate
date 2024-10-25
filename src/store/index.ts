@@ -1,4 +1,4 @@
-import { useCodeContentStore } from '@/store/modules/codeContent';
+import { useCodeContentStore } from '@/store/modules/code-content';
 import { useFlagStore } from '@/store/modules/flag';
 import { useUserStore } from '@/store/modules/user';
 

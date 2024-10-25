@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, watch, useTemplateRef, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useMonacoEditor } from '@/hooks/useMonacoEditor';
+import { useMonacoEditor } from '@/hooks/use-monaco-editor';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel } from '@/types/code-content';
 
 interface Props {
   model: CodeModel;

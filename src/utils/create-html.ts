@@ -1,6 +1,6 @@
 import srcdoc from '@/assets/srcdoc.html?raw';
 import { VERSION } from '@/config/template';
-import type { CreateHtmlParams } from '@/types/codeContent';
+import type { CreateHtmlParams } from '@/types/code-content';
 
 export function createHtml({ html, css, js, cssResources, jsResources, importMap, modules = '' }: CreateHtmlParams) {
   return srcdoc

@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { useCodeContentStore } from '@/store';
 import { TEMPLATE_MAP, TEMPLATE_LIST } from '@/config/template';
-import type { CodeTemplate } from '@/types/codeContent';
+import type { CodeTemplate } from '@/types/code-content';
 
 const isShowTemplatePop = defineModel<boolean>('isShowTemplatePop');
 const { codeTemplate } = storeToRefs(useCodeContentStore());

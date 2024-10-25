@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
@@ -69,7 +69,7 @@ describe('CodeEditorMenu Component', async () => {
   });
 
   it('export code', async () => {
-    const module = await import('@/utils/exportZip');
+    const module = await import('@/utils/export-zip');
 
     renderComponent(CodeEditorMenu, {
       props: { model: 'HTML' },

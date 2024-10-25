@@ -1,8 +1,8 @@
 import { get, post, put, del } from '@/utils/ajax';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { loadParseSources } from '@/utils/loadParse';
+import { loadParseSources } from '@/utils/load-parse';
 import { setupTemplate } from '@/config/template';
-import type { CodePayload } from '@/types/codeContent';
+import type { CodePayload } from '@/types/code-content';
 import type { CodeResponse, CodeListResponse } from '@/types/response';
 
 export function getCodes(page: number) {

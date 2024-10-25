@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useCodeContentStore } from '@/store';
-import { loadParseSource } from '@/utils/loadParse';
+import { loadParseSource } from '@/utils/load-parse';
 import { sleep } from '@/utils/common';
-import type { CodeModel, Languages } from '@/types/codeContent';
+import type { CodeModel, Languages } from '@/types/code-content';
 
 interface Props {
   languageMap: Record<string, string>;

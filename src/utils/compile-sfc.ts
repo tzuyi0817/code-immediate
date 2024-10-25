@@ -8,14 +8,14 @@ import {
   type BindingMetadata,
 } from 'vue/compiler-sfc';
 import hashId from 'hash-sum';
-import { SCRIPT_TYPE_MAP } from '@/config/scriptType';
+import { SCRIPT_TYPE_MAP } from '@/config/script-type';
 import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
-import { IMPORT_MAP } from '@/config/importMap';
+import { IMPORT_MAP } from '@/config/import-map';
 // import { utoa } from '@/utils/common';
 import { transformHtml, transformCss, transformJs } from '@/utils/compile';
-import { loadParse } from '@/utils/loadParse';
+import { loadParse } from '@/utils/load-parse';
 import { transformToJsdelivr } from '@/utils/cdn';
-import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/codeContent';
+import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/code-content';
 
 // interface RawSourceMap {
 //   version: string;

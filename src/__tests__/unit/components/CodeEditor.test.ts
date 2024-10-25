@@ -1,6 +1,6 @@
 import { nextTick } from 'vue';
 import { screen } from '@testing-library/vue';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';

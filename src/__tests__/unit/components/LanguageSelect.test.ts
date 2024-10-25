@@ -2,7 +2,7 @@ import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import { useCodeContentStore } from '@/store';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import { sleep } from '@/utils/common';
 import { HTML_LANGUAGE_MAP } from '@/config/language';
 import { renderComponent } from '@/__tests__/unit/render';

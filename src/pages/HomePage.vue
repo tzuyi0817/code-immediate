@@ -10,8 +10,8 @@ import CodeDrag from '@/components/CodeDrag.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
-import { isString } from '@/utils/checkType';
-import type { CodeModel } from '@/types/codeContent';
+import { isString } from '@/utils/check-type';
+import type { CodeModel } from '@/types/code-content';
 
 const isShowPreview = ref(true);
 const iframeRef = ref<HTMLIFrameElement | null>(null);
@@ -31,9 +31,9 @@ provide('iframeRef', iframeRef);
 selectProject();
 
 function closeInitLoading() {
-  const loadingBox = document.getElementById('init-loading');
+  const loadingBox = document.querySelector('#init-loading');
 
-  if (!loadingBox) return;
+  if (!loadingBox || !(loadingBox instanceof HTMLElement)) return;
   loadingBox.style.display = 'none';
 }
 

@@ -6,7 +6,7 @@ import { registry, IS_TEST_MODE } from '@/monaco';
 import { SHIKI_HIGHLIGHT_LANG } from '@/monaco/highlight';
 import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import type { CodeModel } from '@/types/codeContent';
+import type { CodeModel } from '@/types/code-content';
 
 export function useMonacoEditor() {
   const { setCodeContent } = useCodeContentStore();

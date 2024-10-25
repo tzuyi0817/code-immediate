@@ -2,9 +2,9 @@ import { ref, nextTick } from 'vue';
 import { screen, fireEvent, waitFor } from '@testing-library/vue';
 import CodePreview from '@/components/CodePreview.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import { useCodeContentStore } from '@/store';
-import { loadedParseMap } from '@/utils/loadParse';
+import { loadedParseMap } from '@/utils/load-parse';
 import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodePreview component', () => {

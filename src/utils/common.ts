@@ -1,5 +1,5 @@
 import { strFromU8, strToU8, zlibSync } from 'fflate';
-import { isArray, isObject } from '@/utils/checkType';
+import { isArray, isObject } from '@/utils/check-type';
 
 export function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(fun: T, delay = 500) {
   if (typeof fun !== 'function') throw new Error('The first argument must be a function');

@@ -56,7 +56,7 @@ export async function initMonacoEditor() {
 
 async function initializeWorker(worker: Worker) {
   const initialize = new Promise<Worker>(resolve => {
-    worker.onmessage = () => resolve(worker);
+    worker.addEventListener('message', () => resolve(worker));
     worker.postMessage('initializing');
   });
 

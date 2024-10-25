@@ -1,6 +1,6 @@
 import typescript from 'typescript';
 import { devDependencies } from '../../package.json';
-import { hasOwn } from '@/utils/checkType';
+import { hasOwn } from '@/utils/check-type';
 
 const HANDLE_SEPARATE_MAP = {
   '@component-hook/pdf-canvas': 'https://cdn.jsdelivr.net/npm/@component-hook/pdf-canvas/dist/pdf-canvas.es.js',

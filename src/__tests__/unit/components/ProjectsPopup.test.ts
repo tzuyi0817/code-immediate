@@ -1,6 +1,6 @@
 import { waitFor, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/registerIcons';
+import { registerIcons } from '@/utils/register-icons';
 import ProjectsPopup from '@/components/ProjectsPopup.vue';
 import Toast from '@/components/CodeToast.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';

@@ -5,9 +5,9 @@ import LoadingButton from '@/components/LoadingButton.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCodes, deleteCode } from '@/apis/code';
 import { toast } from '@/utils/toast';
-import { loadParseSources } from '@/utils/loadParse';
+import { loadParseSources } from '@/utils/load-parse';
 import { setupTemplate } from '@/config/template';
-import type { CodeProject } from '@/types/codeContent';
+import type { CodeProject } from '@/types/code-content';
 
 const emit = defineEmits(['openRemindPop']);
 const isShowProjectsPop = defineModel<boolean>('isShowProjectsPop');

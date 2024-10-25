@@ -1,7 +1,7 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { SUFFIX_MAP } from '@/config/suffix';
-import type { CodeMap } from '@/types/codeContent';
+import type { CodeMap } from '@/types/code-content';
 
 type ExportData = Omit<CodeMap, 'resources'>;
 
