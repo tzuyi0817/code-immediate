@@ -35,7 +35,7 @@
     "monaco-editor-textmate": "^4.0.0",
     "monaco-textmate": "^3.0.1",
     "onigasm": "^2.2.5",
-    "pinia": "^2.2.5",
+    "pinia": "^2.2.6",
     "pinia-plugin-persistedstate": "^4.1.2",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
@@ -59,7 +59,7 @@
     "@vue/language-service": "2.1.10",
     "autoprefixer": "^10.4.20",
     "cssnano": "^7.0.6",
-    "eslint": "^9.13.0",
+    "eslint": "^9.14.0",
     "fflate": "^0.8.2",
     "fs-extra": "^11.2.0",
     "hash-sum": "^2.0.0",
