@@ -18,7 +18,7 @@ import type { CodeTemplate, CodeTemplateMap } from '@/types/code-content';
 
 export const VERSION = {
   REACT: '18.3.1',
-  VUE: '3.5.4',
+  VUE: '3.5.13',
   ANGULAR: '1.8.3',
   SOLID_JS: '1.8.17',
   RXJS: '7.8.1',
