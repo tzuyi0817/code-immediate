@@ -82,10 +82,10 @@ describe('ProjectsPopup Component', { timeout: 10000 }, () => {
     expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /fa-trash/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /prev/i })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /next/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /next/i })).toHaveAttribute('disabled');
     /* go previous page **/
     await userEvent.click(screen.getByRole('button', { name: /prev/i }));
     expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /prev/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /prev/i })).toHaveAttribute('disabled');
   });
 });
