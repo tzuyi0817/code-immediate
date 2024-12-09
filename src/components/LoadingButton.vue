@@ -1,6 +1,7 @@
 <script setup lang="ts">
 interface Props {
   isLoading: boolean;
+  disabled?: boolean;
 }
 
 defineProps<Props>();
@@ -9,7 +10,7 @@ defineProps<Props>();
 <template>
   <button
     class="btn text-sm"
-    :disabled="isLoading"
+    :disabled="isLoading || disabled"
   >
     <font-awesome-icon
       v-show="isLoading"

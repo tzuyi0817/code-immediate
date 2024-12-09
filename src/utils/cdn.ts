@@ -6,6 +6,9 @@ const JSDELIVR_CDN = 'https://cdn.jsdelivr.net/npm';
 const HANDLE_SEPARATE_MAP = {
   '@component-hook/pdf-canvas/vue': `${JSDELIVR_CDN}/@component-hook/pdf-canvas/dist/vue/pdf-canvas.es.js`,
   '@component-hook/picker/vue': `${JSDELIVR_CDN}/@component-hook/picker@0.2.1-alpha.0/dist/vue/picker.es.js`,
+
+  '@component-hook/pdf-canvas/react': `${JSDELIVR_CDN}/@component-hook/pdf-canvas/dist/react/pdf-canvas.es.js`,
+  '@component-hook/picker/react': `${JSDELIVR_CDN}/@component-hook/picker@0.2.1-alpha.0/dist/react/picker.es.js`,
 } as const;
 
 let ts: typeof typescript;
