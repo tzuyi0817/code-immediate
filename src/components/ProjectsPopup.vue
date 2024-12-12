@@ -204,6 +204,7 @@ onMounted(getProjects);
     relative
     select-none
     h-[calc(60vh-70px)]
+    max-h-[450px]
     gap-3
     mt-5
     pb-5
