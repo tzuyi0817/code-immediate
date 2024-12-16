@@ -3,13 +3,17 @@ import { transformToJsdelivr, transformToEsbuild } from '@/utils/cdn';
 import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/import-map';
 import type { CdnSourceMap } from '@/types/cdn';
 
+interface Specifier {
+  local: { name: string };
+  imported?: { name: string };
+}
+
 interface PathNode {
   node: {
     source: { value: string };
-    specifiers: {
-      local: { name: string };
-      imported?: { name: string };
-    }[];
+    callee: { type: string };
+    arguments: { type: string; value: string }[];
+    specifiers: Specifier[];
   };
   remove: () => void;
 }
@@ -35,9 +39,7 @@ function getImports(_code: string, { imports, isESM }: ImportOptions) {
   return {
     visitor: {
       ImportDeclaration(path: PathNode) {
-        const {
-          node: { source, specifiers },
-        } = path;
+        const { source, specifiers } = path.node;
 
         if (isESM && IMPORT_MAP_BUILD_IN_SOURCES.has(source.value)) return;
 
@@ -49,6 +51,16 @@ function getImports(_code: string, { imports, isESM }: ImportOptions) {
           module: source.value,
         });
         path.remove();
+      },
+      CallExpression(path: PathNode) {
+        const { callee, arguments: args } = path.node;
+
+        if (callee.type !== 'Import' || args.length !== 1) return;
+        const [arg] = args;
+
+        if (arg.type !== 'StringLiteral') return;
+
+        arg.value = transformToJsdelivr(arg.value);
       },
     },
   };
