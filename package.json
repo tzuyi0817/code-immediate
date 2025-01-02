@@ -5,7 +5,7 @@
   "description": "A code online editing preview tool, similar to code pen",
   "type": "module",
   "license": "MIT",
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@9.15.2",
   "repository": {},
   "keywords": [
     "vue3",
@@ -51,7 +51,7 @@
     "@types/file-saver": "^2.0.7",
     "@types/hash-sum": "^1.0.2",
     "@types/loadjs": "^4.0.4",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitest/coverage-v8": "^2.1.8",
     "@volar/jsdelivr": "2.4.11",
@@ -74,7 +74,7 @@
     "prettier": "^3.4.2",
     "resize-observer-polyfill": "^1.5.1",
     "rollup-plugin-node-polyfills": "^0.2.1",
-    "rollup-plugin-visualizer": "^5.12.0",
+    "rollup-plugin-visualizer": "^5.13.1",
     "shiki": "1.24.4",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
@@ -96,6 +96,6 @@
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11"
+    "lint-staged": "^15.3.0"
   }
 }
