@@ -27,7 +27,7 @@ async function login() {
     window.localStorage.setItem('code_token', token);
     window.localStorage.setItem('code_account', account.value);
     toast.showToast(message, status);
-    closePopup();
+    closePopup(true);
   } catch {
     cleanForm();
   } finally {
@@ -86,7 +86,8 @@ function cleanForm() {
   account.value = password.value = '';
 }
 
-function closePopup() {
+function closePopup(force = false) {
+  if (isLoading.value && !force) return;
   isShowLoginPop.value = false;
 }
 </script>
@@ -94,7 +95,7 @@ function closePopup() {
 <template>
   <div
     class="login_popup popup"
-    @click.self="closePopup"
+    @click.self="closePopup()"
   >
     <div class="popup_header">
       <h2>Log in!</h2>
@@ -102,7 +103,7 @@ function closePopup() {
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
-        @click="closePopup"
+        @click="closePopup()"
       />
     </div>
 

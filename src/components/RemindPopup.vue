@@ -4,7 +4,7 @@ import { useFlagStore } from '@/store';
 import LoadingButton from '@/components/LoadingButton.vue';
 
 interface Props {
-  saveCode: () => void;
+  saveCode: () => Promise<void>;
   doFun: (() => void) | null;
 }
 
@@ -27,7 +27,8 @@ function cancel() {
   doFun?.();
 }
 
-function closePopup() {
+function closePopup(force = false) {
+  if (isLoading.value && !force) return;
   isShowRemindPop.value = false;
 }
 </script>
@@ -35,7 +36,7 @@ function closePopup() {
 <template>
   <div
     class="remind_popup popup"
-    @click.self="closePopup"
+    @click.self="closePopup()"
   >
     <div class="popup_header">
       <h3>Remind</h3>
@@ -43,7 +44,7 @@ function closePopup() {
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
-        @click="closePopup"
+        @click="closePopup()"
       />
     </div>
 

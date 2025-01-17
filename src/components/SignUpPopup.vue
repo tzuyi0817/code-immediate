@@ -31,7 +31,7 @@ async function register() {
     setUser(user);
     window.localStorage.setItem('code_token', token);
     toast.showToast(message, status);
-    closePopup();
+    closePopup(true);
   } catch {
     cleanForm();
   } finally {
@@ -44,7 +44,8 @@ function cleanForm() {
   isLoading.value = false;
 }
 
-function closePopup() {
+function closePopup(force = false) {
+  if (isLoading.value && !force) return;
   isShowSignUpPop.value = false;
 }
 </script>
@@ -52,7 +53,7 @@ function closePopup() {
 <template>
   <div
     class="signup_popup popup"
-    @click.self="closePopup"
+    @click.self="closePopup()"
   >
     <div class="popup_header">
       <h2>Sign up!</h2>
@@ -60,7 +61,7 @@ function closePopup() {
         icon="fa-solid fa-xmark"
         title="fa-xmark"
         class="cursor-pointer"
-        @click="closePopup"
+        @click="closePopup()"
       />
     </div>
 
