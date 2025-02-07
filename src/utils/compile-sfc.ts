@@ -82,18 +82,17 @@ async function compileHtml(content: string, lang?: string) {
 async function compileJs(descriptor: SFCDescriptor, scopeId: string) {
   const scriptType = SCRIPT_TYPE_MAP.VueSFC;
   const { renderModules, imports } = await transformSfc(descriptor, scopeId);
-  const defaultImportMap: ImportMap = {
+  const importMap: ImportMap = {
     imports: {
       ...IMPORT_MAP.VueSFC.imports,
     },
   };
-  const importMap = Object.values(imports).reduce((map, { source }) => {
-    if (source === 'vue') return map;
 
-    map.imports[source] = transformToJsdelivr(source);
+  for (const { source } of Object.values(imports)) {
+    if (source === 'vue') continue;
 
-    return map;
-  }, defaultImportMap);
+    importMap.imports[source] = transformToJsdelivr(source);
+  }
 
   return {
     modules: `

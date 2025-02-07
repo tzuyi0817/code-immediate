@@ -10,6 +10,10 @@ declare module 'monaco-editor/esm/vs/editor/editor.worker' {
   export function initialize(callback: (ctx: any, createData: any) => any): void;
 }
 
+declare module 'parse-package-name' {
+  export function parse(name: string): { name: string; version: string; path: string };
+}
+
 interface ImportMetaEnv extends Readonly<Record<string, string>> {
   readonly VITE_API_URL: string;
   readonly VITE_CDN_API_URL: string;
