@@ -41,7 +41,7 @@
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@component-hook/eslint-plugin": "^0.2.5",
+    "@component-hook/eslint-plugin": "^1.0.1",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@shikijs/monaco": "1.29.1",
