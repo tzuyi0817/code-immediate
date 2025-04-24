@@ -1,0 +1,69 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import Prev from './components/Prev.vue';
+import Next from './components/Next.vue';
+import Pager from './components/Pager.vue';
+
+interface Props {
+  pageSize?: number;
+  total?: number;
+  pagerCount?: number;
+}
+
+interface Emits {
+  change: [page: number, pageSize: number];
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  pageSize: 6,
+  total: 0,
+  pagerCount: 3,
+});
+const emit = defineEmits<Emits>();
+const currentPage = defineModel<number>('page', { default: 1 });
+
+const pageCount = computed(() => {
+  return Math.max(1, Math.ceil(props.total / props.pageSize));
+});
+
+function handlePrev() {
+  if (currentPage.value <= 1) return;
+
+  changePage(currentPage.value - 1);
+}
+
+function changePage(page: number) {
+  if (page < 1 || page > pageCount.value || page === currentPage.value) return;
+
+  currentPage.value = page;
+  emit('change', currentPage.value, props.pageSize);
+}
+
+function handleNext() {
+  if (currentPage.value >= pageCount.value) return;
+
+  changePage(currentPage.value + 1);
+}
+</script>
+
+<template>
+  <div class="flex gap-x-2 items-center justify-center p-6">
+    <prev
+      :current-page="currentPage"
+      @click="handlePrev"
+    />
+
+    <pager
+      :current-page="currentPage"
+      :page-count="pageCount"
+      :pager-count="pagerCount"
+      @change="changePage"
+    />
+
+    <next
+      :current-page="currentPage"
+      :page-count="pageCount"
+      @click="handleNext"
+    />
+  </div>
+</template>

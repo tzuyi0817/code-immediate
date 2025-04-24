@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import LoadingButton from '@/components/LoadingButton.vue';
+import Pagination from '@/components/Pagination/index.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { getCodes, deleteCode } from '@/apis/code';
 import { toast } from '@/utils/toast';
@@ -13,7 +13,7 @@ const emit = defineEmits(['openRemindPop']);
 const isShowProjectsPop = defineModel<boolean>('isShowProjectsPop');
 const projects = ref<CodeProject[]>([]);
 const page = ref(1);
-const totalPage = ref(0);
+const total = ref(0);
 const isLoading = ref(false);
 const isDeleting = ref(false);
 const deleteId = ref('');
@@ -26,10 +26,10 @@ async function getProjects() {
   const { resultMap } = await getCodes(page.value).finally(() => {
     isLoading.value = false;
   });
-  const { codeList, totalPage: total } = resultMap;
+  const { codeList, totalSize } = resultMap;
 
   projects.value = codeList;
-  totalPage.value = total;
+  total.value = totalSize;
 }
 
 async function selectProject(project: CodeProject) {
@@ -128,7 +128,7 @@ onMounted(getProjects);
           @click="selectProject(project)"
         >
           <div class="projects_popup_card_content">
-            <Suspense>
+            <suspense>
               <lazy-iframe :project="project" />
               <template #fallback>
                 <font-awesome-icon
@@ -136,7 +136,7 @@ onMounted(getProjects);
                   class="animate-spin text-yellow-400 text-2xl block"
                 />
               </template>
-            </Suspense>
+            </suspense>
           </div>
 
           <div class="rounded pt-3 px-3 flex justify-between">
@@ -164,32 +164,7 @@ onMounted(getProjects);
         />
       </ul>
 
-      <div class="flex justify-center gap-2 mt-3 h-9">
-        <loading-button
-          class="btn btn_yellow w-auto"
-          :is-loading="isLoading"
-          :disabled="page === 1"
-          @click="goPage(-1)"
-        >
-          <font-awesome-icon
-            icon="fa-solid fa-arrow-left"
-            class="mr-2"
-          />
-          Prev
-        </loading-button>
-        <loading-button
-          class="btn btn_yellow w-auto"
-          :disabled="page >= totalPage"
-          :is-loading="isLoading"
-          @click="goPage(1)"
-        >
-          Next
-          <font-awesome-icon
-            icon="fa-solid fa-arrow-right"
-            class="ml-2"
-          />
-        </loading-button>
-      </div>
+      <pagination :total="total" />
     </div>
   </div>
 </template>

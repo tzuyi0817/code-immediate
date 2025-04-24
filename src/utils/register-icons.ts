@@ -10,13 +10,16 @@ import {
   faBarsStaggered,
   faCloudArrowUp,
   faSheetPlastic,
-  faArrowLeft,
-  faArrowRight,
+  faAngleLeft,
+  faAnglesLeft,
+  faAngleRight,
+  faAnglesRight,
   faTrash,
   faFileCirclePlus,
   faArrowRightFromBracket,
   faShare,
   faCaretDown,
+  faEllipsis,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
@@ -34,8 +37,10 @@ export function registerIcons() {
     faCloudArrowUp,
     faSheetPlastic,
     faFileCirclePlus,
-    faArrowLeft,
-    faArrowRight,
+    faAngleLeft,
+    faAnglesLeft,
+    faAngleRight,
+    faAnglesRight,
     faTrash,
     faEye,
     faGithub,
@@ -43,5 +48,6 @@ export function registerIcons() {
     faArrowRightFromBracket,
     faShare,
     faCaretDown,
+    faEllipsis,
   );
 }

@@ -21,9 +21,9 @@
     px-1.5
     flex
     text-xs
-    font-semibold
+    font-medium
     cursor-pointer
-    transition-all
+    transition-colors
     disabled:grayscale
     lg:p-2;
   }
