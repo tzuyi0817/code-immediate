@@ -48,7 +48,7 @@ function handleNext() {
 </script>
 
 <template>
-  <div class="flex gap-x-2 items-center justify-center p-6">
+  <div class="flex gap-x-2 items-center justify-center py-6">
     <prev
       :current-page="currentPage"
       :disabled="disabled"
