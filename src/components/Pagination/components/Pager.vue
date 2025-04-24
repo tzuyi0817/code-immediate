@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, type DirectiveBinding } from 'vue';
 
 interface Props {
   currentPage: number;
   pageCount: number;
   pagerCount: number;
+  disabled?: boolean;
 }
 
 interface Emits {
@@ -13,9 +14,14 @@ interface Emits {
 
 const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
-
 const quickPrevHover = ref(false);
 const quickNextHover = ref(false);
+
+const vQuickPage = {
+  unmounted(_: Element, binding: DirectiveBinding<() => void>) {
+    binding.value?.();
+  },
+};
 
 const showPrevMore = computed(() => {
   const { currentPage, pageCount, pagerCount } = props;
@@ -56,6 +62,7 @@ const pagers = computed(() => {
 });
 
 function handlePageChange(event: Event) {
+  if (props.disabled) return;
   const target = event.target as HTMLElement;
   const { page } = target.dataset;
 
@@ -83,7 +90,7 @@ function handlePageChange(event: Event) {
     <li
       v-if="pageCount > 0"
       class="btn page"
-      :class="{ active: currentPage === 1 }"
+      :class="{ active: currentPage === 1, disabled }"
       :aria-current="currentPage === 1"
       aria-label="page 1"
       data-page="1"
@@ -93,7 +100,9 @@ function handlePageChange(event: Event) {
 
     <li
       v-if="showPrevMore"
+      v-quick-page="() => (quickPrevHover = false)"
       class="btn page"
+      :class="{ disabled }"
       aria-label="prev pages"
       data-page="quickPrev"
       @mouseenter="quickPrevHover = true"
@@ -109,7 +118,7 @@ function handlePageChange(event: Event) {
       v-for="pager of pagers"
       :key="pager"
       class="btn page"
-      :class="{ active: currentPage === pager }"
+      :class="{ active: currentPage === pager, disabled }"
       :aria-current="currentPage === pager"
       :aria-label="`page ${pager}`"
       :data-page="pager"
@@ -119,7 +128,9 @@ function handlePageChange(event: Event) {
 
     <li
       v-if="showNextMore"
+      v-quick-page="() => (showNextMore = false)"
       class="btn page"
+      :class="{ disabled }"
       aria-label="next pages"
       data-page="quickNext"
       @mouseenter="quickNextHover = true"
@@ -134,7 +145,7 @@ function handlePageChange(event: Event) {
     <li
       v-if="pageCount > 1"
       class="btn page"
-      :class="{ active: currentPage === pageCount }"
+      :class="{ active: currentPage === pageCount, disabled }"
       :aria-current="currentPage === pageCount"
       :aria-label="`page ${pageCount}`"
       :data-page="pageCount"
@@ -151,5 +162,9 @@ function handlePageChange(event: Event) {
 
 .page.active {
   @apply text-yellow-400 font-bold;
+}
+
+.page.disabled {
+  @apply text-gray-400 cursor-not-allowed;
 }
 </style>

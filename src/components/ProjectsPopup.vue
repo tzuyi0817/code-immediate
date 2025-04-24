@@ -12,7 +12,7 @@ import type { CodeProject } from '@/types/code-content';
 const emit = defineEmits(['openRemindPop']);
 const isShowProjectsPop = defineModel<boolean>('isShowProjectsPop');
 const projects = ref<CodeProject[]>([]);
-const page = ref(1);
+const currentPage = ref(1);
 const total = ref(0);
 const isLoading = ref(false);
 const isDeleting = ref(false);
@@ -23,7 +23,7 @@ const LazyIframe = defineAsyncComponent(() => import('@/components/LazyIframe.vu
 
 async function getProjects() {
   isLoading.value = true;
-  const { resultMap } = await getCodes(page.value).finally(() => {
+  const { resultMap } = await getCodes(currentPage.value).finally(() => {
     isLoading.value = false;
   });
   const { codeList, totalSize } = resultMap;
@@ -65,16 +65,17 @@ async function deleteProject(id: string) {
   if (projects.value.length > 1) {
     getProjects();
   } else {
-    goPage(-1);
+    goPage(currentPage.value - 1);
   }
 
   if (id !== route.params.id) return;
   router.replace({ params: { id: '' } });
 }
 
-function goPage(offset: number) {
-  if (page.value + offset < 1) return;
-  page.value += offset;
+function goPage(page: number) {
+  if (page < 1) return;
+
+  currentPage.value = page;
   projects.value = [];
   getProjects();
 }
@@ -164,7 +165,11 @@ onMounted(getProjects);
         />
       </ul>
 
-      <pagination :total="total" />
+      <pagination
+        :total="total"
+        :disabled="isLoading"
+        @change="goPage"
+      />
     </div>
   </div>
 </template>

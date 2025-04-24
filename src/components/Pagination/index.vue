@@ -8,6 +8,7 @@ interface Props {
   pageSize?: number;
   total?: number;
   pagerCount?: number;
+  disabled?: boolean;
 }
 
 interface Emits {
@@ -50,6 +51,7 @@ function handleNext() {
   <div class="flex gap-x-2 items-center justify-center p-6">
     <prev
       :current-page="currentPage"
+      :disabled="disabled"
       @click="handlePrev"
     />
 
@@ -57,12 +59,14 @@ function handleNext() {
       :current-page="currentPage"
       :page-count="pageCount"
       :pager-count="pagerCount"
+      :disabled="disabled"
       @change="changePage"
     />
 
     <next
       :current-page="currentPage"
       :page-count="pageCount"
+      :disabled="disabled"
       @click="handleNext"
     />
   </div>
