@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
-import LanguageSelect from '@/components/LanguageSelect.vue';
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
-import { useCodeContentStore } from '@/store';
-import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
+import LanguageSelect from '@/components/LanguageSelect.vue';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import { SUFFIX_MAP } from '@/config/suffix';
+import { useCodeContentStore } from '@/store';
 import type { CodeModel } from '@/types/code-content';
 
 const isShowPreview = defineModel<boolean>('isShowPreview', { required: true });

@@ -1,18 +1,18 @@
-import { loadWASM } from 'onigasm';
-import { Registry } from 'monaco-textmate';
-import * as monaco from 'monaco-editor';
 import * as volar from '@volar/monaco';
-import type { VueCompilerOptions } from '@vue/language-service';
-import type { WorkerLanguageService } from '@volar/monaco/worker';
+import * as monaco from 'monaco-editor';
 import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
-import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker.js?worker';
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker.js?worker';
-import VueWorker from '@/workers/vue.worker.ts?worker';
+import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
+import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
+import { Registry } from 'monaco-textmate';
+import { loadWASM } from 'onigasm';
+import { GRAMMAR_PLIST, GRAMMAR_SCOPE_NAME_MAP, type GrammarScope } from '@/config/grammar';
 import { vueConfiguration } from '@/config/language-configuration/vue';
 import { VERSION } from '@/config/template';
-import { GRAMMAR_SCOPE_NAME_MAP, GRAMMAR_PLIST, type GrammarScope } from '@/config/grammar';
+import VueWorker from '@/workers/vue.worker.ts?worker';
+import type { WorkerLanguageService } from '@volar/monaco/worker';
+import type { VueCompilerOptions } from '@vue/language-service';
 
 export const IS_TEST_MODE = import.meta.env.MODE === 'test';
 const BASE_URL = IS_TEST_MODE ? 'http://localhost:3000/' : '';

@@ -1,7 +1,7 @@
-import { screen, fireEvent } from '@testing-library/vue';
+import { fireEvent, screen } from '@testing-library/vue';
+import { renderComponent } from '@/__tests__/unit/render';
 import CodeDrag from '@/components/CodeDrag.vue';
 import { useFlagStore } from '@/store';
-import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeDrag component', () => {
   it('renders the correct content', () => {

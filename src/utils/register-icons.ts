@@ -1,28 +1,28 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCentos, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
 import {
-  faPenFancy,
   faAngleDown,
-  faSpinner,
+  faAngleLeft,
+  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight,
+  faArrowRightFromBracket,
+  faBarsStaggered,
+  faCaretDown,
   faCheck,
-  faXmark,
+  faCloudArrowUp,
+  faEllipsis,
+  faFileCirclePlus,
   faGear,
   faMagnifyingGlass,
-  faBarsStaggered,
-  faCloudArrowUp,
-  faSheetPlastic,
-  faAngleLeft,
-  faAnglesLeft,
-  faAngleRight,
-  faAnglesRight,
-  faTrash,
-  faFileCirclePlus,
-  faArrowRightFromBracket,
+  faPenFancy,
   faShare,
-  faCaretDown,
-  faEllipsis,
+  faSheetPlastic,
+  faSpinner,
+  faTrash,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { faGithub, faCentos } from '@fortawesome/free-brands-svg-icons';
 
 export function registerIcons() {
   library.add(

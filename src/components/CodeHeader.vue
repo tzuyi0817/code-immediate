@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, nextTick, useTemplateRef } from 'vue';
 import { storeToRefs } from 'pinia';
+import { nextTick, ref, useTemplateRef } from 'vue';
 import CodeFeature from '@/components/CodeFeature.vue';
-import { useUserStore, useCodeContentStore } from '@/store';
 import { DEFAULT_TITLE } from '@/config/common';
+import { useCodeContentStore, useUserStore } from '@/store';
 
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());

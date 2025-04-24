@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useCodeContentStore } from '@/store';
-import { loadParseSource } from '@/utils/load-parse';
 import { sleep } from '@/utils/common';
+import { loadParseSource } from '@/utils/load-parse';
 import type { CodeModel, Languages } from '@/types/code-content';
 
 interface Props {

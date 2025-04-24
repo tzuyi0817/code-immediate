@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive, inject, Ref, watch, useTemplateRef, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore, useFlagStore } from '@/store';
+import { inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, Ref, useTemplateRef, watch } from 'vue';
 import CodeDrag from '@/components/CodeDrag.vue';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import { toast } from '@/utils/toast';
 
 interface Props {

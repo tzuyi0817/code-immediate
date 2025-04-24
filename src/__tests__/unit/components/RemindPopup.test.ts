@@ -1,9 +1,9 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
+import { screen } from '@testing-library/vue';
+import { renderComponent } from '@/__tests__/unit/render';
 import RemindPopup from '@/components/RemindPopup.vue';
 import { useFlagStore } from '@/store';
-import { renderComponent } from '@/__tests__/unit/render';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('RemindPopup component', () => {
   registerIcons();

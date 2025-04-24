@@ -1,20 +1,20 @@
+import hashId from 'hash-sum';
 import {
-  parse,
   compileScript,
   compileTemplate,
+  parse,
   SFCDescriptor,
   SFCStyleBlock,
-  type CompilerOptions,
   type BindingMetadata,
+  type CompilerOptions,
 } from 'vue/compiler-sfc';
-import hashId from 'hash-sum';
-import { SCRIPT_TYPE_MAP } from '@/config/script-type';
-import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
 import { IMPORT_MAP } from '@/config/import-map';
-// import { utoa } from '@/utils/common';
-import { transformHtml, transformCss, transformJs } from '@/utils/compile';
-import { loadParse } from '@/utils/load-parse';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
+import { SCRIPT_TYPE_MAP } from '@/config/script-type';
 import { transformToJsdelivr } from '@/utils/cdn';
+// import { utoa } from '@/utils/common';
+import { transformCss, transformHtml, transformJs } from '@/utils/compile';
+import { loadParse } from '@/utils/load-parse';
 import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap } from '@/types/code-content';
 
 // interface RawSourceMap {

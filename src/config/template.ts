@@ -1,16 +1,16 @@
 import {
-  VUE_HTML,
-  VUE_CSS,
-  VUE_JS,
-  VUE_SFC_CONTENT,
-  REACT_JS,
   ANGULAR_HTML,
   ANGULAR_JS,
-  SOLID_JS,
-  SOLID_CSS,
+  REACT_JS,
+  RXJS_CSS,
   RXJS_HTML,
   RXJS_JS,
-  RXJS_CSS,
+  SOLID_CSS,
+  SOLID_JS,
+  VUE_CSS,
+  VUE_HTML,
+  VUE_JS,
+  VUE_SFC_CONTENT,
 } from '@/config/default-content';
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';

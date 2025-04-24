@@ -1,10 +1,10 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
+import { screen } from '@testing-library/vue';
+import { renderComponent } from '@/__tests__/unit/render';
 import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
-import { renderComponent } from '@/__tests__/unit/render';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeEditorMenu Component', async () => {
   const formatText = 'Format Code';

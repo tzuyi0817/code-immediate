@@ -1,11 +1,11 @@
-import { ref } from 'vue';
-import { screen, fireEvent } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
+import { fireEvent, screen } from '@testing-library/vue';
+import { ref } from 'vue';
+import { renderComponent } from '@/__tests__/unit/render';
 import CodeConsole from '@/components/CodeConsole.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import Toast from '@/components/CodeToast.vue';
 import { registerIcons } from '@/utils/register-icons';
-import { renderComponent } from '@/__tests__/unit/render';
 
 describe('CodeConsole component', () => {
   const renderOptions = {

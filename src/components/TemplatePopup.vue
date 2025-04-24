@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
 import { useCodeContentStore } from '@/store';
-import { TEMPLATE_MAP, TEMPLATE_LIST } from '@/config/template';
 import type { CodeTemplate } from '@/types/code-content';
 
 const isShowTemplatePop = defineModel<boolean>('isShowTemplatePop');

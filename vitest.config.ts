@@ -1,6 +1,6 @@
 /// <reference types="vitest" />
 import { fileURLToPath, URL } from 'node:url';
-import { mergeConfig, defineConfig, type UserConfig } from 'vitest/config';
+import { defineConfig, mergeConfig, type UserConfig } from 'vitest/config';
 import viteConfig from './vite.config';
 
 export default mergeConfig(

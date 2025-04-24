@@ -1,11 +1,11 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import themeDark from 'shiki/themes/dark-plus.mjs';
-import { debounce, sleep } from '@/utils/common';
-import { registry, IS_TEST_MODE } from '@/monaco';
+import { COMMON_GRAMMARS_MAP, GRAMMARS_MAP } from '@/config/grammar';
+import { IS_TEST_MODE, registry } from '@/monaco';
 import { SHIKI_HIGHLIGHT_LANG } from '@/monaco/highlight';
-import { GRAMMARS_MAP, COMMON_GRAMMARS_MAP } from '@/config/grammar';
 import { useCodeContentStore, useFlagStore } from '@/store';
+import { debounce, sleep } from '@/utils/common';
 import type { CodeModel } from '@/types/code-content';
 
 export function useMonacoEditor() {

@@ -1,16 +1,16 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import typescript from 'typescript';
-import { SCRIPT_TYPE_MAP, esModel } from '@/config/script-type';
 import { IMPORT_MAP } from '@/config/import-map';
-import { parseImport } from '@/utils/parse-import';
+import { esModel, SCRIPT_TYPE_MAP } from '@/config/script-type';
 import { getTsConstructor } from '@/utils/cdn';
+import { parseImport } from '@/utils/parse-import';
 import type {
-  CodeContent,
   CodeCompile,
+  CodeContent,
   CompileParams,
-  HtmlLanguages,
   CssLanguages,
+  HtmlLanguages,
   JsLanguages,
 } from '@/types/code-content';
 import type { Sass, Showdown } from '@/types/language';

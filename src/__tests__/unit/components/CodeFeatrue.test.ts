@@ -1,12 +1,12 @@
-import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
+import { render, screen } from '@testing-library/vue';
+import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
+import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import CodeFeature from '@/components/CodeFeature.vue';
 import Toast from '@/components/CodeToast.vue';
-import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
-import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
-import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
 import { DEFAULT_TITLE } from '@/config/common';
+import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeFeature Component', () => {
   const props = { defaultTitle: DEFAULT_TITLE, title: DEFAULT_TITLE };

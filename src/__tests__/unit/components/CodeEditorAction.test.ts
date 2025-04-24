@@ -1,8 +1,8 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import CodeEditorAction from '@/components/CodeEditorAction.vue';
+import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import CodeEditorAction from '@/components/CodeEditorAction.vue';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeEditorAction Component', async () => {
   const props = { isShowPreview: true, currentModel: 'HTML' };

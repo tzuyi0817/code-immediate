@@ -1,17 +1,17 @@
 // @ts-nocheck
 /* eslint-disable unicorn/prefer-add-event-listener */
-import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
-import type * as monaco from 'monaco-editor';
+import { createNpmFileSystem } from '@volar/jsdelivr';
+import { createTypeScriptWorkerLanguageService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
 import {
-  getFullLanguageServicePlugins,
   createVueLanguagePlugin,
+  getFullLanguageServicePlugins,
   resolveVueCompilerOptions,
 } from '@vue/language-service';
-import { createTypeScriptWorkerLanguageService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
-import { createNpmFileSystem } from '@volar/jsdelivr';
+import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import { URI } from 'vscode-uri';
 import { getTsConstructor } from '@/utils/cdn';
 import type { CreateData } from '@/monaco';
+import type * as monaco from 'monaco-editor';
 
 let ts: typeof import('typescript');
 

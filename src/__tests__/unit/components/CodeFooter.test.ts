@@ -1,8 +1,8 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import CodeFooter from '@/components/CodeFooter.vue';
+import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import CodeFooter from '@/components/CodeFooter.vue';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeFooter Component', () => {
   const provide = { iframe: null };

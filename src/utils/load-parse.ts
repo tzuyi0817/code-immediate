@@ -1,6 +1,6 @@
 import loadjs from 'loadjs';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import { useFlagStore } from '@/store';
-import { HTML_LANGUAGE_MAP, CSS_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import type { CodeBase } from '@/types/code-content';
 
 export const loadedParseMap = new Map([

@@ -1,11 +1,11 @@
-import { nextTick } from 'vue';
 import { screen } from '@testing-library/vue';
-import { registerIcons } from '@/utils/register-icons';
+import { nextTick } from 'vue';
+import { renderComponent } from '@/__tests__/unit/render';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
-import { useCodeContentStore, useFlagStore } from '@/store';
 import { setupTestEnvironmentLanguage } from '@/monaco';
-import { renderComponent } from '@/__tests__/unit/render';
+import { useCodeContentStore, useFlagStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeEditor Component', async () => {
   registerIcons();

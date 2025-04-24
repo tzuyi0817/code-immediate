@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { computed, ref, watch } from 'vue';
 import { useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, defineAsyncComponent, onMounted, onBeforeUnmount } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useUserStore, useCodeContentStore, useFlagStore } from '@/store';
-import LoadingButton from '@/components/LoadingButton.vue';
-import CodeMenu from '@/components/CodeMenu.vue';
-import { logoutUser } from '@/apis/user';
+import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { postCode, putCode } from '@/apis/code';
-import { toast } from '@/utils/toast';
-import { deepClone } from '@/utils/common';
+import { logoutUser } from '@/apis/user';
+import CodeMenu from '@/components/CodeMenu.vue';
+import LoadingButton from '@/components/LoadingButton.vue';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
+import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
+import { deepClone } from '@/utils/common';
+import { toast } from '@/utils/toast';
 
 interface Props {
   defaultTitle: string;

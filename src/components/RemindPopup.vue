@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useFlagStore } from '@/store';
 import LoadingButton from '@/components/LoadingButton.vue';
+import { useFlagStore } from '@/store';
 
 interface Props {
   saveCode: () => Promise<void>;

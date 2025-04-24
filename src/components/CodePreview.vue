@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watch, inject, onMounted, type Ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { inject, onMounted, ref, watch, type Ref } from 'vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { createHtml } from '@/utils/create-html';
-import { loadParseSources } from '@/utils/load-parse';
 import { compile } from '@/utils/compile';
 import { compileSfc } from '@/utils/compile-sfc';
+import { createHtml } from '@/utils/create-html';
+import { loadParseSources } from '@/utils/load-parse';
 
 const srcdoc = ref('');
 const iframeRef: Ref<HTMLIFrameElement> | undefined = inject('iframeRef');

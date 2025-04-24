@@ -1,11 +1,11 @@
-import { waitFor, screen, within } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import ProjectsPopup from '@/components/ProjectsPopup.vue';
-import Toast from '@/components/CodeToast.vue';
-import { useCodeContentStore, useFlagStore } from '@/store';
-import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
+import { screen, waitFor, within } from '@testing-library/vue';
 import { renderComponent, router } from '@/__tests__/unit/render';
+import Toast from '@/components/CodeToast.vue';
+import ProjectsPopup from '@/components/ProjectsPopup.vue';
+import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
+import { useCodeContentStore, useFlagStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('ProjectsPopup Component', { timeout: 10000 }, () => {
   const page = '1';

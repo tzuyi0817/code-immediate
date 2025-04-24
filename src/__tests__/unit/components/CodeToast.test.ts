@@ -1,9 +1,9 @@
-import { nextTick } from 'vue';
 import { screen } from '@testing-library/vue';
-import Toast from '@/components/CodeToast.vue';
-import { toast } from '@/utils/toast';
-import { sleep } from '@/utils/common';
+import { nextTick } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import Toast from '@/components/CodeToast.vue';
+import { sleep } from '@/utils/common';
+import { toast } from '@/utils/toast';
 
 describe('CodeToast Component', () => {
   it('open toast', async () => {

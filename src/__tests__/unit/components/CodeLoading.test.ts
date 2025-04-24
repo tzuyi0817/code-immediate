@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/vue';
-import { registerIcons } from '@/utils/register-icons';
+import { renderComponent } from '@/__tests__/unit/render';
 import CodeLoading from '@/components/CodeLoading.vue';
 import { useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
-import { renderComponent } from '@/__tests__/unit/render';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeLoading Component', () => {
   const flagStore = useFlagStore();

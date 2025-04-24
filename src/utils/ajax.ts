@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios';
-import { toast } from '@/utils/toast';
 import { useCodeContentStore, useUserStore } from '@/store';
+import { toast } from '@/utils/toast';
 
 const { VITE_API_URL } = import.meta.env;
 const axiosInstance = axios.create({ baseURL: VITE_API_URL });

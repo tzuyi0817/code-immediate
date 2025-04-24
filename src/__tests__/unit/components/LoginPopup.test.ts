@@ -1,11 +1,11 @@
-import { render, screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import LoginPopup from '@/components/LoginPopup.vue';
-import Toast from '@/components/CodeToast.vue';
-import { useUserStore } from '@/store';
-import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import { render, screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
+import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import Toast from '@/components/CodeToast.vue';
+import LoginPopup from '@/components/LoginPopup.vue';
+import { useUserStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('LoginPopup component', () => {
   registerIcons();

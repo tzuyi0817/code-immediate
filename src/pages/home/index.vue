@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, computed, provide, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { useCodeContentStore } from '@/store';
+import { computed, onMounted, provide, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import CodeHeader from '@/components/CodeHeader.vue';
-import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeDrag from '@/components/CodeDrag.vue';
 import CodeEditor from '@/components/CodeEditor.vue';
-import CodePreview from '@/components/CodePreview.vue';
+import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
+import CodeHeader from '@/components/CodeHeader.vue';
+import CodePreview from '@/components/CodePreview.vue';
+import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
 import type { CodeModel } from '@/types/code-content';
 

@@ -1,7 +1,7 @@
-import '@testing-library/jest-dom';
-import 'vitest-canvas-mock';
 import ResizeObserver from 'resize-observer-polyfill';
 import { mswServer } from '@/mocks/server';
+import '@testing-library/jest-dom';
+import 'vitest-canvas-mock';
 
 beforeAll(() => mswServer.listen());
 afterEach(() => mswServer.resetHandlers());

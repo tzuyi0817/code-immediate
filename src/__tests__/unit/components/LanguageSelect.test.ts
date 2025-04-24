@@ -1,11 +1,11 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import LanguageSelect from '@/components/LanguageSelect.vue';
-import { useCodeContentStore } from '@/store';
-import { registerIcons } from '@/utils/register-icons';
-import { sleep } from '@/utils/common';
-import { HTML_LANGUAGE_MAP } from '@/config/language';
+import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import LanguageSelect from '@/components/LanguageSelect.vue';
+import { HTML_LANGUAGE_MAP } from '@/config/language';
+import { useCodeContentStore } from '@/store';
+import { sleep } from '@/utils/common';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('LanguageSelect component', () => {
   const languageMap = HTML_LANGUAGE_MAP;

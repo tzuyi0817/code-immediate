@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { createHtml } from '@/utils/create-html';
-import { loadParseSources } from '@/utils/load-parse';
 import { compile } from '@/utils/compile';
 import { compileSfc } from '@/utils/compile-sfc';
+import { createHtml } from '@/utils/create-html';
+import { loadParseSources } from '@/utils/load-parse';
 import type { CodeProject } from '@/types/code-content';
 
 interface Props {

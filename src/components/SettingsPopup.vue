@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
 import axios, { type AxiosResponse } from 'axios';
+import { computed, onMounted, reactive, ref } from 'vue';
+import { BUILT_IN_RESOURCES } from '@/config/template';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
 import { toast } from '@/utils/toast';
-import { BUILT_IN_RESOURCES } from '@/config/template';
 import type { CdnItem, CdnJsResponse } from '@/types/cdn';
 
 type SelectName = 'CSS' | 'JS';

@@ -1,10 +1,10 @@
-import { screen } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import TemplatePopup from '@/components/TemplatePopup.vue';
-import { useCodeContentStore } from '@/store';
-import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
+import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import TemplatePopup from '@/components/TemplatePopup.vue';
+import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
+import { useCodeContentStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('TemplatePopup component', () => {
   registerIcons();

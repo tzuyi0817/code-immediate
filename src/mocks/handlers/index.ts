@@ -1,6 +1,6 @@
-import { mockUserApi } from '@/mocks/handlers/apis/user';
 import { mockCdnApi } from '@/mocks/handlers/apis/cdn';
 import { mockCodeApi } from '@/mocks/handlers/apis/code';
+import { mockUserApi } from '@/mocks/handlers/apis/user';
 import { mockLocalFiles } from '@/mocks/handlers/local-file';
 
 export const handlers = [

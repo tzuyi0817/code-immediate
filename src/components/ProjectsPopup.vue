@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { deleteCode, getCodes } from '@/apis/code';
 import Pagination from '@/components/Pagination/index.vue';
-import { useCodeContentStore, useFlagStore } from '@/store';
-import { getCodes, deleteCode } from '@/apis/code';
-import { toast } from '@/utils/toast';
-import { loadParseSources } from '@/utils/load-parse';
 import { setupTemplate } from '@/config/template';
+import { useCodeContentStore, useFlagStore } from '@/store';
+import { loadParseSources } from '@/utils/load-parse';
+import { toast } from '@/utils/toast';
 import type { CodeProject } from '@/types/code-content';
 
 const emit = defineEmits(['openRemindPop']);

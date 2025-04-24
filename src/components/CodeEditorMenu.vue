@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useCodeContentStore, useFlagStore } from '@/store';
 import { PRETTIER_MAP } from '@/config/prettier';
 import { SUFFIX_MAP } from '@/config/suffix';
+import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { exportZip } from '@/utils/export-zip';
 import { readFile } from '@/utils/read-file';

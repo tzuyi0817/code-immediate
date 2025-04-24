@@ -1,10 +1,10 @@
-import { screen, fireEvent } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
-import { registerIcons } from '@/utils/register-icons';
-import SettingsPopup from '@/components/SettingsPopup.vue';
-import Toast from '@/components/CodeToast.vue';
-import { useCodeContentStore } from '@/store';
+import { fireEvent, screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
+import Toast from '@/components/CodeToast.vue';
+import SettingsPopup from '@/components/SettingsPopup.vue';
+import { useCodeContentStore } from '@/store';
+import { registerIcons } from '@/utils/register-icons';
 
 describe('SettingPopup component', () => {
   const TEST_CDN_URL = 'https://cdnjs.cloudflare.com/ajax/libs/customresource';

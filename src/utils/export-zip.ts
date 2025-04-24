@@ -1,5 +1,5 @@
-import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 import { SUFFIX_MAP } from '@/config/suffix';
 import type { CodeMap } from '@/types/code-content';
 

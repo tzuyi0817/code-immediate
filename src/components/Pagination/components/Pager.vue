@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, type DirectiveBinding } from 'vue';
+import { computed, ref, type DirectiveBinding } from 'vue';
 
 interface Props {
   currentPage: number;
