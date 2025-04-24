@@ -1,9 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 @layer base {
-  html {
+  :root {
     font-family:
       -apple-system,
       BlinkMacSystemFont,

@@ -17,6 +17,9 @@
   "terminal.integrated.shellIntegration.enabled": true,
   "files.associations": {},
   "typescript.tsdk": "node_modules/typescript/lib",
+  "tailwindCSS.experimental.configFile": {
+    "src/styles/tailwind.css": "src/**"
+  },
   "cSpell.words": [
     "VITE",
     "pinia",
@@ -35,6 +38,8 @@
     "utoa",
     "shiki",
     "shikijs",
-    "typecheck"
+    "typecheck",
+    "pxtorem",
+    "norem"
   ]
 }

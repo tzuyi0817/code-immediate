@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -8,7 +9,7 @@ import { defineConfig, splitVendorChunkPlugin, type UserConfig } from 'vite';
 
 export default defineConfig({
   base: './',
-  plugins: [vue(), visualizer({ gzipSize: true }), splitVendorChunkPlugin()],
+  plugins: [vue(), tailwindcss(), visualizer({ gzipSize: true }), splitVendorChunkPlugin()],
   server: {
     port: 8080,
   },
