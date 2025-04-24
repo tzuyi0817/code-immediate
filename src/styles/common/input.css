@@ -1,9 +1,6 @@
-@import 'tailwindcss/components';
-
 @layer components {
   .input {
-    @apply
-    text-sm
+    @apply text-sm
     text-gray-600
     border-gray-400
     border-2
@@ -14,8 +11,7 @@
   }
 
   .input_cdn {
-    @apply
-    text-ellipsis
+    @apply text-ellipsis
     overflow-hidden 
     whitespace-nowrap
     p-3

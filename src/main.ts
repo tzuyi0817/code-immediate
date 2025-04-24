@@ -7,8 +7,7 @@ import fontAwesomeIconPlugin from '@/plugins/font-awesome-icon';
 import router from '@/router';
 import { getTsConstructor } from '@/utils/cdn';
 import { loadParse } from '@/utils/load-parse';
-import '@/style/index.css';
-import '@/style/tailwind.css';
+import '@/styles/index.css';
 
 const pinia = createPinia();
 const app = createApp(App);
