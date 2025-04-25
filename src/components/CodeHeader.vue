@@ -53,7 +53,7 @@ async function openTitle() {
             @blur="blurTitle"
           />
           <template v-else>
-            <p class="max-w-[calc(100%-16px)] text_ellipsis">
+            <p class="max-w-[calc(100%-16px)] truncate">
               {{ codeTitle }}
             </p>
             <font-awesome-icon
@@ -64,7 +64,7 @@ async function openTitle() {
             />
           </template>
         </div>
-        <p class="text-xs text-gray-300 text_ellipsis">
+        <p class="text-xs text-gray-300 truncate">
           {{ isLogin ? user.account : 'Captain Anonymous' }}
         </p>
       </div>

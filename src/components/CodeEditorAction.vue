@@ -63,7 +63,7 @@ onBeforeUnmount(unWindow);
     >
       <button
         v-if="currentModel === 'VUE'"
-        :class="['btn_select', 'btn_select-active']"
+        :class="['btn-select', 'btn-select-active']"
       >
         <span class="small-screen">VUE</span>
         <span class="large-screen">App.vue</span>
@@ -71,21 +71,21 @@ onBeforeUnmount(unWindow);
 
       <template v-else>
         <button
-          :class="['btn_select', { 'btn_select-active': currentModel === 'HTML' }]"
+          :class="['btn-select', { 'btn-select-active': currentModel === 'HTML' }]"
           @click="updateModel('HTML')"
         >
           <span class="small-screen">HTML</span>
           <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.HTML.language]}` }}</span>
         </button>
         <button
-          :class="['btn_select', { 'btn_select-active': currentModel === 'CSS' }]"
+          :class="['btn-select', { 'btn-select-active': currentModel === 'CSS' }]"
           @click="updateModel('CSS')"
         >
           <span class="small-screen">CSS</span>
           <span class="large-screen">{{ `index.${SUFFIX_MAP[codeContent.CSS.language]}` }}</span>
         </button>
         <button
-          :class="['btn_select', { 'btn_select-active': currentModel === 'JS' }]"
+          :class="['btn-select', { 'btn-select-active': currentModel === 'JS' }]"
           @click="updateModel('JS')"
         >
           <span class="small-screen">JS</span>
@@ -94,7 +94,7 @@ onBeforeUnmount(unWindow);
       </template>
 
       <button
-        :class="['btn_select lg:hidden', { 'btn_select-active': isShowPreview }]"
+        :class="['btn-select lg:hidden', { 'btn-select-active': isShowPreview }]"
         @click="isShowPreview = !isShowPreview"
       >
         Result

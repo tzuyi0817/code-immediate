@@ -90,7 +90,7 @@ function toggleMenu(isShow = !isShowMenu.value) {
 <template>
   <div class="code_editor_menu">
     <button
-      class="btn btn_base h-[26px] w-8 rounded-sm"
+      class="btn btn-base h-[26px] w-8 rounded-sm"
       @click.stop="() => toggleMenu()"
     >
       <font-awesome-icon

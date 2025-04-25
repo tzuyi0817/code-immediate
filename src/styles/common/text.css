@@ -1,5 +1,0 @@
-@layer components {
-  .text_ellipsis {
-    @apply overflow-hidden whitespace-nowrap text-ellipsis;
-  }
-}

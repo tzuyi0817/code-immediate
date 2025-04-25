@@ -78,13 +78,13 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
       <div class="flex gap-1">
         <button
-          class="btn btn_base h-5"
+          class="btn btn-base h-5"
           @click="clearConsole"
         >
           Clear
         </button>
         <button
-          class="btn btn_base h-5"
+          class="btn btn-base h-5"
           @click="isShowConsole = false"
         >
           X

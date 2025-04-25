@@ -1,27 +1,37 @@
 @layer components {
   .input {
-    @apply text-sm
-    text-gray-600
-    border-gray-400
-    border-2
-    p-2
-    w-full
-    rounded-md
-    focus:outline-yellow-400/80;
+    font-size: 14px;
+    line-height: calc(1.25 / 0.875);
+    color: #4a5565;
+    border: 2px solid #99a1af;
+    padding: 8px;
+    width: 100%;
+    border-radius: 6px;
   }
 
-  .input_cdn {
-    @apply text-ellipsis
-    overflow-hidden 
-    whitespace-nowrap
-    p-3
-    bg-white
-    rounded
-    text-xs
-    flex-1
-    min-h-[40px]
-    focus:outline-yellow-400/80
-    disabled:cursor-not-allowed
-    disabled:bg-gray-200;
+  .input:focus {
+    outline-color: rgb(252 200 0 / 80%);
+  }
+
+  .input-cdn {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px;
+    background-color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: calc(1 / 0.75);
+    flex: 1 1 0%;
+    min-height: 40px;
+  }
+
+  .input-cdn:focus {
+    outline-color: rgb(252 200 0 / 80%);
+  }
+
+  .input-cdn:disabled {
+    cursor: not-allowed;
+    background-color: #e5e7eb;
   }
 }

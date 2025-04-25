@@ -20,7 +20,7 @@ function toggleConsole() {
   <div class="code_footer">
     <section class="code_footer_section">
       <button
-        class="btn_small btn_base"
+        class="btn-small btn-base"
         @click="toggleConsole"
       >
         Console

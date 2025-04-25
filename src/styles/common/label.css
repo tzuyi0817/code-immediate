@@ -1,8 +1,10 @@
 @layer components {
   .label {
-    @apply p-2;
+    padding: 8px;
+
     p {
-      @apply text-gray-600 px-1 pb-1;
+      color: #4a5565;
+      padding: 0 4px 4px;
     }
   }
 }

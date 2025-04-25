@@ -1,5 +1,17 @@
 @layer components {
   .svg-icon {
-    @apply text-[#666] transition-[colors_transform] cursor-pointer hover:text-white active:scale-90;
+    color: #666666;
+    transition-property: colors transform;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .svg-icon:hover {
+    color: #ffffff;
+  }
+
+  .svg-icon:active {
+    transform: scale(0.9);
   }
 }

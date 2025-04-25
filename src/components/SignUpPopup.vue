@@ -55,7 +55,7 @@ function closePopup(force = false) {
     class="signup_popup popup"
     @click.self="closePopup()"
   >
-    <div class="popup_header">
+    <div class="popup-header">
       <h2>Sign up!</h2>
       <font-awesome-icon
         icon="fa-solid fa-xmark"
@@ -65,8 +65,8 @@ function closePopup(force = false) {
       />
     </div>
 
-    <div class="popup_content">
-      <div class="signup_popup_content">
+    <div class="popup-content">
+      <div class="signup_popup-content">
         <form @submit.prevent="register">
           <label class="label">
             <p>Account</p>
@@ -99,7 +99,7 @@ function closePopup(force = false) {
           </label>
 
           <loading-button
-            class="btn_yellow w-full mt-6"
+            class="btn-yellow w-full mt-6"
             :is-loading="isLoading"
           >
             Sign up
