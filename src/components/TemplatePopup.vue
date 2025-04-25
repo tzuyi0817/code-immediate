@@ -28,7 +28,7 @@ function closePopup() {
     class="template_popup popup"
     @click.self="closePopup"
   >
-    <div class="popup_header">
+    <div class="popup-header">
       <h3>Templates</h3>
       <font-awesome-icon
         icon="fa-solid fa-xmark"
@@ -38,7 +38,7 @@ function closePopup() {
       />
     </div>
 
-    <div class="popup_content">
+    <div class="popup-content">
       <ul class="mt-2 h-full overflow-y-auto">
         <li
           v-for="template in TEMPLATE_LIST"

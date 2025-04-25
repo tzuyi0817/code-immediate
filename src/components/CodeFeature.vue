@@ -153,7 +153,7 @@ onBeforeUnmount(unWindow);
 <template>
   <div class="code-feature">
     <button
-      class="btn btn_base lg:hidden"
+      class="btn btn-base lg:hidden"
       @click.stop="toggleMenuList"
     >
       <font-awesome-icon
@@ -243,7 +243,7 @@ onBeforeUnmount(unWindow);
 
     <loading-button
       v-if="isLogin"
-      class="btn_red w-auto text-xs"
+      class="btn-red w-auto text-xs"
       :is-loading="isLoading"
       @click="logout"
     >
@@ -253,13 +253,13 @@ onBeforeUnmount(unWindow);
     <template v-else>
       <div class="flex gap-1 lg:gap-2">
         <button
-          class="btn btn_yellow"
+          class="btn btn-yellow"
           @click="toggleSignUpPop"
         >
           SIGNUP
         </button>
         <button
-          class="btn btn_green"
+          class="btn btn-green"
           @click="toggleLoginPop"
         >
           LOGIN

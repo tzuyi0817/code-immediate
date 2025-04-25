@@ -92,7 +92,7 @@ onMounted(getProjects);
     class="projects_popup popup"
     @click.self="closePopup"
   >
-    <div class="popup_header max-w-5xl">
+    <div class="popup-header max-w-5xl">
       <h3>Projects</h3>
       <font-awesome-icon
         icon="fa-solid fa-xmark"
@@ -102,7 +102,7 @@ onMounted(getProjects);
       />
     </div>
 
-    <div class="popup_content max-w-5xl max-h-[65vh]">
+    <div class="popup-content max-w-5xl max-h-[65vh]">
       <ul
         v-if="isLoading"
         class="projects_popup_list animate-pulse"

@@ -11,15 +11,25 @@
       Open Sans,
       Helvetica Neue,
       sans-serif;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
   }
 
   h2 {
-    @apply text-xl font-bold text-gray-600;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: #4a5565;
   }
 
   h3 {
-    @apply text-base font-bold text-gray-600;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    color: #4a5565;
   }
 }

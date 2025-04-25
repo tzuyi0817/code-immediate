@@ -38,7 +38,7 @@ function closePopup(force = false) {
     class="remind_popup popup"
     @click.self="closePopup()"
   >
-    <div class="popup_header">
+    <div class="popup-header">
       <h3>Remind</h3>
       <font-awesome-icon
         icon="fa-solid fa-xmark"
@@ -48,7 +48,7 @@ function closePopup(force = false) {
       />
     </div>
 
-    <div class="popup_content text-center">
+    <div class="popup-content text-center">
       <div class="py-16">
         <p>The current code will be cleared.</p>
         <p>Do you need the system to help you save the project?</p>
@@ -56,13 +56,13 @@ function closePopup(force = false) {
 
       <div class="flex gap-2 justify-end">
         <button
-          class="btn btn_red text-sm"
+          class="btn btn-red text-sm"
           @click="cancel"
         >
           cancel
         </button>
         <loading-button
-          class="btn btn_yellow w-auto"
+          class="btn btn-yellow w-auto"
           :is-loading="isLoading"
           @click="confirm"
         >

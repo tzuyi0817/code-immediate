@@ -44,7 +44,7 @@ describe('CodeEditorAction Component', async () => {
       >
         
         <button
-          class="btn_select btn_select-active"
+          class="btn-select btn-select-active"
           data-v-12668b5f=""
         >
           <span
@@ -61,7 +61,7 @@ describe('CodeEditorAction Component', async () => {
           </span>
         </button>
         <button
-          class="btn_select"
+          class="btn-select"
           data-v-12668b5f=""
         >
           <span
@@ -78,7 +78,7 @@ describe('CodeEditorAction Component', async () => {
           </span>
         </button>
         <button
-          class="btn_select"
+          class="btn-select"
           data-v-12668b5f=""
         >
           <span
@@ -96,7 +96,7 @@ describe('CodeEditorAction Component', async () => {
         </button>
         
         <button
-          class="btn_select lg:hidden btn_select-active"
+          class="btn-select lg:hidden btn-select-active"
           data-v-12668b5f=""
         >
            Result 

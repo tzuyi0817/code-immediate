@@ -123,7 +123,7 @@ onMounted(() => {
     class="settings_popup popup"
     @click.self="closePopup"
   >
-    <div class="popup_header">
+    <div class="popup-header">
       <h3>CDN Settings</h3>
       <font-awesome-icon
         icon="fa-solid fa-xmark"
@@ -133,7 +133,7 @@ onMounted(() => {
       />
     </div>
 
-    <div class="popup_content">
+    <div class="popup-content">
       <ul class="settings_popup_tab">
         <li
           v-for="tab in tabList"
@@ -145,7 +145,7 @@ onMounted(() => {
         </li>
       </ul>
 
-      <div class="settings_popup_content">
+      <div class="settings_popup-content">
         <h3>{{ selectTabItem?.title }}</h3>
         <section class="text-gray-500 mb-3">
           {{ selectTabItem?.description }}
@@ -197,7 +197,7 @@ onMounted(() => {
             <input
               v-model.trim.lazy="cdnResources[currentSelect][index]"
               type="text"
-              class="input_cdn"
+              class="input-cdn"
               placeholder="https://cdnjs.cloudflare.com/ajax/libs/customresource"
               :disabled="BUILT_IN_RESOURCES.has(cdn)"
             />
@@ -220,7 +220,7 @@ onMounted(() => {
           </li>
 
           <button
-            class="btn btn_yellow"
+            class="btn btn-yellow"
             @click="addCdn('')"
           >
             + custom resource
@@ -229,7 +229,7 @@ onMounted(() => {
       </div>
 
       <button
-        class="btn btn_yellow float-right mt-4 text-sm"
+        class="btn btn-yellow float-right mt-4 text-sm"
         @click="setCdn"
       >
         Confirm
