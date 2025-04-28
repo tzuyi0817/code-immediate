@@ -56,9 +56,9 @@ onBeforeUnmount(unWindow);
 </script>
 
 <template>
-  <div class="code_editor_action">
+  <div class="file-tabs">
     <div
-      class="code_editor_action_left"
+      class="file-tabs-left"
       data-testid="editor model select"
     >
       <button
@@ -101,7 +101,7 @@ onBeforeUnmount(unWindow);
       </button>
     </div>
 
-    <div class="code_editor_action_right">
+    <div class="file-tabs-right">
       <language-select
         v-if="currentModel !== 'VUE'"
         :language-map="languageMap"
@@ -116,32 +116,41 @@ onBeforeUnmount(unWindow);
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.code_editor_action {
-  @apply h-10
-  w-full
-  px-1
-  flex
-  items-center
-  justify-between
-  border-b-2
-  border-gray-700/60
-  bg-black;
-  &_left {
-    @apply flex
-    gap-[2px]
-    items-center
-    h-full;
-  }
-  &_right {
-    @apply flex
-    gap-1;
-  }
+<style lang="css" scoped>
+.file-tabs {
+  height: 40px;
+  width: 100%;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgb(54 65 83 / 0.6);
+  background-color: #000000;
+}
+
+.file-tabs-left {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  height: 100%;
+}
+
+.file-tabs-right {
+  display: flex;
+  gap: 4px;
+}
+
+.large-screen {
+  display: none;
+}
+
+@media (min-width: 1024px) {
   .small-screen {
-    @apply lg:hidden;
+    display: none;
   }
+
   .large-screen {
-    @apply hidden lg:flex;
+    display: flex;
   }
 }
 </style>
