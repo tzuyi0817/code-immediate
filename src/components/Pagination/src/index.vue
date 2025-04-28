@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Next from './components/Next.vue';
-import Pager from './components/Pager.vue';
-import Prev from './components/Prev.vue';
+import Next from './Next.vue';
+import Pager from './Pager.vue';
+import Prev from './Prev.vue';
 
 interface Props {
   pageSize?: number;
