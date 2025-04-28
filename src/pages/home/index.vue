@@ -68,7 +68,7 @@ onMounted(closeInitLoading);
   <code-header />
 
   <div class="lg:flex">
-    <div :class="['code_wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
+    <div :class="['code-wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
       <code-editor-action
         v-model:is-show-preview="isShowPreview"
         v-model:current-model="currentModel"
@@ -76,26 +76,26 @@ onMounted(closeInitLoading);
 
       <div
         v-show="!isSFC"
-        class="code_wrap_editor flex"
+        class="code-wrap-editor flex"
       >
-        <div :class="['code_wrap_code', { hidden: currentModel !== 'HTML' }]">
+        <div :class="['code-wrap-code', { hidden: currentModel !== 'HTML' }]">
           <code-editor model="HTML" />
         </div>
 
-        <div :class="['code_wrap_code', { hidden: currentModel !== 'CSS' }]">
+        <div :class="['code-wrap-code', { hidden: currentModel !== 'CSS' }]">
           <code-editor model="CSS" />
         </div>
 
-        <div :class="['code_wrap_code', { hidden: currentModel !== 'JS' }]">
+        <div :class="['code-wrap-code', { hidden: currentModel !== 'JS' }]">
           <code-editor model="JS" />
         </div>
       </div>
 
       <div
         v-show="isSFC"
-        class="code_wrap_editor flex"
+        class="code-wrap-editor flex"
       >
-        <div class="code_wrap_code">
+        <div class="code-wrap-code">
           <code-editor model="VUE" />
         </div>
       </div>
@@ -104,7 +104,7 @@ onMounted(closeInitLoading);
     <code-drag
       v-model:drag-a="offsetCodeWrap"
       v-model:drag-b="previewWidth"
-      class="code_wrap_hidden h-[calc(100vh-88px)]"
+      class="code-wrap-hidden h-[calc(100vh-88px)]"
       direction="x"
       unit="vw"
       :limit="{ min: 20, max: 80 }"
@@ -112,30 +112,36 @@ onMounted(closeInitLoading);
 
     <code-preview
       v-show="isShowPreview"
-      class="w-full h-[calc(60vh-88px)] lg:h-[calc(100vh-88px)] preview_width"
+      class="w-full h-[calc(60vh-88px)] lg:h-[calc(100vh-88px)] preview-width"
     />
   </div>
   <code-footer :preview-width="previewWidth" />
 </template>
 
-<style lang="postcss" scoped>
-.code_wrap {
-  &_hidden {
-    @apply hidden lg:block;
-  }
-  &_code {
-    @apply w-full flex-1;
-    @media (min-width: 1024px) {
-      width: calc(v-bind(offsetCodeWrap));
-    }
-  }
-  &_editor {
-    @apply h-[calc(100%-40px)];
-  }
+<style lang="css" scoped>
+.code-wrap-hidden {
+  display: none;
 }
 
-.preview_width {
-  @media (min-width: 1024px) {
+.code-wrap-code {
+  width: 100%;
+  flex: 1 1 0%;
+}
+
+.code-wrap-editor {
+  height: calc(100% - 40px);
+}
+
+@media (min-width: 1024px) {
+  .code-wrap-hidden {
+    display: block;
+  }
+
+  .code-wrap-code {
+    width: calc(v-bind(offsetCodeWrap));
+  }
+
+  .preview-width {
     width: calc(v-bind(previewWidth) - 18px);
   }
 }
