@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import CodeDrag from '@/components/CodeDrag.vue';
+import { CodeDrag } from '@/components/CodeDrag';
 import CodeEditor from '@/components/CodeEditor.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeFooter from '@/components/CodeFooter.vue';

@@ -2,7 +2,7 @@
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { deleteCode, getCodes } from '@/apis/code';
-import Pagination from '@/components/Pagination/index.vue';
+import { Pagination } from '@/components/Pagination';
 import { setupTemplate } from '@/config/template';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/load-parse';

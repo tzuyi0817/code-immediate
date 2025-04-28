@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeDrag from '@/components/CodeDrag.vue';
+import { CodeDrag } from '@/components/CodeDrag';
 import { useFlagStore } from '@/store';
 
 describe('CodeDrag component', () => {

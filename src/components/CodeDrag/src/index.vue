@@ -64,7 +64,7 @@ function calculateOffset(drag: string, offset: number) {
 
 <template>
   <div
-    :class="['code_drag', cursor, layout]"
+    :class="['code-drag', cursor, layout]"
     title="drag"
     @mousedown="startDrag"
   >
@@ -72,12 +72,11 @@ function calculateOffset(drag: string, offset: number) {
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.code_drag {
-  @apply select-none
-  z-[1]
-  border-[1px]
-  border-gray-700/60
-  bg-black;
+<style lang="css" scoped>
+.code-drag {
+  user-select: none;
+  z-index: 1;
+  border: 1px solid rgb(54 65 83 / 0.6);
+  background-color: #000000;
 }
 </style>
