@@ -3,12 +3,12 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import { CodeDrag } from '@/components/CodeDrag';
-import CodeEditor from '@/components/CodeEditor.vue';
 import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodePreview from '@/components/CodePreview.vue';
+import { Drag } from '@/components/Drag';
+import { Editor } from '@/components/Editor';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
 import type { CodeModel } from '@/types/code-content';
@@ -79,15 +79,15 @@ onMounted(closeInitLoading);
         class="code-wrap-editor flex"
       >
         <div :class="['code-wrap-code', { hidden: currentModel !== 'HTML' }]">
-          <code-editor model="HTML" />
+          <editor model="HTML" />
         </div>
 
         <div :class="['code-wrap-code', { hidden: currentModel !== 'CSS' }]">
-          <code-editor model="CSS" />
+          <editor model="CSS" />
         </div>
 
         <div :class="['code-wrap-code', { hidden: currentModel !== 'JS' }]">
-          <code-editor model="JS" />
+          <editor model="JS" />
         </div>
       </div>
 
@@ -96,12 +96,12 @@ onMounted(closeInitLoading);
         class="code-wrap-editor flex"
       >
         <div class="code-wrap-code">
-          <code-editor model="VUE" />
+          <editor model="VUE" />
         </div>
       </div>
     </div>
 
-    <code-drag
+    <drag
       v-model:drag-a="offsetCodeWrap"
       v-model:drag-b="previewWidth"
       class="code-wrap-hidden h-[calc(100vh-88px)]"
