@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, Ref, useTemplateRef, watch } from 'vue';
-import { CodeDrag } from '@/components/CodeDrag';
+import { Drag } from '@/components/Drag';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { toast } from '@/utils/toast';
 
@@ -67,7 +67,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     v-show="isShowConsole"
     class="code_console w-full drag_height preview_width"
   >
-    <code-drag
+    <drag
       v-model:drag-b="consoleHeight"
       class="code_console_header"
       direction="y"
@@ -90,7 +90,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
           X
         </button>
       </div>
-    </code-drag>
+    </drag>
 
     <div
       ref="codeWrap"

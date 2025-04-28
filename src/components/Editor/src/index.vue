@@ -80,7 +80,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="code_editor">
+  <div class="code-editor">
     <div
       ref="codeEditor"
       class="w-full h-full"
@@ -88,7 +88,7 @@ onBeforeUnmount(() => {
     ></div>
     <div
       v-if="isCodeLoading"
-      class="code_editor_loading"
+      class="code-editor-loading"
     >
       <font-awesome-icon
         icon="fa-solid fa-spinner"
@@ -98,28 +98,29 @@ onBeforeUnmount(() => {
   </div>
 </template>
 
-<style lang="postcss">
-.code_editor {
-  @apply relative
-  w-full
-  h-full
-  bg-[#1e1e1e]
-  border-b-2
-  border-gray-700/60
-  pt-1;
+<style lang="css">
+.code-editor {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #1e1e1e;
+  border-bottom: 2px solid rgb(54 65 83 / 0.6);
+  padding-top: 4px;
+
   .iPadShowKeyboard {
-    @apply hidden;
+    display: none;
   }
-  &_loading {
-    @apply absolute
-    top-0
-    left-0
-    w-full
-    h-full
-    flex
-    justify-center
-    items-center
-    bg-[#1e1e1e]/50;
-  }
+}
+
+.code-editor-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(30 30 30 / 0.5);
 }
 </style>
