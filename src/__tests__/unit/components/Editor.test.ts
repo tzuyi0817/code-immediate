@@ -7,7 +7,7 @@ import { setupTestEnvironmentLanguage } from '@/monaco';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('Editor Component', async () => {
+describe('Editor component', async () => {
   registerIcons();
   setupTestEnvironmentLanguage();
 

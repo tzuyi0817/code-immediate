@@ -3,7 +3,6 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import CodeEditorAction from '@/components/CodeEditorAction.vue';
 import CodeFooter from '@/components/CodeFooter.vue';
 import CodeHeader from '@/components/CodeHeader.vue';
 import CodePreview from '@/components/CodePreview.vue';
@@ -12,6 +11,7 @@ import { Editor } from '@/components/Editor';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
 import type { CodeModel } from '@/types/code-content';
+import FileTabs from './components/FileTabs/index.vue';
 
 const isShowPreview = ref(true);
 const iframeRef = ref<HTMLIFrameElement | null>(null);
@@ -69,7 +69,7 @@ onMounted(closeInitLoading);
 
   <div class="lg:flex">
     <div :class="['code-wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">
-      <code-editor-action
+      <file-tabs
         v-model:is-show-preview="isShowPreview"
         v-model:current-model="currentModel"
       />

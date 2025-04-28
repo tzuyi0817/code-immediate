@@ -1,16 +1,16 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeEditorAction from '@/components/CodeEditorAction.vue';
+import FileTabs from '@/pages/home/components/FileTabs.vue';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeEditorAction Component', async () => {
+describe('home page FileTabs component', async () => {
   const props = { isShowPreview: true, currentModel: 'HTML' };
 
   registerIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(CodeEditorAction, { props });
+    renderComponent(FileTabs, { props });
 
     expect(screen.getByRole('button', { name: /index.html/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /index.css/i })).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('CodeEditorAction Component', async () => {
   });
 
   it('change to sfc template', async () => {
-    renderComponent(CodeEditorAction, { props: { ...props, currentModel: 'VUE' } });
+    renderComponent(FileTabs, { props: { ...props, currentModel: 'VUE' } });
 
     expect(screen.getByRole('button', { name: /app.vue/i })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /index.html/i })).not.toBeInTheDocument();
@@ -31,14 +31,14 @@ describe('CodeEditorAction Component', async () => {
   });
 
   it('change editor model', async () => {
-    const { emitted } = renderComponent(CodeEditorAction, { props });
+    const { emitted } = renderComponent(FileTabs, { props });
     const updateCurrentModel = 'update:currentModel';
     const modelSelectContainer = screen.getByTestId('editor model select');
 
     expect(modelSelectContainer).toBeInTheDocument();
     expect(modelSelectContainer).toMatchInlineSnapshot(`
       <div
-        class="code_editor_action_left"
+        class="file-tabs-left"
         data-testid="editor model select"
         data-v-12668b5f=""
       >
