@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import { Drag } from '@/components/Drag';
+import { Drag } from '@/components/common';
 import { useFlagStore } from '@/store';
 
 describe('Drag component', () => {
