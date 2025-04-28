@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeFooter from '@/components/CodeFooter.vue';
+import { AppFooter } from '@/components/layout';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeFooter Component', () => {
@@ -11,12 +11,12 @@ describe('CodeFooter Component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeFooter, { provide, props });
+    renderComponent(AppFooter, { provide, props });
     expect(screen.getByRole('button', { name: /console/i })).toBeInTheDocument();
   });
 
   it('toggle console', async () => {
-    renderComponent(CodeFooter, { provide, props });
+    renderComponent(AppFooter, { provide, props });
 
     await userEvent.click(screen.getByRole('button', { name: /console/i }));
     expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();

@@ -17,8 +17,8 @@ function toggleConsole() {
 </script>
 
 <template>
-  <div class="code_footer">
-    <section class="code_footer_section">
+  <div class="app-footer">
+    <section class="app-footer-section">
       <button
         class="btn-small btn-base"
         @click="toggleConsole"
@@ -27,7 +27,7 @@ function toggleConsole() {
       </button>
     </section>
 
-    <section class="code_footer_section">
+    <section class="app-footer-section">
       <code-loading />
     </section>
 
@@ -38,20 +38,23 @@ function toggleConsole() {
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.code_footer {
-  @apply fixed
-  flex
-  justify-between
-  items-center
-  bg-black
-  w-full
-  h-8
-  px-2
-  bottom-0
-  z-[3];
-  &_section {
-    @apply flex items-center gap-3;
-  }
+<style lang="css" scoped>
+.app-footer {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  width: 100%;
+  height: 32px;
+  padding: 0 8px;
+  bottom: 0;
+  z-index: 3;
+}
+
+.app-footer-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 </style>
