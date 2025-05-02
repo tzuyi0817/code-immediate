@@ -9,6 +9,7 @@ const { codeTemplate } = storeToRefs(useCodeContentStore());
 
 function selectTemplate(name: CodeTemplate) {
   const { setCodeTemplate, setCodeMap } = useCodeContentStore();
+
   setCodeTemplate(name);
   setCodeMap(TEMPLATE_MAP[name]);
   closePopup();
@@ -25,7 +26,7 @@ function closePopup() {
 
 <template>
   <div
-    class="template_popup popup"
+    class="template-popup popup"
     @click.self="closePopup"
   >
     <div class="popup-header">
@@ -48,7 +49,7 @@ function closePopup() {
         >
           <img
             :src="getImageSrc(template.src)"
-            class="template_popup_icon"
+            class="template-popup-icon"
             :alt="template.name"
           />
           <div class="flex flex-col flex-1 justify-center items-center">
@@ -61,38 +62,52 @@ function closePopup() {
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.template_popup {
-  &_icon {
-    @apply mx-1
-    lg:mx-3
-    w-14
-    h-14;
-  }
+<style lang="css" scoped>
+.template-popup {
   ul {
-    @apply grid
-    grid-cols-2
-    lg:grid-cols-3
-    pb-4
-    px-3
-    gap-2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 12px 16px;
+    gap: 8px;
+
     li {
-      @apply flex
-      transition-all
-      items-center
-      justify-start
-      border-b-2
-      border-gray-400
-      rounded-sm
-      cursor-pointer
-      p-2
-      mt-5
-      hover:bg-gray-200;
-      &.active {
-        @apply bg-yellow-400/80
-        border-yellow-400/80;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      border-bottom: 2px solid #99a1af;
+      border-radius: 2px;
+      cursor: pointer;
+      padding: 8px;
+      margin-top: 20px;
     }
+
+    li:hover {
+      background-color: #e5e7eb;
+    }
+
+    li.active {
+      background-color: rgb(252 200 0 / 0.8);
+      border-color: rgb(252 200 0 / 0.8);
+    }
+  }
+}
+
+.template-popup-icon {
+  margin: 0 4px;
+  width: 56px;
+  height: 56px;
+}
+
+@media (min-width: 1024px) {
+  .template-popup {
+    ul {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .template-popup-icon {
+    margin: 0 12px;
   }
 }
 </style>
