@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CodeConsole from '@/components/CodeConsole.vue';
 import CodeLoading from '@/components/CodeLoading.vue';
+import Console from './Console.vue';
 
 interface Props {
   previewWidth: string;
@@ -31,7 +31,7 @@ function toggleConsole() {
       <code-loading />
     </section>
 
-    <code-console
+    <console
       v-model:is-show-console="isShowConsole"
       :preview-width="previewWidth"
     />

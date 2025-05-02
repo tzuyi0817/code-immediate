@@ -2,12 +2,12 @@ import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
 import { ref } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeConsole from '@/components/CodeConsole.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import Toast from '@/components/CodeToast.vue';
+import Console from '@/components/layout/AppFooter/src/Console.vue';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeConsole component', () => {
+describe('AppFooter/Console component', () => {
   const renderOptions = {
     provide: { iframe: ref(null) },
     props: { isShowConsole: true, previewWidth: '66.7vw' },
@@ -25,7 +25,7 @@ describe('CodeConsole component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeConsole, renderOptions);
+    renderComponent(Console, renderOptions);
 
     expect(screen.getByText('Console')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe('CodeConsole component', () => {
   });
 
   it('implement command', async () => {
-    renderComponent(CodeConsole, renderOptions);
+    renderComponent(Console, renderOptions);
     renderComponent(CodePreview, { provide: renderOptions.provide });
 
     const commandLine = screen.getByRole('textbox');
@@ -46,21 +46,21 @@ describe('CodeConsole component', () => {
 
   describe('receive message', () => {
     it('echo message', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       await sendMessage('echo', 'echo');
       expect(await screen.findByText('echo')).toBeInTheDocument();
     });
 
     it('log message', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       await sendMessage('log', '<span class="number">123456789</span>');
       expect(await screen.findByText('123456789')).toBeInTheDocument();
     });
 
     it('warn message', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       const message = 'receive warn message';
 
@@ -71,7 +71,7 @@ describe('CodeConsole component', () => {
     });
 
     it('error message', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       const message = 'receive error message';
 
@@ -82,7 +82,7 @@ describe('CodeConsole component', () => {
     });
 
     it('another type message', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       const message = 'another message';
 
@@ -91,7 +91,7 @@ describe('CodeConsole component', () => {
     });
 
     it('no message for type', async () => {
-      renderComponent(CodeConsole, renderOptions);
+      renderComponent(Console, renderOptions);
 
       const message = 'no message';
 
@@ -101,7 +101,7 @@ describe('CodeConsole component', () => {
   });
 
   it('clear console message', async () => {
-    renderComponent(CodeConsole, renderOptions);
+    renderComponent(Console, renderOptions);
 
     const message = 'echo-message';
 

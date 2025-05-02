@@ -33,7 +33,7 @@ const TemplatePopup = defineAsyncComponent(() => import('./TemplatePopup.vue'));
 const LoginPopup = defineAsyncComponent(() => import('./LoginPopup.vue'));
 const SignUpPopup = defineAsyncComponent(() => import('./SignUpPopup.vue'));
 const ProjectsPopup = defineAsyncComponent(() => import('./ProjectsPopup.vue'));
-const RemindPopup = defineAsyncComponent(() => import('@/components/RemindPopup.vue'));
+const RemindPopup = defineAsyncComponent(() => import('./RemindPopup.vue'));
 
 async function logout() {
   isLoggingOut.value = true;
