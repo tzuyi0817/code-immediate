@@ -52,7 +52,7 @@ function closePopup(force = false) {
 
 <template>
   <div
-    class="signup_popup popup"
+    class="signup-popup popup"
     @click.self="closePopup()"
   >
     <div class="popup-header">
@@ -66,7 +66,7 @@ function closePopup(force = false) {
     </div>
 
     <div class="popup-content">
-      <div class="signup_popup-content">
+      <div class="signup-popup-content">
         <form @submit.prevent="register">
           <label class="label">
             <p>Account</p>

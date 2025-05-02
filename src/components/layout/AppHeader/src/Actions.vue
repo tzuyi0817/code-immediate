@@ -31,8 +31,8 @@ const doFun = ref<(() => void) | null>(null);
 const SettingsPopup = defineAsyncComponent(() => import('./SettingsPopup.vue'));
 const TemplatePopup = defineAsyncComponent(() => import('./TemplatePopup.vue'));
 const LoginPopup = defineAsyncComponent(() => import('./LoginPopup.vue'));
-const SignUpPopup = defineAsyncComponent(() => import('@/components/SignUpPopup.vue'));
-const ProjectsPopup = defineAsyncComponent(() => import('@/components/ProjectsPopup.vue'));
+const SignUpPopup = defineAsyncComponent(() => import('./SignUpPopup.vue'));
+const ProjectsPopup = defineAsyncComponent(() => import('./ProjectsPopup.vue'));
 const RemindPopup = defineAsyncComponent(() => import('@/components/RemindPopup.vue'));
 
 async function logout() {
