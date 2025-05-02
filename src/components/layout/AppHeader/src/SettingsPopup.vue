@@ -120,7 +120,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="settings_popup popup"
+    class="settings-popup popup"
     @click.self="closePopup"
   >
     <div class="popup-header">
@@ -134,7 +134,7 @@ onMounted(() => {
     </div>
 
     <div class="popup-content">
-      <ul class="settings_popup_tab">
+      <ul class="settings-popup-tab">
         <li
           v-for="tab in tabList"
           :key="tab.name"
@@ -145,7 +145,7 @@ onMounted(() => {
         </li>
       </ul>
 
-      <div class="settings_popup-content">
+      <div class="settings-popup-content">
         <h3>{{ selectTabItem?.title }}</h3>
         <section class="text-gray-500 mb-3">
           {{ selectTabItem?.description }}
@@ -207,13 +207,13 @@ onMounted(() => {
                 v-if="!BUILT_IN_RESOURCES.has(cdn)"
                 icon="fa-solid fa-xmark"
                 title="fa-xmark-cdn"
-                class="settings_popup_icon"
+                class="settings-popup-icon"
                 @click="deleteCdn(index)"
               />
               <font-awesome-icon
                 icon="fa-regular fa-eye"
                 title="fa-eye"
-                class="settings_popup_icon"
+                class="settings-popup-icon"
                 @click="visitCdn(cdn)"
               />
             </div>
@@ -238,42 +238,47 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.settings_popup {
-  &_tab {
-    @apply flex
-    pt-3
-    mb-3
-    gap-1;
-    li {
-      @apply cursor-pointer
-      p-2
-      min-w-[45px]
-      transition-all
-      rounded-md
-      text-center
-      hover:bg-yellow-400
-      hover:text-white;
-      &.active {
-        @apply bg-yellow-400
-        text-white;
-      }
-    }
+<style lang="css" scoped>
+.settings-popup-tab {
+  display: flex;
+  padding-top: 12px;
+  margin-bottom: 12px;
+  gap: 4px;
+
+  li {
+    cursor: pointer;
+    padding: 8px;
+    min-width: 45px;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 6px;
+    text-align: center;
   }
-  &_content {
-    @apply p-3
-    overflow-y-auto
-    h-[calc(60vh-165px)]
-    bg-black/5
-    border-[1px]
-    border-gray-300
-    rounded
-    shadow-lg;
+
+  li:hover,
+  li.active {
+    background-color: #fcc800;
+    color: #fff;
   }
-  &_icon {
-    @apply cursor-pointer
-    text-gray-500
-    hover:text-yellow-400/80;
-  }
+}
+
+.settings-popup-content {
+  padding: 12px;
+  overflow-y: auto;
+  height: calc(60dvh - 165px);
+  background-color: rgb(0 0 0 / 0.05);
+  border: 1px solid #d1d5dc;
+  border-radius: 4px;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.settings-popup-icon {
+  cursor: pointer;
+  color: #6a7282;
+}
+
+.settings-popup-icon:hover {
+  color: rgb(252 200 0 / 0.8);
 }
 </style>
