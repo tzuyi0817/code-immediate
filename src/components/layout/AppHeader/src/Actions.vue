@@ -29,7 +29,7 @@ const isShowProjectsPop = ref(false);
 const isShowRemindPop = ref(false);
 const doFun = ref<(() => void) | null>(null);
 const SettingsPopup = defineAsyncComponent(() => import('./SettingsPopup.vue'));
-const TemplatePopup = defineAsyncComponent(() => import('@/components/TemplatePopup.vue'));
+const TemplatePopup = defineAsyncComponent(() => import('./TemplatePopup.vue'));
 const LoginPopup = defineAsyncComponent(() => import('./LoginPopup.vue'));
 const SignUpPopup = defineAsyncComponent(() => import('@/components/SignUpPopup.vue'));
 const ProjectsPopup = defineAsyncComponent(() => import('@/components/ProjectsPopup.vue'));
