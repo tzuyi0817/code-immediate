@@ -9,7 +9,7 @@ const isShowLoginPop = defineModel<boolean>('isShowLoginPop');
 const localAccount = localStorage.getItem('code_account');
 const account = ref(localAccount ?? '');
 const password = ref('');
-const isLoading = ref(false);
+const isLoggingIn = ref(false);
 
 async function login() {
   const data = {
@@ -17,7 +17,8 @@ async function login() {
     password: password.value,
   };
 
-  isLoading.value = true;
+  isLoggingIn.value = true;
+
   try {
     const { status, message, resultMap } = await loginUser(data);
     const { token, user } = resultMap;
@@ -31,7 +32,7 @@ async function login() {
   } catch {
     cleanForm();
   } finally {
-    isLoading.value = false;
+    isLoggingIn.value = false;
   }
 }
 
@@ -87,14 +88,14 @@ function cleanForm() {
 }
 
 function closePopup(force = false) {
-  if (isLoading.value && !force) return;
+  if (isLoggingIn.value && !force) return;
   isShowLoginPop.value = false;
 }
 </script>
 
 <template>
   <div
-    class="login_popup popup"
+    class="login-popup popup"
     @click.self="closePopup()"
   >
     <div class="popup-header">
@@ -108,7 +109,7 @@ function closePopup(force = false) {
     </div>
 
     <div class="popup-content">
-      <div class="login_popup-content">
+      <div class="login-popup-content">
         <form @submit.prevent="login">
           <label class="label">
             <p>Account</p>
@@ -132,7 +133,7 @@ function closePopup(force = false) {
 
           <loading-button
             class="btn-yellow w-full mt-6"
-            :is-loading="isLoading"
+            :is-loading="isLoggingIn"
           >
             Log in
           </loading-button>
@@ -140,7 +141,7 @@ function closePopup(force = false) {
 
         <loading-button
           class="btn-blue w-full mt-2"
-          :is-loading="isLoading"
+          :disabled="isLoggingIn"
           @click="loginGithub"
         >
           <font-awesome-icon

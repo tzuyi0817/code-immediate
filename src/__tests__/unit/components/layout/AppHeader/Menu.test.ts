@@ -1,14 +1,14 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeMenu from '@/components/layout/AppHeader/src/CodeMenu.vue';
+import AppHeaderMenu from '@/components/layout/AppHeader/src/Menu.vue';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeMenu Component', () => {
+describe('AppHeader/Menu Component', () => {
   registerIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(CodeMenu, { props: { isLogin: false, codeId: '' } });
+    renderComponent(AppHeaderMenu, { props: { isLogin: false, codeId: '' } });
 
     expect(screen.getByText(/save/i)).toBeInTheDocument();
     expect(screen.getByText(/settings/i)).toBeInTheDocument();
@@ -19,19 +19,19 @@ describe('CodeMenu Component', () => {
   });
 
   it('renders the correct content when logged in', async () => {
-    renderComponent(CodeMenu, { props: { isLogin: true, codeId: '' } });
+    renderComponent(AppHeaderMenu, { props: { isLogin: true, codeId: '' } });
 
     expect(screen.getByText(/projects/i)).toBeInTheDocument();
   });
 
   it('renders the correct content when codeId is provided', async () => {
-    renderComponent(CodeMenu, { props: { isLogin: false, codeId: '123' } });
+    renderComponent(AppHeaderMenu, { props: { isLogin: false, codeId: '123' } });
 
     expect(screen.getByText(/share/i)).toBeInTheDocument();
   });
 
   it('emits event', async () => {
-    const { emitted } = renderComponent(CodeMenu, { props: { isLogin: true, codeId: '123' } });
+    const { emitted } = renderComponent(AppHeaderMenu, { props: { isLogin: true, codeId: '123' } });
 
     await userEvent.click(screen.getByText(/save/i));
     expect(emitted()).toHaveProperty('saveCode');
@@ -50,7 +50,7 @@ describe('CodeMenu Component', () => {
   });
 
   it('check github link', async () => {
-    renderComponent(CodeMenu, { props: { isLogin: false, codeId: '' } });
+    renderComponent(AppHeaderMenu, { props: { isLogin: false, codeId: '' } });
 
     const link = screen.getByRole('link', { name: /fa-github github/i });
 

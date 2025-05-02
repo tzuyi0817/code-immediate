@@ -18,7 +18,8 @@ const { defaultTitle } = defineProps<Props>();
 const title = defineModel<string>('title', { required: true });
 const { isLogin } = storeToRefs(useUserStore());
 const { codeId, codeTemplate } = storeToRefs(useCodeContentStore());
-const isLoading = ref(false);
+const isSavingCode = ref(false);
+const isLoggingOut = ref(false);
 const isShowSettingsPop = ref(false);
 const isShowTemplatePop = ref(false);
 const isShowMenuList = ref(false);
@@ -29,15 +30,16 @@ const isShowRemindPop = ref(false);
 const doFun = ref<(() => void) | null>(null);
 const SettingsPopup = defineAsyncComponent(() => import('@/components/SettingsPopup.vue'));
 const TemplatePopup = defineAsyncComponent(() => import('@/components/TemplatePopup.vue'));
-const LoginPopup = defineAsyncComponent(() => import('@/components/LoginPopup.vue'));
+const LoginPopup = defineAsyncComponent(() => import('./LoginPopup.vue'));
 const SignUpPopup = defineAsyncComponent(() => import('@/components/SignUpPopup.vue'));
 const ProjectsPopup = defineAsyncComponent(() => import('@/components/ProjectsPopup.vue'));
 const RemindPopup = defineAsyncComponent(() => import('@/components/RemindPopup.vue'));
 
 async function logout() {
-  isLoading.value = true;
+  isLoggingOut.value = true;
+
   const { status, message } = await logoutUser().finally(() => {
-    isLoading.value = false;
+    isLoggingOut.value = false;
   });
   const { setUser } = useUserStore();
 
@@ -48,8 +50,10 @@ async function logout() {
 }
 
 async function saveCode() {
-  if (isLoading.value) return;
+  if (isSavingCode.value || isLoggingOut.value) return;
+
   closeMenuList();
+
   if (!isLogin.value) return toggleLoginPop();
 
   const { codeContent, codeTemplate: template, codeId: id, setCodeId } = useCodeContentStore();
@@ -60,8 +64,9 @@ async function saveCode() {
   };
   const api = id ? putCode(id, data) : postCode(data);
 
-  isLoading.value = true;
-  const { status, message, resultMap } = await api.finally(() => (isLoading.value = false));
+  isSavingCode.value = true;
+
+  const { status, message, resultMap } = await api.finally(() => (isSavingCode.value = false));
   const { setChangeCodeFlag } = useFlagStore();
 
   if (resultMap) {
@@ -173,14 +178,14 @@ onBeforeUnmount(unWindow);
     <span
       :class="[
         'svg-icon text-lg hidden lg:flex app-header-actions-tip',
-        { 'animate-spin cursor-not-allowed': isLoading },
+        { 'animate-spin cursor-not-allowed': isSavingCode, disabled: isLoggingOut },
       ]"
       data-tip="Save code"
       @click="saveCode"
     >
       <font-awesome-icon
         title="fa-cloud-arrow-up"
-        :icon="`fa-solid ${isLoading ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
+        :icon="`fa-solid ${isSavingCode ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
       />
     </span>
 
@@ -247,7 +252,8 @@ onBeforeUnmount(unWindow);
     <loading-button
       v-if="isLogin"
       class="btn-red w-auto text-xs"
-      :is-loading="isLoading"
+      :is-loading="isLoggingOut"
+      :disabled="isSavingCode"
       @click="logout"
     >
       LOGOUT

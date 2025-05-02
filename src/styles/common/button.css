@@ -3,7 +3,7 @@
     outline-style: none;
   }
 
-  button:active:enabled {
+  button:enabled:active {
     transform: scale(0.9);
   }
 
@@ -53,6 +53,11 @@
     background-color: var(--color-secondary);
   }
 
+  .btn-red {
+    color: white;
+    background-color: #e7000b;
+  }
+
   .btn-yellow {
     color: #4a5565;
     background-color: #fcc800;
@@ -89,19 +94,20 @@
     color: #fcc800;
   }
 
-  .btn-yellow:hover {
-    filter: grayscale(105%);
+  .btn-yellow:enabled:hover {
+    filter: brightness(105%);
   }
 
-  .btn-green:hover,
-  .btn-red:hover,
-  .btn-select:hover {
-    filter: grayscale(110%);
+  .btn-red:enabled:hover,
+  .btn-green:enabled:hover,
+  .btn-red:enabled:hover,
+  .btn-select:enabled:hover {
+    filter: brightness(110%);
   }
 
-  .btn-base:hover,
-  .btn-blue:hover,
-  .btn-indigo:hover {
-    filter: grayscale(125%);
+  .btn-base:enabled:hover,
+  .btn-blue:enabled:hover,
+  .btn-indigo:enabled:hover {
+    filter: brightness(125%);
   }
 }
