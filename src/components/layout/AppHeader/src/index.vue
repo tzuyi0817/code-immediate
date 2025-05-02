@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { nextTick, ref, useTemplateRef } from 'vue';
-import CodeFeature from '@/components/CodeFeature.vue';
 import { DEFAULT_TITLE } from '@/config/common';
 import { useCodeContentStore, useUserStore } from '@/store';
+import AppHeaderActions from './Actions.vue';
 
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
@@ -35,8 +35,8 @@ async function openTitle() {
 </script>
 
 <template>
-  <header class="code_header">
-    <div class="code_header_left">
+  <header class="app-header">
+    <div class="app-header-left">
       <img
         src="/logo.png"
         class="w-10 basis-10 shrink-0"
@@ -70,36 +70,44 @@ async function openTitle() {
       </div>
     </div>
 
-    <code-feature
+    <app-header-actions
       v-model:title="codeTitle"
       :default-title="DEFAULT_TITLE"
     />
   </header>
 </template>
 
-<style lang="postcss" scoped>
-.code_header {
-  @apply h-14
-  p-2
-  flex
-  gap-2
-  items-center
-  justify-between
-  text-sm
-  border-b-2
-  border-gray-700/60
-  bg-black;
-  &_left {
-    @apply text-white
-    flex
-    items-center
-    w-full
-    max-w-[calc(100%-200px)]
-    lg:max-w-[calc(100%-590px)]
-    gap-2;
-    svg {
-      @apply text-xs;
-    }
+<style lang="css" scoped>
+.app-header {
+  height: 56px;
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: calc(1.25 / 0.875);
+  border-bottom: 2px solid rgb(55 65 81 / 0.6);
+  background-color: #000000;
+}
+
+.app-header-left {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  width: full;
+  max-width: calc(100% - 200px);
+  gap: 8px;
+
+  svg {
+    font-size: 12px;
+    line-height: calc(1 / 0.75);
+  }
+}
+
+@media (max-width: 1024px) {
+  .app-header-left {
+    max-width: calc(100% - 590px);
   }
 }
 </style>

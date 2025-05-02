@@ -3,10 +3,9 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import CodeHeader from '@/components/CodeHeader.vue';
 import CodePreview from '@/components/CodePreview.vue';
 import { Drag, Editor } from '@/components/common';
-import { AppFooter } from '@/components/layout';
+import { AppFooter, AppHeader } from '@/components/layout';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
 import type { CodeModel } from '@/types/code-content';
@@ -64,7 +63,7 @@ onMounted(closeInitLoading);
 </script>
 
 <template>
-  <code-header />
+  <app-header />
 
   <div class="lg:flex">
     <div :class="['code-wrap bg-black', `${wrapHeight} lg:h-[calc(100vh-88px)]`]">

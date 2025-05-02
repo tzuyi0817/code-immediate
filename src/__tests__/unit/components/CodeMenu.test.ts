@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeMenu from '@/components/CodeMenu.vue';
+import CodeMenu from '@/components/layout/AppHeader/src/CodeMenu.vue';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('CodeMenu Component', () => {
