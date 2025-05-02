@@ -3,12 +3,12 @@ import { storeToRefs } from 'pinia';
 import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { postCode, putCode } from '@/apis/code';
 import { logoutUser } from '@/apis/user';
-import CodeMenu from '@/components/CodeMenu.vue';
 import LoadingButton from '@/components/LoadingButton.vue';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import { toast } from '@/utils/toast';
+import AppHeaderMenu from './Menu.vue';
 
 interface Props {
   defaultTitle: string;
@@ -151,7 +151,7 @@ onBeforeUnmount(unWindow);
 </script>
 
 <template>
-  <div class="code-feature">
+  <div class="app-header-actions">
     <button
       class="btn btn-base lg:hidden"
       @click.stop="toggleMenuList"
@@ -163,7 +163,7 @@ onBeforeUnmount(unWindow);
     </button>
 
     <span
-      class="code-feature-template code-feature-tip"
+      class="app-header-actions-template app-header-actions-tip"
       data-tip="Select template"
       @click="toggleTemplatePop"
     >
@@ -171,7 +171,10 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      :class="['svg-icon text-lg hidden lg:flex code-feature-tip', { 'animate-spin cursor-not-allowed': isLoading }]"
+      :class="[
+        'svg-icon text-lg hidden lg:flex app-header-actions-tip',
+        { 'animate-spin cursor-not-allowed': isLoading },
+      ]"
       data-tip="Save code"
       @click="saveCode"
     >
@@ -182,7 +185,7 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      class="svg-icon text-lg hidden lg:flex code-feature-tip"
+      class="svg-icon text-lg hidden lg:flex app-header-actions-tip"
       data-tip="Open setting popup"
       @click="toggleSettingsPop"
     >
@@ -193,7 +196,7 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      class="svg-icon text-lg hidden lg:flex code-feature-tip"
+      class="svg-icon text-lg hidden lg:flex app-header-actions-tip"
       data-tip="Create new project"
       @click="createNewProject"
     >
@@ -205,7 +208,7 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="isLogin"
-      class="svg-icon text-xl hidden lg:flex code-feature-tip"
+      class="svg-icon text-xl hidden lg:flex app-header-actions-tip"
       data-tip="Open projects popup"
       @click="toggleProjectsPop"
     >
@@ -217,7 +220,7 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="codeId"
-      class="svg-icon text-xl hidden lg:flex code-feature-tip"
+      class="svg-icon text-xl hidden lg:flex app-header-actions-tip"
       data-tip="Share link"
       @click="shareLink"
     >
@@ -231,7 +234,7 @@ onBeforeUnmount(unWindow);
       href="https://github.com/tzuyi0817/code-immediate"
       target="_blank"
       rel="noopener noreferrer"
-      class="code-feature-tip hidden items-center lg:flex"
+      class="app-header-actions-tip hidden items-center lg:flex"
       data-tip="GitHub"
     >
       <font-awesome-icon
@@ -267,7 +270,7 @@ onBeforeUnmount(unWindow);
       </div>
     </template>
 
-    <code-menu
+    <app-header-menu
       v-if="isShowMenuList"
       :is-login="isLogin"
       :code-id="codeId"
@@ -308,48 +311,75 @@ onBeforeUnmount(unWindow);
   />
 </template>
 
-<style lang="postcss" scoped>
-.code-feature {
-  @apply relative flex items-center min-w-fit gap-1 lg:gap-5;
-  &-template {
-    @apply text-xs
-    text-yellow-400
-    select-none
-    font-mono
-    font-semibold
-    cursor-pointer
-    transition-[colors_transform]
-    border
-    border-yellow-400
-    rounded
-    py-0.5
-    px-1.5
-    hover:brightness-110
-    active:scale-90;
-  }
-  &-tip {
-    @apply relative after:opacity-0 after:transition-opacity;
-    &:hover {
-      @apply after:absolute
-      after:opacity-100
-      after:whitespace-nowrap
-      after:top-full
-      after:left-1/2
-      after:-translate-x-1/2
-      after:translate-y-2
-      after:px-2
-      after:py-1
-      after:bg-[#666]
-      after:border
-      after:border-gray-600
-      after:shadow-md
-      after:text-white
-      after:rounded-md
-      after:text-xs
-      after:font-mono
-      after:font-normal
-      after:content-[attr(data-tip)];
-    }
+<style lang="css" scoped>
+.app-header-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: fit-content;
+  gap: 4px;
+}
+
+.app-header-actions-template {
+  font-size: 12px;
+  line-height: calc(1 / 0.75);
+  color: #fcc800;
+  user-select: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-weight: 600;
+  cursor: pointer;
+  transition-property: colors, transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #fcc800;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.app-header-actions-template:hover {
+  color: #ffd633;
+  border-color: #ffd633;
+}
+
+.app-header-actions-template:active {
+  transform: scale(0.9);
+}
+
+.app-header-actions-tip {
+  position: relative;
+}
+
+.app-header-actions-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 8px);
+  font-size: 12px;
+  line-height: calc(1 / 0.75);
+  font-weight: 400;
+  padding: 4px 8px;
+  white-space: nowrap;
+  background-color: #666666;
+  border: 1px solid #4a5565;
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+  opacity: 0;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.app-header-actions-tip:hover::after {
+  opacity: 1;
+}
+
+@media (min-width: 1024px) {
+  .app-header-actions {
+    gap: 20px;
   }
 }
 </style>

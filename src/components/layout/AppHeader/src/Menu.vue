@@ -4,12 +4,20 @@ interface Props {
   codeId: string;
 }
 
+interface Emits {
+  saveCode: [];
+  toggleSettingsPop: [];
+  toggleProjectsPop: [];
+  createNewProject: [];
+  shareLink: [];
+}
+
 defineProps<Props>();
-defineEmits(['saveCode', 'toggleSettingsPop', 'toggleProjectsPop', 'createNewProject', 'shareLink']);
+defineEmits<Emits>();
 </script>
 
 <template>
-  <ul class="code-menu animate-popup">
+  <ul class="app-header-menu animate-popup">
     <li @click="$emit('saveCode')">
       <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" />
       Save
@@ -52,14 +60,37 @@ defineEmits(['saveCode', 'toggleSettingsPop', 'toggleProjectsPop', 'createNewPro
   </ul>
 </template>
 
-<style lang="postcss" scoped>
-.code-menu {
-  @apply absolute top-11 -right-1 rounded bg-white py-2 w-44 z-[16] text-gray-600 lg:hidden;
+<style lang="css" scoped>
+.app-header-menu {
+  position: absolute;
+  top: 44px;
+  right: -4px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  padding: 8px 0;
+  width: 176px;
+  z-index: 16;
+  color: #4a5565;
+
   li {
-    @apply px-3 py-1 select-none whitespace-nowrap hover:bg-gray-200 hover:cursor-pointer;
+    padding: 4px 12px;
+    user-select: none;
+    white-space: nowrap;
+
     svg {
-      @apply w-6 mr-1;
+      width: 24px;
+      margin-right: 4px;
     }
+  }
+
+  li:hover {
+    background-color: #e5e7eb;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-header-menu {
+    display: none;
   }
 }
 </style>
