@@ -4,7 +4,7 @@ import { renderComponent } from '@/__tests__/unit/render';
 import { AppFooter } from '@/components/layout';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeFooter Component', () => {
+describe('AppFooter Component', () => {
   const provide = { iframe: null };
   const props = { previewWidth: '33.3vw' };
 

@@ -2,15 +2,15 @@ import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
 import { mockLogin } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeHeader from '@/components/CodeHeader.vue';
+import { AppHeader } from '@/components/layout';
 import { DEFAULT_TITLE } from '@/config/common';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeHeader Component', () => {
+describe('AppHeader Component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeHeader);
+    renderComponent(AppHeader);
 
     expect(screen.getByText(DEFAULT_TITLE)).toBeInTheDocument();
     expect(screen.getByText('Captain Anonymous')).toBeInTheDocument();
@@ -21,7 +21,7 @@ describe('CodeHeader Component', () => {
 
   describe('project title', () => {
     it('edit project title', async () => {
-      renderComponent(CodeHeader);
+      renderComponent(AppHeader);
 
       const pen = screen.getByRole('img', { name: /fa-pen-fancy/i });
       await userEvent.click(pen);
@@ -34,7 +34,7 @@ describe('CodeHeader Component', () => {
     });
 
     it('edit empty value to display default title', async () => {
-      renderComponent(CodeHeader);
+      renderComponent(AppHeader);
 
       const pen = screen.getByRole('img', { name: /fa-pen-fancy/i });
       await userEvent.click(pen);
@@ -48,7 +48,7 @@ describe('CodeHeader Component', () => {
 
   it('show user account when logging in', () => {
     mockLogin();
-    renderComponent(CodeHeader);
+    renderComponent(AppHeader);
     expect(screen.getByText('root')).toBeInTheDocument();
   });
 });

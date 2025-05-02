@@ -2,19 +2,19 @@ import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
-import CodeFeature from '@/components/CodeFeature.vue';
 import Toast from '@/components/CodeToast.vue';
+import AppHeaderActions from '@/components/layout/AppHeader/src/Actions.vue';
 import { DEFAULT_TITLE } from '@/config/common';
 import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeFeature Component', () => {
+describe('AppHeader/Actions Component', () => {
   const props = { defaultTitle: DEFAULT_TITLE, title: DEFAULT_TITLE };
 
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(CodeFeature, { props });
+    renderComponent(AppHeaderActions, { props });
 
     expect(screen.getByRole('button', { name: /fa-bars-staggered/i })).toBeInTheDocument();
     expect(screen.getByText('ES6')).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('CodeFeature Component', () => {
   });
 
   it('open menu list', async () => {
-    renderComponent(CodeFeature, { props });
+    renderComponent(AppHeaderActions, { props });
 
     await userEvent.click(screen.getByRole('button', { name: /fa-bars-staggered/i }));
     expect(screen.getByRole('list')).toBeInTheDocument();
@@ -35,28 +35,28 @@ describe('CodeFeature Component', () => {
 
   describe('correct show popup', () => {
     it('templates popup', async () => {
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByText('ES6'));
       expect(await screen.findByRole('heading', { name: /templates/i })).toBeInTheDocument();
     });
 
     it('settings popup', async () => {
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('img', { name: /fa-gear/i }));
       expect(await screen.findByRole('heading', { name: /cdn settings/i })).toBeInTheDocument();
     });
 
     it('signup popup', async () => {
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('button', { name: /signup/i }));
       expect(await screen.findByRole('heading', { name: /sign up!/i })).toBeInTheDocument();
     });
 
     it('login popup', async () => {
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('button', { name: /login/i }));
       expect(await screen.findByRole('heading', { name: /log in!/i })).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('CodeFeature Component', () => {
 
     it('projects popup', async () => {
       mockLogin();
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('img', { name: /fa-sheet-plastic/i }));
       expect(await screen.findByRole('heading', { name: /projects/i })).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('CodeFeature Component', () => {
 
     it('remind popup', async () => {
       useFlagStore().setChangeCodeFlag(true);
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('img', { name: /fa-file-circle-plus/i }));
       expect(await screen.findByRole('heading', { name: /remind/i })).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe('CodeFeature Component', () => {
 
   describe('save code', () => {
     it('not logged in save code', async () => {
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
 
       await userEvent.click(screen.getByRole('img', { name: /fa-cloud-arrow-up/i }));
       expect(await screen.findByRole('heading', { name: /log in!/i })).toBeInTheDocument();
@@ -94,7 +94,7 @@ describe('CodeFeature Component', () => {
 
       mockLogin();
       flagStore.setChangeCodeFlag(true);
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
       renderComponent(Toast);
 
       await userEvent.click(screen.getByRole('img', { name: /fa-cloud-arrow-up/i }));
@@ -109,7 +109,7 @@ describe('CodeFeature Component', () => {
 
       mockLogin();
       codeContentStore.setCodeId(codeId);
-      renderComponent(CodeFeature, { props });
+      renderComponent(AppHeaderActions, { props });
       renderComponent(Toast);
       await userEvent.click(screen.getByRole('img', { name: /fa-cloud-arrow-up/i }));
       expect(codeContentStore.codeId).toEqual(codeId);
@@ -124,7 +124,7 @@ describe('CodeFeature Component', () => {
 
     render(Toast);
     codeContentStore.setCodeId(codeId);
-    renderComponent(CodeFeature, { props });
+    renderComponent(AppHeaderActions, { props });
 
     /* navigator.clipboard.writeText **/
     Object.defineProperty(navigator, 'clipboard', {
@@ -148,7 +148,7 @@ describe('CodeFeature Component', () => {
   });
 
   it('link to github', async () => {
-    renderComponent(CodeFeature, { props });
+    renderComponent(AppHeaderActions, { props });
 
     expect(screen.getByRole('link')).toHaveAttribute('href', 'https://github.com/tzuyi0817/code-immediate');
   });
@@ -157,7 +157,7 @@ describe('CodeFeature Component', () => {
     const userStore = useUserStore();
 
     render(Toast);
-    renderComponent(CodeFeature, { props });
+    renderComponent(AppHeaderActions, { props });
     renderLoadingButton();
     mockLogin();
 

@@ -95,7 +95,7 @@ async function openTitle() {
   color: #ffffff;
   display: flex;
   align-items: center;
-  width: full;
+  flex: 1 1 0%;
   max-width: calc(100% - 200px);
   gap: 8px;
 
@@ -105,7 +105,7 @@ async function openTitle() {
   }
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1024px) {
   .app-header-left {
     max-width: calc(100% - 590px);
   }

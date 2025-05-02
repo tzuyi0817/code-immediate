@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  isLoading: boolean;
+  isLoading?: boolean;
   disabled?: boolean;
 }
 
