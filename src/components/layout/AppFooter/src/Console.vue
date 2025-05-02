@@ -65,11 +65,11 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 <template>
   <div
     v-show="isShowConsole"
-    class="code_console w-full drag_height preview_width"
+    class="console w-full drag-height preview-width"
   >
     <drag
       v-model:drag-b="consoleHeight"
-      class="code_console_header"
+      class="console-header"
       direction="y"
       unit="vh"
       :limit="{ min: 8, max: 80 }"
@@ -94,7 +94,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 
     <div
       ref="codeWrap"
-      class="code_console_wrap"
+      class="console-wrap"
     >
       <template
         v-for="({ type, html }, index) in consoleCode"
@@ -102,33 +102,33 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
       >
         <pre
           v-if="type === 'echo'"
-          class="code_console_message echo"
+          class="console-message echo"
           >{{ html }}</pre
         >
         <pre
           v-else-if="type === 'log'"
-          class="code_console_message log"
+          class="console-message log"
           v-html="html"
         ></pre>
         <pre
           v-else-if="type === 'warn'"
-          class="code_console_message warn"
+          class="console-message warn"
           v-html="html"
         ></pre>
         <pre
           v-else-if="type === 'error'"
-          class="code_console_message error"
+          class="console-message error"
           v-html="html"
         ></pre>
         <pre
           v-else
-          class="code_console_message"
+          class="console-message"
           v-html="html"
         ></pre>
       </template>
     </div>
 
-    <div class="code_console_command">
+    <div class="console-command">
       <font-awesome-icon
         icon="fa-solid fa-angle-down"
         title="fa-angle-down"
@@ -143,89 +143,106 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
   </div>
 </template>
 
-<style lang="postcss">
-.code_console {
-  @apply absolute h-[calc(60vh-88px)] right-0 bottom-8;
+<style lang="css">
+.console {
+  position: absolute;
+  height: calc(60dvh - 88px);
+  right: 0;
+  bottom: 32px;
+}
 
-  &.preview_width {
-    @media (min-width: 1024px) {
-      width: calc(v-bind('previewWidth') - 18px);
+.console-header {
+  height: 40px;
+  border: 1px solid rgb(54 65 83 / 0.6);
+  background-color: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.console-wrap {
+  background-color: rgb(0 0 0 / 0.9);
+  height: calc(100% - 72px);
+  overflow-y: auto;
+}
+
+.console-message {
+  border-bottom: 2px solid rgb(54 65 83 / 0.6);
+  padding: 12px 12px 4px;
+  font-size: 14px;
+  line-height: calc(1.25 / 0.875);
+  color: #ffffff;
+  white-space: pre-wrap;
+
+  .html {
+    .symbol {
+      color: #808080;
+    }
+    .tag {
+      color: #569cd6;
+    }
+    .string {
+      color: #ce9178;
+    }
+    .attribute {
+      color: #9cdcfe;
     }
   }
-  &.drag_height {
-    @media (min-width: 1024px) {
-      height: v-bind(consoleHeight);
-    }
+}
+
+.console-message.echo {
+  background-color: rgb(255 255 255 / 0.07);
+}
+
+.console-message.log {
+  .number {
+    color: #b5cea8;
   }
-  &_header {
-    @apply h-10
-    border-gray-700/60
-    bg-black
-    flex
-    items-center
-    justify-between
-    px-3;
+  .string {
+    color: #ce9178;
   }
-  &_wrap {
-    @apply bg-black/90
-    h-[calc(100%-72px)]
-    overflow-y-auto;
+  .atom {
+    color: rgb(255 184 106 / 0.8);
   }
-  &_message {
-    @apply border-b-2
-    border-gray-700/60
-    px-3
-    pt-3
-    pb-1
-    text-sm
-    text-white
-    whitespace-pre-wrap;
-    &.echo {
-      @apply bg-white/[0.07];
-    }
-    &.log {
-      .number {
-        @apply text-[#b5cea8];
-      }
-      .string {
-        @apply text-[#ce9178];
-      }
-      .atom {
-        @apply text-orange-300/80;
-      }
-      .key {
-        @apply text-[#9cdcfe];
-      }
-      .var {
-        @apply text-[#569cd6];
-      }
-      .def {
-        @apply text-[#dcdcaa];
-      }
-    }
-    &.error {
-      @apply bg-red-700/40;
-    }
-    &.warn {
-      @apply bg-yellow-300/20 text-yellow-200;
-    }
-    .html {
-      .symbol {
-        @apply text-[#808080];
-      }
-      .tag {
-        @apply text-[#569cd6];
-      }
-      .string {
-        @apply text-[#ce9178];
-      }
-      .attribute {
-        @apply text-[#9cdcfe];
-      }
-    }
+  .key {
+    color: #9cdcfe;
   }
-  &_command {
-    @apply bg-black/80 flex items-center px-2 h-8 shadow-md;
+  .var {
+    color: #569cd6;
+  }
+  .def {
+    color: #dcdcaa;
+  }
+}
+
+.console-message.error {
+  background-color: rgb(193 0 7 / 0.4);
+}
+
+.console-message.warn {
+  background-color: rgb(255 223 32 / 0.2);
+  color: #fff085;
+}
+
+.console-command {
+  background-color: rgb(0 0 0 / 0.8);
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 32px;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+@media (min-width: 1024px) {
+  .console.preview-width {
+    width: calc(v-bind(previewWidth) - 18px);
+  }
+
+  .console.drag-height {
+    height: v-bind(consoleHeight);
   }
 }
 </style>

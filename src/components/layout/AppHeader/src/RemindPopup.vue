@@ -22,6 +22,7 @@ async function confirm() {
 
 function cancel() {
   const { setChangeCodeFlag } = useFlagStore();
+
   closePopup();
   setChangeCodeFlag(false);
   doFun?.();
@@ -29,13 +30,14 @@ function cancel() {
 
 function closePopup(force = false) {
   if (isLoading.value && !force) return;
+
   isShowRemindPop.value = false;
 }
 </script>
 
 <template>
   <div
-    class="remind_popup popup"
+    class="remind-popup popup"
     @click.self="closePopup()"
   >
     <div class="popup-header">
