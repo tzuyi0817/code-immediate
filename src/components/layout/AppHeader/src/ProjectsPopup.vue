@@ -89,7 +89,7 @@ onMounted(getProjects);
 
 <template>
   <div
-    class="projects_popup popup"
+    class="projects-popup popup"
     @click.self="closePopup"
   >
     <div class="popup-header max-w-5xl">
@@ -105,12 +105,12 @@ onMounted(getProjects);
     <div class="popup-content max-w-5xl max-h-[65vh]">
       <ul
         v-if="isLoading"
-        class="projects_popup_list animate-pulse"
+        class="projects-popup-list animate-pulse"
       >
         <li
           v-for="num in 6"
           :key="num"
-          class="projects_popup_card bg-gray-300"
+          class="projects-popup-card bg-gray-300"
         >
           <div class="h-[150px] bg-slate-200"></div>
           <p class="rounded mt-2 p-3 bg-slate-200"></p>
@@ -119,16 +119,16 @@ onMounted(getProjects);
 
       <ul
         v-else
-        class="projects_popup_list"
+        class="projects-popup-list"
       >
         <li
           v-for="project in projects"
           :key="project.id"
           :data-testid="project.id"
-          class="projects_popup_card bg-black/5"
+          class="projects-popup-card bg-black/5"
           @click="selectProject(project)"
         >
-          <div class="projects_popup_card_content">
+          <div class="projects-popup-card-content">
             <suspense>
               <lazy-iframe :project="project" />
               <template #fallback>
@@ -174,57 +174,63 @@ onMounted(getProjects);
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.projects_popup {
-  &_list {
-    @apply grid
-    grid-cols-1
-    lg:grid-cols-3
-    overflow-y-auto
-    relative
-    select-none
-    h-[calc(60vh-70px)]
-    max-h-[450px]
-    gap-3
-    mt-5
-    pb-5
-    px-2;
-  }
-  &_card {
-    @apply rounded
-    border-[1px]
-    border-transparent
-    text-center
-    text-gray-400
-    cursor-pointer
-    p-3
-    h-52
-    transition-all
-    duration-500
-    font-bold
-    overflow-visible
-    flex
-    flex-col
-    hover:bg-yellow-300
-    hover:drop-shadow-xl
-    hover:border-gray-300
-    hover:shadow-lg
-    hover:text-black/70
-    hover:scale-[103%];
-    &_content {
-      @apply w-full
-      pointer-events-none
-      rounded
-      overflow-hidden
-      bg-white
-      border-gray-300
-      border
-      drop-shadow
-      flex-1
-      flex
-      justify-center
-      items-center;
-    }
+<style lang="css" scoped>
+.projects-popup-list {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  overflow-y: auto;
+  position: relative;
+  user-select: none;
+  height: calc(60dvh - 70px);
+  max-height: 450px;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 0 8px 20px;
+}
+
+.projects-popup-card {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  text-align: center;
+  color: #99a1af;
+  cursor: pointer;
+  padding: 12px;
+  height: 200px;
+  transition: all 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 700;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-popup-card:hover {
+  background-color: #ffdf20;
+  filter: drop-shadow(0 9px 7px rgb(0 0 0 / 0.1));
+  border-color: #d1d5dc;
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  color: rgb(0 0 0 / 0.7);
+  transform: scale(1.03);
+}
+
+.projects-popup-card-content {
+  width: 100%;
+  pointer-events: none;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid #d1d5dc;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0%;
+}
+
+@media (min-width: 1024px) {
+  .projects-popup-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 </style>

@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
 import Toast from '@/components/CodeToast.vue';
-import SignUpPopup from '@/components/SignUpPopup.vue';
+import SignUpPopup from '@/components/layout/AppHeader/src/SignUpPopup.vue';
 import { useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('SignUpPopup component', () => {
+describe('AppHeader/SignUpPopup component', () => {
   const CONFIRM_PASSWORD_TEXT = 'Confirm Password';
 
   registerIcons();

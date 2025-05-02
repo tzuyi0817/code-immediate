@@ -2,12 +2,12 @@ import userEvent from '@testing-library/user-event';
 import { screen, waitFor, within } from '@testing-library/vue';
 import { renderComponent, router } from '@/__tests__/unit/render';
 import Toast from '@/components/CodeToast.vue';
-import ProjectsPopup from '@/components/ProjectsPopup.vue';
+import ProjectsPopup from '@/components/layout/AppHeader/src/ProjectsPopup.vue';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('ProjectsPopup Component', { timeout: 10000 }, () => {
+describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
   const page = '1';
   const { id, title, HTML, CSS, JS, codeTemplate } = CODES_RESPONSE_RESULT_MAP[page].codeList[0];
 
