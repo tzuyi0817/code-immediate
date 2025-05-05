@@ -45,7 +45,7 @@ const pagers = computed(() => {
   const { currentPage, pageCount, pagerCount } = props;
   const halfPagerCount = (pagerCount - 1) / 2;
   let startPage = 2;
-  let endPage = pageCount - 2;
+  let endPage = pageCount - 1;
 
   if (showPrevMore.value && !showNextMore.value) {
     startPage = Math.min(pageCount - pagerCount, currentPage - halfPagerCount);

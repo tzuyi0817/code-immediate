@@ -7,6 +7,8 @@ import { compileSfc } from '@/utils/compile-sfc';
 import { createHtml } from '@/utils/create-html';
 import { loadParseSources } from '@/utils/load-parse';
 
+defineOptions({ name: 'Preview' });
+
 const srcdoc = ref('');
 const iframeRef: Ref<HTMLIFrameElement> | undefined = inject('iframeRef');
 const { codeContent, isSFC } = storeToRefs(useCodeContentStore());

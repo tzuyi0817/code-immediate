@@ -10,6 +10,8 @@ interface Props {
   model: CodeModel;
 }
 
+defineOptions({ name: 'Editor' });
+
 const { model } = defineProps<Props>();
 const codeEditorRef = useTemplateRef<HTMLDivElement>('codeEditor');
 const { codeContent, codeTemplate } = storeToRefs(useCodeContentStore());

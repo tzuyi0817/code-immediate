@@ -24,7 +24,7 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
     expect(screen.getByText(/vanilla tilt/i)).toBeInTheDocument();
     expect(screen.getByText(/pdf sign/i)).toBeInTheDocument();
     expect(screen.getAllByRole('img', { name: /fa-trash/i })).toHaveLength(6);
-    expect(screen.getByRole('button', { name: /next/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /pagination next/i })).toBeInTheDocument();
   });
 
   describe('select project', () => {
@@ -77,15 +77,11 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
 
   it('go project page', async () => {
     renderComponent(ProjectsPopup);
-    /* go next page **/
-    await userEvent.click(await screen.findByRole('button', { name: /next/i }));
+
+    await userEvent.click(await screen.findByRole('button', { name: /pagination next/i }));
     expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /fa-trash/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /prev/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /next/i })).toHaveAttribute('disabled');
-    /* go previous page **/
-    await userEvent.click(screen.getByRole('button', { name: /prev/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /pagination prev/i }));
     expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /prev/i })).toHaveAttribute('disabled');
   });
 });

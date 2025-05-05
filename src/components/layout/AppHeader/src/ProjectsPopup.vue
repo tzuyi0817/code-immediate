@@ -19,7 +19,7 @@ const isDeleting = ref(false);
 const deleteId = ref('');
 const route = useRoute();
 const router = useRouter();
-const LazyIframe = defineAsyncComponent(() => import('@/components/LazyIframe.vue'));
+const LazyPreview = defineAsyncComponent(() => import('@/components/common/Preview/src/LazyPreview.vue'));
 
 async function getProjects() {
   isLoading.value = true;
@@ -130,7 +130,8 @@ onMounted(getProjects);
         >
           <div class="projects-popup-card-content">
             <suspense>
-              <lazy-iframe :project="project" />
+              <lazy-preview :project="project" />
+
               <template #fallback>
                 <font-awesome-icon
                   icon="fa-solid fa-spinner"
