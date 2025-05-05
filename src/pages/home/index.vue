@@ -3,8 +3,7 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { getCode } from '@/apis/code';
-import CodePreview from '@/components/CodePreview.vue';
-import { Drag, Editor } from '@/components/common';
+import { Drag, Editor, Preview } from '@/components/common';
 import { AppFooter, AppHeader } from '@/components/layout';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
@@ -108,7 +107,7 @@ onMounted(closeInitLoading);
       :limit="{ min: 20, max: 80 }"
     />
 
-    <code-preview
+    <preview
       v-show="isShowPreview"
       class="w-full h-[calc(60vh-88px)] lg:h-[calc(100vh-88px)] preview-width"
     />
