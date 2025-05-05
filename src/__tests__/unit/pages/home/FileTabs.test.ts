@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import FileTabs from '@/pages/home/components/FileTabs.vue';
+import FileTabs from '@/pages/home/components/FileTabs/index.vue';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('home page FileTabs component', async () => {

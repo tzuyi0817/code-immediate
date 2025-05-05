@@ -1,12 +1,12 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import { EditorMenu } from '@/components/common';
+import EditorMenu from '@/pages/home/components/EditorMenu/index.vue';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('EditorMenu Component', async () => {
+describe('home page EditorMenu Component', async () => {
   const formatText = 'Format Code';
 
   registerIcons();
