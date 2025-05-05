@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/vue';
+import { screen } from '@testing-library/vue';
 import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import AppHeaderActions from '@/components/layout/AppHeader/src/Actions.vue';
 import { DEFAULT_TITLE } from '@/config/common';
 import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
@@ -95,7 +94,6 @@ describe('AppHeader/Actions Component', () => {
       mockLogin();
       flagStore.setChangeCodeFlag(true);
       renderComponent(AppHeaderActions, { props });
-      renderComponent(Toast);
 
       await userEvent.click(screen.getByRole('img', { name: /fa-cloud-arrow-up/i }));
       expect(codeContentStore.codeId).toEqual('post123');
@@ -110,7 +108,6 @@ describe('AppHeader/Actions Component', () => {
       mockLogin();
       codeContentStore.setCodeId(codeId);
       renderComponent(AppHeaderActions, { props });
-      renderComponent(Toast);
       await userEvent.click(screen.getByRole('img', { name: /fa-cloud-arrow-up/i }));
       expect(codeContentStore.codeId).toEqual(codeId);
       expect(screen.getByText('update code success')).toBeInTheDocument();
@@ -122,7 +119,6 @@ describe('AppHeader/Actions Component', () => {
     const codeId = '123';
     const mockedWriteText = vi.fn();
 
-    render(Toast);
     codeContentStore.setCodeId(codeId);
     renderComponent(AppHeaderActions, { props });
 
@@ -143,7 +139,7 @@ describe('AppHeader/Actions Component', () => {
     await userEvent.click(screen.getByRole('img', { name: /fa-share/i }));
     expect(mockedWriteText).toHaveBeenCalledTimes(2);
     expect(mockedWriteText).toHaveBeenCalledWith('copy');
-    expect(screen.getByText('Copied URL to clipboard!')).toBeInTheDocument();
+    expect(screen.getAllByText('Copied URL to clipboard!')).toHaveLength(2);
     vi.resetAllMocks();
   });
 
@@ -156,7 +152,6 @@ describe('AppHeader/Actions Component', () => {
   it('logout', async () => {
     const userStore = useUserStore();
 
-    render(Toast);
     renderComponent(AppHeaderActions, { props });
     mockLogin();
 

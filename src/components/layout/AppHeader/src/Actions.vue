@@ -3,11 +3,10 @@ import { storeToRefs } from 'pinia';
 import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { postCode, putCode } from '@/apis/code';
 import { logoutUser } from '@/apis/user';
-import { LoadingButton } from '@/components/common';
+import { LoadingButton, showToast } from '@/components/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';
-import { toast } from '@/utils/toast';
 import AppHeaderMenu from './Menu.vue';
 
 interface Props {
@@ -46,7 +45,7 @@ async function logout() {
   setUser({});
   createNewProject();
   window.localStorage.removeItem('code_token');
-  toast.showToast(message, status);
+  showToast({ message, type: status });
 }
 
 async function saveCode() {
@@ -73,7 +72,7 @@ async function saveCode() {
     setCodeId(resultMap.code._id);
   }
   setChangeCodeFlag(false);
-  toast.showToast(message, status);
+  showToast({ message, type: status });
 }
 
 function createNewProject() {
@@ -138,7 +137,7 @@ async function shareLink() {
   } else {
     await navigator.clipboard.writeText(location.href);
   }
-  toast.showToast('Copied URL to clipboard!', 'success');
+  showToast({ message: 'Copied URL to clipboard!', type: 'success' });
 }
 
 function onWindow() {

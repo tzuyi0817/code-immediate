@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { showToast } from '@/components/common';
 import { PRETTIER_MAP } from '@/config/prettier';
 import { SUFFIX_MAP } from '@/config/suffix';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { exportZip } from '@/utils/export-zip';
 import { readFile } from '@/utils/read-file';
-import { toast } from '@/utils/toast';
 import type { CodeModel } from '@/types/code-content';
 
 interface Props {
@@ -64,7 +64,9 @@ function embedFile() {
   let element: HTMLInputElement | null = document.createElement('input');
 
   const onChangeFile = async (event: Event) => {
-    const code = await readFile(event)?.catch(() => toast.showToast('Embed file failed', 'error'));
+    const code = await readFile(event)?.catch(() => {
+      showToast({ message: 'Embed file failed', type: 'error' });
+    });
 
     if (code) {
       setCodeContent({ type: model, code });

@@ -2,7 +2,6 @@ import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
 import { ref } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import { Preview } from '@/components/common';
 import Console from '@/components/layout/AppFooter/src/Console.vue';
 import { registerIcons } from '@/utils/register-icons';
@@ -64,10 +63,9 @@ describe('AppFooter/Console component', () => {
 
       const message = 'receive warn message';
 
-      renderComponent(Toast);
       await sendMessage('warn', message);
       expect(await screen.findByText(message)).toBeInTheDocument();
-      expect(screen.getByRole('alert').classList.contains('warn')).toBe(true);
+      expect(screen.getByRole('alert')).toHaveClass('warn');
     });
 
     it('error message', async () => {
@@ -75,10 +73,9 @@ describe('AppFooter/Console component', () => {
 
       const message = 'receive error message';
 
-      renderComponent(Toast);
       await sendMessage('error', message);
       expect(await screen.findByText(message)).toBeInTheDocument();
-      expect(screen.getByRole('alert').classList.contains('error')).toBe(true);
+      expect(screen.getAllByRole('alert')[1]).toHaveClass('error');
     });
 
     it('another type message', async () => {

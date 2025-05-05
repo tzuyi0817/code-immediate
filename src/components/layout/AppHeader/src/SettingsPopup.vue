@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import axios, { type AxiosResponse } from 'axios';
 import { computed, onMounted, reactive, ref } from 'vue';
+import { showToast } from '@/components/common';
 import { BUILT_IN_RESOURCES } from '@/config/template';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
-import { toast } from '@/utils/toast';
 import type { CdnItem, CdnJsResponse } from '@/types/cdn';
 
 type SelectName = 'CSS' | 'JS';
@@ -96,7 +96,7 @@ function searchCdn(word: string) {
       const message = error.response?.data?.message || error.message;
 
       isSearch.value = false;
-      toast.showToast(message, 'error');
+      showToast({ message, type: 'error' });
       if (import.meta.env.MODE !== 'test') throw new Error(message, { cause: error });
     });
 }

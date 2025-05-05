@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { loginUser } from '@/apis/user';
-import { LoadingButton } from '@/components/common';
+import { LoadingButton, showToast } from '@/components/common';
 import { useUserStore } from '@/store';
-import { toast } from '@/utils/toast';
 
 const isShowLoginPop = defineModel<boolean>('isShowLoginPop');
 const localAccount = localStorage.getItem('code_account');
@@ -27,7 +26,7 @@ async function login() {
     setUser(user);
     window.localStorage.setItem('code_token', token);
     window.localStorage.setItem('code_account', account.value);
-    toast.showToast(message, status);
+    showToast({ message, type: status });
     closePopup(true);
   } catch {
     cleanForm();
@@ -78,7 +77,7 @@ function loginGithub() {
     closeAuthWindow();
     setUser({ account: githubAccount });
     window.localStorage.setItem('code_token', token);
-    toast.showToast('login success', 'success');
+    showToast({ message: 'login success', type: 'success' });
     closePopup();
   }
 }

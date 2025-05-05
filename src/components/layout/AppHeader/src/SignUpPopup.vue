@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { registerUser } from '@/apis/user';
-import { LoadingButton } from '@/components/common';
+import { LoadingButton, showToast } from '@/components/common';
 import { useUserStore } from '@/store';
-import { toast } from '@/utils/toast';
 
 const isShowSignUpPop = defineModel<boolean>('isShowSignUpPop');
 const account = ref('');
@@ -14,7 +13,7 @@ const isLoading = ref(false);
 async function register() {
   if (password.value !== confirmPassword.value) {
     password.value = confirmPassword.value = '';
-    return toast.showToast('password and confirmPassword are not the same', 'error');
+    return showToast({ message: 'password and confirmPassword are not the same', type: 'error' });
   }
   const data = {
     account: account.value,
@@ -30,7 +29,7 @@ async function register() {
 
     setUser(user);
     window.localStorage.setItem('code_token', token);
-    toast.showToast(message, status);
+    showToast({ message, type: status });
     closePopup(true);
   } catch {
     cleanForm();

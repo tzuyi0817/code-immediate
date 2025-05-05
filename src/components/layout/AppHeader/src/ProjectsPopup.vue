@@ -2,11 +2,10 @@
 import { defineAsyncComponent, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { deleteCode, getCodes } from '@/apis/code';
-import { Pagination } from '@/components/common/Pagination';
+import { Pagination, showToast } from '@/components/common';
 import { setupTemplate } from '@/config/template';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/load-parse';
-import { toast } from '@/utils/toast';
 import type { CodeProject } from '@/types/code-content';
 
 const emit = defineEmits(['openRemindPop']);
@@ -60,7 +59,7 @@ async function deleteProject(id: string) {
     isDeleting.value = false;
   });
 
-  toast.showToast(message, status);
+  showToast({ message, type: status });
 
   if (projects.value.length > 1) {
     getProjects();

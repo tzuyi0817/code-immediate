@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, Ref, useTemplateRef, watch } from 'vue';
-import { Drag } from '@/components/common/Drag';
+import { Drag, showToast } from '@/components/common';
 import { useCodeContentStore, useFlagStore } from '@/store';
-import { toast } from '@/utils/toast';
 
 interface Props {
   previewWidth: string;
@@ -38,7 +37,7 @@ function receiveMessage(event: MessageEvent) {
 
   if (type === undefined) return;
   if (type === 'error' || type === 'warn') {
-    toast.showToast(data.message, type);
+    showToast({ message: data.message, type });
   }
   consoleCode.push(data);
   wrapScrollToBottom();
