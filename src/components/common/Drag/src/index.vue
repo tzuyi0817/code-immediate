@@ -19,6 +19,8 @@ interface DragTarget {
   type: 'A' | 'B';
 }
 
+defineOptions({ name: 'Drag' });
+
 const { direction, dragA, dragB, dragC, unit = '%', typeC, limit = { min: 0, max: 100 } } = defineProps<Props>();
 const emit = defineEmits(['update:dragA', 'update:dragB', 'update:dragC']);
 const cursor = computed(() => (direction === 'x' ? 'cursor-col-resize' : 'cursor-row-resize'));

@@ -4,6 +4,7 @@ interface Props {
   disabled?: boolean;
 }
 
+defineOptions({ name: 'LoadingButton' });
 defineProps<Props>();
 </script>
 

@@ -5,6 +5,8 @@ import { DEFAULT_TITLE } from '@/config/common';
 import { useCodeContentStore, useUserStore } from '@/store';
 import AppHeaderActions from './Actions.vue';
 
+defineOptions({ name: 'AppHeader' });
+
 const { user, isLogin } = storeToRefs(useUserStore());
 const { codeTitle } = storeToRefs(useCodeContentStore());
 const titleInputRef = useTemplateRef<HTMLInputElement>('titleInput');

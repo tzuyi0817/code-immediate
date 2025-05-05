@@ -15,6 +15,8 @@ interface Emits {
   change: [page: number, pageSize: number];
 }
 
+defineOptions({ name: 'Pagination' });
+
 const props = withDefaults(defineProps<Props>(), {
   pageSize: 6,
   total: 0,

@@ -7,6 +7,7 @@ interface Props {
   previewWidth: string;
 }
 
+defineOptions({ name: 'AppFooter' });
 defineProps<Props>();
 
 const isShowConsole = ref(false);
