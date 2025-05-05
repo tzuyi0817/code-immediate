@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/vue';
 import { nextTick } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeLoading from '@/components/CodeLoading.vue';
 import { Editor } from '@/components/common';
+import CodeLoading from '@/components/layout/AppFooter/src/CodeLoading.vue';
 import { setupTestEnvironmentLanguage } from '@/monaco';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
