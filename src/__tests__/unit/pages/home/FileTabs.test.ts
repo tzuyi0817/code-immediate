@@ -40,56 +40,56 @@ describe('home page FileTabs component', async () => {
       <div
         class="file-tabs-left"
         data-testid="editor model select"
-        data-v-12668b5f=""
+        data-v-4ef0a94e=""
       >
         
         <button
           class="btn-select btn-select-active"
-          data-v-12668b5f=""
+          data-v-4ef0a94e=""
         >
           <span
             class="small-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             HTML
           </span>
           <span
             class="large-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             index.html
           </span>
         </button>
         <button
           class="btn-select"
-          data-v-12668b5f=""
+          data-v-4ef0a94e=""
         >
           <span
             class="small-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             CSS
           </span>
           <span
             class="large-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             index.css
           </span>
         </button>
         <button
           class="btn-select"
-          data-v-12668b5f=""
+          data-v-4ef0a94e=""
         >
           <span
             class="small-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             JS
           </span>
           <span
             class="large-screen"
-            data-v-12668b5f=""
+            data-v-4ef0a94e=""
           >
             index.js
           </span>
@@ -97,7 +97,7 @@ describe('home page FileTabs component', async () => {
         
         <button
           class="btn-select lg:hidden btn-select-active"
-          data-v-12668b5f=""
+          data-v-4ef0a94e=""
         >
            Result 
         </button>

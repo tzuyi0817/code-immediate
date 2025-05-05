@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { render } from '@testing-library/vue';
 import { createPinia, setActivePinia } from 'pinia';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import LoadingButton from '@/components/LoadingButton.vue';
 import { routes } from '@/router';
 import type { RenderOptions } from '@testing-library/vue/types';
 import type { Component } from 'vue';
@@ -28,8 +27,4 @@ export function renderComponent(testComponent: Component, options?: RenderCompon
       provide,
     },
   });
-}
-
-export function renderLoadingButton() {
-  return renderComponent(LoadingButton, { props: { isLoading: false } });
 }

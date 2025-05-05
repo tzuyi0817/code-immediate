@@ -2,7 +2,7 @@ import { screen } from '@testing-library/vue';
 import { nextTick } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
 import { Editor } from '@/components/common';
-import CodeLoading from '@/components/layout/AppFooter/src/CodeLoading.vue';
+import LoadingStatus from '@/components/layout/AppFooter/src/LoadingStatus.vue';
 import { setupTestEnvironmentLanguage } from '@/monaco';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
@@ -37,7 +37,7 @@ describe('Editor component', async () => {
     const flagStore = useFlagStore();
 
     renderComponent(Editor, { props: { model: 'VUE' } });
-    renderComponent(CodeLoading);
+    renderComponent(LoadingStatus);
     flagStore.setLoading({ isOpen: true, type: 'Code formatter' });
     await nextTick();
     flagStore.setFormatter({ model: 'VUE', isFormatter: true });
@@ -48,7 +48,7 @@ describe('Editor component', async () => {
     const flagStore = useFlagStore();
 
     renderComponent(Editor, { props: { model: 'VUE' } });
-    renderComponent(CodeLoading);
+    renderComponent(LoadingStatus);
     flagStore.setCreateProjectFlag(true);
     flagStore.setLoading({ isOpen: true, type: 'Create new project' });
     await nextTick();

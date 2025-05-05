@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
-import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import { renderComponent } from '@/__tests__/unit/render';
 import Toast from '@/components/CodeToast.vue';
 import AppHeaderActions from '@/components/layout/AppHeader/src/Actions.vue';
 import { DEFAULT_TITLE } from '@/config/common';
@@ -158,7 +158,6 @@ describe('AppHeader/Actions Component', () => {
 
     render(Toast);
     renderComponent(AppHeaderActions, { props });
-    renderLoadingButton();
     mockLogin();
 
     const logoutButton = await screen.findByRole('button', { name: /logout/i });
