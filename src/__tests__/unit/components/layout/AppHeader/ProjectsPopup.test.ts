@@ -1,7 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor, within } from '@testing-library/vue';
 import { renderComponent, router } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import ProjectsPopup from '@/components/layout/AppHeader/src/ProjectsPopup.vue';
 import { CODES_RESPONSE_RESULT_MAP } from '@/mocks/config';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -60,7 +59,6 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
 
   it('delete project', async () => {
     renderComponent(ProjectsPopup);
-    renderComponent(Toast);
 
     const li = await screen.findByTestId(id);
 

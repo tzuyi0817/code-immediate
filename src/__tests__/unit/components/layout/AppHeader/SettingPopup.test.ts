@@ -1,7 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import SettingsPopup from '@/components/layout/AppHeader/src/SettingsPopup.vue';
 import { useCodeContentStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
@@ -68,7 +67,6 @@ describe('AppHeader/SettingPopup component', () => {
 
   it('cdnjs search error', async () => {
     renderComponent(SettingsPopup);
-    renderComponent(Toast);
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'cdnjs');
     expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
     expect(await screen.findByText('cdnjs search error')).toBeInTheDocument();

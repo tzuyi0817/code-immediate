@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios';
+import { showToast } from '@/components/common';
 import { useCodeContentStore, useUserStore } from '@/store';
-import { toast } from '@/utils/toast';
 
 const { VITE_API_URL } = import.meta.env;
 const axiosInstance = axios.create({ baseURL: VITE_API_URL });
@@ -37,9 +37,9 @@ axiosInstance.interceptors.response.use(
       useCodeContentStore().setCodeId('');
       useUserStore().setUser({});
       localStorage.removeItem('code_token');
-      toast.showToast('account is logged out', 'error');
+      showToast({ message: 'account is logged out', type: 'error' });
     } else {
-      toast.showToast(data?.message ?? error.message, 'error');
+      showToast({ message: data?.message ?? error.message, type: 'error' });
     }
     return Promise.reject(error);
   },

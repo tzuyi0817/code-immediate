@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/vue';
+import { screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import LoginPopup from '@/components/layout/AppHeader/src/LoginPopup.vue';
 import { useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
@@ -32,7 +31,6 @@ describe('AppHeader/LoginPopup component', () => {
     const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
-    render(Toast);
     renderComponent(LoginPopup);
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
@@ -49,7 +47,6 @@ describe('AppHeader/LoginPopup component', () => {
     const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
-    render(Toast);
     mockLogout();
     renderComponent(LoginPopup);
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);

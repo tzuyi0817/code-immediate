@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
-import { render, screen } from '@testing-library/vue';
+import { screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
-import Toast from '@/components/CodeToast.vue';
 import SignUpPopup from '@/components/layout/AppHeader/src/SignUpPopup.vue';
 import { useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
@@ -31,8 +30,6 @@ describe('AppHeader/SignUpPopup component', () => {
   });
 
   it('password must be the same as confirmation password', async () => {
-    render(Toast);
-
     renderComponent(SignUpPopup);
     await userEvent.type(screen.getByLabelText('Account'), 'root');
     await userEvent.type(screen.getByLabelText('Password'), '123');
@@ -46,7 +43,6 @@ describe('AppHeader/SignUpPopup component', () => {
     const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
-    render(Toast);
     renderComponent(SignUpPopup);
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
@@ -62,7 +58,6 @@ describe('AppHeader/SignUpPopup component', () => {
     const fakePassword = 'PASSWORD';
     const userStore = useUserStore();
 
-    render(Toast);
     mockLogout();
     renderComponent(SignUpPopup);
     await userEvent.type(screen.getByLabelText('Account'), account);
