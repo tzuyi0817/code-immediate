@@ -97,10 +97,10 @@ onMounted(initLoadParseSource);
 </script>
 
 <template>
-  <div class="code_preview">
+  <div class="preview">
     <iframe
       ref="iframeRef"
-      title="code preview"
+      title="preview"
       :sandbox="sandboxAttribute"
       :class="['h-full w-full', { 'pointer-events-none': isStartDrag }]"
       :srcdoc="srcdoc"

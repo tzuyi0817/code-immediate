@@ -2,8 +2,8 @@ import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
 import { ref } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodePreview from '@/components/CodePreview.vue';
 import Toast from '@/components/CodeToast.vue';
+import { Preview } from '@/components/common';
 import Console from '@/components/layout/AppFooter/src/Console.vue';
 import { registerIcons } from '@/utils/register-icons';
 
@@ -36,7 +36,7 @@ describe('AppFooter/Console component', () => {
 
   it('implement command', async () => {
     renderComponent(Console, renderOptions);
-    renderComponent(CodePreview, { provide: renderOptions.provide });
+    renderComponent(Preview, { provide: renderOptions.provide });
 
     const commandLine = screen.getByRole('textbox');
 
