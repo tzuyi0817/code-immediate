@@ -1,8 +1,8 @@
 import { fireEvent, screen, waitFor } from '@testing-library/vue';
 import { nextTick, ref } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeLoading from '@/components/CodeLoading.vue';
 import CodePreview from '@/components/CodePreview.vue';
+import LoadingStatus from '@/components/layout/AppFooter/src/LoadingStatus.vue';
 import { useCodeContentStore } from '@/store';
 import { loadedParseMap } from '@/utils/load-parse';
 import { registerIcons } from '@/utils/register-icons';
@@ -20,7 +20,7 @@ describe('CodePreview component', () => {
   it('preview the correct content', async () => {
     const codeContentStore = useCodeContentStore();
 
-    renderComponent(CodeLoading);
+    renderComponent(LoadingStatus);
     renderComponent(CodePreview, { provide: { iframe: ref(null) } });
     await nextTick();
     codeContentStore.setCodeContent({ type: 'HTML', code: '<h1>Hello World!<h1>' });
@@ -36,7 +36,7 @@ describe('CodePreview component', () => {
 
     loadedParseMap.set('markdown', true);
     codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
-    renderComponent(CodeLoading);
+    renderComponent(LoadingStatus);
     renderComponent(CodePreview, { provide: { iframe: ref(null) } });
     expect(await screen.findByText('Process code error')).toBeInTheDocument();
     loadedParseMap.delete('markdown');

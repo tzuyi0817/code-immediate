@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import CodeLoading from '@/components/CodeLoading.vue';
 import Console from './Console.vue';
+import LoadingStatus from './LoadingStatus.vue';
 
 interface Props {
   previewWidth: string;
@@ -28,7 +28,7 @@ function toggleConsole() {
     </section>
 
     <section class="app-footer-section">
-      <code-loading />
+      <loading-status />
     </section>
 
     <console

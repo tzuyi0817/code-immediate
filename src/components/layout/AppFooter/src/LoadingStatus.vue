@@ -19,7 +19,7 @@ watch(isLoading, isOpen => !isOpen && flashTick());
 </script>
 
 <template>
-  <div class="code_loading">
+  <div class="loading-status">
     <p
       v-if="isLoading || isShowTick"
       :class="['text-xs', { 'text-red-500': isError }]"
@@ -31,19 +31,22 @@ watch(isLoading, isOpen => !isOpen && flashTick());
       v-if="isLoading"
       icon="fa-solid fa-spinner"
       title="fa-spinner"
-      class="animate-spin code_loading_icon"
+      class="animate-spin loading-status-icon"
     />
     <font-awesome-icon
       v-if="isShowTick"
       :icon="`fa-solid ${statusIcon}`"
       :title="statusIcon"
-      :class="['code_loading_icon', { 'text-red-500': isError }]"
+      :class="['loading-status-icon', { 'text-red-500': isError }]"
     />
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.code_loading {
-  @apply flex text-yellow-400 gap-2 font-mono;
+<style lang="css" scoped>
+.loading-status {
+  display: flex;
+  color: #fcc800;
+  gap: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 </style>
