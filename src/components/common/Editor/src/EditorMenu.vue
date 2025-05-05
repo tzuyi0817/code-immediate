@@ -88,7 +88,7 @@ function toggleMenu(isShow = !isShowMenu.value) {
 </script>
 
 <template>
-  <div class="code_editor_menu">
+  <div class="editor-menu">
     <button
       class="btn btn-base h-[26px] w-8 rounded-sm"
       @click.stop="() => toggleMenu()"
@@ -102,7 +102,7 @@ function toggleMenu(isShow = !isShowMenu.value) {
 
     <ul
       v-if="isShowMenu"
-      class="code_editor_menu_content animate-popup"
+      class="editor-menu-content animate-popup"
     >
       <li @click="formatterCode">Format Code</li>
       <li @click="exportCode">Export Zip</li>
@@ -111,27 +111,32 @@ function toggleMenu(isShow = !isShowMenu.value) {
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.code_editor_menu {
-  @apply relative;
-  &_content {
-    @apply absolute
-    top-10
-    right-0
-    bg-white
-    rounded
-    text-xs
-    transition-all
-    py-2
-    z-[15];
-    li {
-      @apply px-3
-      py-1
-      select-none
-      whitespace-nowrap
-      hover:bg-gray-200
-      hover:cursor-pointer;
-    }
+<style lang="css" scoped>
+.editor-menu {
+  position: relative;
+}
+
+.editor-menu-content {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  background-color: #ffffff;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: calc(1 / 0.75);
+  padding: 8px 0;
+  z-index: 15;
+
+  li {
+    padding: 4px 12px;
+    user-select: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  li:hover {
+    background-color: #e5e7eb;
   }
 }
 </style>

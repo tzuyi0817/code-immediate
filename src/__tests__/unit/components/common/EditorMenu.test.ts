@@ -1,26 +1,26 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
+import { EditorMenu } from '@/components/common';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('CodeEditorMenu Component', async () => {
+describe('EditorMenu Component', async () => {
   const formatText = 'Format Code';
 
   registerIcons();
   vi.mock('@/utils/export-zip', () => ({ exportZip: vi.fn() }));
 
   it('renders the correct content', async () => {
-    renderComponent(CodeEditorMenu, {
+    renderComponent(EditorMenu, {
       props: { model: 'HTML' },
     });
     expect(screen.getByRole('button', { name: /fa-angle-down/i })).toBeInTheDocument();
   });
 
   it('show menu', async () => {
-    renderComponent(CodeEditorMenu, {
+    renderComponent(EditorMenu, {
       props: { model: 'HTML' },
     });
     await userEvent.click(screen.getByRole('button', { name: /fa-angle-down/i }));
@@ -31,7 +31,7 @@ describe('CodeEditorMenu Component', async () => {
 
   describe('format code', () => {
     it('format success', async () => {
-      renderComponent(CodeEditorMenu, {
+      renderComponent(EditorMenu, {
         props: { model: 'HTML' },
       });
 
@@ -46,7 +46,7 @@ describe('CodeEditorMenu Component', async () => {
     });
 
     it('format error', async () => {
-      renderComponent(CodeEditorMenu, {
+      renderComponent(EditorMenu, {
         props: { model: 'HTML' },
       });
 
@@ -57,7 +57,7 @@ describe('CodeEditorMenu Component', async () => {
     });
 
     it("language isn't supported error", async () => {
-      renderComponent(CodeEditorMenu, {
+      renderComponent(EditorMenu, {
         props: { model: 'Custom' },
       });
 
@@ -71,7 +71,7 @@ describe('CodeEditorMenu Component', async () => {
   it('export code', async () => {
     const module = await import('@/utils/export-zip');
 
-    renderComponent(CodeEditorMenu, {
+    renderComponent(EditorMenu, {
       props: { model: 'HTML' },
     });
 
@@ -81,7 +81,7 @@ describe('CodeEditorMenu Component', async () => {
   });
 
   it('embed local file', async () => {
-    renderComponent(CodeEditorMenu, {
+    renderComponent(EditorMenu, {
       props: { model: 'HTML' },
     });
 
