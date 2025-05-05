@@ -1,13 +1,13 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import LanguageSelect from '@/components/LanguageSelect.vue';
 import { HTML_LANGUAGE_MAP } from '@/config/language';
+import LanguageSelect from '@/pages/home/components/LanguageSelect/index.vue';
 import { useCodeContentStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { registerIcons } from '@/utils/register-icons';
 
-describe('LanguageSelect component', () => {
+describe('home page LanguageSelect component', () => {
   const languageMap = HTML_LANGUAGE_MAP;
   const languages = Object.keys(HTML_LANGUAGE_MAP);
 
