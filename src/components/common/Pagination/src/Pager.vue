@@ -155,16 +155,27 @@ function handlePageChange(event: Event) {
   </ul>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="css" scoped>
 .page {
-  @apply w-8 h-8 text-sm duration-0 select-none hover:text-yellow-400;
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  line-height: calc(1.25 / 0.875);
+  transition-duration: 0ms;
+  user-select: none;
+}
+
+.page:hover {
+  color: #fcc800;
 }
 
 .page.active {
-  @apply text-yellow-400 font-bold;
+  color: #fcc800;
+  font-weight: 700;
 }
 
 .page.disabled {
-  @apply text-gray-400 cursor-not-allowed;
+  color: #99a1af;
+  cursor: not-allowed;
 }
 </style>
