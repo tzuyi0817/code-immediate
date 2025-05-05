@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia';
 import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { postCode, putCode } from '@/apis/code';
 import { logoutUser } from '@/apis/user';
-import LoadingButton from '@/components/LoadingButton.vue';
+import { LoadingButton } from '@/components/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
 import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';

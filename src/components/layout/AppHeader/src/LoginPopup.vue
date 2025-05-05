@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { loginUser } from '@/apis/user';
-import LoadingButton from '@/components/LoadingButton.vue';
+import { LoadingButton } from '@/components/common';
 import { useUserStore } from '@/store';
 import { toast } from '@/utils/toast';
 

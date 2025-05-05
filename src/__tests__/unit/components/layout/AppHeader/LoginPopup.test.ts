@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
-import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import { renderComponent } from '@/__tests__/unit/render';
 import Toast from '@/components/CodeToast.vue';
 import LoginPopup from '@/components/layout/AppHeader/src/LoginPopup.vue';
 import { useUserStore } from '@/store';
@@ -34,7 +34,6 @@ describe('AppHeader/LoginPopup component', () => {
 
     render(Toast);
     renderComponent(LoginPopup);
-    renderLoadingButton();
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
@@ -53,7 +52,6 @@ describe('AppHeader/LoginPopup component', () => {
     render(Toast);
     mockLogout();
     renderComponent(LoginPopup);
-    renderLoadingButton();
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));

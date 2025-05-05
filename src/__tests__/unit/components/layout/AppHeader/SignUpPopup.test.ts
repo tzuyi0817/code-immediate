@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
-import { renderComponent, renderLoadingButton } from '@/__tests__/unit/render';
+import { renderComponent } from '@/__tests__/unit/render';
 import Toast from '@/components/CodeToast.vue';
 import SignUpPopup from '@/components/layout/AppHeader/src/SignUpPopup.vue';
 import { useUserStore } from '@/store';
@@ -34,7 +34,6 @@ describe('AppHeader/SignUpPopup component', () => {
     render(Toast);
 
     renderComponent(SignUpPopup);
-    renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), 'root');
     await userEvent.type(screen.getByLabelText('Password'), '123');
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), '1234');
@@ -49,7 +48,6 @@ describe('AppHeader/SignUpPopup component', () => {
 
     render(Toast);
     renderComponent(SignUpPopup);
-    renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);
@@ -67,7 +65,6 @@ describe('AppHeader/SignUpPopup component', () => {
     render(Toast);
     mockLogout();
     renderComponent(SignUpPopup);
-    renderLoadingButton();
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);

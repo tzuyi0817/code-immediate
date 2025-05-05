@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import LoadingButton from '@/components/LoadingButton.vue';
+import { LoadingButton } from '@/components/common';
 import { useFlagStore } from '@/store';
 
 interface Props {
