@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { computed, onBeforeUnmount, onMounted } from 'vue';
-import CodeEditorMenu from '@/components/CodeEditorMenu.vue';
+import { EditorMenu } from '@/components/common';
 import LanguageSelect from '@/components/LanguageSelect.vue';
 import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
 import { SUFFIX_MAP } from '@/config/suffix';
@@ -108,7 +108,8 @@ onBeforeUnmount(unWindow);
         :model="currentModel"
         @add-close-event="addCloseEvent"
       />
-      <code-editor-menu
+
+      <editor-menu
         :model="currentModel"
         @add-close-event="addCloseEvent"
       />
