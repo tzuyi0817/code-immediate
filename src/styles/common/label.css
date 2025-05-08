@@ -1,7 +1,5 @@
 @layer components {
   .label {
-    padding: 8px;
-
     p {
       color: #4a5565;
       padding: 0 4px 4px;

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import { Popup } from '@/components/common';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
 import { useCodeContentStore } from '@/store';
 import type { CodeTemplate } from '@/types/code-content';
 
-const isShowTemplatePop = defineModel<boolean>('isShowTemplatePop');
+const isShowTemplatePop = defineModel<boolean>({ default: false });
 const { codeTemplate } = storeToRefs(useCodeContentStore());
 
 function selectTemplate(name: CodeTemplate) {
@@ -12,34 +13,22 @@ function selectTemplate(name: CodeTemplate) {
 
   setCodeTemplate(name);
   setCodeMap(TEMPLATE_MAP[name]);
-  closePopup();
+  isShowTemplatePop.value = false;
 }
 
 function getImageSrc(path: string) {
   return new URL(path, import.meta.url).href;
 }
-
-function closePopup() {
-  isShowTemplatePop.value = false;
-}
 </script>
 
 <template>
-  <div
-    class="template-popup popup"
-    @click.self="closePopup"
+  <popup
+    v-model="isShowTemplatePop"
+    class="template-popup"
   >
-    <div class="popup-header">
-      <h3>Templates</h3>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        class="cursor-pointer"
-        title="fa-xmark"
-        @click="closePopup"
-      />
-    </div>
+    <template #header>Templates</template>
 
-    <div class="popup-content">
+    <template #content>
       <ul class="mt-2 h-full overflow-y-auto">
         <li
           v-for="template in TEMPLATE_LIST"
@@ -58,8 +47,8 @@ function closePopup() {
           </div>
         </li>
       </ul>
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>
 
 <style lang="css" scoped>
@@ -68,7 +57,7 @@ function closePopup() {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding: 0 12px 16px;
-    gap: 8px;
+    gap: 28px 8px;
 
     li {
       display: flex;
@@ -79,7 +68,6 @@ function closePopup() {
       border-radius: 2px;
       cursor: pointer;
       padding: 8px;
-      margin-top: 20px;
     }
 
     li:hover {

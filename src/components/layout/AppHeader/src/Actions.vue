@@ -288,29 +288,15 @@ onBeforeUnmount(unWindow);
   </div>
 
   <projects-popup
-    v-if="isShowProjectsPop"
-    v-model:is-show-projects-pop="isShowProjectsPop"
+    v-model="isShowProjectsPop"
     @open-remind-pop="openRemindPop"
   />
-  <settings-popup
-    v-if="isShowSettingsPop"
-    v-model:is-show-settings-pop="isShowSettingsPop"
-  />
-  <template-popup
-    v-if="isShowTemplatePop"
-    v-model:is-show-template-pop="isShowTemplatePop"
-  />
-  <login-popup
-    v-if="isShowLoginPop"
-    v-model:is-show-login-pop="isShowLoginPop"
-  />
-  <sign-up-popup
-    v-if="isShowSignUpPop"
-    v-model:is-show-sign-up-pop="isShowSignUpPop"
-  />
+  <settings-popup v-model="isShowSettingsPop" />
+  <template-popup v-model="isShowTemplatePop" />
+  <login-popup v-model="isShowLoginPop" />
+  <sign-up-popup v-model="isShowSignUpPop" />
   <remind-popup
-    v-if="isShowRemindPop"
-    v-model:is-show-remind-pop="isShowRemindPop"
+    v-model="isShowRemindPop"
     :save-code="saveCode"
     :do-fun="doFun"
   />

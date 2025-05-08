@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { deleteCode, getCodes } from '@/apis/code';
-import { Pagination, showToast } from '@/components/common';
+import { Pagination, Popup, showToast } from '@/components/common';
 import { setupTemplate } from '@/config/template';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/load-parse';
 import type { CodeProject } from '@/types/code-content';
 
 const emit = defineEmits(['openRemindPop']);
-const isShowProjectsPop = defineModel<boolean>('isShowProjectsPop');
+const isShowProjectsPop = defineModel<boolean>({ default: false });
 const projects = ref<CodeProject[]>([]);
 const currentPage = ref(1);
 const total = ref(0);
@@ -82,26 +82,19 @@ function goPage(page: number) {
 function closePopup() {
   isShowProjectsPop.value = false;
 }
-
-onMounted(getProjects);
 </script>
 
 <template>
-  <div
-    class="projects-popup popup"
-    @click.self="closePopup"
+  <popup
+    v-model="isShowProjectsPop"
+    class="projects-popup"
+    :style="{ maxWidth: '64rem' }"
+    :content-attrs="{ style: { maxHeight: '65dvh' } }"
+    @open="getProjects"
   >
-    <div class="popup-header max-w-5xl">
-      <h3>Projects</h3>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        title="fa-xmark"
-        class="cursor-pointer"
-        @click="closePopup"
-      />
-    </div>
+    <template #header>Projects</template>
 
-    <div class="popup-content max-w-5xl max-h-[65vh]">
+    <template #content>
       <ul
         v-if="isLoading"
         class="projects-popup-list animate-pulse"
@@ -166,12 +159,14 @@ onMounted(getProjects);
       </ul>
 
       <pagination
+        class="pt-4"
+        :page="currentPage"
         :total="total"
         :disabled="isLoading"
         @change="goPage"
       />
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>
 
 <style lang="css" scoped>
@@ -184,8 +179,7 @@ onMounted(getProjects);
   height: calc(60dvh - 70px);
   max-height: 450px;
   gap: 12px;
-  margin-top: 20px;
-  padding: 0 8px 20px;
+  padding: 12px 8px;
 }
 
 .projects-popup-card {
@@ -208,7 +202,7 @@ onMounted(getProjects);
   filter: drop-shadow(0 9px 7px rgb(0 0 0 / 0.1));
   border-color: #d1d5dc;
   box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 6px 6px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
   color: rgb(0 0 0 / 0.7);
   transform: scale(1.03);

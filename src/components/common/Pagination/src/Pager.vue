@@ -128,7 +128,7 @@ function handlePageChange(event: Event) {
 
     <li
       v-if="showNextMore"
-      v-quick-page="() => (showNextMore = false)"
+      v-quick-page="() => (quickNextHover = false)"
       class="btn page"
       :class="{ disabled }"
       aria-label="next pages"

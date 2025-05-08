@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { loginUser } from '@/apis/user';
-import { LoadingButton, showToast } from '@/components/common';
+import { LoadingButton, Popup, showToast } from '@/components/common';
 import { useUserStore } from '@/store';
 
-const isShowLoginPop = defineModel<boolean>('isShowLoginPop');
+const isShowLoginPop = defineModel<boolean>({ default: false });
 const localAccount = localStorage.getItem('code_account');
 const account = ref(localAccount ?? '');
 const password = ref('');
-const isLoggingIn = ref(false);
+const isLoading = ref(false);
 
 async function login() {
   const data = {
@@ -16,7 +16,7 @@ async function login() {
     password: password.value,
   };
 
-  isLoggingIn.value = true;
+  isLoading.value = true;
 
   try {
     const { status, message, resultMap } = await loginUser(data);
@@ -27,11 +27,11 @@ async function login() {
     window.localStorage.setItem('code_token', token);
     window.localStorage.setItem('code_account', account.value);
     showToast({ message, type: status });
-    closePopup(true);
+    closePopup();
   } catch {
     cleanForm();
   } finally {
-    isLoggingIn.value = false;
+    isLoading.value = false;
   }
 }
 
@@ -83,33 +83,30 @@ function loginGithub() {
 }
 
 function cleanForm() {
-  account.value = password.value = '';
+  account.value = '';
+  password.value = '';
 }
 
-function closePopup(force = false) {
-  if (isLoggingIn.value && !force) return;
+function closePopup() {
   isShowLoginPop.value = false;
 }
 </script>
 
 <template>
-  <div
-    class="login-popup popup"
-    @click.self="closePopup()"
+  <popup
+    v-model="isShowLoginPop"
+    class="login-popup"
+    :disabled-close="isLoading"
+    @closed="password = ''"
   >
-    <div class="popup-header">
-      <h2>Log in!</h2>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        title="fa-xmark"
-        class="cursor-pointer"
-        @click="closePopup()"
-      />
-    </div>
+    <template #header>Log in!</template>
 
-    <div class="popup-content">
-      <div class="login-popup-content">
-        <form @submit.prevent="login">
+    <template #content>
+      <div class="login-popup-content text-sm">
+        <form
+          class="flex flex-col gap-y-3"
+          @submit.prevent="login"
+        >
           <label class="label">
             <p>Account</p>
             <input
@@ -131,16 +128,16 @@ function closePopup(force = false) {
           </label>
 
           <loading-button
-            class="btn-yellow w-full mt-6"
-            :is-loading="isLoggingIn"
+            class="btn-yellow w-full mt-3"
+            :is-loading="isLoading"
           >
             Log in
           </loading-button>
         </form>
 
         <loading-button
-          class="btn-blue w-full mt-2"
-          :disabled="isLoggingIn"
+          class="btn-blue w-full mt-3"
+          :disabled="isLoading"
           @click="loginGithub"
         >
           <font-awesome-icon
@@ -150,6 +147,6 @@ function closePopup(force = false) {
           Log in with GitHub
         </loading-button>
       </div>
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>

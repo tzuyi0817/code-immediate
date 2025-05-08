@@ -78,6 +78,11 @@
     background-color: #4f39f6;
   }
 
+  .btn-gray {
+    color: #4a5565;
+    background-color: #cccccc;
+  }
+
   .btn-select {
     color: #d1d5dc;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
@@ -94,6 +99,7 @@
     color: #fcc800;
   }
 
+  .btn-gray:enabled:hover,
   .btn-yellow:enabled:hover {
     filter: brightness(105%);
   }

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { registerUser } from '@/apis/user';
-import { LoadingButton, showToast } from '@/components/common';
+import { LoadingButton, Popup, showToast } from '@/components/common';
 import { useUserStore } from '@/store';
 
-const isShowSignUpPop = defineModel<boolean>('isShowSignUpPop');
+const isShowSignUpPop = defineModel<boolean>({ default: false });
 const account = ref('');
 const password = ref('');
 const confirmPassword = ref('');
@@ -30,7 +30,7 @@ async function register() {
     setUser(user);
     window.localStorage.setItem('code_token', token);
     showToast({ message, type: status });
-    closePopup(true);
+    closePopup();
   } catch {
     cleanForm();
   } finally {
@@ -43,30 +43,25 @@ function cleanForm() {
   isLoading.value = false;
 }
 
-function closePopup(force = false) {
-  if (isLoading.value && !force) return;
+function closePopup() {
   isShowSignUpPop.value = false;
 }
 </script>
 
 <template>
-  <div
-    class="signup-popup popup"
-    @click.self="closePopup()"
+  <popup
+    v-model="isShowSignUpPop"
+    :disabled-close="isLoading"
+    class="signup-popup"
   >
-    <div class="popup-header">
-      <h2>Sign up!</h2>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        title="fa-xmark"
-        class="cursor-pointer"
-        @click="closePopup()"
-      />
-    </div>
+    <template #header>Sign up!</template>
 
-    <div class="popup-content">
-      <div class="signup-popup-content">
-        <form @submit.prevent="register">
+    <template #content>
+      <div class="signup-popup-content text-sm">
+        <form
+          class="flex flex-col gap-y-3"
+          @submit.prevent="register"
+        >
           <label class="label">
             <p>Account</p>
             <input
@@ -98,13 +93,13 @@ function closePopup(force = false) {
           </label>
 
           <loading-button
-            class="btn-yellow w-full mt-6"
+            class="btn-yellow w-full mt-3"
             :is-loading="isLoading"
           >
             Sign up
           </loading-button>
         </form>
       </div>
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>

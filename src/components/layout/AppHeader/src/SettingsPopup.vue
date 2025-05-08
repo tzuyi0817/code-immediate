@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios, { type AxiosResponse } from 'axios';
-import { computed, onMounted, reactive, ref } from 'vue';
-import { showToast } from '@/components/common';
+import { computed, reactive, ref } from 'vue';
+import { Popup, showToast } from '@/components/common';
 import { BUILT_IN_RESOURCES } from '@/config/template';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
@@ -16,7 +16,7 @@ interface TabItem {
   description: string;
 }
 
-const isShowSettingsPop = defineModel<boolean>('isShowSettingsPop');
+const isShowSettingsPop = defineModel<boolean>({ default: false });
 const currentSelect = ref<SelectName>('CSS');
 const keyword = ref('');
 const cdnList = ref<CdnItem[]>([]);
@@ -109,31 +109,25 @@ function closePopup() {
   isShowSettingsPop.value = false;
 }
 
-onMounted(() => {
+function setResources() {
   const {
     codeContent: { CSS, JS },
   } = useCodeContentStore();
+
   cdnResources.CSS = [...CSS.resources];
   cdnResources.JS = [...JS.resources];
-});
+}
 </script>
 
 <template>
-  <div
-    class="settings-popup popup"
-    @click.self="closePopup"
+  <popup
+    v-model="isShowSettingsPop"
+    class="settings-popup"
+    @open="setResources"
   >
-    <div class="popup-header">
-      <h3>CDN Settings</h3>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        title="fa-xmark"
-        class="cursor-pointer"
-        @click="closePopup"
-      />
-    </div>
+    <template #header> CDN Settings </template>
 
-    <div class="popup-content">
+    <template #content>
       <ul class="settings-popup-tab">
         <li
           v-for="tab in tabList"
@@ -147,7 +141,7 @@ onMounted(() => {
 
       <div class="settings-popup-content">
         <h3>{{ selectTabItem?.title }}</h3>
-        <section class="text-gray-500 mb-3">
+        <section class="text-gray-500 mb-3 text-sm">
           {{ selectTabItem?.description }}
         </section>
 
@@ -229,19 +223,18 @@ onMounted(() => {
       </div>
 
       <button
-        class="btn btn-yellow float-right mt-4 text-sm"
+        class="btn btn-yellow w-full mt-4 text-sm"
         @click="setCdn"
       >
         Confirm
       </button>
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>
 
 <style lang="css" scoped>
 .settings-popup-tab {
   display: flex;
-  padding-top: 12px;
   margin-bottom: 12px;
   gap: 4px;
 

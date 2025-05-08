@@ -72,7 +72,6 @@ function close() {
 }
 
 function onTransitionEnd() {
-  console.log('onTransitionEnd', isClose.value);
   if (!isClose.value) return;
 
   emits('closed');

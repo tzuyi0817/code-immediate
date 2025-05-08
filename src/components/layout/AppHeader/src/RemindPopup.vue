@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { LoadingButton } from '@/components/common';
+import { LoadingButton, Popup } from '@/components/common';
 import { useFlagStore } from '@/store';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 
 const isLoading = ref(false);
 const { saveCode, doFun } = defineProps<Props>();
-const isShowRemindPop = defineModel<boolean>('isShowRemindPop');
+const isShowRemindPop = defineModel<boolean>({ default: false });
 
 async function confirm() {
   isLoading.value = true;
@@ -28,29 +28,20 @@ function cancel() {
   doFun?.();
 }
 
-function closePopup(force = false) {
-  if (isLoading.value && !force) return;
-
+function closePopup() {
   isShowRemindPop.value = false;
 }
 </script>
 
 <template>
-  <div
-    class="remind-popup popup"
-    @click.self="closePopup()"
+  <popup
+    v-model="isShowRemindPop"
+    class="remind-popup text-center"
+    :disabled-close="isLoading"
   >
-    <div class="popup-header">
-      <h3>Remind</h3>
-      <font-awesome-icon
-        icon="fa-solid fa-xmark"
-        title="fa-xmark"
-        class="cursor-pointer"
-        @click="closePopup()"
-      />
-    </div>
+    <template #header>Remind</template>
 
-    <div class="popup-content text-center">
+    <template #content>
       <div class="py-16">
         <p>The current code will be cleared.</p>
         <p>Do you need the system to help you save the project?</p>
@@ -58,7 +49,8 @@ function closePopup(force = false) {
 
       <div class="flex gap-2 justify-end">
         <button
-          class="btn btn-red text-sm"
+          class="btn btn-gray text-sm"
+          :disabled="isLoading"
           @click="cancel"
         >
           cancel
@@ -71,6 +63,6 @@ function closePopup(force = false) {
           confirm
         </loading-button>
       </div>
-    </div>
-  </div>
+    </template>
+  </popup>
 </template>
