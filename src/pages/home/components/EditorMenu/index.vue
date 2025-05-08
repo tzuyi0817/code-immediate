@@ -102,14 +102,16 @@ function toggleMenu(isShow = !isShowMenu.value) {
       />
     </button>
 
-    <ul
-      v-if="isShowMenu"
-      class="editor-menu-content animate-popup"
-    >
-      <li @click="formatterCode">Format Code</li>
-      <li @click="exportCode">Export Zip</li>
-      <li @click="embedFile">Embed Local File</li>
-    </ul>
+    <transition name="fade">
+      <ul
+        v-if="isShowMenu"
+        class="editor-menu-content"
+      >
+        <li @click="formatterCode">Format Code</li>
+        <li @click="exportCode">Export Zip</li>
+        <li @click="embedFile">Embed Local File</li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -120,7 +122,7 @@ function toggleMenu(isShow = !isShowMenu.value) {
 
 .editor-menu-content {
   position: absolute;
-  top: 10px;
+  top: 32px;
   right: 0;
   background-color: #ffffff;
   border-radius: 4px;

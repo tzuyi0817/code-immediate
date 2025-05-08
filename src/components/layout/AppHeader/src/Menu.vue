@@ -14,56 +14,63 @@ interface Emits {
 
 defineProps<Props>();
 defineEmits<Emits>();
+
+const isShowMenuList = defineModel<boolean>({ default: false });
 </script>
 
 <template>
-  <ul class="app-header-menu animate-popup">
-    <li @click="$emit('saveCode')">
-      <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" />
-      Save
-    </li>
-    <li @click="$emit('toggleSettingsPop')">
-      <font-awesome-icon icon="fa-solid fa-gear" />
-      Settings
-    </li>
-    <li
-      v-if="isLogin"
-      @click="$emit('toggleProjectsPop')"
+  <transition name="fade">
+    <ul
+      v-if="isShowMenuList"
+      class="app-header-menu"
     >
-      <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
-      Projects
-    </li>
-    <li @click="$emit('createNewProject')">
-      <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
-      New Project
-    </li>
-    <li
-      v-if="codeId"
-      @click="$emit('shareLink')"
-    >
-      <font-awesome-icon icon="fa-solid fa-share" />
-      Share
-    </li>
-    <li>
-      <a
-        href="https://github.com/tzuyi0817/code-immediate"
-        target="_blank"
-        rel="noopener noreferrer"
+      <li @click="$emit('saveCode')">
+        <font-awesome-icon icon="fa-solid fa-cloud-arrow-up" />
+        Save
+      </li>
+      <li @click="$emit('toggleSettingsPop')">
+        <font-awesome-icon icon="fa-solid fa-gear" />
+        Settings
+      </li>
+      <li
+        v-if="isLogin"
+        @click="$emit('toggleProjectsPop')"
       >
-        <font-awesome-icon
-          icon="fa-brands fa-github"
-          title="fa-github"
-        />
-        Github
-      </a>
-    </li>
-  </ul>
+        <font-awesome-icon icon="fa-solid fa-sheet-plastic" />
+        Projects
+      </li>
+      <li @click="$emit('createNewProject')">
+        <font-awesome-icon icon="fa-solid fa-file-circle-plus" />
+        New Project
+      </li>
+      <li
+        v-if="codeId"
+        @click="$emit('shareLink')"
+      >
+        <font-awesome-icon icon="fa-solid fa-share" />
+        Share
+      </li>
+      <li>
+        <a
+          href="https://github.com/tzuyi0817/code-immediate"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <font-awesome-icon
+            icon="fa-brands fa-github"
+            title="fa-github"
+          />
+          Github
+        </a>
+      </li>
+    </ul>
+  </transition>
 </template>
 
 <style lang="css" scoped>
 .app-header-menu {
   position: absolute;
-  top: 44px;
+  top: 34px;
   right: -4px;
   border-radius: 4px;
   background-color: #ffffff;

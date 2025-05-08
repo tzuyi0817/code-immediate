@@ -276,7 +276,7 @@ onBeforeUnmount(unWindow);
     </template>
 
     <app-header-menu
-      v-if="isShowMenuList"
+      v-model="isShowMenuList"
       :is-login="isLogin"
       :code-id="codeId"
       @save-code="saveCode"
