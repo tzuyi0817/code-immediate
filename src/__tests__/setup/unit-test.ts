@@ -1,5 +1,6 @@
 import ResizeObserver from 'resize-observer-polyfill';
 import { mswServer } from '@/mocks/server';
+import { mockAnimation } from '../__mocks__/animation';
 import '@testing-library/jest-dom';
 import 'vitest-canvas-mock';
 
@@ -22,3 +23,5 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: vi.fn(),
   })),
 });
+
+Element.prototype.animate = vi.fn().mockImplementation(() => mockAnimation);

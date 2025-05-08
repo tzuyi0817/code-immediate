@@ -10,7 +10,7 @@ describe('AppHeader/TemplatePopup component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(TemplatePopup);
+    renderComponent(TemplatePopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /templates/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
 
@@ -22,7 +22,7 @@ describe('AppHeader/TemplatePopup component', () => {
   });
 
   it('select VueSFC template', async () => {
-    renderComponent(TemplatePopup);
+    renderComponent(TemplatePopup, { props: { modelValue: true } });
     const codeContentStore = useCodeContentStore();
     await userEvent.click(screen.getByRole('img', { name: /vuesfc/i }));
     expect(codeContentStore.codeTemplate).toEqual('VueSFC');
@@ -30,7 +30,7 @@ describe('AppHeader/TemplatePopup component', () => {
   });
 
   it('select RxJS template', async () => {
-    renderComponent(TemplatePopup);
+    renderComponent(TemplatePopup, { props: { modelValue: true } });
     const codeContentStore = useCodeContentStore();
     await userEvent.click(screen.getByRole('img', { name: /rxjs/i }));
     expect(codeContentStore.codeTemplate).toEqual('RxJS');

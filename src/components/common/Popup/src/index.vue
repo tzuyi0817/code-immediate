@@ -34,10 +34,9 @@ async function openPopup() {
 }
 
 function closePopup() {
-  emits('close');
-
   if (!animation) return;
 
+  emits('close');
   animation.onfinish = () => {
     destroyAnimation();
     isDisplayPopup.value = false;
@@ -64,6 +63,7 @@ watch(
       closePopup();
     }
   },
+  { immediate: true },
 );
 
 function manualClosePopup() {
@@ -86,6 +86,7 @@ onBeforeUnmount(() => {
       <template v-if="isDisplayPopup">
         <div
           class="popup-overlay"
+          role="presentation"
           @click="manualClosePopup"
         ></div>
 

@@ -10,7 +10,7 @@ describe('AppHeader/LoginPopup component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(LoginPopup);
+    renderComponent(LoginPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /log in!/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
     expect(screen.getByLabelText('Account')).toBeInTheDocument();
@@ -20,7 +20,7 @@ describe('AppHeader/LoginPopup component', () => {
   });
 
   it('form fields should be required', async () => {
-    renderComponent(LoginPopup);
+    renderComponent(LoginPopup, { props: { modelValue: true } });
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
     expect(screen.getByLabelText('Account')).toBeInvalid();
     expect(screen.getByLabelText('Password')).toBeInvalid();
@@ -31,7 +31,7 @@ describe('AppHeader/LoginPopup component', () => {
     const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
-    renderComponent(LoginPopup);
+    renderComponent(LoginPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
@@ -48,7 +48,7 @@ describe('AppHeader/LoginPopup component', () => {
     const userStore = useUserStore();
 
     mockLogout();
-    renderComponent(LoginPopup);
+    renderComponent(LoginPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
@@ -59,7 +59,7 @@ describe('AppHeader/LoginPopup component', () => {
   });
 
   it('login with github', async () => {
-    renderComponent(LoginPopup);
+    renderComponent(LoginPopup, { props: { modelValue: true } });
 
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
     const { screenX, screenLeft, screen: windowScreen, innerHeight } = window;

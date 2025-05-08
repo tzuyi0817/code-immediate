@@ -12,7 +12,7 @@ describe('AppHeader/SignUpPopup component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(SignUpPopup);
+    renderComponent(SignUpPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /sign up!/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
     expect(screen.getByLabelText('Account')).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('AppHeader/SignUpPopup component', () => {
   });
 
   it('form fields should be required', async () => {
-    renderComponent(SignUpPopup);
+    renderComponent(SignUpPopup, { props: { modelValue: true } });
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(screen.getByLabelText('Account')).toBeInvalid();
     expect(screen.getByLabelText('Password')).toBeInvalid();
@@ -30,7 +30,7 @@ describe('AppHeader/SignUpPopup component', () => {
   });
 
   it('password must be the same as confirmation password', async () => {
-    renderComponent(SignUpPopup);
+    renderComponent(SignUpPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByLabelText('Account'), 'root');
     await userEvent.type(screen.getByLabelText('Password'), '123');
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), '1234');
@@ -43,7 +43,7 @@ describe('AppHeader/SignUpPopup component', () => {
     const fakePassword = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
-    renderComponent(SignUpPopup);
+    renderComponent(SignUpPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);
@@ -59,7 +59,7 @@ describe('AppHeader/SignUpPopup component', () => {
     const userStore = useUserStore();
 
     mockLogout();
-    renderComponent(SignUpPopup);
+    renderComponent(SignUpPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByLabelText('Account'), account);
     await userEvent.type(screen.getByLabelText('Password'), fakePassword);
     await userEvent.type(screen.getByLabelText(CONFIRM_PASSWORD_TEXT), fakePassword);

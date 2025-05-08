@@ -13,7 +13,7 @@ describe('AppHeader/RemindPopup component', () => {
 
   it('renders the correct content', () => {
     renderComponent(RemindPopup, {
-      props: { saveCode: () => {}, doFun: () => {} },
+      props: { modelValue: true, saveCode: () => {}, doFun: () => {} },
     });
     expect(screen.getByRole('heading', { name: /remind/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe('AppHeader/RemindPopup component', () => {
     const doFun = vi.fn();
 
     renderComponent(RemindPopup, {
-      props: { saveCode, doFun },
+      props: { modelValue: true, saveCode, doFun },
     });
     await userEvent.click(screen.getByRole('button', { name: /confirm/i }));
     expect(saveCode).toHaveBeenCalledTimes(1);
@@ -40,7 +40,7 @@ describe('AppHeader/RemindPopup component', () => {
     const doFun = vi.fn();
 
     renderComponent(RemindPopup, {
-      props: { saveCode: vi.fn(), doFun },
+      props: { modelValue: true, saveCode: vi.fn(), doFun },
     });
     flagStore.setChangeCodeFlag(true);
     expect(flagStore.isChangeCode).toBeTruthy();

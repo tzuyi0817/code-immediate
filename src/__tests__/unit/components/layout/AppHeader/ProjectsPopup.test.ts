@@ -13,7 +13,7 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
   registerIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(ProjectsPopup);
+    renderComponent(ProjectsPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /projects/i })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: /fa-xmark/i })).toBeInTheDocument();
     expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
@@ -31,7 +31,7 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
       const codeContentStore = useCodeContentStore();
       let iframe: HTMLElement | null = null;
 
-      renderComponent(ProjectsPopup);
+      renderComponent(ProjectsPopup, { props: { modelValue: true } });
       await waitFor(() => {
         iframe = screen.getByText(title);
       });
@@ -47,7 +47,7 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
 
     it('changed code', async () => {
       useFlagStore().setChangeCodeFlag(true);
-      const { emitted } = renderComponent(ProjectsPopup);
+      const { emitted } = renderComponent(ProjectsPopup, { props: { modelValue: true } });
       const iframe = await screen.findByText('gsap example');
 
       await userEvent.click(iframe);
@@ -58,23 +58,32 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
   });
 
   it('delete project', async () => {
-    renderComponent(ProjectsPopup);
+    const { id: page2Id } = CODES_RESPONSE_RESULT_MAP[2].codeList[0];
 
-    const li = await screen.findByTestId(id);
+    renderComponent(ProjectsPopup, { props: { modelValue: true } });
+    await userEvent.click(await screen.findByRole('button', { name: /pagination next/i }));
 
-    if (!li) return;
-    const trashSvg = within(li).getByRole('img', { name: /fa-trash/i });
+    const page2Element = await screen.findByTestId(page2Id);
+    const page2TrashSvg = within(page2Element).getByRole('img', { name: /fa-trash/i });
 
-    expect(trashSvg).toBeInTheDocument();
-    router.push({ name: 'Home', params: { id } });
+    router.push({ name: 'Home', params: { id: page2Id } });
     await router.isReady();
-    await userEvent.click(trashSvg);
+    await userEvent.click(page2TrashSvg);
     expect(screen.getByText('successfully deleted')).toBeInTheDocument();
     expect(router.currentRoute.value.params.id).toEqual('');
+
+    expect(screen.getByText(title)).toBeInTheDocument();
+    const element = await screen.findByTestId(id);
+    const trashSvg = within(element).getByRole('img', { name: /fa-trash/i });
+
+    await userEvent.click(trashSvg);
+    await waitFor(() => {
+      expect(screen.queryByText(title)).not.toBeInTheDocument();
+    });
   });
 
   it('go project page', async () => {
-    renderComponent(ProjectsPopup);
+    renderComponent(ProjectsPopup, { props: { modelValue: true } });
 
     await userEvent.click(await screen.findByRole('button', { name: /pagination next/i }));
     expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();

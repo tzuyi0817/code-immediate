@@ -12,7 +12,7 @@ describe('AppHeader/SettingPopup component', () => {
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(SettingsPopup);
+    renderComponent(SettingsPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /cdn settings/i })).toBeInTheDocument();
     expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
     const listItems = screen.getAllByRole('listitem');
@@ -30,7 +30,7 @@ describe('AppHeader/SettingPopup component', () => {
   });
 
   it('change setting tab', async () => {
-    renderComponent(SettingsPopup);
+    renderComponent(SettingsPopup, { props: { modelValue: true } });
     const listItems = screen.getAllByRole('listitem');
     const cssTab = listItems.find(listItem => listItem.textContent === 'CSS');
     const jsTab = listItems.find(listItem => listItem.textContent === 'JS');
@@ -48,7 +48,7 @@ describe('AppHeader/SettingPopup component', () => {
   });
 
   it('search cdn resource', async () => {
-    renderComponent(SettingsPopup);
+    renderComponent(SettingsPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 's');
     expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
     expect(await screen.findByText(/slider-pro/i)).toBeInTheDocument();
@@ -66,7 +66,7 @@ describe('AppHeader/SettingPopup component', () => {
   });
 
   it('cdnjs search error', async () => {
-    renderComponent(SettingsPopup);
+    renderComponent(SettingsPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'cdnjs');
     expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
     expect(await screen.findByText('cdnjs search error')).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('AppHeader/SettingPopup component', () => {
   });
 
   it('add and delete custom cdn resource', async () => {
-    renderComponent(SettingsPopup);
+    renderComponent(SettingsPopup, { props: { modelValue: true } });
     await userEvent.click(screen.getByRole('button', { name: /\+ custom resource/i }));
     const cdn = 'https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css';
     const mockWindowOpen = vi.fn();

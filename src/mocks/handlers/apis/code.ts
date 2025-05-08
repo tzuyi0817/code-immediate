@@ -8,6 +8,7 @@ export const mockCodeApi = {
     if (!page || (page !== '1' && page !== '2')) {
       return HttpResponse.json({ message: 'can not find the codes page' }, { status: 400 });
     }
+
     return HttpResponse.json({
       message: 'success',
       status: 'success',
@@ -33,9 +34,9 @@ export const mockCodeApi = {
     });
   }),
   deleteCode: http.delete('*/code/:codeId', ({ params }) => {
-    if (params.codeId !== '6361d5461292968b0f28f39f') {
-      return HttpResponse.json({ message: 'failed to delete' }, { status: 400 });
-    }
+    CODES_RESPONSE_RESULT_MAP[1].codeList.filter(item => item.id !== params.codeId);
+    CODES_RESPONSE_RESULT_MAP[2].codeList.filter(item => item.id !== params.codeId);
+    console.log(CODES_RESPONSE_RESULT_MAP);
     return HttpResponse.json({
       message: 'successfully deleted',
       status: 'success',
