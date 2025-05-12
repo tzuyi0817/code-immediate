@@ -22,6 +22,8 @@ const LazyPreview = defineAsyncComponent(() => import('@/components/common/Previ
 
 async function getProjects() {
   isLoading.value = true;
+  projects.value = [];
+
   const { resultMap } = await getCodes(currentPage.value).finally(() => {
     isLoading.value = false;
   });
@@ -64,19 +66,11 @@ async function deleteProject(id: string) {
   if (projects.value.length > 1) {
     getProjects();
   } else {
-    goPage(currentPage.value - 1);
+    currentPage.value -= 1;
   }
 
   if (id !== route.params.id) return;
   router.replace({ params: { id: '' } });
-}
-
-function goPage(page: number) {
-  if (page < 1) return;
-
-  currentPage.value = page;
-  projects.value = [];
-  getProjects();
 }
 
 function closePopup() {
@@ -159,11 +153,11 @@ function closePopup() {
       </ul>
 
       <pagination
+        v-model:page="currentPage"
         class="pt-4"
-        :page="currentPage"
         :total="total"
         :disabled="isLoading"
-        @change="goPage"
+        @change="getProjects"
       />
     </template>
   </popup>

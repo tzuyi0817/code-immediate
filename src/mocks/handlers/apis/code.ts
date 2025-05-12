@@ -34,9 +34,15 @@ export const mockCodeApi = {
     });
   }),
   deleteCode: http.delete('*/code/:codeId', ({ params }) => {
-    CODES_RESPONSE_RESULT_MAP[1].codeList.filter(item => item.id !== params.codeId);
-    CODES_RESPONSE_RESULT_MAP[2].codeList.filter(item => item.id !== params.codeId);
-    console.log(CODES_RESPONSE_RESULT_MAP);
+    const page1 = CODES_RESPONSE_RESULT_MAP[1];
+    const page2 = CODES_RESPONSE_RESULT_MAP[2];
+
+    page1.codeList = page1.codeList.filter(item => item.id !== params.codeId);
+    page1.totalSize -= 1;
+
+    page2.codeList = page2.codeList.filter(item => item.id !== params.codeId);
+    page2.totalSize -= 1;
+
     return HttpResponse.json({
       message: 'successfully deleted',
       status: 'success',

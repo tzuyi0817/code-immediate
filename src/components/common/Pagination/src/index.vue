@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import Next from './Next.vue';
 import Pager from './Pager.vue';
 import Prev from './Prev.vue';
@@ -35,18 +35,39 @@ function handlePrev() {
   changePage(currentPage.value - 1);
 }
 
-function changePage(page: number) {
-  if (page < 1 || page > pageCount.value || page === currentPage.value) return;
-
-  currentPage.value = page;
-  emit('change', currentPage.value, props.pageSize);
-}
-
 function handleNext() {
   if (currentPage.value >= pageCount.value) return;
 
   changePage(currentPage.value + 1);
 }
+
+function changePage(page: number) {
+  if (page < 1 || page > pageCount.value || page === currentPage.value) return;
+
+  currentPage.value = page;
+}
+
+watch(currentPage, page => {
+  if (page < 1) {
+    currentPage.value = 1;
+  } else if (page > pageCount.value) {
+    currentPage.value = pageCount.value;
+  }
+});
+
+watch(pageCount, count => {
+  if (currentPage.value <= count) return;
+
+  currentPage.value = count;
+});
+
+watch(
+  [currentPage, () => props.pageSize],
+  ([page, pageSize]) => {
+    emit('change', page, pageSize);
+  },
+  { flush: 'post' },
+);
 </script>
 
 <template>

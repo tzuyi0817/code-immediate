@@ -217,4 +217,4 @@ export const CODES_RESPONSE_RESULT_MAP = {
     totalPage: 2,
     totalSize: 7,
   },
-} as const;
+};

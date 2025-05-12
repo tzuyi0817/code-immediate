@@ -57,6 +57,16 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
     });
   });
 
+  it('go project page', async () => {
+    renderComponent(ProjectsPopup, { props: { modelValue: true } });
+
+    await userEvent.click(await screen.findByRole('button', { name: /pagination next/i }));
+    expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: /pagination prev/i }));
+    expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
+  });
+
   it('delete project', async () => {
     const { id: page2Id } = CODES_RESPONSE_RESULT_MAP[2].codeList[0];
 
@@ -80,15 +90,5 @@ describe('AppHeader/ProjectsPopup Component', { timeout: 10000 }, () => {
     await waitFor(() => {
       expect(screen.queryByText(title)).not.toBeInTheDocument();
     });
-  });
-
-  it('go project page', async () => {
-    renderComponent(ProjectsPopup, { props: { modelValue: true } });
-
-    await userEvent.click(await screen.findByRole('button', { name: /pagination next/i }));
-    expect(await screen.findByText(/glitch effect/i)).toBeInTheDocument();
-
-    await userEvent.click(screen.getByRole('button', { name: /pagination prev/i }));
-    expect(await screen.findByText(/gsap example/i)).toBeInTheDocument();
   });
 });
