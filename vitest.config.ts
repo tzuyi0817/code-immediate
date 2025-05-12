@@ -20,7 +20,8 @@ export default mergeConfig(
       ],
       coverage: {
         provider: 'v8',
-        include: ['!src/main.ts', 'src/**/*.ts', 'src/**/*.vue', '!src/mocks/browser.ts'],
+        include: ['src/**/*.ts', 'src/**/*.vue'],
+        exclude: ['src/main.ts', 'src/App.vue', 'src/mocks/browser.ts', 'src/*.d.ts', 'src/types/*', 'src/plugins/*'],
       },
     },
   }) as UserConfig,
