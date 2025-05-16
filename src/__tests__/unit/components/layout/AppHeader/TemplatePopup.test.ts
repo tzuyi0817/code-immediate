@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
 import TemplatePopup from '@/components/layout/AppHeader/src/TemplatePopup.vue';
-import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
+import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/constants/template';
 import { useCodeContentStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 

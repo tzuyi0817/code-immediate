@@ -1,7 +1,7 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import themeDark from 'shiki/themes/dark-plus.mjs';
-import { COMMON_GRAMMARS_MAP, GRAMMARS_MAP } from '@/config/grammar';
+import { COMMON_GRAMMARS_MAP, GRAMMARS_MAP } from '@/constants/grammar';
 import { IS_TEST_MODE, registry } from '@/monaco';
 import { SHIKI_HIGHLIGHT_LANG } from '@/monaco/highlight';
 import { useCodeContentStore, useFlagStore } from '@/store';

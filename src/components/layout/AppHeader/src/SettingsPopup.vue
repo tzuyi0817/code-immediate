@@ -2,7 +2,7 @@
 import axios, { type AxiosResponse } from 'axios';
 import { computed, reactive, ref } from 'vue';
 import { Popup, showToast } from '@/components/common';
-import { BUILT_IN_RESOURCES } from '@/config/template';
+import { BUILT_IN_RESOURCES } from '@/constants/template';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
 import type { CdnItem, CdnJsResponse } from '@/types/cdn';

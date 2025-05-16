@@ -51,7 +51,7 @@ interface ContentAction<T> {
   resources?: string[];
 }
 
-export const useCodeContentStore = defineStore('code_immediate_content', {
+export const useCodeContentStore = defineStore('code-content', {
   state: () => deepClone(defaultState),
   getters: {
     isSFC: state => state.codeTemplate === 'VueSFC',

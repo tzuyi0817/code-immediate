@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { computed, onBeforeUnmount, onMounted } from 'vue';
-import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
-import { SUFFIX_MAP } from '@/config/suffix';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/constants/language';
+import { SUFFIX_MAP } from '@/constants/suffix';
 import { useCodeContentStore } from '@/store';
 import type { CodeModel } from '@/types/code-content';
 import EditorMenu from '../EditorMenu/index.vue';

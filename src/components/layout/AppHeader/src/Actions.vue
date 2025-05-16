@@ -4,8 +4,8 @@ import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
 import { postCode, putCode } from '@/apis/code';
 import { logoutUser } from '@/apis/user';
 import { LoadingButton, showToast } from '@/components/common';
-import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/config/template';
-import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
+import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
+import { STORAGE_TOKEN, useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import AppHeaderMenu from './Menu.vue';
 
@@ -44,7 +44,7 @@ async function logout() {
 
   setUser({});
   createNewProject();
-  window.localStorage.removeItem('code_token');
+  window.localStorage.removeItem(STORAGE_TOKEN);
   showToast({ message, type: status });
 }
 

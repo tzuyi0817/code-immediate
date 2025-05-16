@@ -1,8 +1,8 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
 import typescript from 'typescript';
-import { IMPORT_MAP } from '@/config/import-map';
-import { esModel, SCRIPT_TYPE_MAP } from '@/config/script-type';
+import { IMPORT_MAP } from '@/constants/import-map';
+import { esModel, SCRIPT_TYPE_MAP } from '@/constants/script-type';
 import { getTsConstructor } from '@/utils/cdn';
 import { parseImport } from '@/utils/parse-import';
 import type {

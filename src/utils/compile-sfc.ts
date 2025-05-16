@@ -8,9 +8,9 @@ import {
   type BindingMetadata,
   type CompilerOptions,
 } from 'vue/compiler-sfc';
-import { IMPORT_MAP } from '@/config/import-map';
-import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/config/language';
-import { SCRIPT_TYPE_MAP } from '@/config/script-type';
+import { IMPORT_MAP } from '@/constants/import-map';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/constants/language';
+import { SCRIPT_TYPE_MAP } from '@/constants/script-type';
 import { transformToJsdelivr } from '@/utils/cdn';
 // import { utoa } from '@/utils/common';
 import { transformCss, transformHtml, transformJs } from '@/utils/compile';

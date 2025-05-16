@@ -3,7 +3,7 @@ import { screen } from '@testing-library/vue';
 import { mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
 import LoginPopup from '@/components/layout/AppHeader/src/LoginPopup.vue';
-import { useUserStore } from '@/store';
+import { STORAGE_ACCOUNT, STORAGE_TOKEN, useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('AppHeader/LoginPopup component', () => {
@@ -37,8 +37,8 @@ describe('AppHeader/LoginPopup component', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(userStore.user).toEqual({ account });
-    expect(window.localStorage.getItem('code_token')).toEqual(fakePassword);
-    expect(window.localStorage.getItem('code_account')).toEqual(account);
+    expect(window.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakePassword);
+    expect(window.localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
     expect(screen.getByText('login success')).toBeInTheDocument();
   });
 

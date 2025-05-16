@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { showToast } from '@/components/common';
-import { PRETTIER_MAP } from '@/config/prettier';
-import { SUFFIX_MAP } from '@/config/suffix';
+import { PRETTIER_MAP } from '@/constants/prettier';
+import { SUFFIX_MAP } from '@/constants/suffix';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { sleep } from '@/utils/common';
 import { exportZip } from '@/utils/export-zip';

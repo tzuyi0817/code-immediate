@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios';
 import { showToast } from '@/components/common';
-import { useCodeContentStore, useUserStore } from '@/store';
+import { STORAGE_TOKEN, useCodeContentStore, useUserStore } from '@/store';
 
 const { VITE_API_URL } = import.meta.env;
 const axiosInstance = axios.create({ baseURL: VITE_API_URL });
@@ -18,7 +18,7 @@ interface RequestMethod {
 
 axiosInstance.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('code_token');
+    const token = localStorage.getItem(STORAGE_TOKEN);
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
     if (data === 'Unauthorized') {
       useCodeContentStore().setCodeId('');
       useUserStore().setUser({});
-      localStorage.removeItem('code_token');
+      localStorage.removeItem(STORAGE_TOKEN);
       showToast({ message: 'account is logged out', type: 'error' });
     } else {
       showToast({ message: data?.message ?? error.message, type: 'error' });

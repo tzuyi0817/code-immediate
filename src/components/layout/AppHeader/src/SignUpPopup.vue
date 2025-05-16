@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { registerUser } from '@/apis/user';
 import { LoadingButton, Popup, showToast } from '@/components/common';
-import { useUserStore } from '@/store';
+import { STORAGE_TOKEN, useUserStore } from '@/store';
 
 const isShowSignUpPop = defineModel<boolean>({ default: false });
 const account = ref('');
@@ -28,7 +28,7 @@ async function register() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    window.localStorage.setItem('code_token', token);
+    window.localStorage.setItem(STORAGE_TOKEN, token);
     showToast({ message, type: status });
     closePopup();
   } catch {

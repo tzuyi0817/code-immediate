@@ -1,4 +1,4 @@
-import { setupTemplate } from '@/config/template';
+import { setupTemplate } from '@/constants/template';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { del, get, post, put } from '@/utils/ajax';
 import { loadParseSources } from '@/utils/load-parse';

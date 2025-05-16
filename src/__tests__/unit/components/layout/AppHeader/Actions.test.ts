@@ -3,8 +3,8 @@ import { screen } from '@testing-library/vue';
 import { mockLogin, mockLogout } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
 import AppHeaderActions from '@/components/layout/AppHeader/src/Actions.vue';
-import { DEFAULT_TITLE } from '@/config/common';
-import { useCodeContentStore, useFlagStore, useUserStore } from '@/store';
+import { DEFAULT_TITLE } from '@/constants/common';
+import { STORAGE_TOKEN, useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('AppHeader/Actions Component', () => {
@@ -160,7 +160,7 @@ describe('AppHeader/Actions Component', () => {
     expect(logoutButton).toBeInTheDocument();
     await userEvent.click(logoutButton);
     expect(userStore.isLogin).toBeFalsy();
-    expect(window.localStorage.getItem('code_token')).toBeNull();
+    expect(window.localStorage.getItem(STORAGE_TOKEN)).toBeNull();
     expect(screen.getByText('successfully logout')).toBeInTheDocument();
   });
 });

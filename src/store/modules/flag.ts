@@ -22,7 +22,7 @@ const defaultState = {
   },
 };
 
-export const useFlagStore = defineStore('code_immediate_flag', {
+export const useFlagStore = defineStore('flag', {
   state: () => ({ ...defaultState }),
   getters: {
     isFormatter: state => {

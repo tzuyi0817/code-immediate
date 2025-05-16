@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { Popup } from '@/components/common';
-import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/config/template';
+import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/constants/template';
 import { useCodeContentStore } from '@/store';
 import type { CodeTemplate } from '@/types/code-content';
 

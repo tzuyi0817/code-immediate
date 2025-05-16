@@ -7,9 +7,9 @@ import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker
 import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
 import { Registry } from 'monaco-textmate';
 import { loadWASM } from 'onigasm';
-import { GRAMMAR_PLIST, GRAMMAR_SCOPE_NAME_MAP, type GrammarScope } from '@/config/grammar';
-import { vueConfiguration } from '@/config/language-configuration/vue';
-import { VERSION } from '@/config/template';
+import { GRAMMAR_PLIST, GRAMMAR_SCOPE_NAME_MAP, type GrammarScope } from '@/constants/grammar';
+import { vueConfiguration } from '@/constants/language-configuration/vue';
+import { VERSION } from '@/constants/template';
 import VueWorker from '@/workers/vue.worker.ts?worker';
 import type { WorkerLanguageService } from '@volar/monaco/worker';
 import type { VueCompilerOptions } from '@vue/language-service';

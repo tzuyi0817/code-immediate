@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { nextTick, ref, useTemplateRef } from 'vue';
-import { DEFAULT_TITLE } from '@/config/common';
+import { DEFAULT_TITLE } from '@/constants/common';
 import { useCodeContentStore, useUserStore } from '@/store';
 import AppHeaderActions from './Actions.vue';
 

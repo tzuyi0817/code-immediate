@@ -3,7 +3,7 @@ import { defineAsyncComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { deleteCode, getCodes } from '@/apis/code';
 import { Pagination, Popup, showToast } from '@/components/common';
-import { setupTemplate } from '@/config/template';
+import { setupTemplate } from '@/constants/template';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/load-parse';
 import type { CodeProject } from '@/types/code-content';

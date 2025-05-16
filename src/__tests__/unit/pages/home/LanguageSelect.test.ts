@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/vue';
 import { renderComponent } from '@/__tests__/unit/render';
-import { HTML_LANGUAGE_MAP } from '@/config/language';
+import { HTML_LANGUAGE_MAP } from '@/constants/language';
 import LanguageSelect from '@/pages/home/components/LanguageSelect/index.vue';
 import { useCodeContentStore } from '@/store';
 import { sleep } from '@/utils/common';

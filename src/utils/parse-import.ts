@@ -1,5 +1,5 @@
 import { parse as parsePackage } from 'parse-package-name';
-import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/config/import-map';
+import { IMPORT_MAP_BUILD_IN_SOURCES } from '@/constants/import-map';
 import { transformToEsbuild, transformToJsdelivr } from '@/utils/cdn';
 import type { CdnSourceMap } from '@/types/cdn';
 

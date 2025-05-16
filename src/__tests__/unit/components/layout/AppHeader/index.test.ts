@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/vue';
 import { mockLogin } from '@/__tests__/__mocks__/user';
 import { renderComponent } from '@/__tests__/unit/render';
 import { AppHeader } from '@/components/layout';
-import { DEFAULT_TITLE } from '@/config/common';
+import { DEFAULT_TITLE } from '@/constants/common';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('AppHeader Component', () => {

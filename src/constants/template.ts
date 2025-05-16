@@ -11,7 +11,7 @@ import {
   VUE_HTML,
   VUE_JS,
   VUE_SFC_CONTENT,
-} from '@/config/default-content';
+} from '@/constants/default-content';
 import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import type { CodeTemplate, CodeTemplateMap } from '@/types/code-content';

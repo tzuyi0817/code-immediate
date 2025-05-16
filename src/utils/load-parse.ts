@@ -1,5 +1,5 @@
 import loadjs from 'loadjs';
-import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/config/language';
+import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/constants/language';
 import { useFlagStore } from '@/store';
 import type { CodeBase } from '@/types/code-content';
 

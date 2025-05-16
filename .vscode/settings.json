@@ -41,6 +41,7 @@
     "typecheck",
     "pxtorem",
     "norem",
-    "grayscale"
+    "grayscale",
+    "persistedstate"
   ]
 }
