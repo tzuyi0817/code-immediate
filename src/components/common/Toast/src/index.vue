@@ -135,12 +135,12 @@ defineExpose({ close, offsetBottom });
   transition-property: opacity, transform;
   transition-duration: 300ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 12px 20px;
+  padding: 6px 10px;
   border: 2px solid;
   background-color: rgba(41 34 24 / 0.9);
   white-space: pre-wrap;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 12px;
   line-height: calc(1.25 / 0.875);
   font-weight: 600;
   filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
@@ -168,5 +168,12 @@ defineExpose({ close, offsetBottom });
 
 .fade-leave-to {
   opacity: 0;
+}
+
+@media (min-width: 1024px) {
+  .toast {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
 }
 </style>
