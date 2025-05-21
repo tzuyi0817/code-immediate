@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
-import { postCode, putCode } from '@/apis/code';
-import { logoutUser } from '@/apis/user';
 import { LoadingButton, showToast } from '@/components/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
+import { logoutUser, postCode, putCode } from '@/services/http';
 import { STORAGE_TOKEN, useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import AppHeaderMenu from './Menu.vue';

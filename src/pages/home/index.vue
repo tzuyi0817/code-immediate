@@ -2,9 +2,9 @@
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, provide, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getCode } from '@/apis/code';
 import { Drag, Editor, Preview } from '@/components/common';
 import { AppFooter, AppHeader } from '@/components/layout';
+import { getCode } from '@/services/http';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
 import type { CodeModel } from '@/types/code-content';

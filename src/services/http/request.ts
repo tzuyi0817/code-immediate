@@ -1,20 +1,10 @@
-import axios, { type AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { showToast } from '@/components/common';
 import { STORAGE_TOKEN, useCodeContentStore, useUserStore } from '@/store';
+import type { RequestMethod } from './types';
 
 const { VITE_API_URL } = import.meta.env;
 const axiosInstance = axios.create({ baseURL: VITE_API_URL });
-
-export interface ResponseResult<T = unknown> {
-  message: string;
-  resultMap: T;
-  status: 'success' | 'error';
-}
-
-interface RequestMethod {
-  <T = unknown, D = unknown>(url: string, config?: AxiosRequestConfig<D>): Promise<ResponseResult<T>>;
-  <T = unknown, D = unknown>(url: string, data?: D, config?: AxiosRequestConfig<D>): Promise<ResponseResult<T>>;
-}
 
 axiosInstance.interceptors.request.use(
   config => {

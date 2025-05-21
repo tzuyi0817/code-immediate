@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { registerUser } from '@/apis/user';
 import { LoadingButton, Popup, showToast } from '@/components/common';
+import { registerUser } from '@/services/http';
 import { STORAGE_TOKEN, useUserStore } from '@/store';
 
 const isShowSignUpPop = defineModel<boolean>({ default: false });
