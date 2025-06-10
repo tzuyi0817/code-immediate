@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig, splitVendorChunkPlugin, type UserConfig } from 'vite';
+import { defineConfig, splitVendorChunkPlugin, type PluginOption } from 'vite';
 
 export default defineConfig({
   base: './',
@@ -65,9 +65,11 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      plugins: [rollupNodePolyFill()],
+      plugins: [rollupNodePolyFill() as PluginOption],
       output: {
         chunkFileNames: 'chunks/[name]-[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]',
+        entryFileNames: 'entries/[name].[hash].js',
         manualChunks: filepath => {
           if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
           if (filepath.includes('@fortawesome')) return '@fortawesome';
@@ -75,4 +77,4 @@ export default defineConfig({
       },
     },
   },
-}) as UserConfig;
+});

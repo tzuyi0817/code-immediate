@@ -1,6 +1,4 @@
-/// <reference types="vitest" />
-import { fileURLToPath, URL } from 'node:url';
-import { defineConfig, mergeConfig, type UserConfig } from 'vitest/config';
+import { defineConfig, mergeConfig } from 'vitest/config';
 import viteConfig from './vite.config';
 
 export default mergeConfig(
@@ -10,8 +8,7 @@ export default mergeConfig(
       globals: true,
       environment: 'jsdom',
       include: ['src/__tests__/unit/**/*.test.ts'],
-      root: fileURLToPath(new URL('./', import.meta.url)),
-      setupFiles: ['src/__tests__/setup/unit-test.ts'],
+      setupFiles: ['./vitest.setup.ts'],
       alias: [
         {
           find: /^monaco-editor$/,
@@ -24,5 +21,5 @@ export default mergeConfig(
         exclude: ['src/main.ts', 'src/App.vue', 'src/mocks/browser.ts', 'src/*.d.ts', 'src/types/*', 'src/plugins/*'],
       },
     },
-  }) as UserConfig,
+  }),
 );

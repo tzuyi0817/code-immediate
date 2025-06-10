@@ -1,11 +1,17 @@
+import { cleanup } from '@testing-library/vue';
 import ResizeObserver from 'resize-observer-polyfill';
+import { mockAnimation } from '@/__tests__/__mocks__/animation';
 import { mswServer } from '@/mocks/server';
-import { mockAnimation } from '../__mocks__/animation';
 import '@testing-library/jest-dom';
 import 'vitest-canvas-mock';
 
 beforeAll(() => mswServer.listen());
-afterEach(() => mswServer.resetHandlers());
+
+afterEach(() => {
+  cleanup();
+  mswServer.resetHandlers();
+});
+
 afterAll(() => mswServer.close());
 
 global.ResizeObserver = ResizeObserver;
