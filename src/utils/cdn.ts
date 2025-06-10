@@ -1,6 +1,6 @@
-import typescript from 'typescript';
 import { hasOwn } from '@/utils/check-type';
 import { devDependencies } from '../../package.json';
+import type typescript from 'typescript';
 
 const JSDELIVR_CDN = 'https://cdn.jsdelivr.net/npm';
 const HANDLE_SEPARATE_MAP = {

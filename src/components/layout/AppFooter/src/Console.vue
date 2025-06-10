@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, Ref, useTemplateRef, watch } from 'vue';
+import { inject, nextTick, onBeforeUnmount, onMounted, reactive, ref, useTemplateRef, watch, type Ref } from 'vue';
 import { Drag, showToast } from '@/components/common';
 import { useCodeContentStore, useFlagStore } from '@/store';
 

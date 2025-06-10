@@ -5,11 +5,11 @@ import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { visualizer } from 'rollup-plugin-visualizer';
-import { defineConfig, splitVendorChunkPlugin, type PluginOption } from 'vite';
+import { defineConfig, type PluginOption } from 'vite';
 
 export default defineConfig({
   base: './',
-  plugins: [vue(), tailwindcss(), visualizer({ gzipSize: true }), splitVendorChunkPlugin()],
+  plugins: [vue(), tailwindcss(), visualizer({ gzipSize: true, open: true })],
   server: {
     port: 8080,
   },
@@ -70,9 +70,23 @@ export default defineConfig({
         chunkFileNames: 'chunks/[name]-[hash].js',
         assetFileNames: 'assets/[name].[hash].[ext]',
         entryFileNames: 'entries/[name].[hash].js',
-        manualChunks: filepath => {
-          if (filepath.includes('compiler-sfc.esm-browser')) return 'compiler-sfc-esm-browser';
-          if (filepath.includes('@fortawesome')) return '@fortawesome';
+        manualChunks: {
+          core: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+          vender: [
+            'axios',
+            'file-saver',
+            'jszip',
+            'loadjs',
+            'onigasm',
+            'monaco-textmate',
+            'monaco-editor-textmate',
+            '@fortawesome/fontawesome-svg-core',
+            '@fortawesome/free-brands-svg-icons',
+            '@fortawesome/free-regular-svg-icons',
+            '@fortawesome/free-solid-svg-icons',
+            '@fortawesome/vue-fontawesome',
+          ],
+          'monaco-editor': ['monaco-editor'],
         },
       },
     },

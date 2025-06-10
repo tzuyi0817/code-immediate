@@ -3,10 +3,10 @@ import {
   compileScript,
   compileTemplate,
   parse,
-  SFCDescriptor,
-  SFCStyleBlock,
   type BindingMetadata,
   type CompilerOptions,
+  type SFCDescriptor,
+  type SFCStyleBlock,
 } from 'vue/compiler-sfc';
 import { IMPORT_MAP } from '@/constants/import-map';
 import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, VUE_LANGUAGE_MAP } from '@/constants/language';

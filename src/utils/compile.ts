@@ -1,6 +1,5 @@
 import postcss from 'postcss';
 import postcssNested from 'postcss-nested';
-import typescript from 'typescript';
 import { IMPORT_MAP } from '@/constants/import-map';
 import { esModel, SCRIPT_TYPE_MAP } from '@/constants/script-type';
 import { getTsConstructor } from '@/utils/cdn';
@@ -14,6 +13,7 @@ import type {
   JsLanguages,
 } from '@/types/code-content';
 import type { Sass, Showdown } from '@/types/language';
+import type typescript from 'typescript';
 
 let sass: Sass | null = null;
 let showdown: Showdown | null = null;

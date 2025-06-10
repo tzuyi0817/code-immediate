@@ -1,4 +1,3 @@
-// @ts-nocheck
 /* eslint-disable unicorn/prefer-add-event-listener */
 import { createNpmFileSystem } from '@volar/jsdelivr';
 import { createTypeScriptWorkerLanguageService, type LanguageServiceEnvironment } from '@volar/monaco/worker';
