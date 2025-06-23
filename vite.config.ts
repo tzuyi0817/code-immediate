@@ -6,10 +6,23 @@ import vue from '@vitejs/plugin-vue';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig, type PluginOption } from 'vite';
+import { createHtmlPlugin } from 'vite-plugin-html';
 
 export default defineConfig({
   base: './',
-  plugins: [vue(), tailwindcss(), visualizer({ gzipSize: true, open: true })],
+  plugins: [
+    vue(),
+    tailwindcss(),
+    createHtmlPlugin({
+      minify: true,
+      inject: {
+        ejsOptions: {
+          views: ['./.ejs/'],
+        },
+      },
+    }),
+    visualizer({ gzipSize: true, open: true }),
+  ],
   server: {
     port: 8080,
   },
