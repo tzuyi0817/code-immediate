@@ -1,15 +1,17 @@
 import { shikiToMonaco } from '@shikijs/monaco';
 import * as monaco from 'monaco-editor';
-import { createHighlighterCore } from 'shiki/core';
+import { createHighlighterCoreSync } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs';
 import langCoffeescript from 'shiki/langs/coffeescript.mjs';
 import langHaml from 'shiki/langs/haml.mjs';
+import langJsx from 'shiki/langs/jsx.mjs';
 import langLess from 'shiki/langs/less.mjs';
 import langMarkdown from 'shiki/langs/markdown.mjs';
 import langPostcss from 'shiki/langs/postcss.mjs';
 import langSass from 'shiki/langs/sass.mjs';
 import langScss from 'shiki/langs/scss.mjs';
 import langStylus from 'shiki/langs/stylus.mjs';
+import langTsx from 'shiki/langs/tsx.mjs';
 import langVue from 'shiki/langs/vue.mjs';
 import themeDark from 'shiki/themes/dark-plus.mjs';
 
@@ -29,12 +31,26 @@ export const SHIKI_HIGHLIGHT_LANG = new Set([
   'javascript',
   'typescript',
   'coffeescript',
+  'jsx',
+  'tsx',
 ]);
 
-export async function registerShikiTheme() {
-  const highlighter = await createHighlighterCore({
+export function registerShikiTheme() {
+  const highlighter = createHighlighterCoreSync({
     themes: [themeDark],
-    langs: [langVue, langHaml, langMarkdown, langScss, langLess, langSass, langStylus, langPostcss, langCoffeescript],
+    langs: [
+      langVue,
+      langTsx,
+      langJsx,
+      langHaml,
+      langMarkdown,
+      langScss,
+      langLess,
+      langSass,
+      langStylus,
+      langPostcss,
+      langCoffeescript,
+    ],
     engine: createJavaScriptRegexEngine(),
   });
 

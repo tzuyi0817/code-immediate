@@ -51,7 +51,7 @@ export async function initMonacoEditor() {
   const { registerShikiTheme } = await import('./highlight');
 
   setupCustomLanguage();
-  await registerShikiTheme();
+  registerShikiTheme();
 }
 
 async function initializeWorker(worker: Worker) {
