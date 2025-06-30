@@ -1,7 +1,7 @@
 @layer components {
   .svg-icon {
     color: #666666;
-    transition-property: colors transform;
+    transition-property: colors transform opacity;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
@@ -13,6 +13,7 @@
 
   .svg-icon:active {
     transform: scale(0.9);
+    opacity: 0.6;
   }
 
   .svg-icon.disabled {

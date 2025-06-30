@@ -10,7 +10,7 @@ defineProps<Props>();
 
 <template>
   <button
-    class="btn text-sm"
+    class="btn text-sm select-none"
     :disabled="isLoading || disabled"
   >
     <font-awesome-icon

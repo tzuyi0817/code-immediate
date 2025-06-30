@@ -175,35 +175,38 @@ onBeforeUnmount(unWindow);
 
     <span
       :class="[
-        'svg-icon text-lg hidden lg:flex app-header-actions-tip',
+        'text-lg hidden lg:flex app-header-actions-tip',
         { 'animate-spin cursor-not-allowed': isSavingCode, disabled: isLoggingOut },
       ]"
       data-tip="Save code"
       @click="saveCode"
     >
       <font-awesome-icon
+        class="svg-icon"
         title="fa-cloud-arrow-up"
         :icon="`fa-solid ${isSavingCode ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
       />
     </span>
 
     <span
-      class="svg-icon text-lg hidden lg:flex app-header-actions-tip"
+      class="text-lg hidden lg:flex app-header-actions-tip"
       data-tip="Open setting popup"
       @click="toggleSettingsPop"
     >
       <font-awesome-icon
+        class="svg-icon"
         title="fa-gear"
         icon="fa-solid fa-gear"
       />
     </span>
 
     <span
-      class="svg-icon text-lg hidden lg:flex app-header-actions-tip"
+      class="text-lg hidden lg:flex app-header-actions-tip"
       data-tip="Create new project"
       @click="createNewProject"
     >
       <font-awesome-icon
+        class="svg-icon"
         title="fa-file-circle-plus"
         icon="fa-solid fa-file-circle-plus"
       />
@@ -211,11 +214,12 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="isLogin"
-      class="svg-icon text-xl hidden lg:flex app-header-actions-tip"
+      class="text-xl hidden lg:flex app-header-actions-tip"
       data-tip="Open projects popup"
       @click="toggleProjectsPop"
     >
       <font-awesome-icon
+        class="svg-icon"
         title="fa-sheet-plastic"
         icon="fa-solid fa-sheet-plastic"
       />
@@ -223,11 +227,12 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="codeId"
-      class="svg-icon text-xl hidden lg:flex app-header-actions-tip"
+      class="text-xl hidden lg:flex app-header-actions-tip"
       data-tip="Share link"
       @click="shareLink"
     >
       <font-awesome-icon
+        class="svg-icon"
         title="fa-share"
         icon="fa-solid fa-share"
       />

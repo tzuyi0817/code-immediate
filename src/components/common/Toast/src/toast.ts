@@ -12,9 +12,7 @@ function createToast(params: ToastParams) {
   const props = {
     ...options,
     id,
-    onClose: () => {
-      // removeCloseAllEventListener()
-    },
+    onClose: () => {},
     onClosed: () => {
       if (container) {
         render(null, container);
@@ -24,9 +22,7 @@ function createToast(params: ToastParams) {
       clearToast(id);
       options.onClosed?.();
     },
-    onMounted: () => {
-      // addCloseAllEventListener()
-    },
+    onMounted: () => {},
   };
   const toast = createVNode(Toast, props);
 
@@ -74,17 +70,3 @@ export function getPreviousToast(id: string) {
 
   return toasts[index - 1];
 }
-
-// function addCloseAllEventListener() {
-//   if (toasts.length > 1) return
-
-//   setTimeout(() => {
-//     document.addEventListener('click', closeAllToast)
-//   })
-// }
-
-// function removeCloseAllEventListener() {
-//   if (toasts.length > 0) return
-
-//   document.removeEventListener('click', closeAllToast)
-// }
