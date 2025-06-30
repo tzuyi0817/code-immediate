@@ -9,6 +9,7 @@ const localAccount = localStorage.getItem(STORAGE_ACCOUNT);
 const account = ref(localAccount ?? '');
 const password = ref('');
 const isLoading = ref(false);
+let githubPopup: Window | null = null;
 
 async function login() {
   const data = {
@@ -35,50 +36,70 @@ async function login() {
   }
 }
 
-function loginGithub() {
-  const { screenX, screenLeft, screen, innerHeight } = window;
+function openCenteredPopup(name: string) {
+  const { screenX, screenY, outerWidth, outerHeight, innerWidth } = window;
+  const width = Math.min(500, innerWidth);
+  const left = screenX + (outerWidth - width) / 2;
+  const top = screenY + (outerHeight - width) / 2;
+  const windowFeatures = `width=${width},height=${width},left=${left},top=${top}`;
+
+  return window.open('', name, windowFeatures);
+}
+
+async function loginGithub() {
+  const popup = openCenteredPopup('github-oauth');
+
+  if (githubPopup) return;
+
+  githubPopup = popup;
+
+  if (!githubPopup) return;
   const { VITE_API_URL } = import.meta.env;
-  const left = (screenX ?? screenLeft ?? 0) + (screen.width - 500) / 2;
-  const windowFeatures = `left=${left},top=${innerHeight * 0.5 - 250},width=500,height=500`;
-  let authWindow = window.open(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
+  const url = `${VITE_API_URL}/github`;
 
-  if (!authWindow) return;
-  let timer: NodeJS.Timeout | null = null;
-
-  authWindow.focus();
+  githubPopup.location.href = url;
+  githubPopup.focus();
   window.addEventListener('message', onMessage);
 
-  timer = setInterval(() => {
-    if (authWindow?.closed) {
-      closeAuthWindow();
+  const timer = setInterval(() => {
+    if (githubPopup?.closed) {
+      cleanup();
     }
-    authWindow?.opener.postMessage(authWindow?.location.search, location.origin);
+    if (githubPopup?.location.href === 'about:blank') return;
+    const search = githubPopup?.location.search;
+
+    githubPopup?.opener.postMessage({ type: 'oauth-success', search }, location.origin);
   }, 300);
 
-  function closeAuthWindow() {
+  function cleanup() {
     if (timer) {
       clearInterval(timer);
     }
-    authWindow?.close();
-    authWindow = null;
+    githubPopup?.close();
+    githubPopup = null;
     window.removeEventListener('message', onMessage);
   }
 
-  function onMessage(event: MessageEvent<any>) {
-    const { data: search } = event;
+  function onMessage(event: MessageEvent) {
+    const { type, search } = event.data;
 
-    if (!search || typeof search !== 'string') return;
-
+    if (type !== 'oauth-success') return;
     const searchParams = new URLSearchParams(search);
-    const { setUser } = useUserStore();
     const token = searchParams.get('token') ?? '';
     const githubAccount = searchParams.get('account') ?? '';
 
-    closeAuthWindow();
-    setUser({ account: githubAccount });
-    window.localStorage.setItem(STORAGE_TOKEN, token);
-    showToast({ message: 'login success', type: 'success' });
-    closePopup();
+    if (token && githubAccount) {
+      const { setUser } = useUserStore();
+
+      setUser({ account: githubAccount });
+      window.localStorage.setItem(STORAGE_TOKEN, token);
+      showToast({ message: 'login success', type: 'success' });
+      closePopup();
+    } else {
+      showToast({ message: 'login failed', type: 'error' });
+    }
+
+    cleanup();
   }
 }
 
