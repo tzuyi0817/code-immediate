@@ -62,12 +62,14 @@ describe('AppHeader/LoginPopup component', () => {
     renderComponent(LoginPopup, { props: { modelValue: true } });
 
     const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
-    const { screenX, screenLeft, screen: windowScreen, innerHeight } = window;
     const { VITE_API_URL } = import.meta.env;
-    const left = (screenX ?? screenLeft ?? 0) + (windowScreen.width - 500) / 2;
-    const windowFeatures = `left=${left},top=${innerHeight * 0.5 - 250},width=500,height=500`;
+    const { screenX, screenY, outerWidth, outerHeight, innerWidth } = window;
+    const width = Math.min(500, innerWidth);
+    const left = screenX + (outerWidth - width) / 2;
+    const top = screenY + (outerHeight - width) / 2;
+    const windowFeatures = `width=${width},height=${width},left=${left},top=${top}`;
 
     await userEvent.click(screen.getByRole('button', { name: /log in with github/i }));
-    expect(openSpy).toBeCalledWith(`${VITE_API_URL}/github`, 'githubAuth', windowFeatures);
+    expect(openSpy).toBeCalledWith(`${VITE_API_URL}/github`, 'github-oauth', windowFeatures);
   });
 });
