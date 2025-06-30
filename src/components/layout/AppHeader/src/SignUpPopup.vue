@@ -93,7 +93,8 @@ function closePopup() {
           </label>
 
           <loading-button
-            class="btn-yellow w-full mt-3"
+            v-tick
+            class="btn-yellow w-full mt-3 no-scale"
             :is-loading="isLoading"
           >
             Sign up

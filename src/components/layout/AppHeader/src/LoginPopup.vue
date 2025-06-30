@@ -128,7 +128,8 @@ function closePopup() {
           </label>
 
           <loading-button
-            class="btn-yellow w-full mt-3"
+            v-tick
+            class="btn-yellow w-full mt-3 no-scale"
             :is-loading="isLoading"
           >
             Log in
@@ -136,7 +137,8 @@ function closePopup() {
         </form>
 
         <loading-button
-          class="btn-blue w-full mt-3"
+          v-tick
+          class="btn-blue w-full mt-3 no-scale"
           :disabled="isLoading"
           @click="loginGithub"
         >

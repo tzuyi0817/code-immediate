@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import router from '@/router';
 import App from './App.vue';
+import directives from './directives';
 import { initMonacoEditor } from './monaco';
 import fontAwesomeIconPlugin from './plugins/font-awesome-icon';
 import { createPinia } from './store';
@@ -14,6 +15,7 @@ const pinia = createPinia();
 app.use(pinia);
 app.use(router);
 app.use(fontAwesomeIconPlugin);
+app.use(directives);
 
 (async function init() {
   loadParse('babel');

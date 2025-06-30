@@ -223,7 +223,8 @@ function setResources() {
       </div>
 
       <button
-        class="btn btn-yellow w-full mt-4 text-sm"
+        v-tick
+        class="btn btn-yellow w-full mt-4 text-sm no-scale"
         @click="setCdn"
       >
         Confirm

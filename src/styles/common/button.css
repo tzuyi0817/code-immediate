@@ -3,7 +3,7 @@
     outline-style: none;
   }
 
-  button:enabled:active {
+  button:not(.no-scale):enabled:active {
     transform: scale(0.9);
   }
 
