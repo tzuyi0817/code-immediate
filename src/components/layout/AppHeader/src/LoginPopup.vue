@@ -36,28 +36,26 @@ async function login() {
   }
 }
 
-function openCenteredPopup(name: string) {
+function openCenteredPopup(url: string, name: string) {
   const { screenX, screenY, outerWidth, outerHeight, innerWidth } = window;
   const width = Math.min(500, innerWidth);
   const left = screenX + (outerWidth - width) / 2;
   const top = screenY + (outerHeight - width) / 2;
   const windowFeatures = `width=${width},height=${width},left=${left},top=${top}`;
 
-  return window.open('', name, windowFeatures);
+  return window.open(url, name, windowFeatures);
 }
 
 async function loginGithub() {
-  const popup = openCenteredPopup('github-oauth');
+  const { VITE_API_URL } = import.meta.env;
+  const popup = openCenteredPopup(`${VITE_API_URL}/github`, 'github-oauth');
 
   if (githubPopup) return;
 
   githubPopup = popup;
 
   if (!githubPopup) return;
-  const { VITE_API_URL } = import.meta.env;
-  const url = `${VITE_API_URL}/github`;
 
-  githubPopup.location.href = url;
   githubPopup.focus();
   window.addEventListener('message', onMessage);
 
