@@ -25,7 +25,7 @@
 
   #init-loading-logo {
     margin-left: 25px;
-    animation: spin 1.2s alternate infinite;
+    animation: loading-spin 1.2s alternate infinite;
   }
 
   #init-loading-alphabet {
@@ -42,10 +42,10 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: rgb(250 204 21);
-    animation: beat 0.5s calc(var(--i) * 0.16s) alternate infinite;
+    animation: loading-beat 0.5s calc(var(--i) * 0.16s) alternate infinite;
   }
 
-  @keyframes spin {
+  @keyframes loading-spin {
     from {
       transform: rotate3d(0, 0, 0, 0deg) scale(1.25);
     }
@@ -54,7 +54,7 @@
     }
   }
 
-  @keyframes beat {
+  @keyframes loading-beat {
     from {
       transform: scale(1.25);
     }
