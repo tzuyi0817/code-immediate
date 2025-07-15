@@ -84,7 +84,7 @@ export default defineConfig({
         assetFileNames: 'assets/[name].[hash].[ext]',
         entryFileNames: 'entries/[name].[hash].js',
         manualChunks: {
-          core: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate'],
+          core: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate', '@tanstack/vue-query'],
           vender: [
             'axios',
             'file-saver',

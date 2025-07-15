@@ -28,29 +28,29 @@ describe('AppHeader/LoginPopup component', () => {
 
   it('login success', async () => {
     const account = 'FAKE_ACCOUNT';
-    const fakePassword = 'FAKE_PASSWORD';
+    const fakeSecret = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
     renderComponent(LoginPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
-    await userEvent.type(screen.getByLabelText('Password'), fakePassword);
+    await userEvent.type(screen.getByLabelText('Password'), fakeSecret);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(userStore.user).toEqual({ account });
-    expect(window.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakePassword);
+    expect(window.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
     expect(window.localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
     expect(screen.getByText('login success')).toBeInTheDocument();
   });
 
   it('login error', async () => {
     const account = 'FAKE_ACCOUNT';
-    const fakePassword = 'FAKE_PASSWORD';
+    const fakeSecret = 'FAKE_PASSWORD';
     const userStore = useUserStore();
 
     mockLogout();
     renderComponent(LoginPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByRole('textbox', { name: /account/i }), account);
-    await userEvent.type(screen.getByLabelText('Password'), fakePassword);
+    await userEvent.type(screen.getByLabelText('Password'), fakeSecret);
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
     expect(userStore.isLogin).toBeFalsy();
     expect(screen.getByLabelText('Account')).toHaveTextContent('');
