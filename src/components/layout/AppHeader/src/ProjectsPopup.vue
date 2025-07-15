@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { keepPreviousData, useQuery } from '@tanstack/vue-query';
+import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query';
 import { computed, defineAsyncComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Pagination, Popup, showToast } from '@/components/common';
@@ -13,7 +13,6 @@ import type { CodeProject } from '@/types/code-content';
 const emit = defineEmits(['openRemindPop']);
 const isShowProjectsPop = defineModel<boolean>({ default: false });
 const currentPage = ref(1);
-const isDeleting = ref(false);
 const deleteId = ref('');
 const route = useRoute();
 const router = useRouter();
@@ -31,12 +30,32 @@ const {
   enabled: false,
 });
 
+const { mutate, isPending: isDeleting } = useMutation({
+  mutationFn: deleteCode,
+  onSuccess: async ({ status, message }, id) => {
+    if (data.value?.codeList && data.value.codeList.length > 1) {
+      await getProjects();
+    } else {
+      currentPage.value -= 1;
+    }
+
+    showToast({ message, type: status });
+
+    if (id === route.params.id) {
+      router.replace({ params: { id: '' } });
+    }
+  },
+});
+
 const isLoading = computed(() => isPending.value || isPlaceholderData.value);
 
 async function selectProject(project: CodeProject) {
   const { setCodeLoading, isChangeCode } = useFlagStore();
 
-  if (isChangeCode) return emit('openRemindPop', () => selectProject(project));
+  if (isChangeCode) {
+    emit('openRemindPop', () => selectProject(project));
+    return;
+  }
 
   const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
   const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
@@ -52,26 +71,11 @@ async function selectProject(project: CodeProject) {
   setCodeLoading(false);
 }
 
-async function deleteProject(id: string) {
+function deleteProject(id: string) {
   if (isDeleting.value) return;
+
   deleteId.value = id;
-  isDeleting.value = true;
-
-  const { status, message } = await deleteCode(id).finally(() => {
-    isDeleting.value = false;
-  });
-
-  showToast({ message, type: status });
-
-  if (data.value?.codeList && data.value.codeList.length > 1) {
-    getProjects();
-  } else {
-    currentPage.value -= 1;
-  }
-
-  if (id === route.params.id) {
-    router.replace({ params: { id: '' } });
-  }
+  mutate(id);
 }
 
 function closePopup() {
