@@ -42,6 +42,7 @@
     "pxtorem",
     "norem",
     "grayscale",
-    "persistedstate"
+    "persistedstate",
+    "tanstack"
   ]
 }

@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from 'vue';
+import { keepPreviousData, useQuery } from '@tanstack/vue-query';
+import { computed, defineAsyncComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Pagination, Popup, showToast } from '@/components/common';
 import { setupTemplate } from '@/constants/template';
+import { CODES_QUERY } from '@/queries';
 import { deleteCode, getCodes } from '@/services/http';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { loadParseSources } from '@/utils/load-parse';
@@ -10,28 +12,26 @@ import type { CodeProject } from '@/types/code-content';
 
 const emit = defineEmits(['openRemindPop']);
 const isShowProjectsPop = defineModel<boolean>({ default: false });
-const projects = ref<CodeProject[]>([]);
 const currentPage = ref(1);
-const total = ref(0);
-const isLoading = ref(false);
 const isDeleting = ref(false);
 const deleteId = ref('');
 const route = useRoute();
 const router = useRouter();
 const LazyPreview = defineAsyncComponent(() => import('@/components/common/Preview/src/LazyPreview.vue'));
 
-async function getProjects() {
-  isLoading.value = true;
-  projects.value = [];
+const {
+  data,
+  isPending,
+  isPlaceholderData,
+  refetch: getProjects,
+} = useQuery({
+  queryKey: [...CODES_QUERY, currentPage],
+  queryFn: () => getCodes(currentPage.value).then(res => res.resultMap),
+  placeholderData: keepPreviousData,
+  enabled: false,
+});
 
-  const { resultMap } = await getCodes(currentPage.value).finally(() => {
-    isLoading.value = false;
-  });
-  const { codeList, totalSize } = resultMap;
-
-  projects.value = codeList;
-  total.value = totalSize;
-}
+const isLoading = computed(() => isPending.value || isPlaceholderData.value);
 
 async function selectProject(project: CodeProject) {
   const { setCodeLoading, isChangeCode } = useFlagStore();
@@ -63,14 +63,15 @@ async function deleteProject(id: string) {
 
   showToast({ message, type: status });
 
-  if (projects.value.length > 1) {
+  if (data.value?.codeList && data.value.codeList.length > 1) {
     getProjects();
   } else {
     currentPage.value -= 1;
   }
 
-  if (id !== route.params.id) return;
-  router.replace({ params: { id: '' } });
+  if (id === route.params.id) {
+    router.replace({ params: { id: '' } });
+  }
 }
 
 function closePopup() {
@@ -108,7 +109,7 @@ function closePopup() {
         class="projects-popup-list"
       >
         <li
-          v-for="project in projects"
+          v-for="project in data?.codeList"
           :key="project.id"
           :data-testid="project.id"
           class="projects-popup-card bg-black/5"
@@ -145,7 +146,7 @@ function closePopup() {
           </div>
         </li>
         <img
-          v-if="!projects.length"
+          v-if="!data?.codeList.length"
           src="/templateIcon/images.jfif"
           alt="Empty Projects"
           class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -155,9 +156,9 @@ function closePopup() {
       <pagination
         v-model:page="currentPage"
         class="pt-4"
-        :total="total"
+        :total="data?.totalSize"
         :disabled="isLoading"
-        @change="getProjects"
+        @change="() => getProjects()"
       />
     </template>
   </popup>
