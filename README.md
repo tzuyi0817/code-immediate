@@ -90,20 +90,20 @@ import moment from 'https://cdn.jsdelivr.net/npm/moment/+esm';
 
 ## Support Languages
 
-| Category | Language                                    |
-| :------- | :------------------------------------------ |
-| HTML     | Haml, Markdown, Pug                         |
-| CSS      | Less, SCSS, Sass, Stylus, PostCSS           |
-| JS       | Babel, TypeScript, CoffeeScript, LiveScript |
+| Category | Language                                            |
+| :------- | :-------------------------------------------------- |
+| HTML     | `Haml`, `Markdown`, `Pug`                           |
+| CSS      | `Less`, `SCSS`, `Sass`, `Stylus`, `PostCSS`         |
+| JS       | `Babel`, `TypeScript`, `CoffeeScript`, `LiveScript` |
 
 ## Technologies Used
 
-- Frontend: vue3, typescript, tailwindcss, pinia
-- Environment construction: vite, eslint, prettier
-- Code editor: monaco editor
-- File load: loadjs
-- ZIP Handling: jszip, file-saver
-- Test: vitest, @testing-library, msw
+- Frontend: `vue3`, `typescript`, `tailwindcss`, `pinia`, `@tanstack/vue-query`
+- Environment construction: `vite`, `eslint`, `prettier`
+- Code editor: `monaco editor`
+- File load: `loadjs`
+- ZIP Handling: `jszip`, `file-saver`
+- Test: `vitest`, `@testing-library`, `msw`
 
 ## License
 
