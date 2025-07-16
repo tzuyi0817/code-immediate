@@ -174,15 +174,12 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      :class="[
-        'text-lg hidden lg:flex app-header-actions-tip',
-        { 'animate-spin cursor-not-allowed': isSavingCode, disabled: isLoggingOut },
-      ]"
+      class="text-lg hidden lg:flex app-header-actions-tip"
       data-tip="Save code"
       @click="saveCode"
     >
       <font-awesome-icon
-        class="svg-icon"
+        :class="['svg-icon', { 'animate-spin cursor-not-allowed': isSavingCode, disabled: isLoggingOut }]"
         title="fa-cloud-arrow-up"
         :icon="`fa-solid ${isSavingCode ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
       />
