@@ -61,12 +61,12 @@ Then, you can use the following commands:
 
 ## Built-in frontend framework
 
-- React
-- Vue
-- Vue3 SFC
-- Angular
-- SolidJs
-- RxJS
+- `React`
+- `Vue`
+- `Vue3 SFC`
+- `Angular`
+- `SolidJs`
+- `RxJS`
 
 ## Support ES module syntax
 
@@ -98,12 +98,12 @@ import moment from 'https://cdn.jsdelivr.net/npm/moment/+esm';
 
 ## Technologies Used
 
-- Frontend: `vue3`, `typescript`, `tailwindcss`, `pinia`, `@tanstack/vue-query`
-- Environment construction: `vite`, `eslint`, `prettier`
+- Frontend: `vue3`, `typescript`, `tailwindcss`, `pinia` and `@tanstack/vue-query`
+- Environment construction: `vite`, `eslint` and `prettier`
 - Code editor: `monaco editor`
 - File load: `loadjs`
-- ZIP Handling: `jszip`, `file-saver`
-- Test: `vitest`, `@testing-library`, `msw`
+- ZIP Handling: `jszip` and `file-saver`
+- Test: `vitest`, `@testing-library` and `msw`
 
 ## License
 
