@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query';
 import { render } from '@testing-library/vue';
 import { createPinia, setActivePinia } from 'pinia';
 import { createMemoryHistory, createRouter } from 'vue-router';
@@ -23,7 +24,7 @@ export function renderComponent(testComponent: Component, options?: RenderCompon
     ...componentOptions,
     global: {
       stubs: { FontAwesomeIcon },
-      plugins: [pinia, router],
+      plugins: [pinia, router, [VueQueryPlugin, { queryClient: new QueryClient() }]],
       provide,
     },
   });
