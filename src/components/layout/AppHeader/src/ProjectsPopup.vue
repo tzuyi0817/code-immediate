@@ -3,7 +3,6 @@ import { keepPreviousData, useMutation, useQuery } from '@tanstack/vue-query';
 import { computed, defineAsyncComponent, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Pagination, Popup, showToast } from '@/components/common';
-import { setupTemplate } from '@/constants/template';
 import { CODES_QUERY } from '@/queries';
 import { deleteCode, getCodes } from '@/services/http';
 import { useCodeContentStore, useFlagStore } from '@/store';
@@ -57,7 +56,7 @@ async function selectProject(project: CodeProject) {
     return;
   }
 
-  const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
+  const { setCodeId, setCodeMap, setCodeTemplate, setCodeTitle, setTemplateMap } = useCodeContentStore();
   const { id, title, HTML, CSS, JS, VUE, codeTemplate } = project;
 
   setCodeLoading(true);
@@ -66,7 +65,7 @@ async function selectProject(project: CodeProject) {
   setCodeTitle(title);
   setCodeMap({ HTML, CSS, JS, VUE });
   setCodeTemplate(codeTemplate);
-  setupTemplate();
+  setTemplateMap();
   closePopup();
   setCodeLoading(false);
 }

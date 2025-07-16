@@ -12,7 +12,6 @@ import {
   VUE_JS,
   VUE_SFC_CONTENT,
 } from '@/constants/default-content';
-import { useCodeContentStore } from '@/store';
 import { deepClone } from '@/utils/common';
 import type { CodeTemplate, CodeTemplateMap } from '@/types/code-content';
 
@@ -180,11 +179,3 @@ export const TEMPLATE_LIST = [
   { name: 'SolidJs', src: '/templateIcon/solid.png', version: `v${VERSION.SOLID_JS}` },
   { name: 'RxJS', src: '/templateIcon/rxjs.png', version: `v${VERSION.RXJS}` },
 ] as const;
-
-export function setupTemplate() {
-  const { codeContent, codeTemplate } = useCodeContentStore();
-  const defaultTemplateMap = deepClone(DEFAULT_TEMPLATE_MAP);
-
-  Object.assign(TEMPLATE_MAP, defaultTemplateMap);
-  TEMPLATE_MAP[codeTemplate] = codeContent;
-}

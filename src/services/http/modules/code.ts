@@ -1,6 +1,3 @@
-import { setupTemplate } from '@/constants/template';
-import { useCodeContentStore, useFlagStore } from '@/store';
-import { loadParseSources } from '@/utils/load-parse';
 import type { CodePayload } from '@/types/code-content';
 import type { CodeListResponse, CodeResponse } from '@/types/response';
 import { del, get, post, put } from '../request';
@@ -9,26 +6,8 @@ export function getCodes(page: number) {
   return get<CodeListResponse>(`/code?page=${page}`);
 }
 
-export async function getCode(codeId: string) {
-  if (!codeId) return;
-  const { setCodeLoading } = useFlagStore();
-  setCodeLoading(true);
-  const { resultMap } = await get<CodeResponse>(`/code/${codeId}`).catch(() => {
-    setCodeLoading(false);
-    return { resultMap: null };
-  });
-
-  if (resultMap) {
-    const { setCodeMap, setCodeTemplate, setCodeTitle } = useCodeContentStore();
-    const { title, HTML, CSS, JS, VUE, codeTemplate } = resultMap.code;
-
-    await loadParseSources({ HTML, CSS, JS });
-    setCodeMap({ HTML, CSS, JS, VUE });
-    setCodeTemplate(codeTemplate);
-    setCodeTitle(title);
-    setupTemplate();
-  }
-  setCodeLoading(false);
+export function getCode(codeId: string) {
+  return get<CodeResponse>(`/code/${codeId}`);
 }
 
 export function postCode(data: CodePayload) {

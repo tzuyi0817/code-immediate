@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia';
+import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
+import { getCode } from '@/services/http';
 import { deepClone } from '@/utils/common';
+import { loadParseSources } from '@/utils/load-parse';
 import type { CdnModel } from '@/types/cdn';
 import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/code-content';
+import { useFlagStore } from './flag';
 
 interface CodeContentStore {
   codeContent: CodeTemplateMap;
@@ -72,11 +76,39 @@ export const useCodeContentStore = defineStore('code-content', {
     setCodeTemplate(template: CodeTemplate) {
       this.codeTemplate = template;
     },
+    setTemplateMap() {
+      const defaultTemplateMap = deepClone(DEFAULT_TEMPLATE_MAP);
+
+      Object.assign(TEMPLATE_MAP, defaultTemplateMap);
+      TEMPLATE_MAP[this.codeTemplate] = this.codeContent;
+    },
     setCodeId(id: string) {
       this.codeId = id;
     },
     setCodeTitle(title: string) {
       this.codeTitle = title;
+    },
+    setCode(id: string) {
+      const { setCodeLoading } = useFlagStore();
+
+      setCodeLoading(true);
+      this.setCodeId(id);
+
+      getCode(id)
+        .then(async ({ resultMap }) => {
+          if (resultMap) {
+            const { title, HTML, CSS, JS, VUE, codeTemplate } = resultMap.code;
+
+            await loadParseSources({ HTML, CSS, JS });
+            this.setCodeMap({ HTML, CSS, JS, VUE });
+            this.setCodeTemplate(codeTemplate);
+            this.setCodeTitle(title);
+            this.setTemplateMap();
+          }
+        })
+        .finally(() => {
+          setCodeLoading(false);
+        });
     },
   },
   persist: {
