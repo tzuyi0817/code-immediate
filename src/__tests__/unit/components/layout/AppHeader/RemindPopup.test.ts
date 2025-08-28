@@ -16,7 +16,7 @@ describe('AppHeader/RemindPopup component', () => {
       props: { modelValue: true, saveCode: () => {}, doFun: () => {} },
     });
     expect(screen.getByRole('heading', { name: /remind/i })).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
     expect(screen.getByText(/the current code will be cleared\./i)).toBeInTheDocument();
     expect(screen.getByText(/do you need the system to help you save the project\?/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /cancel/i })).toBeInTheDocument();

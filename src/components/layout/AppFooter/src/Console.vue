@@ -130,7 +130,8 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
     <div class="console-command">
       <font-awesome-icon
         icon="fa-solid fa-angle-down"
-        title="fa-angle-down"
+        aria-label="fa-angle-down"
+        :aria-hidden="false"
         class="text-xs rotate-[270deg] text-gray-300 px-2"
       />
       <textarea

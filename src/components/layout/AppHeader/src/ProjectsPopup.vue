@@ -136,13 +136,15 @@ function closePopup() {
             <font-awesome-icon
               v-if="isDeleting && deleteId === project.id"
               icon="fa-solid fa-spinner"
-              title="fa-spinner"
+              aria-label="fa-spinner"
+              :aria-hidden="false"
               class="animate-spin text-blue-600"
             />
             <font-awesome-icon
               v-else
               icon="fa-solid fa-trash"
-              title="fa-trash"
+              aria-label="fa-trash"
+              :aria-hidden="false"
               :class="['hover:text-red-600', { 'hover:cursor-not-allowed': isDeleting }]"
               @click.stop="deleteProject(project.id)"
             />

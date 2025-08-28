@@ -30,13 +30,15 @@ watch(isLoading, isOpen => !isOpen && flashTick());
     <font-awesome-icon
       v-if="isLoading"
       icon="fa-solid fa-spinner"
-      title="fa-spinner"
+      aria-label="fa-spinner"
+      :aria-hidden="false"
       class="animate-spin loading-status-icon"
     />
     <font-awesome-icon
       v-if="isShowTick"
       :icon="`fa-solid ${statusIcon}`"
-      :title="statusIcon"
+      :aria-label="statusIcon"
+      :aria-hidden="false"
       :class="['loading-status-icon', { 'text-red-500': isError }]"
     />
   </div>

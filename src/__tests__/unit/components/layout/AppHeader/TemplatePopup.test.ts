@@ -12,7 +12,7 @@ describe('AppHeader/TemplatePopup component', () => {
   it('renders the correct content', () => {
     renderComponent(TemplatePopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /templates/i })).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
 
     for (const { name, src, version } of TEMPLATE_LIST) {
       expect(screen.getByText(name)).toBeInTheDocument();

@@ -12,7 +12,7 @@ describe('AppHeader/LoginPopup component', () => {
   it('renders the correct content', () => {
     renderComponent(LoginPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /log in!/i })).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
     expect(screen.getByLabelText('Account')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Log in' })).toBeInTheDocument();

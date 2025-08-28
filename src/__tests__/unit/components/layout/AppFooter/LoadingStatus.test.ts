@@ -16,7 +16,7 @@ describe('AppFooter/LoadingStatus Component', () => {
     renderComponent(LoadingStatus);
     flagStore.setLoading({ type: content, isOpen: true });
     expect(await screen.findByText(content)).toBeInTheDocument();
-    expect(screen.getByTitle('fa-spinner')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-spinner' })).toBeInTheDocument();
   });
 
   it('renders this tick content and disappear automatically after 1 second', async () => {
@@ -27,9 +27,9 @@ describe('AppFooter/LoadingStatus Component', () => {
     await sleep();
     flagStore.setLoading({ type: content, isOpen: false });
     expect(await screen.findByText(content)).toBeInTheDocument();
-    expect(screen.getByTitle('fa-check')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-check' })).toBeInTheDocument();
     await sleep(1000);
-    expect(screen.queryByTitle('fa-check')).toBeNull();
+    expect(screen.queryByRole('img', { name: 'fa-check' })).toBeNull();
   });
 
   it('renders the error content', async () => {
@@ -40,6 +40,6 @@ describe('AppFooter/LoadingStatus Component', () => {
     await sleep();
     flagStore.setLoading({ type: content, isOpen: false });
     expect(await screen.findByText(content)).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
   });
 });

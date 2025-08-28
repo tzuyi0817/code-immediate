@@ -161,7 +161,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         icon="fa-solid fa-bars-staggered"
-        title="fa-bars-staggered"
+        aria-label="fa-bars-staggered"
+        :aria-hidden="false"
       />
     </button>
 
@@ -180,7 +181,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         :class="['svg-icon', { 'animate-spin cursor-not-allowed': isSavingCode, disabled: isLoggingOut }]"
-        title="fa-cloud-arrow-up"
+        aria-label="fa-cloud-arrow-up"
+        :aria-hidden="false"
         :icon="`fa-solid ${isSavingCode ? 'fa-spinner' : 'fa-cloud-arrow-up'}`"
       />
     </span>
@@ -192,7 +194,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         class="svg-icon"
-        title="fa-gear"
+        aria-label="fa-gear"
+        :aria-hidden="false"
         icon="fa-solid fa-gear"
       />
     </span>
@@ -204,7 +207,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         class="svg-icon"
-        title="fa-file-circle-plus"
+        aria-label="fa-file-circle-plus"
+        :aria-hidden="false"
         icon="fa-solid fa-file-circle-plus"
       />
     </span>
@@ -217,7 +221,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         class="svg-icon"
-        title="fa-sheet-plastic"
+        aria-label="fa-sheet-plastic"
+        :aria-hidden="false"
         icon="fa-solid fa-sheet-plastic"
       />
     </span>
@@ -230,7 +235,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         class="svg-icon"
-        title="fa-share"
+        aria-label="fa-share"
+        :aria-hidden="false"
         icon="fa-solid fa-share"
       />
     </span>
@@ -244,7 +250,8 @@ onBeforeUnmount(unWindow);
     >
       <font-awesome-icon
         icon="fa-brands fa-github"
-        title="fa-github"
+        aria-label="fa-github"
+        :aria-hidden="false"
         class="svg-icon text-[20px]"
       />
     </a>

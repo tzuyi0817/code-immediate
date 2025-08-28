@@ -15,7 +15,8 @@ defineProps<Props>();
   >
     <font-awesome-icon
       v-show="isLoading"
-      title="fa-spinner"
+      aria-label="fa-spinner"
+      :aria-hidden="false"
       icon="fa-solid fa-spinner"
       class="animate-spin mr-3"
     />
