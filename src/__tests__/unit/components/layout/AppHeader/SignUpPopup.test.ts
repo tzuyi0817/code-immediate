@@ -14,7 +14,7 @@ describe('AppHeader/SignUpPopup component', () => {
   it('renders the correct content', () => {
     renderComponent(SignUpPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /sign up!/i })).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
     expect(screen.getByLabelText('Account')).toBeInTheDocument();
     expect(screen.getByLabelText('Password')).toBeInTheDocument();
     expect(screen.getByLabelText(CONFIRM_SECRET_TEXT)).toBeInTheDocument();

@@ -102,7 +102,8 @@ onBeforeUnmount(() => {
               icon="fa-solid fa-xmark"
               class="popup-close"
               :class="{ disabled: disabledClose }"
-              title="fa-xmark"
+              aria-label="fa-xmark"
+              :aria-hidden="false"
               @click.stop="manualClosePopup"
             />
           </div>

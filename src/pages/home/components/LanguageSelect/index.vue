@@ -63,7 +63,8 @@ async function changeLanguage(language: string) {
       <font-awesome-icon
         :class="['select-icon', { open: isShowOptions }]"
         icon="fa-solid fa-caret-down"
-        title="fa-caret-down"
+        aria-label="fa-caret-down"
+        :aria-hidden="false"
       />
     </div>
 

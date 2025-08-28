@@ -14,7 +14,7 @@ describe('AppHeader/SettingPopup component', () => {
   it('renders the correct content', () => {
     renderComponent(SettingsPopup, { props: { modelValue: true } });
     expect(screen.getByRole('heading', { name: /cdn settings/i })).toBeInTheDocument();
-    expect(screen.getByTitle('fa-xmark')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-xmark' })).toBeInTheDocument();
     const listItems = screen.getAllByRole('listitem');
 
     expect(listItems.find(listItem => listItem.textContent === 'CSS')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('AppHeader/SettingPopup component', () => {
     expect(
       screen.getByText(/any url's added here will be added as <link>s in order, and before the css in the editor\./i),
     ).toBeInTheDocument();
-    expect(screen.getByTitle('fa-magnifying-glass')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'fa-magnifying-glass' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/search cdnjs resources/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /\+ custom resource/i })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /confirm/i })).toBeInTheDocument();
@@ -50,7 +50,7 @@ describe('AppHeader/SettingPopup component', () => {
   it('search cdn resource', async () => {
     renderComponent(SettingsPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 's');
-    expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: SPINNER })).toBeInTheDocument();
     expect(await screen.findByText(/slider-pro/i)).toBeInTheDocument();
     expect(
       await screen.findByText(
@@ -68,7 +68,7 @@ describe('AppHeader/SettingPopup component', () => {
   it('cdnjs search error', async () => {
     renderComponent(SettingsPopup, { props: { modelValue: true } });
     await userEvent.type(screen.getByPlaceholderText(/search cdnjs resources/i), 'cdnjs');
-    expect(await screen.findByTitle(SPINNER)).toBeInTheDocument();
+    expect(await screen.findByRole('img', { name: SPINNER })).toBeInTheDocument();
     expect(await screen.findByText('cdnjs search error')).toBeInTheDocument();
     expect(screen.queryByTitle(SPINNER)).not.toBeInTheDocument();
   });
@@ -82,10 +82,10 @@ describe('AppHeader/SettingPopup component', () => {
     vi.stubGlobal('open', mockWindowOpen);
     await userEvent.type(screen.getByPlaceholderText(TEST_CDN_URL), cdn);
     await fireEvent.blur(screen.getByPlaceholderText(TEST_CDN_URL));
-    await userEvent.click(screen.getByTitle('fa-eye'));
+    await userEvent.click(screen.getByRole('img', { name: 'fa-eye' }));
     expect(mockWindowOpen).toBeCalledWith(cdn);
 
-    await userEvent.click(screen.getByTitle('fa-xmark-cdn'));
+    await userEvent.click(screen.getByRole('img', { name: 'fa-xmark-cdn' }));
     expect(screen.queryByText('https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css')).toBeNull();
 
     await userEvent.click(screen.getByRole('button', { name: /\+ custom resource/i }));

@@ -97,7 +97,8 @@ function toggleMenu(isShow = !isShowMenu.value) {
     >
       <font-awesome-icon
         icon="fa-solid fa-angle-down"
-        title="fa-angle-down"
+        aria-label="fa-angle-down"
+        :aria-hidden="false"
         class="text-base"
       />
     </button>

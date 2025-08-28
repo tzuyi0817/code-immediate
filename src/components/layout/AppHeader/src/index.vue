@@ -60,7 +60,8 @@ async function openTitle() {
             </p>
             <font-awesome-icon
               icon="fa-solid fa-pen-fancy"
-              title="fa-pen-fancy"
+              aria-label="fa-pen-fancy"
+              :aria-hidden="false"
               class="cursor-pointer"
               @click="openTitle"
             />

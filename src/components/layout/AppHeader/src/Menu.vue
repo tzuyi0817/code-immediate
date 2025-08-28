@@ -58,7 +58,8 @@ const isShowMenuList = defineModel<boolean>({ default: false });
         >
           <font-awesome-icon
             icon="fa-brands fa-github"
-            title="fa-github"
+            aria-label="fa-github"
+            :aria-hidden="false"
           />
           Github
         </a>

@@ -155,13 +155,15 @@ function setResources() {
           />
           <font-awesome-icon
             icon="fa-solid fa-magnifying-glass"
-            title="fa-magnifying-glass"
+            aria-label="fa-magnifying-glass"
+            :aria-hidden="false"
             class="absolute top-3 left-3 text-lg text-gray-500"
           />
           <font-awesome-icon
             v-if="isSearch"
             icon="fa-solid fa-spinner"
-            title="fa-spinner"
+            aria-label="fa-spinner"
+            :aria-hidden="false"
             class="animate-spin absolute top-3 right-3 text-lg text-yellow-400"
           />
           <ul class="absolute bg-white w-full rounded-md shadow-lg">
@@ -200,13 +202,15 @@ function setResources() {
               <font-awesome-icon
                 v-if="!BUILT_IN_RESOURCES.has(cdn)"
                 icon="fa-solid fa-xmark"
-                title="fa-xmark-cdn"
+                aria-label="fa-xmark-cdn"
+                :aria-hidden="false"
                 class="settings-popup-icon"
                 @click="deleteCdn(index)"
               />
               <font-awesome-icon
                 icon="fa-regular fa-eye"
-                title="fa-eye"
+                aria-label="fa-eye"
+                :aria-hidden="false"
                 class="settings-popup-icon"
                 @click="visitCdn(cdn)"
               />
