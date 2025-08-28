@@ -12,9 +12,9 @@ export const IMPORT_MAP = {
   },
   React: {
     imports: {
-      react: `./lib/react@${VERSION.REACT}.js`,
-      'react-dom': `./lib/react-dom@${VERSION.REACT}.js`,
-      'react-dom/client': `./lib/react-dom@${VERSION.REACT}.client.js`,
+      react: `./lib/react/react@${VERSION.REACT}.js`,
+      'react-dom': `./lib/react/react-dom@${VERSION.REACT}.js`,
+      'react-dom/client': `./lib/react/react-dom@${VERSION.REACT}.client.js`,
     },
   },
   Angular: null,
