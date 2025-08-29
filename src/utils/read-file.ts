@@ -5,5 +5,5 @@ export function readFile(event: Event) {
   if (!files || !files.length) return;
   const file = files[0];
 
-  return file.text();
+  return file?.text();
 }

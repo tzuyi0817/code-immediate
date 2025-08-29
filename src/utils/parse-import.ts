@@ -58,7 +58,7 @@ function getImports(_code: string, { imports, isESM }: ImportOptions) {
         if (callee.type !== 'Import' || args.length !== 1) return;
         const [arg] = args;
 
-        if (arg.type !== 'StringLiteral') return;
+        if (arg?.type !== 'StringLiteral') return;
 
         arg.value = transformToJsdelivr(arg.value);
       },
