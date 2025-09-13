@@ -59,7 +59,7 @@
     "@vitest/coverage-v8": "^3.2.4",
     "@volar/jsdelivr": "2.4.23",
     "@volar/monaco": "2.4.23",
-    "@vue/language-service": "2.2.12",
+    "@vue/language-service": "3.0.7",
     "@vue/tsconfig": "^0.8.1",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
