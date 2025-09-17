@@ -12,7 +12,7 @@ import { vueConfiguration } from '@/constants/language-configuration/vue';
 import { VERSION } from '@/constants/template';
 import VueWorker from '@/workers/vue.worker.ts?worker';
 import type { WorkerLanguageService } from '@volar/monaco/worker';
-import type { VueCompilerOptions } from '@vue/language-service';
+import type { VueCompilerOptions } from '@vue/language-core';
 
 export const IS_TEST_MODE = import.meta.env.MODE === 'test';
 const BASE_URL = IS_TEST_MODE ? 'http://localhost:3000/' : '';
