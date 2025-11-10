@@ -7,6 +7,7 @@ export default mergeConfig(
     test: {
       globals: true,
       environment: 'jsdom',
+      pool: 'threads',
       include: ['src/__tests__/unit/**/*.test.ts'],
       setupFiles: ['./vitest.setup.ts'],
       alias: [

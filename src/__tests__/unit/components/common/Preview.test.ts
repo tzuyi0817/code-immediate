@@ -1,5 +1,5 @@
 import { fireEvent, screen, waitFor } from '@testing-library/vue';
-import { nextTick, ref } from 'vue';
+import { nextTick } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
 import { Preview } from '@/components/common';
 import LoadingStatus from '@/components/layout/AppFooter/src/LoadingStatus.vue';
@@ -13,7 +13,7 @@ describe('Preview component', () => {
   registerIcons();
 
   it('renders the correct content', async () => {
-    renderComponent(Preview, { provide: { iframe: ref(null) } });
+    renderComponent(Preview);
     expect(screen.getByTitle(previewTitle)).toBeInTheDocument();
   });
 
@@ -21,7 +21,7 @@ describe('Preview component', () => {
     const codeContentStore = useCodeContentStore();
 
     renderComponent(LoadingStatus);
-    renderComponent(Preview, { provide: { iframe: ref(null) } });
+    renderComponent(Preview);
     await nextTick();
     codeContentStore.setCodeContent({ type: 'HTML', code: '<h1>Hello World!<h1>' });
     await fireEvent.load(screen.getByTitle(previewTitle));
@@ -37,7 +37,7 @@ describe('Preview component', () => {
     loadedParseMap.set('markdown', true);
     codeContentStore.setCodeLanguage({ type: 'HTML', language: 'Markdown' });
     renderComponent(LoadingStatus);
-    renderComponent(Preview, { provide: { iframe: ref(null) } });
+    renderComponent(Preview);
     expect(await screen.findByText('Process code error')).toBeInTheDocument();
     loadedParseMap.delete('markdown');
   });
