@@ -1,6 +1,5 @@
 import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/vue';
-import { ref } from 'vue';
 import { renderComponent } from '@/__tests__/unit/render';
 import { Preview } from '@/components/common';
 import Console from '@/components/layout/AppFooter/src/Console.vue';
@@ -8,7 +7,6 @@ import { registerIcons } from '@/utils/register-icons';
 
 describe('AppFooter/Console component', () => {
   const renderOptions = {
-    provide: { iframeRef: ref(null) },
     props: { isShowConsole: true, previewWidth: '66.7vw' },
   };
 
@@ -35,7 +33,7 @@ describe('AppFooter/Console component', () => {
 
   it('implement command', async () => {
     renderComponent(Console, renderOptions);
-    renderComponent(Preview, { provide: renderOptions.provide });
+    renderComponent(Preview);
 
     const commandLine = screen.getByRole('textbox');
 

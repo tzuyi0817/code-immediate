@@ -21,7 +21,7 @@ const { isCreateProject } = storeToRefs(useFlagStore());
 function implementJs(event: Event) {
   const target = event.target as HTMLTextAreaElement;
 
-  iframeRef?.value.contentWindow?.postMessage(
+  iframeRef?.value?.contentWindow?.postMessage(
     {
       type: 'command',
       value: target.value.trim(),

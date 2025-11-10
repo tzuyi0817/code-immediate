@@ -5,18 +5,17 @@ import { AppFooter } from '@/components/layout';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('AppFooter Component', () => {
-  const provide = { iframeRef: null };
   const props = { previewWidth: '33.3vw' };
 
   registerIcons();
 
   it('renders the correct content', () => {
-    renderComponent(AppFooter, { provide, props });
+    renderComponent(AppFooter, { props });
     expect(screen.getByRole('button', { name: /console/i })).toBeInTheDocument();
   });
 
   it('toggle console', async () => {
-    renderComponent(AppFooter, { provide, props });
+    renderComponent(AppFooter, { props });
 
     await userEvent.click(screen.getByRole('button', { name: /console/i }));
     expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
