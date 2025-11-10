@@ -5,7 +5,7 @@ import { AppFooter } from '@/components/layout';
 import { registerIcons } from '@/utils/register-icons';
 
 describe('AppFooter Component', () => {
-  const provide = { iframe: null };
+  const provide = { iframeRef: null };
   const props = { previewWidth: '33.3vw' };
 
   registerIcons();

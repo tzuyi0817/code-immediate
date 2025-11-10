@@ -8,7 +8,7 @@ import { registerIcons } from '@/utils/register-icons';
 
 describe('AppFooter/Console component', () => {
   const renderOptions = {
-    provide: { iframe: ref(null) },
+    provide: { iframeRef: ref(null) },
     props: { isShowConsole: true, previewWidth: '66.7vw' },
   };
 

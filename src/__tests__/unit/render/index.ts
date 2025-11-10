@@ -24,6 +24,7 @@ export function renderComponent(testComponent: Component, options?: RenderCompon
     ...componentOptions,
     global: {
       stubs: { FontAwesomeIcon },
+      directives: { tick: {} },
       plugins: [pinia, router, [VueQueryPlugin, { queryClient: new QueryClient() }]],
       provide,
     },
