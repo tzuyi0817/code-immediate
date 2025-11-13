@@ -3,7 +3,6 @@ import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
 import { getCode } from '@/services/http';
 import { deepClone } from '@/utils/common';
 import { loadParseSources } from '@/utils/load-parse';
-import type { CdnModel } from '@/types/cdn';
 import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/code-content';
 import { useFlagStore } from './flag';
 
@@ -15,6 +14,15 @@ interface CodeContentStore {
   currentModel: CodeModel;
   offsetCodeWrap: string;
   previewWidth: string;
+}
+
+type CodeMap = Partial<typeof defaultState.codeContent>;
+
+interface ContentAction<T> {
+  type: T;
+  code?: string;
+  language?: Languages;
+  resources?: string[];
 }
 
 const defaultState: CodeContentStore = {
@@ -46,15 +54,6 @@ const defaultState: CodeContentStore = {
   previewWidth: '55vw',
 };
 
-type CodeMap = Partial<typeof defaultState.codeContent>;
-
-interface ContentAction<T> {
-  type: T;
-  code?: string;
-  language?: Languages;
-  resources?: string[];
-}
-
 export const useCodeContentStore = defineStore('code-content', {
   state: () => deepClone(defaultState),
   getters: {
@@ -64,14 +63,20 @@ export const useCodeContentStore = defineStore('code-content', {
     setCodeMap(map: CodeMap) {
       this.codeContent = { ...this.codeContent, ...map };
     },
-    setCodeContent({ type, code }: ContentAction<CodeModel>) {
-      this.codeContent[type].content = code ?? '';
+    setCodeContent<T extends CodeModel>({ type, code }: ContentAction<T>) {
+      const content = this.codeContent[type];
+
+      this.codeContent[type] = { ...content, content: code ?? '' };
     },
-    setCodeLanguage({ type, language }: ContentAction<CodeModel>) {
-      this.codeContent[type].language = language ?? defaultState.codeContent[type].language;
+    setCodeLanguage<T extends CodeModel>({ type, language }: ContentAction<T>) {
+      const content = this.codeContent[type];
+
+      this.codeContent[type] = { ...content, language: language ?? defaultState.codeContent[type].language };
     },
-    setCodeResource({ type, resources }: ContentAction<CdnModel>) {
-      this.codeContent[type].resources = resources ?? [];
+    setCodeResource<T extends CodeModel>({ type, resources }: ContentAction<T>) {
+      const content = this.codeContent[type];
+
+      this.codeContent[type] = { ...content, resources: resources ?? [] };
     },
     setCodeTemplate(template: CodeTemplate) {
       this.codeTemplate = template;
