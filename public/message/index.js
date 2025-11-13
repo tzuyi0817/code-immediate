@@ -3,7 +3,11 @@
     get(target, prop, receiver) {
       const value = Reflect.get(...arguments);
 
+      if (typeof value !== 'function') return value;
+
       return function (...args) {
+        if (prop === 'createTask') return value.apply(target, args);
+
         const message = args.join(' ');
 
         if (message.includes('You are running a development build of Vue')) return;
