@@ -64,7 +64,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
 <template>
   <div
     v-show="isShowConsole"
-    class="console w-full drag-height preview-width"
+    class="console drag-height preview-width w-full"
   >
     <drag
       v-model:drag-b="consoleHeight"
@@ -73,7 +73,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
       unit="vh"
       :limit="{ min: 8, max: 80 }"
     >
-      <p class="text-gray-400 text-sm font-bold">Console</p>
+      <p class="text-sm font-bold text-gray-400">Console</p>
 
       <div class="flex gap-1">
         <button
@@ -132,10 +132,10 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         icon="fa-solid fa-angle-down"
         aria-label="fa-angle-down"
         :aria-hidden="false"
-        class="text-xs rotate-[270deg] text-gray-300 px-2"
+        class="rotate-[270deg] px-2 text-xs text-gray-300"
       />
       <textarea
-        class="flex-1 bg-transparent text-gray-300 focus:outline-none text-sm font-mono"
+        class="flex-1 bg-transparent font-mono text-sm text-gray-300 focus:outline-none"
         rows="1"
         @keydown.enter.prevent="implementJs"
       ></textarea>

@@ -175,7 +175,7 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      class="text-lg hidden lg:flex app-header-actions-tip"
+      class="app-header-actions-tip hidden text-lg lg:flex"
       data-tip="Save code"
       @click="saveCode"
     >
@@ -188,7 +188,7 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      class="text-lg hidden lg:flex app-header-actions-tip"
+      class="app-header-actions-tip hidden text-lg lg:flex"
       data-tip="Open setting popup"
       @click="toggleSettingsPop"
     >
@@ -201,7 +201,7 @@ onBeforeUnmount(unWindow);
     </span>
 
     <span
-      class="text-lg hidden lg:flex app-header-actions-tip"
+      class="app-header-actions-tip hidden text-lg lg:flex"
       data-tip="Create new project"
       @click="createNewProject"
     >
@@ -215,7 +215,7 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="isLogin"
-      class="text-xl hidden lg:flex app-header-actions-tip"
+      class="app-header-actions-tip hidden text-xl lg:flex"
       data-tip="Open projects popup"
       @click="toggleProjectsPop"
     >
@@ -229,7 +229,7 @@ onBeforeUnmount(unWindow);
 
     <span
       v-if="codeId"
-      class="text-xl hidden lg:flex app-header-actions-tip"
+      class="app-header-actions-tip hidden text-xl lg:flex"
       data-tip="Share link"
       @click="shareLink"
     >

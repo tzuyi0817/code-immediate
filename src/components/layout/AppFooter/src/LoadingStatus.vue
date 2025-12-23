@@ -32,7 +32,7 @@ watch(isLoading, isOpen => !isOpen && flashTick());
       icon="fa-solid fa-spinner"
       aria-label="fa-spinner"
       :aria-hidden="false"
-      class="animate-spin loading-status-icon"
+      class="loading-status-icon animate-spin"
     />
     <font-awesome-icon
       v-if="isShowTick"

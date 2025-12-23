@@ -71,7 +71,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex gap-x-2 items-center justify-center">
+  <div class="flex items-center justify-center gap-x-2">
     <prev
       :current-page="currentPage"
       :disabled="disabled"

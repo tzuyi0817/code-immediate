@@ -141,7 +141,7 @@ function setResources() {
 
       <div class="settings-popup-content">
         <h3>{{ selectTabItem?.title }}</h3>
-        <section class="text-gray-500 mb-3 text-sm">
+        <section class="mb-3 text-sm text-gray-500">
           {{ selectTabItem?.description }}
         </section>
 
@@ -164,20 +164,20 @@ function setResources() {
             icon="fa-solid fa-spinner"
             aria-label="fa-spinner"
             :aria-hidden="false"
-            class="animate-spin absolute top-3 right-3 text-lg text-yellow-400"
+            class="absolute top-3 right-3 animate-spin text-lg text-yellow-400"
           />
-          <ul class="absolute bg-white w-full rounded-md shadow-lg">
+          <ul class="absolute w-full rounded-md bg-white shadow-lg">
             <li
               v-for="cdn in cdnList"
               :key="cdn.objectID"
-              class="p-3 border-[1px] border-gray-300 cursor-pointer hover:bg-yellow-400/80"
+              class="cursor-pointer border-[1px] border-gray-300 p-3 hover:bg-yellow-400/80"
               @click="addCdn(cdn.latest)"
             >
-              <p class="flex justify-between mb-1">
+              <p class="mb-1 flex justify-between">
                 <span>{{ cdn.name }}</span>
                 <span>{{ cdn.version }}</span>
               </p>
-              <section class="text-gray-500 text-xs">
+              <section class="text-xs text-gray-500">
                 {{ cdn.description }}
               </section>
             </li>
@@ -188,7 +188,7 @@ function setResources() {
           <li
             v-for="(cdn, index) in cdnResources[currentSelect]"
             :key="cdn"
-            class="flex items-center justify-between mb-2"
+            class="mb-2 flex items-center justify-between"
           >
             <input
               v-model.trim.lazy="cdnResources[currentSelect][index]"
@@ -198,7 +198,7 @@ function setResources() {
               :disabled="BUILT_IN_RESOURCES.has(cdn)"
             />
 
-            <div class="flex flex-col ml-2 gap-1">
+            <div class="ml-2 flex flex-col gap-1">
               <font-awesome-icon
                 v-if="!BUILT_IN_RESOURCES.has(cdn)"
                 icon="fa-solid fa-xmark"
@@ -228,7 +228,7 @@ function setResources() {
 
       <button
         v-tick
-        class="btn btn-yellow w-full mt-4 text-sm no-scale"
+        class="btn btn-yellow no-scale mt-4 w-full text-sm"
         @click="setCdn"
       >
         Confirm

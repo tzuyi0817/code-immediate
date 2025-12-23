@@ -107,7 +107,7 @@ onMounted(closeInitLoading);
 
     <preview
       v-show="isShowPreview"
-      class="w-full h-[calc(60vh-88px)] lg:h-[calc(100vh-88px)] preview-width"
+      class="preview-width h-[calc(60vh-88px)] w-full lg:h-[calc(100vh-88px)]"
     />
   </div>
 

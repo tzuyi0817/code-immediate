@@ -41,11 +41,11 @@ async function openTitle() {
     <div class="app-header-left">
       <img
         src="/logo.png"
-        class="w-10 basis-10 shrink-0"
+        class="w-10 shrink-0 basis-10"
         alt="logo"
       />
       <div class="w-[calc(100%-36px)]">
-        <div class="font-bold flex items-center gap-1 w-full">
+        <div class="flex w-full items-center gap-1 font-bold">
           <input
             v-if="isShowEditTitle"
             ref="titleInput"
@@ -67,7 +67,7 @@ async function openTitle() {
             />
           </template>
         </div>
-        <p class="text-xs text-gray-300 truncate">
+        <p class="truncate text-xs text-gray-300">
           {{ isLogin ? user.account : 'Captain Anonymous' }}
         </p>
       </div>

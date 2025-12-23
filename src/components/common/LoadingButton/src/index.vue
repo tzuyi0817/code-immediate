@@ -18,7 +18,7 @@ defineProps<Props>();
       aria-label="fa-spinner"
       :aria-hidden="false"
       icon="fa-solid fa-spinner"
-      class="animate-spin mr-3"
+      class="mr-3 animate-spin"
     />
     <slot></slot>
   </button>

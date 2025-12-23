@@ -103,7 +103,7 @@ function closePopup() {
           class="projects-popup-card bg-gray-300"
         >
           <div class="h-[150px] bg-slate-200"></div>
-          <p class="rounded mt-2 p-3 bg-slate-200"></p>
+          <p class="mt-2 rounded bg-slate-200 p-3"></p>
         </li>
       </ul>
 
@@ -125,13 +125,13 @@ function closePopup() {
               <template #fallback>
                 <font-awesome-icon
                   icon="fa-solid fa-spinner"
-                  class="animate-spin text-yellow-400 text-2xl block"
+                  class="block animate-spin text-2xl text-yellow-400"
                 />
               </template>
             </suspense>
           </div>
 
-          <div class="rounded pt-3 px-3 flex justify-between">
+          <div class="flex justify-between rounded px-3 pt-3">
             <p>{{ project.title }}</p>
             <font-awesome-icon
               v-if="isDeleting && deleteId === project.id"

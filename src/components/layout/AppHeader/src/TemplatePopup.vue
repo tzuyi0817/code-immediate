@@ -41,7 +41,7 @@ function getImageSrc(path: string) {
             class="template-popup-icon"
             :alt="template.name"
           />
-          <div class="flex flex-col flex-1 justify-center items-center">
+          <div class="flex flex-1 flex-col items-center justify-center">
             <p>{{ template.name }}</p>
             <span class="text-xs text-gray-500">{{ template.version }}</span>
           </div>

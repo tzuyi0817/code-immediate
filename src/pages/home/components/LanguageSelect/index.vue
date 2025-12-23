@@ -50,7 +50,7 @@ async function changeLanguage(language: string) {
 <template>
   <div class="language-select relative">
     <div
-      class="select w-full h-full"
+      class="select h-full w-full"
       :aria-expanded="isOpenSelect"
       role="combobox"
       aria-haspopup="listbox"

@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
   <div class="code-editor">
     <div
       ref="codeEditor"
-      class="w-full h-full"
+      class="h-full w-full"
       aria-label="code-editor"
     ></div>
     <div
@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
     >
       <font-awesome-icon
         icon="fa-solid fa-spinner"
-        class="animate-spin text-yellow-400 text-2xl"
+        class="animate-spin text-2xl text-yellow-400"
       />
     </div>
   </div>

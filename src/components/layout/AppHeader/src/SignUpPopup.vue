@@ -94,7 +94,7 @@ function closePopup() {
 
           <loading-button
             v-tick
-            class="btn-yellow w-full mt-3 no-scale"
+            class="btn-yellow no-scale mt-3 w-full"
             :is-loading="isLoading"
           >
             Sign up

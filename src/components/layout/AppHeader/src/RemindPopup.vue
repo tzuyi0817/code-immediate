@@ -47,7 +47,7 @@ function closePopup() {
         <p>Do you need the system to help you save the project?</p>
       </div>
 
-      <div class="flex gap-2 justify-end">
+      <div class="flex justify-end gap-2">
         <button
           class="btn btn-gray text-sm"
           :disabled="isLoading"

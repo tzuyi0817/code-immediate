@@ -13,7 +13,7 @@ const internalDisabled = computed(() => disabled || currentPage <= 1);
 
 <template>
   <button
-    class="btn btn-yellow w-8 h-8"
+    class="btn btn-yellow h-8 w-8"
     :disabled="internalDisabled"
     aria-label="pagination prev"
     :aria-disabled="internalDisabled"
