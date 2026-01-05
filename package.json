@@ -50,7 +50,7 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/user-event": "^14.6.1",
     "@testing-library/vue": "^8.1.0",
-    "@tsconfig/node22": "^22.0.2",
+    "@tsconfig/node24": "^24.0.0",
     "@types/file-saver": "^2.0.7",
     "@types/hash-sum": "^1.0.2",
     "@types/loadjs": "^4.0.4",
