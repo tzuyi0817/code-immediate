@@ -19,7 +19,7 @@ export const VERSION = {
   REACT: '19.1.1',
   VUE: '3.5.20',
   ANGULAR: '1.8.3',
-  SOLID_JS: '1.8.17',
+  SOLID_JS: '1.9.10',
   RXJS: '7.8.1',
   ES_MODULE_SHIMS: '1.10.0',
 } as const;

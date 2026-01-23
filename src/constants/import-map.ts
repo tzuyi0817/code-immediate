@@ -20,8 +20,10 @@ export const IMPORT_MAP = {
   Angular: null,
   SolidJs: {
     imports: {
-      'solid-js': 'https://cdn.skypack.dev/solid-js',
-      'solid-js/': 'https://cdn.skypack.dev/solid-js/',
+      'solid-js': `./lib/solid-js@${VERSION.SOLID_JS}/solid-js.mjs`,
+      'solid-js/web': `./lib/solid-js@${VERSION.SOLID_JS}/web.mjs`,
+      'solid-js/h': `./lib/solid-js@${VERSION.SOLID_JS}/h.mjs`,
+      'solid-js/html': `./lib/solid-js@${VERSION.SOLID_JS}/html.mjs`,
     },
   },
   RxJS: {
