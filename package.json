@@ -74,7 +74,7 @@
     "parse-package-name": "^1.0.0",
     "postcss": "^8.5.6",
     "postcss-nested": "^7.0.2",
-    "postcss-preset-env": "^10.4.0",
+    "postcss-preset-env": "^11.1.1",
     "postcss-pxtorem": "^6.1.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
