@@ -19,17 +19,30 @@ interface ImportMetaEnv extends Readonly<Record<string, string>> {
   readonly VITE_CDN_API_URL: string;
 }
 
-declare interface Window {
-  Haml: any;
-  showdown: any;
-  pug: any;
-  less: any;
-  Sass: {
-    new (): any;
-  };
-  stylus: any;
-  Babel: any;
-  CoffeeScript: any;
-  prettier: any;
-  prettierPlugins: any;
+declare global {
+  interface Window {
+    Haml: any;
+    showdown: any;
+    pug: any;
+    less: any;
+    Sass: new () => any;
+    stylus: any;
+    Babel: any;
+    CoffeeScript: any;
+    prettier: any;
+    prettierPlugins: any;
+  }
+
+  var Haml: any;
+  var showdown: any;
+  var pug: any;
+  var less: any;
+  var Sass: new () => any;
+  var stylus: any;
+  var Babel: any;
+  var CoffeeScript: any;
+  var prettier: any;
+  var prettierPlugins: any;
 }
+
+export {};

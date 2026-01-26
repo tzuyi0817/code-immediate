@@ -9,7 +9,7 @@ import { registerIcons } from '@/utils/register-icons';
 
 describe('Editor component', async () => {
   registerIcons();
-  setupTestEnvironmentLanguage();
+  await setupTestEnvironmentLanguage();
 
   it('renders the editor', async () => {
     renderComponent(Editor, { props: { model: 'HTML' } });
