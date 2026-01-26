@@ -35,13 +35,14 @@ export interface CreateData {
 }
 
 export async function initMonacoEditor() {
-  globalThis.MonacoEnvironment = {
+  (globalThis as any).MonacoEnvironment = {
     async getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
       if (label === 'vue') return await initializeWorker(new VueWorker());
+
       return new EditorWorker();
     },
   };
@@ -77,7 +78,7 @@ export async function setupTestEnvironmentLanguage() {
 
   languages.register({ id: 'html' });
   languages.register({ id: 'markdown' });
-  setupCustomLanguage();
+  await setupCustomLanguage();
 }
 
 async function setupVueLanguage(
