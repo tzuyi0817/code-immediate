@@ -28,8 +28,8 @@ export const IMPORT_MAP = {
   },
   RxJS: {
     imports: {
-      rxjs: `./lib/rxjs@${VERSION.RXJS}.js`,
-      'rxjs/operators': `./lib/rxjs@${VERSION.RXJS}.operators.js`,
+      rxjs: `./lib/rxjs@${VERSION.RXJS}/rxjs.js`,
+      'rxjs/operators': `./lib/rxjs@${VERSION.RXJS}/operators.js`,
     },
   },
 } as const;
