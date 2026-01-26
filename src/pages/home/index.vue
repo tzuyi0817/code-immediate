@@ -6,8 +6,8 @@ import { Drag, Editor, Preview } from '@/components/common';
 import { AppFooter, AppHeader } from '@/components/layout';
 import { useCodeContentStore } from '@/store';
 import { isString } from '@/utils/check-type';
-import type { CodeModel } from '@/types/code-content';
 import FileTabs from './components/FileTabs/index.vue';
+import type { CodeModel } from '@/types/code-content';
 
 const isShowPreview = ref(true);
 const iframeRef = ref<HTMLIFrameElement | null>(null);

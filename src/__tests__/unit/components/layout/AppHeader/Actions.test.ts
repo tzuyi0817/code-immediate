@@ -160,7 +160,7 @@ describe('AppHeader/Actions Component', () => {
     expect(logoutButton).toBeInTheDocument();
     await userEvent.click(logoutButton);
     expect(userStore.isLogin).toBeFalsy();
-    expect(window.localStorage.getItem(STORAGE_TOKEN)).toBeNull();
+    expect(globalThis.localStorage.getItem(STORAGE_TOKEN)).toBeNull();
     expect(screen.getByText('successfully logout')).toBeInTheDocument();
   });
 });

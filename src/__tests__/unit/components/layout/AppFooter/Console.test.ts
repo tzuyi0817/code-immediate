@@ -16,7 +16,7 @@ describe('AppFooter/Console component', () => {
       origin: '*',
     });
 
-    await fireEvent(window, messageEvent);
+    await fireEvent(globalThis, messageEvent);
   };
 
   registerIcons();

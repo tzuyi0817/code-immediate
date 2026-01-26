@@ -27,13 +27,13 @@ import * as worker from 'monaco-editor/esm/vs/editor/editor.worker';
 import { create as createTypeScriptDirectiveCommentPlugin } from 'volar-service-typescript/lib/plugins/directiveComment';
 import { create as createTypeScriptSemanticPlugin } from 'volar-service-typescript/lib/plugins/semantic';
 import { getTsConstructor } from '@/utils/cdn';
-import type { CreateData } from '@/monaco';
 import { asFileName, asUri, getCdnPath } from './utils';
+import type { CreateData } from '@/monaco';
 import type * as monaco from 'monaco-editor';
 
 let ts: typeof import('typescript');
 
-self.onmessage = async message => {
+globalThis.onmessage = async message => {
   if (message.data === 'initializing') {
     ts = await getTsConstructor();
     self.postMessage('loading finished');

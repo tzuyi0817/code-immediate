@@ -102,7 +102,7 @@ function searchCdn(word: string) {
 }
 
 function visitCdn(cdn: string) {
-  self.open(cdn);
+  globalThis.open(cdn);
 }
 
 function closePopup() {

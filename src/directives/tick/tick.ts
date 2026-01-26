@@ -13,7 +13,7 @@ import type { ITickDirectiveOptions } from './types';
 
 export function tick(event: PointerEvent, el: HTMLElement, options: ITickDirectiveOptions) {
   const rect = el.getBoundingClientRect();
-  const computedStyles = window.getComputedStyle(el);
+  const computedStyles = globalThis.getComputedStyle(el);
   const { x, y } = getRelativePointer(event, rect);
   const size = MULTIPLE_NUMBER * getDistanceToFurthestCorner(x, y, rect);
   const tickContainer = createContainer(computedStyles);
@@ -39,7 +39,7 @@ export function tick(event: PointerEvent, el: HTMLElement, options: ITickDirecti
     }, 150);
   }
   function releaseTick(e?: PointerEvent) {
-    if (typeof e !== 'undefined') {
+    if (e !== undefined) {
       document.removeEventListener('pointerup', releaseTick);
       document.removeEventListener('pointercancel', releaseTick);
     }

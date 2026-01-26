@@ -8,14 +8,14 @@ on:
   push:
     branches: [main]
     paths:
-      - 'index.html'
+      - index.html
       - 'src/**'
-      - 'pnpm-lock.yaml'
-      - 'package.json'
+      - pnpm-lock.yaml
+      - package.json
 
 jobs:
   CI:
-    uses: './.github/workflows/ci.yml'
+    uses: ./.github/workflows/ci.yml
     secrets:
       VITE_CDN_API_URL: ${{ secrets.VITE_CDN_API_URL }}
 

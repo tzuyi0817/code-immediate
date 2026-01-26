@@ -1,6 +1,6 @@
+import { del, get, post, put } from '../request';
 import type { CodePayload } from '@/types/code-content';
 import type { CodeListResponse, CodeResponse } from '@/types/response';
-import { del, get, post, put } from '../request';
 
 export function getCodes(page: number) {
   return get<CodeListResponse>(`/code?page=${page}`);

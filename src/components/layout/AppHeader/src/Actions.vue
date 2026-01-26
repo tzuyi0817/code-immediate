@@ -43,7 +43,7 @@ async function logout() {
 
   setUser({});
   createNewProject();
-  window.localStorage.removeItem(STORAGE_TOKEN);
+  globalThis.localStorage.removeItem(STORAGE_TOKEN);
   showToast({ message, type: status });
 }
 
@@ -140,12 +140,12 @@ async function shareLink() {
 }
 
 function onWindow() {
-  window.addEventListener('click', closeMenuList);
+  globalThis.addEventListener('click', closeMenuList);
   window.addEventListener('blur', closeMenuList);
 }
 
 function unWindow() {
-  window.removeEventListener('click', closeMenuList);
+  globalThis.removeEventListener('click', closeMenuList);
   window.removeEventListener('blur', closeMenuList);
 }
 

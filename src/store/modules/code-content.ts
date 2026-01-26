@@ -3,8 +3,8 @@ import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
 import { getCode } from '@/services/http';
 import { deepClone } from '@/utils/common';
 import { loadParseSources } from '@/utils/load-parse';
-import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/code-content';
 import { useFlagStore } from './flag';
+import type { CodeModel, CodeTemplate, CodeTemplateMap, Languages } from '@/types/code-content';
 
 interface CodeContentStore {
   codeContent: CodeTemplateMap;

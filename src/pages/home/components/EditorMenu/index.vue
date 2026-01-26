@@ -33,9 +33,9 @@ async function formatterCode() {
   }
 
   try {
-    const formatter = self.prettier.format(content, {
+    const formatter = globalThis.prettier.format(content, {
       parser,
-      plugins: self.prettierPlugins,
+      plugins: globalThis.prettierPlugins,
     });
 
     setFormatter({ model, isFormatter: true });

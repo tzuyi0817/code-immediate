@@ -37,8 +37,8 @@ describe('AppHeader/LoginPopup component', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(userStore.user).toEqual({ account });
-    expect(window.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
-    expect(window.localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
+    expect(globalThis.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
+    expect(globalThis.localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
     expect(screen.getByText('login success')).toBeInTheDocument();
   });
 
@@ -61,9 +61,9 @@ describe('AppHeader/LoginPopup component', () => {
   it('login with github', async () => {
     renderComponent(LoginPopup, { props: { modelValue: true } });
 
-    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
+    const openSpy = vi.spyOn(globalThis, 'open').mockImplementation(() => null);
     const { VITE_API_URL } = import.meta.env;
-    const { screenX, screenY, outerWidth, outerHeight, innerWidth } = window;
+    const { screenX, screenY, outerWidth, outerHeight, innerWidth } = globalThis;
     const width = Math.min(500, innerWidth);
     const left = screenX + (outerWidth - width) / 2;
     const top = screenY + (outerHeight - width) / 2;

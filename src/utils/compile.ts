@@ -46,15 +46,15 @@ export function compile(params: CompileParams): Promise<CodeContent> {
 export function transformHtml(htmlContent: string, language: HtmlLanguages) {
   const compileHtml = {
     Haml() {
-      return self.Haml.render(htmlContent);
+      return globalThis.Haml.render(htmlContent);
     },
     Markdown() {
-      if (!showdown) showdown = new self.showdown.Converter();
+      if (!showdown) showdown = new globalThis.showdown.Converter();
       return showdown?.makeHtml(htmlContent.replaceAll(/\n[ \t]+#/g, '\n#'));
     },
     Slim() {},
     Pug() {
-      return self.pug.render(htmlContent);
+      return globalThis.pug.render(htmlContent);
     },
   };
   return catchCompile({ language, compile: compileHtml, content: htmlContent });
@@ -63,7 +63,7 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
 export function transformCss(cssContent: string, language: CssLanguages) {
   const compileCss = {
     async Less() {
-      const { css }: { css: string } = await self.less
+      const { css }: { css: string } = await globalThis.less
         .render(cssContent)
         .catch((error: Error) => console.log(`syntax error, cause ${error}`));
       return css;
@@ -76,7 +76,7 @@ export function transformCss(cssContent: string, language: CssLanguages) {
     },
     Stylus(): Promise<string> {
       return new Promise((resolve, reject) => {
-        self.stylus.render(cssContent, (error: Error, css: string) => {
+        globalThis.stylus.render(cssContent, (error: Error, css: string) => {
           if (error) reject(error);
           resolve(css);
         });
@@ -100,7 +100,7 @@ export function transformCss(cssContent: string, language: CssLanguages) {
 export async function transformJs(jsContent: string, language: JsLanguages) {
   const compileJs = {
     Babel() {
-      const { code } = self.Babel.transform(jsContent, {
+      const { code } = globalThis.Babel.transform(jsContent, {
         presets: ['env', 'react'],
       });
       return code;
@@ -118,10 +118,10 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
       return outputText;
     },
     CoffeeScript() {
-      return self.CoffeeScript.compile(jsContent);
+      return globalThis.CoffeeScript.compile(jsContent);
     },
     LiveScript() {
-      return self.require('livescript').compile(jsContent);
+      return globalThis.require('livescript').compile(jsContent);
     },
   };
   return catchCompile({ language, compile: compileJs, content: jsContent });
@@ -129,7 +129,7 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
 
 function compileScss(cssContent: string, indentedSyntax = false): Promise<string> {
   return new Promise(resolve => {
-    if (!sass) sass = new self.Sass();
+    if (!sass) sass = new globalThis.Sass();
     sass?.compile(cssContent, { indentedSyntax }, ({ text }: { text: string }) => resolve(text));
   });
 }

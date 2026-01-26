@@ -37,7 +37,7 @@ export interface CreateData {
 }
 
 export async function initMonacoEditor() {
-  window.MonacoEnvironment = {
+  globalThis.MonacoEnvironment = {
     async getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();

@@ -1,11 +1,11 @@
 {
   "name": "code-immediate",
-  "private": true,
-  "version": "0.0.0",
-  "description": "A code online editing preview tool, similar to code pen",
   "type": "module",
-  "license": "MIT",
+  "version": "0.0.0",
+  "private": true,
   "packageManager": "pnpm@10.20.0",
+  "description": "A code online editing preview tool, similar to code pen",
+  "license": "MIT",
   "repository": {},
   "keywords": [
     "vue3",
@@ -41,6 +41,12 @@
     "vue": "^3.5.22",
     "vue-router": "^4.5.1"
   },
+  "optionalDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.1"
+  },
   "devDependencies": {
     "@component-hook/eslint-plugin": "^1.1.5",
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -59,10 +65,10 @@
     "@vitest/coverage-v8": "^4.0.8",
     "@volar/jsdelivr": "2.4.23",
     "@volar/monaco": "2.4.23",
-    "@vue/language-core": "^3.0.8",
+    "@vue/language-core": "3.0.8",
     "@vue/language-service": "3.0.8",
     "@vue/tsconfig": "^0.8.1",
-    "@vue/typescript-plugin": "^3.0.8",
+    "@vue/typescript-plugin": "3.0.8",
     "autoprefixer": "^10.4.21",
     "cssnano": "^7.1.1",
     "eslint": "^9.36.0",
@@ -94,17 +100,6 @@
     "vscode-theme-to-monaco-theme-node": "^1.0.0",
     "vscode-uri": "^3.1.0",
     "vue-tsc": "^3.0.8"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "optionalDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.2.1"
   },
   "msw": {
     "workerDirectory": "public"

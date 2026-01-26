@@ -10,8 +10,8 @@ export function useDrag(dragCallback: (offset: DragOffset) => void) {
 
   function startDrag() {
     flagStore.setDragFlag(true);
-    drag.screenWidth = self.screen.width;
-    drag.screenHeight = self.screen.height;
+    drag.screenWidth = globalThis.screen.width;
+    drag.screenHeight = globalThis.screen.height;
     document.addEventListener('mousemove', dragging, false);
     document.addEventListener('mouseup', endDrag, false);
   }

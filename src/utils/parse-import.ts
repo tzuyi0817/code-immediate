@@ -26,7 +26,7 @@ interface ImportOptions {
 export function parseImport(jsCode: string, isESM = false) {
   if (!/\bimport\b/.test(jsCode)) return { code: jsCode };
   const imports: CdnSourceMap[] = [];
-  const { code } = window.Babel.transform(jsCode, {
+  const { code } = globalThis.Babel.transform(jsCode, {
     plugins: [[getImports, { imports, isESM }]],
     presets: isESM ? ['react'] : ['env', 'react'],
   });

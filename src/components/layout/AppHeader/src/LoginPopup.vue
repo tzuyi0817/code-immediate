@@ -25,8 +25,8 @@ async function login() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    window.localStorage.setItem(STORAGE_TOKEN, token);
-    window.localStorage.setItem(STORAGE_ACCOUNT, account.value);
+    globalThis.localStorage.setItem(STORAGE_TOKEN, token);
+    globalThis.localStorage.setItem(STORAGE_ACCOUNT, account.value);
     showToast({ message, type: status });
     closePopup();
   } catch {
@@ -37,7 +37,7 @@ async function login() {
 }
 
 function openCenteredPopup(url: string, name: string) {
-  const { screenX, screenY, outerWidth, outerHeight, innerWidth } = window;
+  const { screenX, screenY, outerWidth, outerHeight, innerWidth } = globalThis;
   const width = Math.min(500, innerWidth);
   const left = screenX + (outerWidth - width) / 2;
   const top = screenY + (outerHeight - width) / 2;
@@ -90,7 +90,7 @@ async function loginGithub() {
       const { setUser } = useUserStore();
 
       setUser({ account: githubAccount });
-      window.localStorage.setItem(STORAGE_TOKEN, token);
+      globalThis.localStorage.setItem(STORAGE_TOKEN, token);
       showToast({ message: 'login success', type: 'success' });
       closePopup();
     } else {
