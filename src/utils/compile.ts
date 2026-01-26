@@ -65,7 +65,7 @@ export function transformCss(cssContent: string, language: CssLanguages) {
     async Less() {
       const { css }: { css: string } = await globalThis.less
         .render(cssContent)
-        .catch((error: Error) => console.log(`syntax error, cause ${error}`));
+        .catch((error: Error) => console.error(`syntax error, cause ${error}`));
       return css;
     },
     SCSS() {
