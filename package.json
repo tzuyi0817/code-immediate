@@ -75,7 +75,7 @@
     "fflate": "^0.8.2",
     "fs-extra": "^11.3.3",
     "hash-sum": "^2.0.0",
-    "jsdom": "^27.4.0",
+    "jsdom": "^28.1.0",
     "msw": "^2.12.7",
     "parse-package-name": "^1.0.0",
     "postcss": "^8.5.6",
