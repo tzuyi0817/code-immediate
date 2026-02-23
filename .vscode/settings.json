@@ -43,6 +43,8 @@
     "norem",
     "grayscale",
     "persistedstate",
-    "tanstack"
+    "tanstack",
+    "vercel",
+    "tzuyi"
   ]
 }
