@@ -20,8 +20,8 @@ jobs:
     uses: tzuyi0817/workflows/.github/workflows/deploy-vercel.yml@v1
     secrets:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      ORG_ID: ${{ secrets.ORG_ID }}
-      PROJECT_ID: ${{ secrets.PROJECT_ID }}
+      VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.PROJECT_ID }}
 
     with:
       environment: Preview

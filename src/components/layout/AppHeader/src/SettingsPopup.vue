@@ -170,7 +170,7 @@ function setResources() {
             <li
               v-for="cdn in cdnList"
               :key="cdn.objectID"
-              class="cursor-pointer border-[1px] border-gray-300 p-3 hover:bg-yellow-400/80"
+              class="cursor-pointer border border-gray-300 p-3 hover:bg-yellow-400/80"
               @click="addCdn(cdn.latest)"
             >
               <p class="mb-1 flex justify-between">
