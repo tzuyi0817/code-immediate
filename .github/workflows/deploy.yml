@@ -27,4 +27,3 @@ jobs:
     with:
       environment: Production
       prod: true
-      create-comment: true

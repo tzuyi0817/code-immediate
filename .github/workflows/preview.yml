@@ -1,9 +1,5 @@
 name: Deploy to Preview
 
-env:
-  VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.PROJECT_ID }}
-
 on:
   pull_request:
     types: [opened, synchronize, reopened]
