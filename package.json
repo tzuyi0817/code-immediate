@@ -71,7 +71,7 @@
     "@vue/typescript-plugin": "3.0.8",
     "autoprefixer": "^10.4.23",
     "cssnano": "^7.1.2",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.2",
     "fflate": "^0.8.2",
     "fs-extra": "^11.3.3",
     "hash-sum": "^2.0.0",
