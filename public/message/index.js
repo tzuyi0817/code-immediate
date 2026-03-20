@@ -6,7 +6,7 @@
       if (typeof value !== 'function') return value;
 
       return function (...args) {
-        if (prop === 'createTask') return value.apply(target, args);
+        if (prop === 'createTask' || prop === 'timeStamp') return value.apply(target, args);
 
         const message = args.join(' ');
 

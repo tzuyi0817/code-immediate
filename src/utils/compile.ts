@@ -101,12 +101,14 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
   const compileJs = {
     Babel() {
       const { code } = globalThis.Babel.transform(jsContent, {
-        presets: ['env', 'react'],
+        presets: [['env', { modules: false }], 'react'],
       });
+
       return code;
     },
     async TypeScript() {
       ts = await getTsConstructor();
+
       const { ModuleKind, JsxEmit, transpileModule } = ts;
       const { outputText } = transpileModule(jsContent, {
         reportDiagnostics: true,
@@ -115,13 +117,19 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
           jsx: JsxEmit.Preserve,
         },
       });
+
       return outputText;
     },
     CoffeeScript() {
       return globalThis.CoffeeScript.compile(jsContent);
     },
     LiveScript() {
-      return globalThis.require('livescript').compile(jsContent);
+      const code = globalThis.require('livescript').compile(jsContent, {
+        bare: true, // 不要在外面包一層 function
+        header: false, // 不要產生 LiveScript 版本註解
+      });
+
+      return code.replaceAll(/import\$\(this,\s+(\w+)\(from\(['"](.+?)['"]\)\)\);/g, "import $1 from '$2';");
     },
   };
   return catchCompile({ language, compile: compileJs, content: jsContent });
@@ -130,6 +138,7 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
 function compileScss(cssContent: string, indentedSyntax = false): Promise<string> {
   return new Promise(resolve => {
     if (!sass) sass = new globalThis.Sass();
+
     sass?.compile(cssContent, { indentedSyntax }, ({ text }: { text: string }) => resolve(text));
   });
 }
