@@ -42,28 +42,29 @@ export default defineConfig({
     drop: ['debugger'],
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
         chunkFileNames: 'chunks/[name]-[hash].js',
         assetFileNames: 'assets/[name].[hash].[ext]',
         entryFileNames: 'entries/[name].[hash].js',
-        manualChunks: {
-          core: ['vue', 'vue-router', 'pinia', 'pinia-plugin-persistedstate', '@tanstack/vue-query'],
-          vender: [
-            'axios',
-            'file-saver',
-            'jszip',
-            'loadjs',
-            'onigasm',
-            'monaco-textmate',
-            'monaco-editor-textmate',
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/free-brands-svg-icons',
-            '@fortawesome/free-regular-svg-icons',
-            '@fortawesome/free-solid-svg-icons',
-            '@fortawesome/vue-fontawesome',
+        codeSplitting: {
+          groups: [
+            {
+              name: 'core',
+              test: /node_modules[\\/](vue|pinia)/,
+              priority: 20,
+            },
+            {
+              name: 'vender',
+              test: /node_modules[\\/](axios|file-saver|loadjs|jszip|onigasm|monaco-textmate|monaco-editor-textmate|@fortawesome)/,
+              priority: 15,
+            },
+            {
+              name: 'monaco-editor',
+              test: /node_modules[\\/]monaco-editor/,
+              priority: 10,
+            },
           ],
-          'monaco-editor': ['monaco-editor'],
         },
       },
     },
