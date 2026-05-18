@@ -45,7 +45,7 @@
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7"
+    "lint-staged": "^17.0.5"
   },
   "devDependencies": {
     "@component-hook/eslint-plugin": "^1.4.2",
