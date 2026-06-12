@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.28.1",
+  "packageManager": "pnpm@11.6.0",
   "description": "A code online editing preview tool, similar to code pen",
   "license": "MIT",
   "repository": {},
