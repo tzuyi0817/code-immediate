@@ -1,0 +1,26 @@
+import userEvent from '@testing-library/user-event';
+import { screen } from '@testing-library/vue';
+import { AppFooter } from '@/components/layout';
+import { renderComponent } from '@/test-utils/render';
+import { registerIcons } from '@/utils/register-icons';
+
+describe('AppFooter Component', () => {
+  const props = { previewWidth: '33.3vw' };
+
+  registerIcons();
+
+  it('renders the correct content', () => {
+    renderComponent(AppFooter, { props });
+    expect(screen.getByRole('button', { name: /console/i })).toBeInTheDocument();
+  });
+
+  it('toggle console', async () => {
+    renderComponent(AppFooter, { props });
+
+    await userEvent.click(screen.getByRole('button', { name: /console/i }));
+    expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: /console/i }));
+    expect(screen.queryByRole('button', { name: /clear/i })).toBeNull();
+  });
+});

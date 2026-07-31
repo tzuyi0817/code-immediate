@@ -8,7 +8,7 @@ export default [
   componentHookPlugin.configs.security,
   ...componentHookPlugin.configs.markdown,
   {
-    files: ['**/__tests__/unit/**/*.test.[jt]s?(x)'],
+    files: ['**/*.test.[jt]s?(x)'],
     ...componentHookPlugin.configs['testing-library/vue'],
   },
   {

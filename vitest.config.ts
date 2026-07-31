@@ -8,7 +8,7 @@ export default mergeConfig(
       globals: true,
       environment: 'jsdom',
       pool: 'threads',
-      include: ['src/__tests__/unit/**/*.test.ts'],
+      include: ['src/**/*.test.ts'],
       setupFiles: ['./vitest.setup.ts'],
       alias: [
         {
@@ -19,7 +19,16 @@ export default mergeConfig(
       coverage: {
         provider: 'v8',
         include: ['src/**/*.ts', 'src/**/*.vue'],
-        exclude: ['src/main.ts', 'src/App.vue', 'src/mocks/browser.ts', 'src/*.d.ts', 'src/types/*', 'src/plugins/*'],
+        exclude: [
+          'src/main.ts',
+          'src/App.vue',
+          'src/mocks/browser.ts',
+          'src/*.d.ts',
+          'src/types/*',
+          'src/plugins/*',
+          'src/**/*.test.ts',
+          'src/test-utils/**',
+        ],
       },
     },
   }),
