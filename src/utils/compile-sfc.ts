@@ -29,44 +29,13 @@ import type { CodeContent, CompileParams, CssLanguages, HtmlLanguages, ImportMap
 
 const COMP_IDENTIFIER = '__sfc__';
 
-export function compileSfc(content: CompileParams): Promise<CodeContent> {
-  const { vue } = content;
-  const sfcPromise = parseSfc(vue.content);
-
-  return new Promise((resolve, reject) => {
-    sfcPromise
-      .then(codeContent => {
-        resolve(codeContent);
-      })
-      .catch(reject);
-  });
-}
-
-function parseSfc(content: string, filename = 'src/App.vue'): Promise<CodeContent> {
-  return new Promise((resolve, reject) => {
-    try {
-      const { descriptor } = parse(content, { filename, sourceMap: true });
-
-      processDescriptor(descriptor).then(resolve).catch(reject);
-    } catch (error) {
-      reject(error);
-    }
-  });
-}
-
-function processDescriptor(descriptor: SFCDescriptor): Promise<CodeContent> {
+export async function compileSfc({ vue }: CompileParams): Promise<CodeContent> {
+  const { descriptor } = parse(vue.content, { filename: 'src/App.vue', sourceMap: true });
   const { styles, filename } = descriptor;
   const scopeId = hashId(filename);
+  const [css, { modules, importMap }] = await Promise.all([compileCss(styles), compileJs(descriptor, scopeId)]);
 
-  return new Promise((resolve, reject) => {
-    const html = '<div id="app"></div>';
-
-    Promise.all([compileCss(styles), compileJs(descriptor, scopeId)])
-      .then(([css, { modules, importMap }]) => {
-        resolve({ html, css, js: '', modules, importMap });
-      })
-      .catch(reject);
-  });
+  return { html: '<div id="app"></div>', css, js: '', modules, importMap };
 }
 
 async function compileHtml(content: string, lang?: string) {
@@ -114,29 +83,22 @@ async function compileJs(descriptor: SFCDescriptor, scopeId: string) {
   };
 }
 
-function compileCss(styles: SFCStyleBlock[]): Promise<string> {
+async function compileCss(styles: SFCStyleBlock[]): Promise<string> {
   const parseCss = async (source: string, code: string, language: CssLanguages) => {
     if (source) {
       await loadParse(source);
     }
     return transformCss(code, language);
   };
-  const css = styles.reduce((result: Promise<string>[], style) => {
-    const { content, lang } = style;
-    const language = VUE_LANGUAGE_MAP.css[lang as keyof typeof VUE_LANGUAGE_MAP.css];
-    const source = CSS_LANGUAGE_MAP[language];
+  const cssList = await Promise.all(
+    styles.map(({ content, lang }) => {
+      const language = VUE_LANGUAGE_MAP.css[lang as keyof typeof VUE_LANGUAGE_MAP.css];
 
-    result.push(parseCss(source, content, language));
-    return result;
-  }, []);
+      return parseCss(CSS_LANGUAGE_MAP[language], content, language);
+    }),
+  );
 
-  return new Promise((resolve, reject) => {
-    Promise.all(css)
-      .then((...args) => {
-        resolve(args.join('\r\n'));
-      })
-      .catch(reject);
-  });
+  return cssList.join('\r\n');
 }
 
 async function transformSfc(descriptor: SFCDescriptor, scopeId: string) {

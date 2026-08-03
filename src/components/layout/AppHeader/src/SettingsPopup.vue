@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import axios, { type AxiosResponse } from 'axios';
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import { computed, reactive, ref } from 'vue';
 import { Popup, showToast } from '@/components/common';
+import { IS_TEST_MODE } from '@/constants/common';
 import { BUILT_IN_RESOURCES } from '@/constants/template';
 import { useCodeContentStore } from '@/store';
 import { debounce } from '@/utils/common';
@@ -69,7 +70,7 @@ function deleteCdn(index: number) {
   cdnResources[currentSelect.value].splice(index, 1);
 }
 
-function searchCdn(word: string) {
+async function searchCdn(word: string) {
   if (word === '') {
     cdnList.value = [];
     return;
@@ -77,32 +78,32 @@ function searchCdn(word: string) {
   const { VITE_CDN_API_URL } = import.meta.env;
 
   isSearch.value = true;
-  axios
-    .get<CdnItem, AxiosResponse<CdnJsResponse>>(VITE_CDN_API_URL, {
+
+  try {
+    const { data } = await axios.get<CdnItem, AxiosResponse<CdnJsResponse>>(VITE_CDN_API_URL, {
       params: {
         search: word,
         search_fields: 'name',
         fields: 'description,fileType,filename,latest,name,objectID,version',
       },
-    })
-    .then(({ data }) => {
-      const { results } = data;
-      const selectFileType = currentSelect.value.toLowerCase();
-
-      cdnList.value = results.filter(({ fileType }) => fileType === selectFileType);
-      isSearch.value = false;
-    })
-    .catch(error => {
-      const message = error.response?.data?.message || error.message;
-
-      isSearch.value = false;
-      showToast({ message, type: 'error' });
-      if (import.meta.env.MODE !== 'test') throw new Error(message, { cause: error });
     });
+    const { results } = data;
+    const selectFileType = currentSelect.value.toLowerCase();
+
+    cdnList.value = results.filter(({ fileType }) => fileType === selectFileType);
+  } catch (error) {
+    const { response, message: errorMessage } = error as AxiosError<{ message?: string }>;
+    const message = response?.data?.message || errorMessage;
+
+    showToast({ message, type: 'error' });
+    if (!IS_TEST_MODE) throw new Error(message, { cause: error });
+  } finally {
+    isSearch.value = false;
+  }
 }
 
 function visitCdn(cdn: string) {
-  globalThis.open(cdn);
+  window.open(cdn);
 }
 
 function closePopup() {

@@ -25,8 +25,8 @@ async function login() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    globalThis.localStorage.setItem(STORAGE_TOKEN, token);
-    globalThis.localStorage.setItem(STORAGE_ACCOUNT, account.value);
+    localStorage.setItem(STORAGE_TOKEN, token);
+    localStorage.setItem(STORAGE_ACCOUNT, account.value);
     showToast({ message, type: status });
     closePopup();
   } catch {
@@ -47,12 +47,11 @@ function openCenteredPopup(url: string, name: string) {
 }
 
 async function loginGithub() {
-  const { VITE_API_URL } = import.meta.env;
-  const popup = openCenteredPopup(`${VITE_API_URL}/github`, 'github-oauth');
-
   if (githubPopup) return;
 
-  githubPopup = popup;
+  const { VITE_API_URL } = import.meta.env;
+
+  githubPopup = openCenteredPopup(`${VITE_API_URL}/github`, 'github-oauth');
 
   if (!githubPopup) return;
 
@@ -90,7 +89,7 @@ async function loginGithub() {
       const { setUser } = useUserStore();
 
       setUser({ account: githubAccount });
-      globalThis.localStorage.setItem(STORAGE_TOKEN, token);
+      localStorage.setItem(STORAGE_TOKEN, token);
       showToast({ message: 'login success', type: 'success' });
       closePopup();
     } else {

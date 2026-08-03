@@ -35,7 +35,7 @@ export function createTickElement(x: number, y: number, size: number, options: I
   tickElement.style.left = `${x}px`;
   tickElement.style.background = options.color;
   tickElement.style.borderRadius = '50%';
-  tickElement.style.opacity = `${options.initialOpacity}`;
+  tickElement.style.opacity = String(options.initialOpacity);
   tickElement.style.transform = 'translate(-50%,-50%) scale(0)';
   tickElement.style.transition = `transform ${options.duration / 1000}s ${options.easing}, opacity ${
     options.duration / 1000
@@ -73,7 +73,7 @@ function setTickCount(el: HTMLElement, count: number) {
 }
 
 export function getTickCount(el: HTMLElement): number {
-  return Number.parseInt(el.dataset[RIPPLE_COUNT] ?? '0', 10);
+  return Number(el.dataset[RIPPLE_COUNT] ?? '0');
 }
 
 export function incrementTickCount(el: HTMLElement): void {

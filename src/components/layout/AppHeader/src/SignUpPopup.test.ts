@@ -49,7 +49,7 @@ describe('AppHeader/SignUpPopup component', () => {
     await userEvent.type(screen.getByLabelText(CONFIRM_SECRET_TEXT), fakeSecret);
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }));
     expect(userStore.user).toEqual({ account });
-    expect(globalThis.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
+    expect(localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
     expect(screen.getByText('signup success')).toBeInTheDocument();
   });
 

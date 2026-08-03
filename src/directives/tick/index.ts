@@ -10,11 +10,11 @@ export default {
     optionMap.set(el, binding.value ?? {});
 
     el.addEventListener('pointerdown', event => {
-      const options = optionMap.get(el);
-
       if (binding.value && binding.value.disabled) {
         return;
       }
+
+      const options = optionMap.get(el);
 
       if (options === false) {
         return;

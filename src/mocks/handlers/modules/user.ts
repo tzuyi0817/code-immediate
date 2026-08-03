@@ -1,7 +1,8 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse, type PathParams } from 'msw';
+import type { LoginPayload, RegisterPayload } from '@/types/user';
 
 export const mockUserApi = {
-  loginUser: http.post('*/login', async ({ request }) => {
+  loginUser: http.post<PathParams, LoginPayload>('*/login', async ({ request }) => {
     const { account, password } = await request.clone().json();
     const isAuthenticated = account === 'FAKE_ACCOUNT' && password === 'FAKE_PASSWORD';
 
@@ -18,7 +19,7 @@ export const mockUserApi = {
       },
     });
   }),
-  registerUser: http.post('*/register', async ({ request }) => {
+  registerUser: http.post<PathParams, RegisterPayload>('*/register', async ({ request }) => {
     const { account, password } = await request.clone().json();
     const isAuthenticated = account === 'FAKE_ACCOUNT' && password === 'FAKE_PASSWORD';
 

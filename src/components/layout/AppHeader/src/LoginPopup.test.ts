@@ -37,8 +37,8 @@ describe('AppHeader/LoginPopup component', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Log in' }));
 
     expect(userStore.user).toEqual({ account });
-    expect(globalThis.localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
-    expect(globalThis.localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
+    expect(localStorage.getItem(STORAGE_TOKEN)).toEqual(fakeSecret);
+    expect(localStorage.getItem(STORAGE_ACCOUNT)).toEqual(account);
     expect(screen.getByText('login success')).toBeInTheDocument();
   });
 

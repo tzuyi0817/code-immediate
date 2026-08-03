@@ -35,14 +35,14 @@ describe('home page EditorMenu Component', async () => {
         props: { model: 'HTML' },
       });
 
-      globalThis.prettier = {
+      vi.stubGlobal('prettier', {
         format: vi.fn(() => 'Hello World!'),
-      };
+      });
 
       await userEvent.click(screen.getByRole('button', { name: /fa-angle-down/i }));
       await userEvent.click(screen.getByText(formatText));
       expect(useCodeContentStore().codeContent.HTML.content).toBe('Hello World!');
-      globalThis.prettier = void 0;
+      vi.stubGlobal('prettier', void 0);
     });
 
     it('format error', async () => {

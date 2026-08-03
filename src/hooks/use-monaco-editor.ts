@@ -1,8 +1,9 @@
 import { wireTmGrammars } from 'monaco-editor-textmate';
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
+import * as monaco from 'monaco-editor/editor/editor.api';
 import themeDark from 'shiki/themes/dark-plus.mjs';
+import { IS_TEST_MODE } from '@/constants/common';
 import { COMMON_GRAMMARS_MAP, GRAMMARS_MAP } from '@/constants/grammar';
-import { IS_TEST_MODE, registry } from '@/monaco';
+import { registry } from '@/monaco';
 import { SHIKI_HIGHLIGHT_LANG } from '@/monaco/highlight';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { debounce, sleep } from '@/utils/common';
@@ -105,13 +106,17 @@ export function useMonacoEditor() {
   async function wireEditorGrammars(languageType: string) {
     if (!monacoEditor.editor) return;
     if (IS_TEST_MODE || SHIKI_HIGHLIGHT_LANG.has(languageType)) return;
+
     const grammar = GRAMMARS_MAP.get(languageType);
 
     if (!grammar) return;
+
     const grammars = new Map([[languageType, grammar]]);
+    // wireTmGrammars 需要完整的 monaco 命名空間，靜態 import 的 editor.api 只是其子集
+    const monacoNamespace = await import('monaco-editor');
 
     await sleep();
-    await wireTmGrammars(monaco, registry(), grammars, monacoEditor.editor);
+    await wireTmGrammars(monacoNamespace, registry(), grammars, monacoEditor.editor);
   }
 
   return {

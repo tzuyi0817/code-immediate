@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { defineAsyncComponent, onBeforeUnmount, onMounted, ref } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import { LoadingButton, showToast } from '@/components/common';
 import { DEFAULT_TEMPLATE_MAP, TEMPLATE_MAP } from '@/constants/template';
+import { useWindowClose } from '@/hooks/use-window-close';
 import { logoutUser, postCode, putCode } from '@/services/http';
 import { STORAGE_TOKEN, useCodeContentStore, useFlagStore, useUserStore } from '@/store';
 import { deepClone } from '@/utils/common';
@@ -36,15 +37,17 @@ const RemindPopup = defineAsyncComponent(() => import('./RemindPopup.vue'));
 async function logout() {
   isLoggingOut.value = true;
 
-  const { status, message } = await logoutUser().finally(() => {
-    isLoggingOut.value = false;
-  });
-  const { setUser } = useUserStore();
+  try {
+    const { status, message } = await logoutUser();
+    const { setUser } = useUserStore();
 
-  setUser({});
-  createNewProject();
-  globalThis.localStorage.removeItem(STORAGE_TOKEN);
-  showToast({ message, type: status });
+    setUser({});
+    createNewProject();
+    localStorage.removeItem(STORAGE_TOKEN);
+    showToast({ message, type: status });
+  } finally {
+    isLoggingOut.value = false;
+  }
 }
 
 async function saveCode() {
@@ -64,14 +67,18 @@ async function saveCode() {
 
   isSavingCode.value = true;
 
-  const { status, message, resultMap } = await api.finally(() => (isSavingCode.value = false));
-  const { setChangeCodeFlag } = useFlagStore();
+  try {
+    const { status, message, resultMap } = await api;
+    const { setChangeCodeFlag } = useFlagStore();
 
-  if (resultMap) {
-    setCodeId(resultMap.code._id);
+    if (resultMap) {
+      setCodeId(resultMap.code._id);
+    }
+    setChangeCodeFlag(false);
+    showToast({ message, type: status });
+  } finally {
+    isSavingCode.value = false;
   }
-  setChangeCodeFlag(false);
-  showToast({ message, type: status });
 }
 
 function createNewProject() {
@@ -139,18 +146,7 @@ async function shareLink() {
   showToast({ message: 'Copied URL to clipboard!', type: 'success' });
 }
 
-function onWindow() {
-  globalThis.addEventListener('click', closeMenuList);
-  window.addEventListener('blur', closeMenuList);
-}
-
-function unWindow() {
-  globalThis.removeEventListener('click', closeMenuList);
-  window.removeEventListener('blur', closeMenuList);
-}
-
-onMounted(onWindow);
-onBeforeUnmount(unWindow);
+useWindowClose(closeMenuList);
 </script>
 
 <template>

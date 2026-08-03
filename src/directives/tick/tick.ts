@@ -13,7 +13,7 @@ import type { ITickDirectiveOptions } from './types';
 
 export function tick(event: PointerEvent, el: HTMLElement, options: ITickDirectiveOptions) {
   const rect = el.getBoundingClientRect();
-  const computedStyles = globalThis.getComputedStyle(el);
+  const computedStyles = getComputedStyle(el);
   const { x, y } = getRelativePointer(event, rect);
   const size = MULTIPLE_NUMBER * getDistanceToFurthestCorner(x, y, rect);
   const tickContainer = createContainer(computedStyles);
@@ -84,7 +84,7 @@ export function tick(event: PointerEvent, el: HTMLElement, options: ITickDirecti
 
     requestAnimationFrame(() => {
       tickEl.style.transform = 'translate(-50%,-50%) scale(1)';
-      tickEl.style.opacity = `${options.finalOpacity}`;
+      tickEl.style.opacity = String(options.finalOpacity);
 
       setTimeout(() => releaseTick(), options.duration);
     });

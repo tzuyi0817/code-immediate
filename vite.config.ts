@@ -35,6 +35,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('src', import.meta.url)),
+      /**
+       * @vue/language-service 的 htmlFormatter 直接 require vscode-html-languageservice 的 UMD 產物，
+       * 繞過套件的 module field。UMD wrapper 在模組求值當下就會讀取裸 require，
+       * 於 worker（瀏覽器）環境會拋 `require is not defined`。
+       * 同套件的 ESM 產物 API 完全相同，改指向它即可。
+       */
+      'vscode-html-languageservice/lib/umd': 'vscode-html-languageservice/lib/esm',
     },
   },
   esbuild: {

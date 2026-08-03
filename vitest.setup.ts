@@ -14,11 +14,10 @@ afterEach(() => {
 
 afterAll(() => mswServer.close());
 
-globalThis.ResizeObserver = ResizeObserver;
-
-Object.defineProperty(globalThis, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation(query => ({
+vi.stubGlobal('ResizeObserver', ResizeObserver);
+vi.stubGlobal(
+  'matchMedia',
+  vi.fn().mockImplementation(query => ({
     matches: false,
     media: query,
     onchange: null,
@@ -28,6 +27,6 @@ Object.defineProperty(globalThis, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-});
+);
 
 Element.prototype.animate = vi.fn().mockImplementation(() => mockAnimation);

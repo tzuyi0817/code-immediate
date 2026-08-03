@@ -3,5 +3,5 @@ export interface Sass {
 }
 
 export interface Showdown {
-  makeHtml(text: string): string;
+  makeHtml: (text: string) => string;
 }

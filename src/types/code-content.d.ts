@@ -54,12 +54,6 @@ export interface CodeMap {
   resources: string[];
 }
 
-export interface CodeBase {
-  CSS: CodeMap;
-  HTML: Omit<CodeMap, 'resources'>;
-  JS: CodeMap;
-}
-
 export interface CodeTemplateMap {
   HTML: {
     language: HtmlLanguages;

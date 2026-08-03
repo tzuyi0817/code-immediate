@@ -102,8 +102,7 @@ onBeforeUnmount(() => window.removeEventListener('message', receiveMessage));
         <pre
           v-if="type === 'echo'"
           class="console-message echo"
-          >{{ html }}</pre
-        >
+          >{{ html }}</pre>
         <pre
           v-else-if="type === 'log'"
           class="console-message log"

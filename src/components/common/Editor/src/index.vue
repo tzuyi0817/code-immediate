@@ -21,10 +21,12 @@ const content = computed(() => codeContent.value[model].content);
 const isFormatter = computed(() => useFlagStore().formatterMap[model]);
 const isEmbed = computed(() => useFlagStore().EmbedMap[model]);
 const resizeObserver = new ResizeObserver(entries => {
-  entries.forEach(({ contentRect: { height, width } }) => {
-    if (height === 0 || width === 0) return;
+  for (const { contentRect } of entries) {
+    const { height, width } = contentRect;
+
+    if (height === 0 || width === 0) continue;
     monacoEditor.editor?.layout();
-  });
+  }
 });
 
 const { monacoEditor, createEditor, updateEditorModel, updateEditorValue } = useMonacoEditor();
