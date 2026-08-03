@@ -28,7 +28,7 @@ async function register() {
     const { setUser } = useUserStore();
 
     setUser(user);
-    globalThis.localStorage.setItem(STORAGE_TOKEN, token);
+    localStorage.setItem(STORAGE_TOKEN, token);
     showToast({ message, type: status });
     closePopup();
   } catch {

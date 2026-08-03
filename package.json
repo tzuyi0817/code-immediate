@@ -16,7 +16,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint --fix .",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --build --force",
     "test:unit": "vitest --coverage",
     "preview": "vite preview",
     "prepare": "husky"

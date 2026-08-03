@@ -18,14 +18,14 @@ export function debounce<T extends (...args: Parameters<T>) => ReturnType<T>>(fu
 
 export function throttle<T extends (...args: Parameters<T>) => ReturnType<T>>(fun: T, delay = 500) {
   if (typeof fun !== 'function') throw new Error('The first argument must be a function');
-  let timeStamp = 0;
+  let timestamp = 0;
 
   return function (this: void, ...args: Parameters<T>) {
     const now = Date.now();
 
-    if (now - timeStamp <= delay) return;
+    if (now - timestamp <= delay) return;
     fun.apply(this, args);
-    timeStamp = now;
+    timestamp = now;
   };
 }
 
@@ -41,10 +41,10 @@ export function deepClone<T extends object>(obj: T, hash = new WeakMap()): T {
   const clone = isArray(obj) ? [] : Object.create(Object.getPrototypeOf(obj), descriptors);
 
   hash.set(obj, clone);
-  Reflect.ownKeys(obj).forEach(key => {
+  for (const key of Reflect.ownKeys(obj)) {
     const value = obj[key as keyof T];
     clone[key] = isObject(value) ? deepClone(value, hash) : value;
-  });
+  }
   return clone;
 }
 
@@ -53,5 +53,8 @@ export function utoa(str: string) {
   const compressed = zlibSync(buffer, { level: 9 });
   const binary = strFromU8(compressed, true);
 
+  // Uint8Array#toBase64() 尚未進入 baseline widely available（Safari 18.2 / Chrome 140 起），
+  // 且無法被打包工具降級，故維持 btoa
+  // eslint-disable-next-line unicorn/prefer-uint8array-base64
   return btoa(binary);
 }

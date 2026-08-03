@@ -64,9 +64,13 @@ function embedFile() {
   let element: HTMLInputElement | null = document.createElement('input');
 
   const onChangeFile = async (event: Event) => {
-    const code = await readFile(event)?.catch(() => {
+    let code: string | undefined;
+
+    try {
+      code = await readFile(event);
+    } catch {
       showToast({ message: 'Embed file failed', type: 'error' });
-    });
+    }
 
     if (code) {
       setCodeContent({ type: model, code });

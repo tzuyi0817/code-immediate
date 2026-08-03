@@ -53,7 +53,7 @@ describe('Pagination component', () => {
     renderComponent(Pagination, { props: { page: 1, pageSize: 2, pagerCount, total: 20 } });
 
     await userEvent.click(screen.getByRole('listitem', { name: /next pages/i }));
-    expect(screen.getByText(`${1 + pagerCount}`)).toHaveClass('active');
+    expect(screen.getByText(String(1 + pagerCount))).toHaveClass('active');
     await userEvent.click(screen.getByRole('listitem', { name: /prev pages/i }));
     expect(screen.getByText('1')).toHaveClass('active');
   });
@@ -78,7 +78,7 @@ describe('Pagination component', () => {
 
     renderComponent(Pagination, { props: { page, pageSize: 2, total: 10 } });
 
-    expect(screen.getByText(`${page}`)).toHaveClass('active');
+    expect(screen.getByText(String(page))).toHaveClass('active');
     expect(screen.queryByRole('button', { name: /pagination prev/i })).not.toHaveAttribute('disabled');
     expect(screen.queryByRole('button', { name: /pagination next/i })).toHaveAttribute('disabled');
   });

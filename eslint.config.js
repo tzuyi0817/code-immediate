@@ -12,6 +12,11 @@ export default [
     ...componentHookPlugin.configs['testing-library/vue'],
   },
   {
-    ignores: ['**/src/constants/language-configuration', 'public/**/*', '**/axios.d.ts'],
+    ignores: [
+      '**/src/constants/language-configuration',
+      'script/vscodeThemes/themes.jsonc',
+      'public/**/*',
+      '**/axios.d.ts',
+    ],
   },
 ];

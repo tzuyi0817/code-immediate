@@ -15,6 +15,12 @@ import {
 import { deepClone } from '@/utils/common';
 import type { CodeTemplate, CodeTemplateMap } from '@/types/code-content';
 
+/**
+ * @vue/language-core 的 vueCompilerOptions.target，語意是 minor 版號（3.3 / 3.5 / 3.6…）。
+ * 升 VERSION.VUE 的 minor 版時要一起調整。
+ */
+export const VUE_COMPILER_TARGET = 3.5;
+
 export const VERSION = {
   REACT: '19.2.3',
   VUE: '3.5.22',

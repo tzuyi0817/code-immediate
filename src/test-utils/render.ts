@@ -11,11 +11,17 @@ interface RenderComponentOptions extends RenderOptions<unknown> {
   provide?: Record<PropertyKey, unknown>;
 }
 
-const pinia = createPinia();
+function createTestPinia() {
+  const testPinia = createPinia();
+
+  setActivePinia(testPinia);
+
+  return testPinia;
+}
+
+const pinia = createTestPinia();
 
 export const router = createRouter({ history: createMemoryHistory(), routes });
-
-setActivePinia(pinia);
 
 export function renderComponent(testComponent: Component, options?: RenderComponentOptions) {
   const { provide, ...componentOptions } = options ?? {};

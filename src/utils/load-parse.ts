@@ -1,7 +1,7 @@
 import loadjs from 'loadjs';
 import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/constants/language';
 import { useFlagStore } from '@/store';
-import type { CodeBase } from '@/types/code-content';
+import type { CodeTemplateMap } from '@/types/code-content';
 
 export const loadedParseMap = new Map([
   ['html', true],
@@ -9,18 +9,11 @@ export const loadedParseMap = new Map([
   ['javascript', true],
 ]);
 
-export function loadParse(language: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (loadedParseMap.get(language)) return resolve();
-    const resource = `parses/${language}.js`;
+export async function loadParse(language: string): Promise<void> {
+  if (loadedParseMap.get(language)) return;
 
-    loadjs(resource, { returnPromise: true })
-      .then(() => {
-        loadedParseMap.set(language, true);
-        resolve();
-      })
-      .catch((error: Error) => reject(error));
-  });
+  await loadjs(`parses/${language}.js`, { returnPromise: true });
+  loadedParseMap.set(language, true);
 }
 
 export async function loadParseSource(language: string, languageMap: Record<string, string>) {
@@ -30,15 +23,17 @@ export async function loadParseSource(language: string, languageMap: Record<stri
   setLoading({ isOpen: true, type: 'Loading parse source' });
 
   if (source) {
-    await loadParse(source).catch(error => {
+    try {
+      await loadParse(source);
+    } catch (error) {
       setLoading({ isOpen: false, type: 'Loading parse source error' });
       throw error;
-    });
+    }
   }
   setLoading({ isOpen: false, type: 'Loading parse source finished' });
 }
 
-export function loadParseSources({ HTML, CSS, JS }: CodeBase) {
+export function loadParseSources({ HTML, CSS, JS }: Pick<CodeTemplateMap, 'HTML' | 'CSS' | 'JS'>) {
   return Promise.all([
     loadParseSource(HTML.language, HTML_LANGUAGE_MAP),
     loadParseSource(CSS.language, CSS_LANGUAGE_MAP),

@@ -86,10 +86,11 @@ function transformImports(imports: CdnSourceMap[], isESM: boolean) {
         const { version, path } = parsePackage(module);
         const moduleName = `__module_${index}`;
 
-        variables.forEach(({ local, imported }) => {
+        // 同一個 module 只需要一個 script 標籤，其下的具名匯入都從 moduleName 取值
+        scripts += `\n<script src="${transformToEsbuild(module, version, path, moduleName)}"></script>`;
+        for (const { local, imported } of variables) {
           statements += `const ${local} = ${moduleName}.${imported};\n`;
-          scripts += `\n<script src="${transformToEsbuild(module, version, path, moduleName)}"></script>`;
-        });
+        }
       }
       return { statements, scripts };
     },

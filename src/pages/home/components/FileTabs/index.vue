@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { computed, onBeforeUnmount, onMounted } from 'vue';
+import { computed, onBeforeUnmount } from 'vue';
 import { CSS_LANGUAGE_MAP, HTML_LANGUAGE_MAP, JS_LANGUAGE_MAP } from '@/constants/language';
 import { SUFFIX_MAP } from '@/constants/suffix';
+import { useWindowClose } from '@/hooks/use-window-close';
 import { useCodeContentStore } from '@/store';
 import EditorMenu from '../EditorMenu/index.vue';
 import LanguageSelect from '../LanguageSelect/index.vue';
@@ -40,19 +41,8 @@ function onBlur() {
   implementCloseEvent();
 }
 
-function onWindow() {
-  globalThis.addEventListener('click', implementCloseEvent);
-  window.addEventListener('blur', onBlur);
-}
-
-function unWindow() {
-  globalThis.removeEventListener('click', implementCloseEvent);
-  window.removeEventListener('blur', onBlur);
-  closeEvents.clear();
-}
-
-onMounted(onWindow);
-onBeforeUnmount(unWindow);
+useWindowClose(implementCloseEvent, onBlur);
+onBeforeUnmount(() => closeEvents.clear());
 </script>
 
 <template>

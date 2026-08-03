@@ -1,18 +1,18 @@
 import * as volar from '@volar/monaco';
-import EditorWorker from 'monaco-editor/esm/vs/editor/editor.worker.js?worker';
-import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker.js?worker';
-import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker.js?worker';
-import JsonWorker from 'monaco-editor/esm/vs/language/json/json.worker.js?worker';
-import TsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker.js?worker';
+import EditorWorker from 'monaco-editor/editor/editor.worker.js?worker';
+import CssWorker from 'monaco-editor/language/css/css.worker.js?worker';
+import HtmlWorker from 'monaco-editor/language/html/html.worker.js?worker';
+import JsonWorker from 'monaco-editor/language/json/json.worker.js?worker';
+import TsWorker from 'monaco-editor/language/typescript/ts.worker.js?worker';
 import { Registry } from 'monaco-textmate';
 import { loadWASM } from 'onigasm';
+import { IS_TEST_MODE } from '@/constants/common';
 import { GRAMMAR_PLIST, GRAMMAR_SCOPE_NAME_MAP, type GrammarScope } from '@/constants/grammar';
-import { VERSION } from '@/constants/template';
+import { VUE_COMPILER_TARGET } from '@/constants/template';
+import { WORKER_INIT, WORKER_READY, type CreateData } from '@/workers/protocol';
 import VueWorker from '@/workers/vue.worker.ts?worker';
 import type { WorkerLanguageService } from '@volar/monaco/worker';
-import type { VueCompilerOptions } from '@vue/language-core';
 
-export const IS_TEST_MODE = import.meta.env.MODE === 'test';
 const BASE_URL = IS_TEST_MODE ? 'http://localhost:3000/' : '';
 const TSCONFIG = {
   compilerOptions: {
@@ -26,22 +26,16 @@ const TSCONFIG = {
   },
 };
 
-export interface CreateData {
-  tsconfig: {
-    compilerOptions?: import('typescript').CompilerOptions;
-    vueCompilerOptions?: Partial<VueCompilerOptions>;
-  };
-  dependencies: Record<string, string>;
-}
-
 export async function initMonacoEditor() {
-  (globalThis as any).MonacoEnvironment = {
-    async getWorker(_: string, label: string) {
+  // monaco 官方以全域變數傳遞 worker factory，且其 .d.ts 已宣告 MonacoEnvironment，
+  // 直接指派才能讓 getWorker 的簽章受型別檢查
+  // eslint-disable-next-line unicorn/no-global-object-property-assignment
+  globalThis.MonacoEnvironment = {
+    getWorker(_: string, label: string) {
       if (label === 'typescript' || label === 'javascript') return new TsWorker();
       if (label === 'json') return new JsonWorker();
       if (label === 'css' || label === 'scss' || label === 'less') return new CssWorker();
       if (label === 'html') return new HtmlWorker();
-      if (label === 'vue') return await initializeWorker(new VueWorker());
 
       return new EditorWorker();
     },
@@ -53,13 +47,24 @@ export async function initMonacoEditor() {
   registerShikiTheme();
 }
 
-async function initializeWorker(worker: Worker) {
-  const initialize = new Promise<Worker>(resolve => {
-    worker.addEventListener('message', () => resolve(worker));
-    worker.postMessage('initializing');
-  });
+/**
+ * 啟動 vue worker 並完成握手：送出 WORKER_INIT，待 worker 回報 WORKER_READY 才 resolve。
+ * 唯有等到 WORKER_READY，createData 才不會落到尚未被 worker.initialize 替換掉的處理器上。
+ */
+function startVueWorker() {
+  const worker = new VueWorker();
 
-  return await initialize;
+  return new Promise<Worker>(resolve => {
+    const onMessage = ({ data }: MessageEvent) => {
+      if (data !== WORKER_READY) return;
+
+      worker.removeEventListener('message', onMessage);
+      resolve(worker);
+    };
+
+    worker.addEventListener('message', onMessage);
+    worker.postMessage(WORKER_INIT);
+  });
 }
 
 async function setupCustomLanguage() {
@@ -92,10 +97,10 @@ async function setupVueLanguage(
   languages.setLanguageConfiguration('vue', vueConfiguration);
   languages.onLanguage('vue', async () => {
     if (IS_TEST_MODE) return;
-    const worker = await createWebWorker<WorkerLanguageService>('vue', {
+    const worker = await createVueWorker<WorkerLanguageService>({
       ...TSCONFIG,
       vueCompilerOptions: {
-        target: VERSION.VUE,
+        target: VUE_COMPILER_TARGET,
       },
     });
     const languageId = ['vue'];
@@ -107,25 +112,22 @@ async function setupVueLanguage(
   });
 }
 
-async function createWebWorker<T extends object>(
-  language: string,
-  tsconfig: Record<string, unknown> = {},
-  dependencies: Record<string, string> = {},
-) {
+async function createVueWorker<T extends object>(tsconfig: CreateData['tsconfig']) {
+  // worker 握手要等 CDN 上的 TypeScript 下載完，與 monaco 的載入互不相依，故並行
+  const workerPromise = startVueWorker();
   const { editor } = await import('monaco-editor');
+  const worker = await workerPromise;
 
-  return editor.createWebWorker<T>({
-    moduleId: `vs/language/${language}/${language}.worker`,
-    label: language,
-    createData: {
-      tsconfig,
-      dependencies,
-    } satisfies CreateData,
-  });
+  worker.postMessage({ tsconfig } satisfies CreateData);
+
+  return editor.createWebWorker<T>({ worker });
 }
 
+let grammarRegistry: Registry | undefined;
+
+/** 共用單一 registry，讓已解析過的 grammar 在切換語言時能重用，不必重新抓取與解析 */
 export function registry() {
-  return new Registry({
+  grammarRegistry ??= new Registry({
     getGrammarDefinition: async scopeName => {
       const source = GRAMMAR_SCOPE_NAME_MAP[scopeName as GrammarScope];
 
@@ -135,4 +137,6 @@ export function registry() {
       };
     },
   });
+
+  return grammarRegistry;
 }

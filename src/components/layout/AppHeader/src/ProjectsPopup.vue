@@ -24,7 +24,11 @@ const {
   refetch: getProjects,
 } = useQuery({
   queryKey: [...CODES_QUERY, currentPage],
-  queryFn: () => getCodes(currentPage.value).then(res => res.resultMap),
+  queryFn: async () => {
+    const { resultMap } = await getCodes(currentPage.value);
+
+    return resultMap;
+  },
   placeholderData: keepPreviousData,
   enabled: false,
 });

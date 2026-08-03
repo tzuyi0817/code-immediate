@@ -93,27 +93,29 @@ export const useCodeContentStore = defineStore('code-content', {
     setCodeTitle(title: string) {
       this.codeTitle = title;
     },
-    setCode(id: string) {
+    async setCode(id: string) {
       const { setCodeLoading } = useFlagStore();
 
       setCodeLoading(true);
       this.setCodeId(id);
 
-      getCode(id)
-        .then(async ({ resultMap }) => {
-          if (resultMap) {
-            const { title, HTML, CSS, JS, VUE, codeTemplate } = resultMap.code;
+      try {
+        const { resultMap } = await getCode(id);
 
-            await loadParseSources({ HTML, CSS, JS });
-            this.setCodeMap({ HTML, CSS, JS, VUE });
-            this.setCodeTemplate(codeTemplate);
-            this.setCodeTitle(title);
-            this.setTemplateMap();
-          }
-        })
-        .finally(() => {
-          setCodeLoading(false);
-        });
+        if (!resultMap) {
+          return;
+        }
+
+        const { title, HTML, CSS, JS, VUE, codeTemplate } = resultMap.code;
+
+        await loadParseSources({ HTML, CSS, JS });
+        this.setCodeMap({ HTML, CSS, JS, VUE });
+        this.setCodeTemplate(codeTemplate);
+        this.setCodeTitle(title);
+        this.setTemplateMap();
+      } finally {
+        setCodeLoading(false);
+      }
     },
   },
   persist: {

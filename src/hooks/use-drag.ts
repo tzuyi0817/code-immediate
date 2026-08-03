@@ -10,10 +10,10 @@ export function useDrag(dragCallback: (offset: DragOffset) => void) {
 
   function startDrag() {
     flagStore.setDragFlag(true);
-    drag.screenWidth = globalThis.screen.width;
-    drag.screenHeight = globalThis.screen.height;
-    document.addEventListener('mousemove', dragging, false);
-    document.addEventListener('mouseup', endDrag, false);
+    drag.screenWidth = screen.width;
+    drag.screenHeight = screen.height;
+    document.addEventListener('mousemove', dragging);
+    document.addEventListener('mouseup', endDrag);
   }
 
   function dragging(event: MouseEvent) {
@@ -29,8 +29,8 @@ export function useDrag(dragCallback: (offset: DragOffset) => void) {
 
   function endDrag() {
     flagStore.setDragFlag(false);
-    document.removeEventListener('mousemove', dragging, false);
-    document.removeEventListener('mouseup', endDrag, false);
+    document.removeEventListener('mousemove', dragging);
+    document.removeEventListener('mouseup', endDrag);
   }
 
   return {

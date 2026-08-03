@@ -19,18 +19,33 @@ const HANDLE_SEPARATE_MAP = {
 
 let ts: typeof typescript;
 
+/**
+ * CDN 上的 typescript.js 是 UMD bundle，會往 `module.exports` 掛載。
+ * 這裡臨時偽造一個全域 `module` 讓它有地方可寫，並以 try/finally 保證還原，
+ * 避免載入失敗時把假的 `module` 永久留在全域。
+ */
+async function withCommonJsModule<T>(load: () => Promise<void>) {
+  // eslint-disable-next-line unicorn/no-unnecessary-global-this -- 需明確操作全域的 module，不能寫成裸識別字
+  const originalModule = globalThis.module;
+
+  Reflect.set(globalThis, 'module', { exports: {} });
+
+  try {
+    await load();
+
+    // eslint-disable-next-line unicorn/no-unnecessary-global-this -- 同上
+    return globalThis.module.exports as T;
+  } finally {
+    Reflect.set(globalThis, 'module', originalModule);
+  }
+}
+
 async function importTsFromCdn(version = devDependencies.typescript.replace('^', '')) {
-  const _module = globalThis.module;
   const cdnUrl = `${JSDELIVR_CDN}/typescript@${version}/lib/typescript.js`;
 
-  globalThis.module = { exports: {} } as NodeModule;
-  await import(/* @vite-ignore */ cdnUrl);
-
-  const tsModule = globalThis.module.exports;
-
-  globalThis.module = _module;
-
-  return tsModule as typeof typescript;
+  return await withCommonJsModule<typeof typescript>(async () => {
+    await import(/* @vite-ignore */ cdnUrl);
+  });
 }
 
 export async function getTsConstructor() {

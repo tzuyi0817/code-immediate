@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { inject, onMounted, ref, watch, type Ref } from 'vue';
+import { IS_TEST_MODE } from '@/constants/common';
 import { useCodeContentStore, useFlagStore } from '@/store';
 import { compile } from '@/utils/compile';
 import { compileSfc } from '@/utils/compile-sfc';
@@ -75,15 +76,16 @@ async function runCode() {
       '*',
     );
     setLoading({ isOpen: false, type: 'Process code error' });
-    if (import.meta.env.MODE === 'test') return;
+    if (IS_TEST_MODE) return;
     throw new Error(message, { cause: isErrorConstructor ? error : void 0 });
   }
 }
 
-function initLoadParseSource() {
+async function initLoadParseSource() {
   const { HTML, CSS, JS } = codeContent.value;
 
-  loadParseSources({ HTML, CSS, JS }).then(runCode);
+  await loadParseSources({ HTML, CSS, JS });
+  await runCode();
 }
 
 watch(

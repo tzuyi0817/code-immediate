@@ -16,8 +16,8 @@ describe('IMPORT_MAP', () => {
 
     expect(localSources.length).toBeGreaterThan(0);
 
-    localSources.forEach(source => {
+    for (const source of localSources) {
       expect(localLibraries).toContain(source.replace('./', '/public/'));
-    });
+    }
   });
 });

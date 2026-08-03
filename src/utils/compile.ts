@@ -19,28 +19,23 @@ let sass: Sass | null = null;
 let showdown: Showdown | null = null;
 let ts: typeof typescript | null = null;
 
-export function compile(params: CompileParams): Promise<CodeContent> {
+export async function compile(params: CompileParams): Promise<CodeContent> {
   const { html, css, js, codeTemplate } = params;
-  const htmlPromise = transformHtml(html.content, html.language);
-  const cssPromise = transformCss(css.content, css.language);
-  const jsPromise = transformJs(js.content, js.language);
+  const [htmlCode, cssCode, jsCode] = await Promise.all([
+    transformHtml(html.content, html.language),
+    transformCss(css.content, css.language),
+    transformJs(js.content, js.language),
+  ]);
+  const scriptType = SCRIPT_TYPE_MAP[codeTemplate] ?? '';
+  const isESM = scriptType === esModel;
+  const { code, scripts = '' } = parseImport(jsCode, isESM);
 
-  return new Promise((resolve, reject) => {
-    Promise.all([htmlPromise, cssPromise, jsPromise])
-      .then(([htmlCode, cssCode, jsCode]) => {
-        const scriptType = SCRIPT_TYPE_MAP[codeTemplate] ?? '';
-        const isESM = scriptType === esModel;
-        const { code, scripts = '' } = parseImport(jsCode, isESM);
-
-        resolve({
-          html: htmlCode,
-          css: cssCode,
-          js: scripts + (code ? `\n<script ${scriptType}>\n${code}\n</script>` : ''),
-          importMap: IMPORT_MAP[codeTemplate],
-        });
-      })
-      .catch(reject);
-  });
+  return {
+    html: htmlCode,
+    css: cssCode,
+    js: scripts + (code ? `\n<script ${scriptType}>\n${code}\n</script>` : ''),
+    importMap: IMPORT_MAP[codeTemplate],
+  };
 }
 
 export function transformHtml(htmlContent: string, language: HtmlLanguages) {
@@ -63,10 +58,14 @@ export function transformHtml(htmlContent: string, language: HtmlLanguages) {
 export function transformCss(cssContent: string, language: CssLanguages) {
   const compileCss = {
     async Less() {
-      const { css }: { css: string } = await globalThis.less
-        .render(cssContent)
-        .catch((error: Error) => console.error(`syntax error, cause ${error}`));
-      return css;
+      try {
+        const { css }: { css: string } = await globalThis.less.render(cssContent);
+
+        return css;
+      } catch (error) {
+        console.error(`syntax error, cause ${error}`);
+        throw error;
+      }
     },
     SCSS() {
       return compileScss(cssContent);
@@ -124,7 +123,10 @@ export async function transformJs(jsContent: string, language: JsLanguages) {
       return globalThis.CoffeeScript.compile(jsContent);
     },
     LiveScript() {
-      const code = globalThis.require('livescript').compile(jsContent, {
+      // 全域的 require 由 public/parses/livescript.js（browserify bundle）掛上，並非 CJS 模組載入器，
+      // 取出後改名以區別於真正的 require import
+      const { require: livescriptRequire } = globalThis;
+      const code = livescriptRequire('livescript').compile(jsContent, {
         bare: true, // 不要在外面包一層 function
         header: false, // 不要產生 LiveScript 版本註解
       });
