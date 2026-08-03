@@ -17,7 +17,7 @@ const HANDLE_SEPARATE_MAP = {
   '@component-hook/picker/react': `${JSDELIVR_CDN}/@component-hook/picker@1.2.1-alpha.0/dist/react/picker.es.js`,
 } as const;
 
-let ts: typeof typescript;
+let tsPromise: Promise<typeof typescript> | undefined;
 
 /**
  * CDN 上的 typescript.js 是 UMD bundle，會往 `module.exports` 掛載。
@@ -43,16 +43,27 @@ async function withCommonJsModule<T>(load: () => Promise<void>) {
 async function importTsFromCdn(version = devDependencies.typescript.replace('^', '')) {
   const cdnUrl = `${JSDELIVR_CDN}/typescript@${version}/lib/typescript.js`;
 
-  return await withCommonJsModule<typeof typescript>(async () => {
-    await import(/* @vite-ignore */ cdnUrl);
-  });
+  try {
+    return await withCommonJsModule<typeof typescript>(async () => {
+      await import(/* @vite-ignore */ cdnUrl);
+    });
+  } catch (error) {
+    // 載入失敗時清掉快取，維持原本「失敗後下次呼叫可重試」的行為
+    tsPromise = undefined;
+
+    throw error;
+  }
 }
 
-export async function getTsConstructor() {
-  if (ts) return ts;
-  ts = await importTsFromCdn();
+/**
+ * 快取的是 promise 而非結果：main.ts 開場就先預取，compile 時可能在載入尚未完成時再次呼叫。
+ * 若只快取結果，兩次呼叫會同時進入 withCommonJsModule，
+ * 後進者的 finally 會先還原全域 module，讓先進者讀到 undefined 或空的 exports。
+ */
+export function getTsConstructor() {
+  tsPromise ??= importTsFromCdn();
 
-  return ts;
+  return tsPromise;
 }
 
 export function transformToJsdelivr(source: string) {
