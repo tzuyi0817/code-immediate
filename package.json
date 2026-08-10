@@ -51,7 +51,7 @@
     "@component-hook/eslint-plugin": "^1.5.0",
     "@shikijs/monaco": "4.3.1",
     "@tailwindcss/vite": "^4.3.3",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/user-event": "^14.6.1",
     "@testing-library/vue": "^8.1.0",
     "@tsconfig/node24": "^24.0.4",
