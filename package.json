@@ -86,7 +86,7 @@
     "rollup-plugin-visualizer": "^7.1.1",
     "shiki": "4.4.3",
     "tailwindcss": "^4.3.3",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vite": "^8.2.1",
     "vite-plugin-html": "^3.2.2",
     "vite-plugin-monaco-editor": "^1.1.0",
